@@ -132,8 +132,12 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
             window.wisdomAudio.playOnce(mood);
           }
 
-          // Update URL hash for permalink
-          if (quoteId) {
+          const quoteSlug = slide.dataset.quoteSlug;
+
+          // Update URL hash for natural-language quote permalink
+          if (quoteSlug) {
+            history.replaceState(null, '', `#${quoteSlug}`);
+          } else if (quoteId) {
             history.replaceState(null, '', `#${quoteId}`);
           }
 
@@ -155,10 +159,10 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
 
     slides.forEach(slide => observer.observe(slide));
 
-    // Deep-link navigation to hash if present
+    // Deep-link navigation to hash if present (supports both #quote-text-slug and #qXXX)
     if (window.location.hash) {
-      const targetId = window.location.hash.slice(1);
-      const targetSlide = document.getElementById(`slide-${targetId}`);
+      const targetHash = window.location.hash.slice(1);
+      const targetSlide = container.querySelector(`[data-quote-slug="${targetHash}"]`) || document.getElementById(`slide-${targetHash}`);
       if (targetSlide) {
         setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
       }

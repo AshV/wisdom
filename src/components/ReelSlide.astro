@@ -11,6 +11,7 @@
  */
 import { getMediaForQuote, getAudioForMood, moodMeta } from '../data/mediaRegistry';
 import type { Mood } from '../data/mediaRegistry';
+import { slugifyQuote } from '../utils/slug';
 
 interface Props {
   id: string;
@@ -30,6 +31,7 @@ const media = getMediaForQuote(id, mood);
 const audioSrc = getAudioForMood(mood);
 const moodInfo = moodMeta[mood];
 const BASE = '/wisdom';
+const quoteSlug = slugifyQuote(content);
 
 // Length-adaptive typography sizing: utilizes screen space dynamically
 const len = content.length;
@@ -58,6 +60,7 @@ if (len <= 45) {
   class="reel-slide relative flex flex-col justify-between w-full h-[100dvh] overflow-hidden select-none"
   id={`slide-${id}`}
   data-quote-id={id}
+  data-quote-slug={quoteSlug}
   data-content={content}
   data-author={author}
   data-video-src={media.video}

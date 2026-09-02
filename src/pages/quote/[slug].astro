@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReelFeed from '../../components/ReelFeed.astro';
+import { slugifyQuote } from '../../utils/slug';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map(q => q.data);
+
+  const paths = [];
+
+  for (const quote of allQuotes) {
+    const textSlug = slugifyQuote(quote.data.content);
+
+    // Primary human-readable text slug (e.g. /wisdom/quote/the-earth-has-music-for-those-who-listen/)
+    paths.push({
+      params: { slug: textSlug },
+      props: {
+        targetQuote: quote.data,
+        allQuotes: quotesData,
+      },
+    });
+
+    // Short ID alias (e.g. /wisdom/quote/q023/)
+    if (textSlug !== quote.data.id) {
+      paths.push({
+        params: { slug: quote.data.id },
+        props: {
+          targetQuote: quote.data,
+          allQuotes: quotesData,
+        },
+      });
+    }
+  }
+
+  return paths;
+};
+
+interface Props {
+  targetQuote: any;
+  allQuotes: any[];
+}
+
+const { targetQuote, allQuotes } = Astro.props;
+const { content, author, category, tags, id } = targetQuote;
+
+const textSlug = slugifyQuote(content);
+
+// Title and rich metadata for social preview cards & Google SEO
+const title = `“${content}” — ${author} | Wisdom`;
+const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore on Wisdom.`;
+
+// Order feed so the target quote lands first, with remaining quotes smoothly scrollable
+const feedQuotes = [
+  targetQuote,
+  ...allQuotes.filter(q => q.id !== targetQuote.id),
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Quotation',
+  text: content,
+  creator: {
+    '@type': 'Person',
+    name: author,
+  },
+  keywords: tags.join(', '),
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Schema.org Quotation Rich Snippet for Google Search -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <ReelFeed
+    quotes={feedQuotes}
+    feedTitle={`Quote by ${author}`}
+    feedType="quote"
+  />
+</BaseLayout>

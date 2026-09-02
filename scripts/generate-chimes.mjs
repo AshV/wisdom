@@ -6,32 +6,36 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SAMPLE_RATE = 44100;
-const DURATION = 4.5; // seconds
+const DURATION = 4.2; // seconds
 const NUM_SAMPLES = Math.floor(SAMPLE_RATE * DURATION);
 
-// Mood tuning: fundamental frequencies for singing bowl strikes
+/**
+ * Sweet Silver Wind Chime & Crystal Bell Tunings.
+ * High-register crystalline fundamentals (576 Hz – 1175 Hz).
+ * Absolutely zero heavy gong rumble — pure sweet silver & glass chime resonance.
+ */
 const MOOD_TUNINGS = {
-  reflective: 432.0,      // Solfeggio / A4 meditative
-  motivational: 528.0,    // Miracle / Transformation frequency
-  serene: 396.0,          // Grounding / Peace frequency
-  bold: 216.0,            // Deep bronze temple gong
-  melancholic: 349.23,    // F4 tender acoustic chime
-  joyful: 587.33,         // D5 crystalline bell
-  philosophical: 288.0,   // D4 ancient resonance
-  romantic: 480.0,        // Warm rose singing bowl
+  reflective: 864.0,       // A5: Pure crystalline silver chime
+  motivational: 1056.0,    // C6: Uplifting, sparkling celesta
+  serene: 792.0,           // G5: Sweet, peaceful bamboo & silver wind chime
+  bold: 648.0,             // E5: Clear, radiant orchestral chime bar
+  melancholic: 698.46,     // F5: Tender, emotional glass bell
+  joyful: 1174.66,         // D6: Sparkling, joyous fairy bell
+  philosophical: 576.0,    // D5: Sweet, contemplative acoustic bar chime
+  romantic: 960.0,         // B5: Warm, delicate rose glass chime
 };
 
-// Partials of bronze Tibetan singing bowl
+// Pure, sweet harmonic partials of tuned silver chime bars (celesta / orchestral chime)
 const PARTIALS = [
-  { ratio: 1.00,  gain: 0.85, decay: 4.5 },
-  { ratio: 1.003, gain: 0.65, decay: 4.2 }, // acoustic beat (shimmering warmth)
-  { ratio: 2.756, gain: 0.40, decay: 3.0 },
-  { ratio: 2.762, gain: 0.30, decay: 2.8 },
-  { ratio: 5.404, gain: 0.18, decay: 1.8 },
-  { ratio: 8.930, gain: 0.08, decay: 1.0 },
+  { ratio: 1.000, gain: 0.72, decay: 4.0 },   // Sweet fundamental tone
+  { ratio: 1.002, gain: 0.35, decay: 3.8 },   // Micro-shimmer acoustic warmth (2Hz gentle chorus)
+  { ratio: 2.003, gain: 0.28, decay: 3.0 },   // Pure sweet octave
+  { ratio: 2.998, gain: 0.16, decay: 2.2 },   // Sweet perfect fifth harmonic
+  { ratio: 4.005, gain: 0.08, decay: 1.6 },   // Double octave crystal sparkle
+  { ratio: 5.210, gain: 0.03, decay: 1.0 },   // High ethereal air shimmer
 ];
 
-function generateWav(frequency) {
+function generateSweetChime(frequency) {
   const buffer = Buffer.alloc(44 + NUM_SAMPLES * 2);
 
   // RIFF header
@@ -41,43 +45,44 @@ function generateWav(frequency) {
 
   // fmt chunk
   buffer.write('fmt ', 12);
-  buffer.writeUInt32LE(16, 16); // Subchunk1Size (16 for PCM)
-  buffer.writeUInt16LE(1, 20);  // AudioFormat (1 for PCM)
-  buffer.writeUInt16LE(1, 22);  // NumChannels (1 = Mono)
-  buffer.writeUInt32LE(SAMPLE_RATE, 24); // SampleRate
-  buffer.writeUInt32LE(SAMPLE_RATE * 2, 28); // ByteRate
-  buffer.writeUInt16LE(2, 32);  // BlockAlign
-  buffer.writeUInt16LE(16, 34); // BitsPerSample
+  buffer.writeUInt32LE(16, 16);
+  buffer.writeUInt16LE(1, 20);  // PCM
+  buffer.writeUInt16LE(1, 22);  // Mono
+  buffer.writeUInt32LE(SAMPLE_RATE, 24);
+  buffer.writeUInt32LE(SAMPLE_RATE * 2, 28);
+  buffer.writeUInt16LE(2, 32);  // 16-bit mono
+  buffer.writeUInt16LE(16, 34);
 
   // data chunk
   buffer.write('data', 36);
   buffer.writeUInt32LE(NUM_SAMPLES * 2, 40);
 
-  // Synthesize sample points
   let offset = 44;
   for (let i = 0; i < NUM_SAMPLES; i++) {
     const t = i / SAMPLE_RATE;
 
-    // Strike mallet envelope (soft 10ms attack, exponential body decay)
-    const attack = Math.min(1.0, t / 0.012);
+    // Smooth soft-felt chime striker (gentle 18ms rounded attack, zero harsh clack)
+    const attack = t < 0.018 ? (t / 0.018) * (t / 0.018) : 1.0;
 
     let sample = 0;
     for (const p of PARTIALS) {
       const freq = frequency * p.ratio;
-      const decayEnvelope = Math.exp(-t * (4.5 / p.decay));
-      sample += Math.sin(2 * Math.PI * freq * t) * p.gain * decayEnvelope;
+      // Smooth exponential tail decay
+      const decay = Math.exp(-t * (4.2 / p.decay));
+      sample += Math.sin(2 * Math.PI * freq * t) * p.gain * decay;
     }
 
-    // Soft mallet initial transient tap
-    if (t < 0.05) {
-      const transient = (1 - t / 0.05) * Math.sin(2 * Math.PI * (frequency * 1.8) * t) * 0.2;
-      sample += transient;
+    // Gentle 3.5Hz acoustic vibrato / breeze shimmer
+    const shimmer = 1.0 + 0.06 * Math.sin(2 * Math.PI * 3.5 * t);
+    sample *= attack * shimmer * 0.65;
+
+    // Soft global fadeout in last 0.3s to ensure zero click
+    if (t > DURATION - 0.3) {
+      const fade = (DURATION - t) / 0.3;
+      sample *= fade * fade;
     }
 
-    // Overall envelope & scale
-    sample *= attack * 0.75;
-
-    // Clamp to 16-bit range
+    // Clamp to 16-bit PCM
     const intSample = Math.max(-32768, Math.min(32767, Math.floor(sample * 32767)));
     buffer.writeInt16LE(intSample, offset);
     offset += 2;
@@ -89,16 +94,11 @@ function generateWav(frequency) {
 const audioDir = path.resolve(__dirname, '../public/media/audio');
 fs.mkdirSync(audioDir, { recursive: true });
 
-console.log('Generating pristine Tibetan singing bowl and Zen chime audio...');
+console.log('Generating sweet silver wind chimes and crystal bells...');
 
 for (const [mood, freq] of Object.entries(MOOD_TUNINGS)) {
-  const wavBuffer = generateWav(freq);
+  const wavBuffer = generateSweetChime(freq);
   const outPath = path.join(audioDir, `chime-${mood}.wav`);
   fs.writeFileSync(outPath, wavBuffer);
-  console.log(`✓ Created ${path.basename(outPath)} (${freq} Hz, ${DURATION}s)`);
+  console.log(`✓ Created sweet chime: chime-${mood}.wav (${freq} Hz, ${DURATION}s)`);
 }
-
-// Also create default chime
-const defaultWav = generateWav(432.0);
-fs.writeFileSync(path.join(audioDir, 'zen-chime.wav'), defaultWav);
-console.log('✓ Created zen-chime.wav');

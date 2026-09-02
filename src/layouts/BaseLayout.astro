@@ -182,8 +182,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           this.updateUI();
         }
 
-        // Plays single peaceful chime after 500ms of settling on a quote
-        playOnce(mood = 'reflective', delay = 500) {
+        // Plays single peaceful chime after 1s of settling on a quote
+        playOnce(mood = 'reflective', delay = 1000) {
           if (!this.enabled) return;
           this.currentMood = mood;
 
@@ -217,7 +217,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           }
 
           if (this.enabled) {
-            if (window.showToast) window.showToast('Zen chime enabled (plays 500ms after arrival)');
+            if (window.showToast) window.showToast('Zen chime enabled (plays 1s after arrival)');
             this.playOnce(this.currentMood, 0); // immediate preview when explicitly enabled
           } else {
             if (window.showToast) window.showToast('Zen chime muted');

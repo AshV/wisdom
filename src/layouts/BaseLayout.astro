@@ -90,6 +90,7 @@ const BASE = '/wisdom';
           this.audioEl.volume = 0.55;
           this.currentMood = 'reflective';
           this.lastChimeTime = 0;
+          this.pendingTimer = null;
           this.base = '/wisdom';
         }
 
@@ -99,21 +100,28 @@ const BASE = '/wisdom';
           this.updateUI();
         }
 
-        playOnce(mood = 'reflective') {
+        // Plays single peaceful chime after 500ms of settling on a quote
+        playOnce(mood = 'reflective', delay = 500) {
           if (!this.enabled) return;
-          const now = Date.now();
-          if (now - this.lastChimeTime < 700) return; // Debounce rapid swiping
-          this.lastChimeTime = now;
           this.currentMood = mood;
 
-          const chimeUrl = `${this.base}/media/audio/chime-${mood}.wav`;
-          try {
-            this.audioEl.pause();
-            this.audioEl.currentTime = 0;
-            this.audioEl.src = chimeUrl;
-            const p = this.audioEl.play();
-            if (p) p.catch(() => {});
-          } catch (e) {}
+          // Clear previous pending chime if user swipes through quickly
+          if (this.pendingTimer) {
+            clearTimeout(this.pendingTimer);
+            this.pendingTimer = null;
+          }
+
+          this.pendingTimer = setTimeout(() => {
+            const chimeUrl = `${this.base}/media/audio/chime-${mood}.wav`;
+            try {
+              this.audioEl.pause();
+              this.audioEl.currentTime = 0;
+              this.audioEl.src = chimeUrl;
+              const p = this.audioEl.play();
+              if (p) p.catch(() => {});
+            } catch (e) {}
+            this.pendingTimer = null;
+          }, delay);
         }
 
         toggle() {
@@ -121,9 +129,14 @@ const BASE = '/wisdom';
           localStorage.setItem('wisdom_chime_enabled', String(this.enabled));
           this.updateUI();
 
+          if (this.pendingTimer) {
+            clearTimeout(this.pendingTimer);
+            this.pendingTimer = null;
+          }
+
           if (this.enabled) {
-            if (window.showToast) window.showToast('Zen chime enabled (plays once per quote)');
-            this.playOnce(this.currentMood);
+            if (window.showToast) window.showToast('Zen chime enabled (plays 500ms after arrival)');
+            this.playOnce(this.currentMood, 0); // immediate preview when explicitly enabled
           } else {
             if (window.showToast) window.showToast('Zen chime muted');
             try {

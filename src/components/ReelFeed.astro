@@ -127,9 +127,9 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
             window.setBackground(videoSrc, gradientClass, mood);
           }
 
-          // Update audio source if mood changes
-          if (window.wisdomAudio && audioSrc) {
-            window.wisdomAudio.setSource(audioSrc);
+          // Update ambient audio mood for continuous procedural crossfade
+          if (window.wisdomAudio && mood) {
+            window.wisdomAudio.setMood(mood);
           }
 
           // Update URL hash for permalink
@@ -173,6 +173,9 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
       }
       if (window.updateShareContext) {
         window.updateShareContext(first);
+      }
+      if (window.wisdomAudio && first.dataset.mood) {
+        window.wisdomAudio.setMood(first.dataset.mood);
       }
     }
 

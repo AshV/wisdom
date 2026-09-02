@@ -127,9 +127,9 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
             window.setBackground(videoSrc, gradientClass, mood);
           }
 
-          // Update ambient audio mood for continuous procedural crossfade
+          // Play peaceful Zen chime once on slide arrival (then complete silence)
           if (window.wisdomAudio && mood) {
-            window.wisdomAudio.setMood(mood);
+            window.wisdomAudio.playOnce(mood);
           }
 
           // Update URL hash for permalink

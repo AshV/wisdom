@@ -64,18 +64,18 @@ export const moodMedia: Record<Mood, MediaEntry[]> = {
 };
 
 /**
- * Mood → ambient audio track.
- * Looping MP3 files in public/media/audio/.
+ * Mood → Zen chime audio track (play once on slide arrival).
+ * Pristine 16-bit 44.1kHz Tibetan singing bowl strikes in public/media/audio/.
  */
 export const moodAudio: Record<Mood, string> = {
-  reflective: `${BASE}/media/audio/ambient-calm.mp3`,
-  motivational: `${BASE}/media/audio/ambient-uplifting.mp3`,
-  serene: `${BASE}/media/audio/ambient-nature.mp3`,
-  bold: `${BASE}/media/audio/ambient-uplifting.mp3`,
-  melancholic: `${BASE}/media/audio/ambient-rain.mp3`,
-  joyful: `${BASE}/media/audio/ambient-uplifting.mp3`,
-  philosophical: `${BASE}/media/audio/ambient-calm.mp3`,
-  romantic: `${BASE}/media/audio/ambient-piano.mp3`,
+  reflective: `${BASE}/media/audio/chime-reflective.wav`,
+  motivational: `${BASE}/media/audio/chime-motivational.wav`,
+  serene: `${BASE}/media/audio/chime-serene.wav`,
+  bold: `${BASE}/media/audio/chime-bold.wav`,
+  melancholic: `${BASE}/media/audio/chime-melancholic.wav`,
+  joyful: `${BASE}/media/audio/chime-joyful.wav`,
+  philosophical: `${BASE}/media/audio/chime-philosophical.wav`,
+  romantic: `${BASE}/media/audio/chime-romantic.wav`,
 };
 
 /**

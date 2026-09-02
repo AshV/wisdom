@@ -79,184 +79,59 @@ const BASE = '/wisdom';
     ></div>
 
     <script is:inline>
-      // ── Procedural Web Audio API Soundscape Engine (Option 1) ──
-      // Generates endless, organic, warm meditative chords and ambient drones.
-      // Zero repetition, zero static file loop fatigue, zero network dependencies.
-      class ProceduralAmbientEngine {
+      // ── Zen Chime Controller (Play-Once on Slide Arrival) ──
+      // Plays a single soothing Tibetan singing bowl / Zen chime once on arrival, then complete silence.
+      // Zero loop fatigue, zero continuous drone, pure peaceful contemplation.
+      class ZenChimeEngine {
         constructor() {
-          this.ctx = null;
-          this.masterGain = null;
+          this.enabled = false;
+          this.audioEl = new Audio();
+          this.audioEl.preload = 'auto';
+          this.audioEl.volume = 0.55;
           this.currentMood = 'reflective';
-          this.activeNodes = [];
-          this.isPlaying = false;
+          this.lastChimeTime = 0;
+          this.base = '/wisdom';
         }
 
         init() {
-          if (this.ctx) return;
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContextClass) return;
-          this.ctx = new AudioContextClass();
-          this.masterGain = this.ctx.createGain();
-          this.masterGain.gain.setValueAtTime(0, this.ctx.currentTime);
-          this.masterGain.connect(this.ctx.destination);
-        }
-
-        getMoodConfig(mood) {
-          const configs = {
-            reflective: {
-              notes: [146.83, 220.00, 261.63, 329.63], // D3, A3, C4, E4 (Dm9 meditative)
-              type: 'sine',
-              filterFreq: 340,
-              lfoSpeed: 0.07,
-            },
-            motivational: {
-              notes: [196.00, 246.94, 293.66, 369.99], // G3, B3, D4, F#4 (Gmaj7 golden dawn)
-              type: 'triangle',
-              filterFreq: 480,
-              lfoSpeed: 0.1,
-            },
-            serene: {
-              notes: [164.81, 220.00, 329.63, 440.00], // E3, A3, E4, A4 (Open Zen 5ths)
-              type: 'sine',
-              filterFreq: 300,
-              lfoSpeed: 0.05,
-            },
-            bold: {
-              notes: [65.41, 98.00, 130.81, 196.00], // C2, G2, C3, G3 (Deep earth sub-bass)
-              type: 'triangle',
-              filterFreq: 240,
-              lfoSpeed: 0.08,
-            },
-            melancholic: {
-              notes: [138.59, 164.81, 207.65, 246.94], // C#3, E3, G#3, B3 (C#m7 introspective)
-              type: 'sine',
-              filterFreq: 320,
-              lfoSpeed: 0.06,
-            },
-            joyful: {
-              notes: [261.63, 329.63, 392.00, 523.25], // C4, E4, G4, C5 (Luminous C major)
-              type: 'sine',
-              filterFreq: 620,
-              lfoSpeed: 0.12,
-            },
-            philosophical: {
-              notes: [110.00, 164.81, 220.00, 293.66], // A2, E3, A3, D4 (Cosmic space drone)
-              type: 'triangle',
-              filterFreq: 380,
-              lfoSpeed: 0.05,
-            },
-            romantic: {
-              notes: [174.61, 220.00, 261.63, 349.23], // F3, A3, C4, F4 (Warm rose pad)
-              type: 'sine',
-              filterFreq: 420,
-              lfoSpeed: 0.08,
-            },
-          };
-          return configs[mood] || configs.reflective;
-        }
-
-        startSoundscape(mood) {
-          if (!this.ctx) return;
-          this.currentMood = mood;
-          const config = this.getMoodConfig(mood);
-          const now = this.ctx.currentTime;
-
-          // Gracefully fade out old chord layer over 1.8s
-          const oldNodes = this.activeNodes;
-          this.activeNodes = [];
-
-          oldNodes.forEach(({ gain, oscs }) => {
-            try {
-              gain.gain.setValueAtTime(gain.gain.value, now);
-              gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
-              setTimeout(() => {
-                oscs.forEach(o => {
-                  try { o.stop(); o.disconnect(); } catch (e) {}
-                });
-                gain.disconnect();
-              }, 2000);
-            } catch (e) {}
-          });
-
-          // Create new lush ambient layer
-          const layerGain = this.ctx.createGain();
-          layerGain.gain.setValueAtTime(0.0001, now);
-          layerGain.gain.exponentialRampToValueAtTime(0.18, now + 1.8);
-
-          // Resonant Lowpass Filter
-          const filter = this.ctx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(config.filterFreq, now);
-          filter.Q.setValueAtTime(2.2, now);
-
-          // Subtle LFO modulation for continuous organic movement
-          const lfo = this.ctx.createOscillator();
-          const lfoGain = this.ctx.createGain();
-          lfo.frequency.setValueAtTime(config.lfoSpeed, now);
-          lfoGain.gain.setValueAtTime(config.filterFreq * 0.3, now);
-          lfo.connect(lfoGain);
-          lfoGain.connect(filter.frequency);
-          lfo.start(now);
-
-          const oscs = [lfo];
-
-          // Generate warm polyphonic chord oscillators
-          config.notes.forEach((freq, idx) => {
-            const osc = this.ctx.createOscillator();
-            osc.type = config.type;
-            // Detune slightly for analog acoustic warmth
-            const detune = (idx % 2 === 0 ? 1 : -1) * (idx * 2.0);
-            osc.frequency.setValueAtTime(freq, now);
-            osc.detune.setValueAtTime(detune, now);
-
-            const noteGain = this.ctx.createGain();
-            const relativeVol = 1 / (1 + idx * 0.4);
-            noteGain.gain.setValueAtTime(relativeVol, now);
-
-            osc.connect(noteGain);
-            noteGain.connect(filter);
-            osc.start(now);
-            oscs.push(osc);
-          });
-
-          filter.connect(layerGain);
-          layerGain.connect(this.masterGain);
-
-          this.activeNodes.push({ gain: layerGain, oscs });
-        }
-
-        setMood(mood) {
-          if (mood === this.currentMood && this.activeNodes.length > 0) return;
-          this.currentMood = mood;
-          if (this.isPlaying && this.ctx) {
-            this.startSoundscape(mood);
-          }
-        }
-
-        async toggle() {
-          this.init();
-          if (!this.ctx) return;
-          if (this.ctx.state === 'suspended') {
-            await this.ctx.resume();
-          }
-
-          const now = this.ctx.currentTime;
-          if (this.isPlaying) {
-            // Smooth fade out
-            this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, now);
-            this.masterGain.gain.linearRampToValueAtTime(0, now + 0.6);
-            this.isPlaying = false;
-            if (window.showToast) window.showToast('Ambient audio muted');
-          } else {
-            // Smooth fade in
-            this.startSoundscape(this.currentMood);
-            this.masterGain.gain.setValueAtTime(0, now);
-            this.masterGain.gain.linearRampToValueAtTime(0.25, now + 0.8);
-            this.isPlaying = true;
-            if (window.showToast) window.showToast('Playing generative ambient soundscape');
-          }
+          const saved = localStorage.getItem('wisdom_chime_enabled');
+          this.enabled = saved === 'true';
           this.updateUI();
-          return this.isPlaying;
+        }
+
+        playOnce(mood = 'reflective') {
+          if (!this.enabled) return;
+          const now = Date.now();
+          if (now - this.lastChimeTime < 700) return; // Debounce rapid swiping
+          this.lastChimeTime = now;
+          this.currentMood = mood;
+
+          const chimeUrl = `${this.base}/media/audio/chime-${mood}.wav`;
+          try {
+            this.audioEl.pause();
+            this.audioEl.currentTime = 0;
+            this.audioEl.src = chimeUrl;
+            const p = this.audioEl.play();
+            if (p) p.catch(() => {});
+          } catch (e) {}
+        }
+
+        toggle() {
+          this.enabled = !this.enabled;
+          localStorage.setItem('wisdom_chime_enabled', String(this.enabled));
+          this.updateUI();
+
+          if (this.enabled) {
+            if (window.showToast) window.showToast('Zen chime enabled (plays once per quote)');
+            this.playOnce(this.currentMood);
+          } else {
+            if (window.showToast) window.showToast('Zen chime muted');
+            try {
+              this.audioEl.pause();
+              this.audioEl.currentTime = 0;
+            } catch (e) {}
+          }
+          return this.enabled;
         }
 
         updateUI() {
@@ -264,37 +139,45 @@ const BASE = '/wisdom';
           if (!btn) return;
           const icon = btn.querySelector('svg');
           const label = btn.querySelector('span');
-          if (this.isPlaying) {
-            btn.classList.add('text-emerald-400');
+
+          if (this.enabled) {
+            btn.classList.add('text-amber-300');
             if (icon) {
+              // Ringing Bell SVG
               icon.innerHTML = `
-                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
               `;
             }
             if (label) {
-              label.textContent = 'Playing';
-              label.classList.add('text-emerald-300');
+              label.textContent = 'Chime On';
+              label.classList.add('text-amber-300');
             }
           } else {
-            btn.classList.remove('text-emerald-400');
+            btn.classList.remove('text-amber-300');
             if (icon) {
+              // Muted Bell SVG (with strike line)
               icon.innerHTML = `
-                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                <line x1="23" y1="9" x2="17" y2="15"/>
-                <line x1="17" y1="9" x2="23" y2="15"/>
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
               `;
             }
             if (label) {
-              label.textContent = 'Audio';
-              label.classList.remove('text-emerald-300');
+              label.textContent = 'Chime';
+              label.classList.remove('text-amber-300');
             }
           }
         }
       }
 
-      window.wisdomAudio = new ProceduralAmbientEngine();
+      window.wisdomAudio = new ZenChimeEngine();
+      // Initialize on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => window.wisdomAudio.init());
+      } else {
+        window.wisdomAudio.init();
+      }
 
       // ── Toast Utility ──
       window.showToast = function(message, duration = 2500) {

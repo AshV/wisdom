@@ -124,17 +124,17 @@ if (len <= 45) {
       <div class="flex flex-wrap items-center gap-2">
         <a
           href={`${BASE}/category/${categorySlug}/`}
-          class="pointer-events-auto glass rounded-full px-3 py-1 text-xs font-semibold text-white/85 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm"
+          class="pointer-events-auto glass rounded-full px-3.5 py-1 text-xs font-medium text-white/85 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm whitespace-nowrap"
         >
           {category}
         </a>
 
         <a
           href={`${BASE}/mood/${mood}/`}
-          class={`pointer-events-auto mood-pill-${mood} rounded-full px-3 py-1 text-xs font-bold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 flex items-center gap-1.5`}
+          class={`pointer-events-auto mood-pill-${mood} rounded-full px-3.5 py-1 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-1.5 whitespace-nowrap shrink-0`}
         >
-          <span>{moodInfo.emoji}</span>
-          <span>{moodInfo.label}</span>
+          <span class="shrink-0 leading-none">{moodInfo.emoji}</span>
+          <span class="whitespace-nowrap tracking-wide leading-none">{moodInfo.label}</span>
         </a>
       </div>
 

@@ -122,9 +122,9 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
           slides.forEach(s => s.classList.remove('is-active'));
           slide.classList.add('is-active');
 
-          // Update background video / gradient
+          // Update background animation with quoteId for unique diverse visual personality
           if (window.setBackground) {
-            window.setBackground(videoSrc, gradientClass, mood);
+            window.setBackground(videoSrc, gradientClass, mood, quoteId);
           }
 
           // Play peaceful Zen chime once on slide arrival (then complete silence)
@@ -166,7 +166,7 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
       const first = slides[0];
       first.classList.add('is-active');
       if (window.setBackground) {
-        window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood);
+        window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);
       }
       if (window.likedQuotes && window.updateLikeUI) {
         window.updateLikeUI(window.likedQuotes.has(first.dataset.quoteId));

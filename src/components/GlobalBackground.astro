@@ -1,32 +1,31 @@
 ---
 /**
- * GlobalBackground — Mood-Based Dynamic Generative Canvas Animation.
+ * GlobalBackground — Rich Generative Visual Atmosphere Engine.
  *
- * Replaces heavy stock MP4 videos with an organic, 60fps hardware-accelerated
- * generative visual canvas tailored to each mood:
- * - Reflective: Ethereal celestial stardust & breathing nebula orbs
- * - Motivational: Radiant rising golden embers & solar dawn flares
- * - Serene: Calming ocean liquid ripples & drifting aquamarine bubbles
- * - Bold: Dynamic fiery crimson sparks & deep pulsing shockwaves
- * - Melancholic: Gentle falling luminous rain streaks & expanding ripples
- * - Joyful: Dancing vibrant fireflies with playful organic halos
- * - Philosophical: Deep-space celestial constellations with interconnected lines
- * - Romantic: Floating rose-gold bokeh & drifting petal-like orbs
+ * Provides diverse, mesmerizing, mood-adaptive generative animations:
+ * - Aurora Borealis flowing ribbons with undulating waves
+ * - Constellations & star-graphs with periodic shooting stars
+ * - Sacred geometry rotating celestial rings & gyroscopes
+ * - Luminescent dancing fireflies with soft atmospheric halos
+ * - Ascending golden embers & solar flares
+ * - Drifting romantic rose-gold petals & bokeh orbs
  *
+ * Features 10 vivid, multi-stop aesthetic color palettes.
+ * Each quote receives its own distinctive visual world.
  * Persists across Astro ClientRouter transitions (transition:persist="global-bg").
- * Exposes window.setBackground(videoSrc, gradientClass, mood).
  */
 ---
-<div id="global-bg" class="fixed inset-0 z-0 overflow-hidden pointer-events-none" transition:persist="global-bg">
-  <!-- Dynamic Generative Canvas -->
+<div id="global-bg" class="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none" transition:persist="global-bg">
+  <!-- Dynamic Generative Visual Canvas -->
   <canvas id="ambient-canvas" class="absolute inset-0 w-full h-full"></canvas>
 
   <!-- Atmospheric Light Bloom Overlays -->
-  <div id="mood-glow-1" class="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full blur-[120px] opacity-40 transition-colors duration-1000 ease-out pointer-events-none"></div>
-  <div id="mood-glow-2" class="absolute -bottom-[20%] -right-[10%] w-[75vw] h-[75vw] rounded-full blur-[140px] opacity-35 transition-colors duration-1000 ease-out pointer-events-none"></div>
+  <div id="mood-glow-1" class="absolute -top-[15%] -left-[10%] w-[75vw] h-[75vw] rounded-full blur-[130px] opacity-45 transition-colors duration-1000 ease-out pointer-events-none"></div>
+  <div id="mood-glow-2" class="absolute -bottom-[15%] -right-[10%] w-[80vw] h-[80vw] rounded-full blur-[140px] opacity-40 transition-colors duration-1000 ease-out pointer-events-none"></div>
+  <div id="mood-glow-center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] rounded-full blur-[160px] opacity-25 transition-colors duration-1000 ease-out pointer-events-none"></div>
 
-  <!-- Cinematic Vignette & Deep Contrast Layer for Quote Legibility -->
-  <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/70 pointer-events-none"></div>
+  <!-- Cinematic Vignette Overlay (Guarantees Quote Legibility) -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/70 pointer-events-none"></div>
 </div>
 
 <script is:inline>
@@ -41,97 +40,130 @@
     let dpr = 1;
     let animId = null;
     let isVisible = true;
+    let time = 0;
 
-    // Mood color schemes (RGB for smooth interpolation)
-    const MOOD_THEMES = {
-      reflective: {
-        bgTop: [8, 7, 24],
-        bgBottom: [18, 14, 45],
-        glow1: 'rgba(99, 102, 241, 0.45)', // Indigo
-        glow2: 'rgba(168, 85, 247, 0.35)', // Purple
-        particleColors: [[165, 180, 252], [192, 132, 252], [224, 231, 255]],
-        type: 'stardust',
-        speed: 0.35,
-        count: 55,
+    // ── 10 Rich, Aesthetic Color Palettes ──
+    const PALETTES = [
+      {
+        name: 'Midnight Aurora',
+        bgTop: [10, 8, 32],
+        bgMid: [14, 30, 48],
+        bgBottom: [5, 14, 24],
+        glow1: 'rgba(0, 245, 212, 0.45)',   // Electric Turquoise
+        glow2: 'rgba(123, 44, 191, 0.45)',  // Rich Violet
+        glowCenter: 'rgba(0, 187, 249, 0.25)',
+        colors: [[0, 245, 212], [155, 93, 229], [0, 187, 249], [254, 228, 64]],
       },
-      motivational: {
-        bgTop: [26, 14, 4],
-        bgBottom: [48, 24, 6],
-        glow1: 'rgba(245, 158, 11, 0.45)', // Amber
-        glow2: 'rgba(239, 68, 68, 0.35)',  // Red-orange
-        particleColors: [[253, 230, 138], [251, 191, 36], [249, 115, 22]],
-        type: 'embers',
-        speed: 0.85,
-        count: 65,
+      {
+        name: 'Sunset Mirage',
+        bgTop: [34, 10, 26],
+        bgMid: [52, 18, 22],
+        bgBottom: [18, 6, 14],
+        glow1: 'rgba(255, 112, 166, 0.48)', // Rose Gold
+        glow2: 'rgba(255, 158, 0, 0.42)',   // Warm Saffron
+        glowCenter: 'rgba(239, 71, 111, 0.25)',
+        colors: [[255, 179, 198], [255, 209, 102], [239, 71, 111], [255, 225, 86]],
       },
-      serene: {
-        bgTop: [4, 20, 26],
-        bgBottom: [8, 36, 46],
-        glow1: 'rgba(6, 182, 212, 0.45)',  // Cyan
-        glow2: 'rgba(16, 185, 129, 0.35)', // Emerald
-        particleColors: [[165, 243, 252], [110, 231, 183], [207, 250, 254]],
-        type: 'ripples',
-        speed: 0.3,
-        count: 45,
+      {
+        name: 'Cosmic Ultraviolet',
+        bgTop: [16, 5, 32],
+        bgMid: [32, 10, 56],
+        bgBottom: [8, 3, 18],
+        glow1: 'rgba(181, 23, 158, 0.48)',  // Vivid Magenta
+        glow2: 'rgba(76, 201, 240, 0.42)',  // Neon Blue
+        glowCenter: 'rgba(114, 9, 183, 0.3)',
+        colors: [[181, 23, 158], [114, 9, 183], [76, 201, 240], [247, 37, 133]],
       },
-      bold: {
-        bgTop: [28, 6, 6],
-        bgBottom: [52, 10, 10],
-        glow1: 'rgba(239, 68, 68, 0.5)',   // Crimson
-        glow2: 'rgba(185, 28, 28, 0.4)',   // Deep Ruby
-        particleColors: [[254, 202, 202], [252, 165, 165], [248, 113, 113]],
-        type: 'pulse',
-        speed: 0.9,
-        count: 60,
+      {
+        name: 'Bioluminescent Lagoon',
+        bgTop: [4, 20, 32],
+        bgMid: [8, 36, 52],
+        bgBottom: [3, 14, 24],
+        glow1: 'rgba(6, 214, 160, 0.45)',   // Mint Jade
+        glow2: 'rgba(17, 138, 178, 0.48)',  // Deep Abyss Blue
+        glowCenter: 'rgba(112, 224, 239, 0.25)',
+        colors: [[6, 214, 160], [112, 224, 239], [17, 138, 178], [207, 250, 254]],
       },
-      melancholic: {
-        bgTop: [12, 10, 26],
-        bgBottom: [22, 18, 48],
-        glow1: 'rgba(139, 92, 246, 0.4)',  // Violet
-        glow2: 'rgba(99, 102, 241, 0.3)',  // Soft indigo
-        particleColors: [[216, 180, 254], [196, 181, 253], [165, 180, 252]],
-        type: 'rain',
-        speed: 1.2,
-        count: 50,
+      {
+        name: 'Golden Radiance',
+        bgTop: [28, 18, 6],
+        bgMid: [46, 30, 10],
+        bgBottom: [16, 10, 4],
+        glow1: 'rgba(245, 158, 11, 0.48)',  // Amber
+        glow2: 'rgba(234, 179, 8, 0.42)',   // Goldenrod
+        glowCenter: 'rgba(251, 191, 36, 0.28)',
+        colors: [[254, 240, 138], [251, 191, 36], [245, 158, 11], [255, 255, 255]],
       },
-      joyful: {
-        bgTop: [6, 26, 16],
-        bgBottom: [10, 48, 28],
-        glow1: 'rgba(16, 185, 129, 0.45)', // Emerald
-        glow2: 'rgba(234, 179, 8, 0.35)',  // Warm Citrine
-        particleColors: [[167, 243, 208], [253, 224, 71], [110, 231, 183]],
-        type: 'fireflies',
-        speed: 0.65,
-        count: 60,
+      {
+        name: 'Ethereal Lavender Dream',
+        bgTop: [20, 12, 38],
+        bgMid: [34, 20, 54],
+        bgBottom: [12, 8, 24],
+        glow1: 'rgba(167, 139, 250, 0.48)', // Lilac
+        glow2: 'rgba(244, 114, 182, 0.42)', // Pink Quartz
+        glowCenter: 'rgba(192, 132, 252, 0.25)',
+        colors: [[233, 213, 255], [216, 180, 254], [249, 168, 212], [255, 255, 255]],
       },
-      philosophical: {
-        bgTop: [6, 10, 28],
-        bgBottom: [14, 20, 52],
-        glow1: 'rgba(59, 130, 246, 0.45)', // Cobalt
-        glow2: 'rgba(147, 51, 234, 0.35)', // Deep Purple
-        particleColors: [[191, 219, 254], [216, 180, 254], [255, 255, 255]],
-        type: 'constellation',
-        speed: 0.25,
-        count: 50,
+      {
+        name: 'Emerald Enchantment',
+        bgTop: [6, 26, 18],
+        bgMid: [10, 44, 30],
+        bgBottom: [4, 18, 12],
+        glow1: 'rgba(16, 185, 129, 0.48)',  // Emerald
+        glow2: 'rgba(52, 211, 153, 0.42)',  // Mint
+        glowCenter: 'rgba(110, 231, 183, 0.25)',
+        colors: [[167, 243, 208], [110, 231, 183], [52, 211, 153], [253, 224, 71]],
       },
-      romantic: {
-        bgTop: [28, 6, 18],
-        bgBottom: [52, 12, 34],
-        glow1: 'rgba(236, 72, 153, 0.45)', // Rose Pink
-        glow2: 'rgba(244, 63, 94, 0.35)',  // Warm Coral
-        particleColors: [[251, 207, 232], [254, 205, 211], [253, 164, 175]],
-        type: 'petals',
-        speed: 0.4,
-        count: 50,
+      {
+        name: 'Crimson Nebula',
+        bgTop: [34, 6, 12],
+        bgMid: [54, 12, 18],
+        bgBottom: [18, 3, 6],
+        glow1: 'rgba(239, 68, 68, 0.52)',   // Crimson
+        glow2: 'rgba(217, 70, 239, 0.42)',  // Fuchsia
+        glowCenter: 'rgba(244, 63, 94, 0.28)',
+        colors: [[254, 202, 202], [248, 113, 113], [239, 68, 68], [255, 182, 193]],
       },
-    };
+      {
+        name: 'Deep Cobalt Cosmos',
+        bgTop: [8, 14, 38],
+        bgMid: [14, 26, 62],
+        bgBottom: [4, 8, 24],
+        glow1: 'rgba(59, 130, 246, 0.48)',  // Royal Cobalt
+        glow2: 'rgba(99, 102, 241, 0.42)',  // Indigo
+        glowCenter: 'rgba(147, 197, 253, 0.25)',
+        colors: [[191, 219, 254], [147, 197, 253], [96, 165, 250], [255, 255, 255]],
+      },
+      {
+        name: 'Velvet Rose Gold',
+        bgTop: [32, 10, 24],
+        bgMid: [50, 18, 36],
+        bgBottom: [18, 5, 14],
+        glow1: 'rgba(244, 63, 94, 0.48)',   // Rose Red
+        glow2: 'rgba(251, 146, 60, 0.42)',  // Peach Gold
+        glowCenter: 'rgba(253, 164, 175, 0.28)',
+        colors: [[254, 205, 211], [251, 164, 175], [253, 186, 116], [255, 255, 255]],
+      }
+    ];
 
-    let currentMood = 'reflective';
-    let targetTheme = MOOD_THEMES.reflective;
-    let currentTop = [...targetTheme.bgTop];
-    let currentBottom = [...targetTheme.bgBottom];
+    const ANIM_TYPES = ['aurora', 'constellation', 'sacred_geometry', 'fireflies', 'embers_solar', 'petals_leaves'];
+
+    function djb2(str) {
+      let hash = 5381;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) + hash + str.charCodeAt(i)) >>> 0;
+      }
+      return hash;
+    }
+
+    let currentPalette = PALETTES[0];
+    let currentAnim = 'aurora';
+    let currentTop = [...currentPalette.bgTop];
+    let currentBottom = [...currentPalette.bgBottom];
+
     let particles = [];
-    let ripples = [];
+    let shootingStars = [];
+    let lastShootingStarTime = 0;
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -147,75 +179,197 @@
       return a + (b - a) * t;
     }
 
-    function createParticle() {
-      const colors = targetTheme.particleColors;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      return {
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * targetTheme.speed,
-        vy: targetTheme.type === 'embers'
-          ? -(Math.random() * 1.5 + 0.5) * targetTheme.speed
-          : targetTheme.type === 'rain'
-          ? (Math.random() * 2.5 + 1.5) * targetTheme.speed
-          : (Math.random() - 0.5) * targetTheme.speed,
-        radius: Math.random() * 2.8 + 1.2,
-        baseRadius: Math.random() * 2.8 + 1.2,
-        color: color,
-        alpha: Math.random() * 0.6 + 0.2,
-        pulseSpeed: Math.random() * 0.03 + 0.01,
-        angle: Math.random() * Math.PI * 2,
-        wobbleSpeed: Math.random() * 0.02 + 0.005,
-      };
-    }
-
     function initParticles() {
       particles = [];
-      const count = targetTheme.count || 50;
+      const colors = currentPalette.colors;
+      const count = currentAnim === 'fireflies' ? 65 : currentAnim === 'constellation' ? 55 : 60;
+
       for (let i = 0; i < count; i++) {
-        particles.push(createParticle());
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: (Math.random() - 0.5) * 0.7,
+          radius: Math.random() * 2.8 + 1.2,
+          color: color,
+          alpha: Math.random() * 0.6 + 0.25,
+          angle: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.03,
+          size: Math.random() * 10 + 6,
+        });
       }
     }
 
-    function updateParticles() {
-      const type = targetTheme.type;
+    function spawnShootingStar() {
+      shootingStars.push({
+        x: Math.random() * width * 0.8,
+        y: Math.random() * height * 0.35,
+        length: Math.random() * 120 + 80,
+        speed: Math.random() * 9 + 11,
+        angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
+        alpha: 1.0,
+        decay: Math.random() * 0.02 + 0.015,
+      });
+    }
 
-      particles.forEach((p, idx) => {
-        p.angle += p.wobbleSpeed;
+    // ── Drawing Engine for Each Animation Style ──
 
-        if (type === 'embers') {
-          // Ascending embers with gentle horizontal drift
-          p.x += Math.sin(p.angle) * 0.6 + p.vx;
-          p.y += p.vy;
-          if (p.y < -10) {
-            p.y = height + 10;
-            p.x = Math.random() * width;
+    // 1. Aurora Borealis Ribbon Waves
+    function drawAurora() {
+      const colors = currentPalette.colors;
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+
+      for (let j = 0; j < 3; j++) {
+        const [r, g, b] = colors[j % colors.length];
+        ctx.beginPath();
+        const baseOffset = height * (0.28 + j * 0.16);
+
+        ctx.moveTo(0, height);
+        ctx.lineTo(0, baseOffset);
+
+        const step = 20;
+        for (let x = 0; x <= width; x += step) {
+          const wave1 = Math.sin(x * 0.003 + time * 0.8 + j) * 55;
+          const wave2 = Math.cos(x * 0.006 - time * 0.5 + j * 2) * 35;
+          const wave3 = Math.sin(x * 0.0015 + time * 0.3) * 70;
+          const y = baseOffset + wave1 + wave2 + wave3;
+          ctx.lineTo(x, y);
+        }
+
+        ctx.lineTo(width, height);
+        ctx.closePath();
+
+        const grad = ctx.createLinearGradient(0, baseOffset - 80, 0, baseOffset + 180);
+        grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.22)`);
+        grad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, 0.12)`);
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    // 2. Sacred Geometry: Celestial Rotating Rings & Polyhedra
+    function drawSacredGeometry() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const radius = Math.min(width, height) * 0.32;
+      const [r, g, b] = currentPalette.colors[0];
+
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.12)`;
+      ctx.lineWidth = 1.2;
+
+      // Outer breathing ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, radius + Math.sin(time * 0.6) * 12, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Intersecting orbital circles
+      for (let i = 0; i < 6; i++) {
+        const theta = (Math.PI * 2 / 6) * i + time * 0.12;
+        const ox = cx + Math.cos(theta) * (radius * 0.55);
+        const oy = cy + Math.sin(theta) * (radius * 0.55);
+        ctx.beginPath();
+        ctx.arc(ox, oy, radius * 0.55, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Rotating diamond wireframe
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(time * 0.08);
+      const dSize = radius * 0.7;
+      ctx.beginPath();
+      ctx.moveTo(0, -dSize);
+      ctx.lineTo(dSize, 0);
+      ctx.lineTo(0, dSize);
+      ctx.lineTo(-dSize, 0);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.restore();
+    }
+
+    // 3. Constellation & Interconnected Star Web
+    function drawConstellation() {
+      ctx.save();
+      const maxDist = 110;
+      ctx.lineWidth = 0.7;
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.22;
+            const [r, g, b] = currentPalette.colors[0];
+            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
           }
-        } else if (type === 'rain') {
-          // Luminous soft rain with gentle angle
-          p.x += p.vx * 0.5;
-          p.y += p.vy;
-          if (p.y > height) {
-            // Chance to create ripple
-            if (Math.random() < 0.25 && ripples.length < 8) {
-              ripples.push({ x: p.x, y: height - Math.random() * 60, r: 2, maxR: Math.random() * 28 + 12, alpha: 0.45 });
-            }
-            p.y = -10;
-            p.x = Math.random() * width;
-          }
-        } else if (type === 'petals') {
-          // Floating romantic petals with organic sway
-          p.x += Math.sin(p.angle) * 0.8 + p.vx * 0.4;
-          p.y += Math.cos(p.angle * 0.7) * 0.3 - 0.35;
-          if (p.y < -10) p.y = height + 10;
-          if (p.x < -10) p.x = width + 10;
-          if (p.x > width + 10) p.x = -10;
-        } else if (type === 'fireflies') {
+        }
+      }
+      ctx.restore();
+    }
+
+    // ── Main Render Loop ──
+    function draw() {
+      if (!isVisible) return;
+      time += 0.016;
+
+      // Smooth background color interpolation (lerp 3% per frame)
+      currentTop[0] = lerp(currentTop[0], currentPalette.bgTop[0], 0.03);
+      currentTop[1] = lerp(currentTop[1], currentPalette.bgTop[1], 0.03);
+      currentTop[2] = lerp(currentTop[2], currentPalette.bgTop[2], 0.03);
+
+      currentBottom[0] = lerp(currentBottom[0], currentPalette.bgBottom[0], 0.03);
+      currentBottom[1] = lerp(currentBottom[1], currentPalette.bgBottom[1], 0.03);
+      currentBottom[2] = lerp(currentBottom[2], currentPalette.bgBottom[2], 0.03);
+
+      // Render gradient background
+      const grad = ctx.createLinearGradient(0, 0, width * 0.4, height);
+      grad.addColorStop(0, `rgb(${Math.round(currentTop[0])}, ${Math.round(currentTop[1])}, ${Math.round(currentTop[2])})`);
+      grad.addColorStop(1, `rgb(${Math.round(currentBottom[0])}, ${Math.round(currentBottom[1])}, ${Math.round(currentBottom[2])})`);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Render animation style specific backgrounds
+      if (currentAnim === 'aurora') {
+        drawAurora();
+      } else if (currentAnim === 'sacred_geometry') {
+        drawSacredGeometry();
+      } else if (currentAnim === 'constellation') {
+        drawConstellation();
+      }
+
+      // Render & Update Particles
+      particles.forEach(p => {
+        p.angle += p.rotSpeed;
+
+        if (currentAnim === 'embers_solar') {
+          // Ascending solar sparks
+          p.y -= 1.2;
+          p.x += Math.sin(p.angle) * 0.8;
+          if (p.y < -15) { p.y = height + 15; p.x = Math.random() * width; }
+        } else if (currentAnim === 'petals_leaves') {
+          // Falling floating leaves / petals with fluttering sway
+          p.y += 0.85;
+          p.x += Math.sin(p.angle * 2) * 1.3;
+          if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
+        } else if (currentAnim === 'fireflies') {
           // Playful organic Brownian motion
-          p.vx += (Math.random() - 0.5) * 0.1;
-          p.vy += (Math.random() - 0.5) * 0.1;
-          p.vx = Math.max(-1.2, Math.min(1.2, p.vx));
-          p.vy = Math.max(-1.2, Math.min(1.2, p.vy));
+          p.vx += (Math.random() - 0.5) * 0.15;
+          p.vy += (Math.random() - 0.5) * 0.15;
+          p.vx = Math.max(-1.4, Math.min(1.4, p.vx));
+          p.vy = Math.max(-1.4, Math.min(1.4, p.vy));
           p.x += p.vx;
           p.y += p.vy;
           if (p.x < 0) p.x = width;
@@ -223,154 +377,108 @@
           if (p.y < 0) p.y = height;
           if (p.y > height) p.y = 0;
         } else {
-          // Default stardust / celestial constellation drift
+          // Ambient celestial drift
           p.x += p.vx;
           p.y += p.vy;
-          if (p.x < -10) p.x = width + 10;
-          if (p.x > width + 10) p.x = -10;
-          if (p.y < -10) p.y = height + 10;
-          if (p.y > height + 10) p.y = -10;
+          if (p.x < -15) p.x = width + 15;
+          if (p.x > width + 15) p.x = -15;
+          if (p.y < -15) p.y = height + 15;
+          if (p.y > height + 15) p.y = -15;
         }
 
-        // Breathing glow pulse
-        p.alpha = Math.sin(p.angle * 2) * 0.25 + 0.45;
-      });
-
-      // Update ripples
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        r.r += 0.6;
-        r.alpha *= 0.95;
-        if (r.r >= r.maxR || r.alpha < 0.01) {
-          ripples.splice(i, 1);
-        }
-      }
-    }
-
-    function draw() {
-      if (!isVisible) return;
-
-      // Smooth background color interpolation (1.5% per frame)
-      currentTop[0] = lerp(currentTop[0], targetTheme.bgTop[0], 0.025);
-      currentTop[1] = lerp(currentTop[1], targetTheme.bgTop[1], 0.025);
-      currentTop[2] = lerp(currentTop[2], targetTheme.bgTop[2], 0.025);
-
-      currentBottom[0] = lerp(currentBottom[0], targetTheme.bgBottom[0], 0.025);
-      currentBottom[1] = lerp(currentBottom[1], targetTheme.bgBottom[1], 0.025);
-      currentBottom[2] = lerp(currentBottom[2], targetTheme.bgBottom[2], 0.025);
-
-      // Render gradient background
-      const grad = ctx.createLinearGradient(0, 0, width * 0.5, height);
-      grad.addColorStop(0, `rgb(${Math.round(currentTop[0])}, ${Math.round(currentTop[1])}, ${Math.round(currentTop[2])})`);
-      grad.addColorStop(1, `rgb(${Math.round(currentBottom[0])}, ${Math.round(currentBottom[1])}, ${Math.round(currentBottom[2])})`);
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Philosophical Constellation Web (draw connecting lines between nearby stars)
-      if (targetTheme.type === 'constellation') {
-        ctx.lineWidth = 0.6;
-        const maxDist = 95;
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < maxDist) {
-              const lineAlpha = (1 - dist / maxDist) * 0.18;
-              ctx.strokeStyle = `rgba(165, 180, 252, ${lineAlpha})`;
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-
-      // Draw expanding puddle ripples for melancholic rain
-      if (ripples.length > 0) {
-        ripples.forEach(r => {
-          ctx.strokeStyle = `rgba(196, 181, 253, ${r.alpha})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.ellipse(r.x, r.y, r.r, r.r * 0.4, 0, 0, Math.PI * 2);
-          ctx.stroke();
-        });
-      }
-
-      // Draw particles with soft radiant glow
-      particles.forEach(p => {
         const [r, g, b] = p.color;
-        const rad = p.radius;
+        const pulse = Math.sin(time * 2 + p.angle) * 0.2 + 0.55;
 
         // Radial glow halo
-        const pGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad * 2.5);
-        pGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${p.alpha})`);
-        pGrad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${p.alpha * 0.35})`);
-        pGrad.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+        const pGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3.5);
+        pGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${pulse * 0.85})`);
+        pGrad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${pulse * 0.25})`);
+        pGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
         ctx.fillStyle = pGrad;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, rad * 2.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Bright particle core
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, p.alpha * 1.3)})`;
+        // Bright sparkling core
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, pulse * 1.4)})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, rad * 0.6, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.radius * 0.65, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      updateParticles();
+      // Occasional Shooting Star (Every ~8-12 seconds)
+      const now = Date.now();
+      if (now - lastShootingStarTime > 9000 && Math.random() < 0.03) {
+        spawnShootingStar();
+        lastShootingStarTime = now;
+      }
+
+      // Draw Shooting Stars
+      for (let i = shootingStars.length - 1; i >= 0; i--) {
+        const s = shootingStars[i];
+        s.x += Math.cos(s.angle) * s.speed;
+        s.y += Math.sin(s.angle) * s.speed;
+        s.alpha -= s.decay;
+
+        if (s.alpha <= 0 || s.x > width + 100 || s.y > height + 100) {
+          shootingStars.splice(i, 1);
+          continue;
+        }
+
+        const tailX = s.x - Math.cos(s.angle) * s.length;
+        const tailY = s.y - Math.sin(s.angle) * s.length;
+
+        const sGrad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
+        sGrad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
+        sGrad.addColorStop(0.3, `rgba(165, 243, 252, ${s.alpha * 0.6})`);
+        sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        ctx.strokeStyle = sGrad;
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.stroke();
+      }
+
       animId = requestAnimationFrame(draw);
     }
 
-    // Window resize handler
-    window.addEventListener('resize', resize);
-    document.addEventListener('visibilitychange', () => {
-      isVisible = !document.hidden;
-      if (isVisible && !animId) {
-        animId = requestAnimationFrame(draw);
-      }
-    });
+    // Public Controller: called on slide arrival
+    window.setBackground = function(videoSrc, gradientClass, mood, quoteId) {
+      // Deterministically select unique palette and animation style for this quote
+      const seed = quoteId ? djb2(quoteId) : Math.floor(Math.random() * 1000);
+      const paletteIndex = seed % PALETTES.length;
+      const animIndex = Math.floor(seed / PALETTES.length) % ANIM_TYPES.length;
 
-    // Public controller called by ReelFeed on slide change
-    window.setBackground = function(videoSrc, gradientClass, mood) {
-      if (!mood || !MOOD_THEMES[mood]) mood = 'reflective';
-      if (mood === currentMood) return;
+      currentPalette = PALETTES[paletteIndex];
+      currentAnim = ANIM_TYPES[animIndex];
 
-      currentMood = mood;
-      targetTheme = MOOD_THEMES[mood];
-
-      // Update atmospheric glow blurs
+      // Update atmospheric light bloom colors
       const glow1 = document.getElementById('mood-glow-1');
       const glow2 = document.getElementById('mood-glow-2');
-      if (glow1) glow1.style.backgroundColor = targetTheme.glow1;
-      if (glow2) glow2.style.backgroundColor = targetTheme.glow2;
+      const glowCenter = document.getElementById('mood-glow-center');
 
-      // Adapt existing particles smoothly to new mood colors
-      const colors = targetTheme.particleColors;
+      if (glow1) glow1.style.backgroundColor = currentPalette.glow1;
+      if (glow2) glow2.style.backgroundColor = currentPalette.glow2;
+      if (glowCenter) glowCenter.style.backgroundColor = currentPalette.glowCenter;
+
+      // Adapt existing particles to new color palette smoothly
+      const colors = currentPalette.colors;
       particles.forEach(p => {
         p.color = colors[Math.floor(Math.random() * colors.length)];
-        if (targetTheme.type === 'embers') {
-          p.vy = -(Math.random() * 1.5 + 0.5) * targetTheme.speed;
-        } else if (targetTheme.type === 'rain') {
-          p.vy = (Math.random() * 2.5 + 1.5) * targetTheme.speed;
-        } else {
-          p.vx = (Math.random() - 0.5) * targetTheme.speed;
-          p.vy = (Math.random() - 0.5) * targetTheme.speed;
-        }
       });
     };
 
-    // Initial setup
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => {
+      isVisible = !document.hidden;
+      if (isVisible && !animId) animId = requestAnimationFrame(draw);
+    });
+
+    // Start
     resize();
     animId = requestAnimationFrame(draw);
-
-    // Set initial glow colors
-    const glow1 = document.getElementById('mood-glow-1');
-    const glow2 = document.getElementById('mood-glow-2');
-    if (glow1) glow1.style.backgroundColor = targetTheme.glow1;
-    if (glow2) glow2.style.backgroundColor = targetTheme.glow2;
   })();
 </script>

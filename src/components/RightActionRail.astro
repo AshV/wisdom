@@ -8,67 +8,67 @@
 ---
 <div
   id="right-action-rail"
-  class="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-5"
+  class="fixed right-3 sm:right-4 md:right-5 bottom-[max(env(safe-area-inset-bottom,20px),24px)] mb-3 sm:mb-5 z-30 flex flex-col items-center gap-2.5 sm:gap-3"
 >
   <!-- Like Button -->
   <button
     id="like-btn"
-    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    class="group flex flex-col items-center gap-0.5 transition-transform duration-200 active:scale-90 cursor-pointer"
     aria-label="Like this quote"
   >
-    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
-      <svg id="like-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white transition-all duration-300">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+      <svg id="like-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white transition-all duration-300 sm:w-5 sm:h-5">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
       </svg>
     </div>
-    <span id="like-count" class="text-[11px] font-medium text-white/70 tracking-wide">Like</span>
+    <span id="like-count" class="text-[10px] font-medium text-white/70 tracking-tight">Like</span>
   </button>
 
   <!-- Share Button -->
   <button
     id="share-btn"
-    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    class="group flex flex-col items-center gap-0.5 transition-transform duration-200 active:scale-90 cursor-pointer"
     aria-label="Share this quote"
   >
-    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
         <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
         <polyline points="16 6 12 2 8 6" />
         <line x1="12" y1="2" x2="12" y2="15" />
       </svg>
     </div>
-    <span class="text-[11px] font-medium text-white/70 tracking-wide">Share</span>
+    <span class="text-[10px] font-medium text-white/70 tracking-tight">Share</span>
   </button>
 
   <!-- Zen Chime Toggle (Play Once on Quote Arrival) -->
   <button
     id="audio-toggle-btn"
-    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    class="group flex flex-col items-center gap-0.5 transition-transform duration-200 active:scale-90 cursor-pointer"
     aria-label="Toggle zen chime sound"
   >
-    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
         <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
       </svg>
     </div>
-    <span class="text-[11px] font-medium text-white/70 tracking-wide">Chime</span>
+    <span class="text-[10px] font-medium text-white/70 tracking-tight">Chime</span>
   </button>
 
   <!-- Explore Button -->
   <button
     id="explore-btn"
-    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    class="group flex flex-col items-center gap-0.5 transition-transform duration-200 active:scale-90 cursor-pointer"
     aria-label="Explore quotes"
   >
-    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
       </svg>
     </div>
-    <span class="text-[11px] font-medium text-white/70 tracking-wide">Explore</span>
+    <span class="text-[10px] font-medium text-white/70 tracking-tight">Explore</span>
   </button>
 </div>
 

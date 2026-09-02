@@ -6,15 +6,75 @@ import { ClientRouter } from 'astro:transitions';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  ogType?: string;
+  keywords?: string[];
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
   title = 'Wisdom — Timeless Quotes, Reimagined',
-  description = 'Experience the world\'s greatest quotes as immersive, full-screen reels. Swipe through wisdom from Rumi, Seneca, Angelou, and more.',
+  description = 'Experience the world\'s greatest quotes as immersive, full-screen reels. Swipe through wisdom from Rumi, Seneca, Angelou, Shakespeare, and more.',
+  image = '/wisdom/og-image.jpg',
+  ogType = 'website',
+  keywords = [
+    'wisdom',
+    'quotes',
+    'timeless quotes',
+    'inspirational quotes',
+    'philosophy',
+    'stoicism',
+    'mindfulness',
+    'life quotes',
+    'rumi',
+    'marcus aurelius',
+    'seneca',
+    'maya angelou',
+    'steve jobs',
+    'albert einstein',
+    'quote reels',
+  ],
+  breadcrumbs = [],
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const BASE = '/wisdom';
+const ogImageUrl = new URL(image, Astro.site).toString();
+
+// Base WebSite Schema for Search Engines
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Wisdom',
+  url: 'https://www.ashishvishwakarma.com/wisdom/',
+  description: 'Timeless quotes, reimagined as immersive visual reels.',
+  author: {
+    '@type': 'Person',
+    name: 'Ashish Vishwakarma',
+    url: 'https://www.ashishvishwakarma.com',
+  },
+  inLanguage: 'en-US',
+};
+
+// Breadcrumbs Schema if provided
+const breadcrumbsSchema = breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Wisdom',
+      item: 'https://www.ashishvishwakarma.com/wisdom/',
+    },
+    ...breadcrumbs.map((b, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 2,
+      name: b.name,
+      item: new URL(b.url, Astro.site).toString(),
+    })),
+  ],
+} : null;
 ---
 <!doctype html>
 <html lang="en">
@@ -23,17 +83,39 @@ const BASE = '/wisdom';
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
     <meta name="theme-color" content="#0a0a0f" />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(', ')} />
+    <meta name="author" content="Ashish Vishwakarma" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
+    <meta property="og:site_name" content="Wisdom" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="675" />
+    <meta property="og:image:alt" content="Wisdom — Timeless Quotes, Reimagined" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content="Wisdom — Timeless Quotes, Reimagined" />
 
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href={`${BASE}/favicon.svg`} />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {breadcrumbsSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbsSchema)} />
+    )}
 
     <!-- Google Fonts: Inter, Playfair Display, Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

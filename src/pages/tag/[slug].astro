@@ -36,7 +36,15 @@ interface Props {
 const { slug } = Astro.params;
 const { quotes, tagName } = Astro.props;
 ---
-<BaseLayout title={`#${tagName} — Wisdom`} description={`Quotes tagged #${tagName}, reimagined as immersive reels.`}>
+<BaseLayout
+  title={`#${tagName} Quotes — Wisdom`}
+  description={`Discover inspiring quotes and wisdom tagged #${tagName}, reimagined as immersive reels.`}
+  keywords={[`#${tagName}`, `${tagName} quotes`, tagName, 'wisdom', 'quotes', 'inspirational thoughts']}
+  breadcrumbs={[
+    { name: 'Tags', url: '/wisdom/' },
+    { name: `#${tagName}`, url: `/wisdom/tag/${slug}/` },
+  ]}
+>
   <ReelFeed
     quotes={quotes}
     feedTitle={`#${tagName}`}

@@ -44,13 +44,14 @@ interface Props {
 }
 
 const { targetQuote, allQuotes } = Astro.props;
-const { content, author, category, tags, id } = targetQuote;
+const { content, author, authorSlug, category, tags, id } = targetQuote;
 
 const textSlug = slugifyQuote(content);
+const canonicalUrl = `/wisdom/quote/${textSlug}/`;
 
 // Title and rich metadata for social preview cards & Google SEO
 const title = `“${content}” — ${author} | Wisdom`;
-const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore on Wisdom.`;
+const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore curated quotes on Wisdom.`;
 
 // Order feed so the target quote lands first, with remaining quotes smoothly scrollable
 const feedQuotes = [
@@ -61,16 +62,32 @@ const feedQuotes = [
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Quotation',
+  headline: `Quote by ${author}`,
   text: content,
   creator: {
     '@type': 'Person',
     name: author,
   },
   keywords: tags.join(', '),
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Wisdom',
+    url: 'https://www.ashishvishwakarma.com/wisdom/',
+  },
 };
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  keywords={[...tags, author, category, 'wisdom quote', 'inspirational quotation']}
+  breadcrumbs={[
+    { name: 'Authors', url: '/wisdom/' },
+    { name: author, url: `/wisdom/author/${authorSlug}/` },
+    { name: `“${content.slice(0, 30)}...”`, url: canonicalUrl },
+  ]}
+>
   <!-- Schema.org Quotation Rich Snippet for Google Search -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 

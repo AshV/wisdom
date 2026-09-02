@@ -33,7 +33,15 @@ interface Props {
 const { slug } = Astro.params;
 const { quotes, moodLabel, moodEmoji } = Astro.props;
 ---
-<BaseLayout title={`${moodEmoji} ${moodLabel} — Wisdom`} description={`Explore ${moodLabel.toLowerCase()} quotes in an immersive reel experience.`}>
+<BaseLayout
+  title={`${moodEmoji} ${moodLabel} Quotes — Wisdom`}
+  description={`Immerse in ${moodLabel.toLowerCase()} quotes and reflections with generative ambient animations on Wisdom.`}
+  keywords={[`${moodLabel} quotes`, moodLabel, 'mood quotes', 'wisdom', 'mindfulness', 'daily inspiration']}
+  breadcrumbs={[
+    { name: 'Moods', url: '/wisdom/' },
+    { name: `${moodEmoji} ${moodLabel}`, url: `/wisdom/mood/${slug}/` },
+  ]}
+>
   <ReelFeed
     quotes={quotes}
     feedTitle={`${moodEmoji} ${moodLabel}`}

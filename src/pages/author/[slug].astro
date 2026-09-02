@@ -32,7 +32,15 @@ interface Props {
 const { slug } = Astro.params;
 const { quotes, authorName } = Astro.props;
 ---
-<BaseLayout title={`${authorName} — Wisdom`} description={`Timeless quotes by ${authorName}, reimagined as immersive reels.`}>
+<BaseLayout
+  title={`${authorName} Quotes — Wisdom`}
+  description={`Explore timeless wisdom, reflections, and inspirational quotes by ${authorName}, reimagined as immersive reels.`}
+  keywords={[`${authorName} quotes`, authorName, 'wisdom', 'philosophy', 'quotes', 'timeless reflections']}
+  breadcrumbs={[
+    { name: 'Authors', url: '/wisdom/' },
+    { name: authorName, url: `/wisdom/author/${slug}/` },
+  ]}
+>
   <ReelFeed
     quotes={quotes}
     feedTitle={`Quotes by ${authorName}`}

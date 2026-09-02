@@ -97,6 +97,19 @@ if (len <= 45) {
       >
         {content}
       </p>
+
+      <!-- Author Attribution Directly Below Quote (No initial circle) -->
+      <div class="mt-4 sm:mt-6 select-none">
+        <a
+          href={`${BASE}/author/${authorSlug}/`}
+          class="pointer-events-auto inline-flex items-center gap-1.5 text-base sm:text-lg md:text-xl font-normal text-white/80 hover:text-white transition-all duration-200 group cursor-pointer"
+          style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; letter-spacing: 0.02em;"
+          title={`More quotes by ${author}`}
+        >
+          <span class="text-white/40 not-italic font-light select-none">&mdash;</span>
+          <span class="author-name-text group-hover:underline underline-offset-4 decoration-white/40 transition-all">{author}</span>
+        </a>
+      </div>
     </div>
   </div>
 
@@ -106,23 +119,7 @@ if (len <= 45) {
     class="relative z-20 shrink-0 mb-5 sm:mb-7 md:mb-9 pb-[max(env(safe-area-inset-bottom,20px),24px)] pt-2 pointer-events-none"
     style="padding-right: clamp(4.5rem, 12vw, 6.5rem); padding-left: clamp(1.25rem, 4vw, 2.5rem);"
   >
-    <div class="flex flex-col gap-2.5 max-w-[72%] sm:max-w-md md:max-w-lg">
-      <!-- Author Attribution Badge -->
-      <div class="flex items-center">
-        <a
-          href={`${BASE}/author/${authorSlug}/`}
-          class="pointer-events-auto inline-flex items-center gap-2 text-sm md:text-base font-bold text-white/95 hover:text-white text-shadow-soft transition-all duration-200 hover:scale-105 group glass px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg shadow-black/20"
-        >
-          <span class="w-6 h-6 rounded-full bg-gradient-to-br from-accent-start to-accent-end flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
-            {author.charAt(0)}
-          </span>
-          <span class="author-name-text tracking-wide">{author}</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-40 group-hover:opacity-100 transition-opacity">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </a>
-      </div>
-
+    <div class="flex flex-col gap-2 max-w-[72%] sm:max-w-md md:max-w-lg">
       <!-- Meta Row: Category Pill + Mood Badge -->
       <div class="flex flex-wrap items-center gap-2">
         <a

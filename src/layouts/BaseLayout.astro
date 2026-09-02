@@ -1,0 +1,166 @@
+---
+import '../styles/global.css';
+import GlobalBackground from '../components/GlobalBackground.astro';
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Wisdom — Timeless Quotes, Reimagined',
+  description = 'Experience the world\'s greatest quotes as immersive, full-screen reels. Swipe through wisdom from Rumi, Seneca, Angelou, and more.',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const BASE = '/wisdom';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="description" content={description} />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href={`${BASE}/favicon.svg`} />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-surface text-text-primary overflow-hidden no-select">
+    <!-- Persistent Ambient Audio -->
+    <audio
+      id="ambient-audio"
+      loop
+      preload="none"
+      transition:persist
+    >
+      <source src={`${BASE}/media/audio/ambient-calm.mp3`} type="audio/mpeg" />
+    </audio>
+
+    <!-- Global Video Background -->
+    <GlobalBackground />
+
+    <!-- Page Content -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Heart Burst Overlay (global, reused by all slides) -->
+    <div
+      id="heart-burst-overlay"
+      class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none"
+      style="display: none;"
+    >
+      <svg
+        width="120"
+        height="120"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="animate-heart-burst"
+      >
+        <path
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          fill="#ef4444"
+        />
+      </svg>
+    </div>
+
+    <!-- Toast Container -->
+    <div
+      id="toast-container"
+      class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] pointer-events-none"
+    ></div>
+
+    <script is:inline>
+      // ── Ambient Audio Controller ──
+      window.wisdomAudio = {
+        muted: true,
+        init() {
+          const audio = document.getElementById('ambient-audio');
+          if (audio) {
+            audio.volume = 0.3;
+            audio.muted = true;
+          }
+        },
+        toggle() {
+          const audio = document.getElementById('ambient-audio');
+          if (!audio) return;
+          this.muted = !this.muted;
+          audio.muted = this.muted;
+          if (!this.muted && audio.paused) {
+            audio.play().catch(() => {});
+          }
+          // Update button icon
+          const btn = document.getElementById('audio-toggle-btn');
+          if (btn) {
+            btn.innerHTML = this.muted
+              ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'
+              : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+          }
+        },
+        setSource(src) {
+          const audio = document.getElementById('ambient-audio');
+          if (!audio) return;
+          const currentSrc = audio.querySelector('source')?.src || '';
+          if (currentSrc.endsWith(src.split('/').pop())) return;
+          const wasPlaying = !audio.paused;
+          audio.querySelector('source').src = src;
+          audio.load();
+          if (wasPlaying && !this.muted) {
+            audio.play().catch(() => {});
+          }
+        }
+      };
+      window.wisdomAudio.init();
+
+      // ── Toast Utility ──
+      window.showToast = function(message, duration = 2500) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = 'glass rounded-xl px-5 py-3 text-sm font-medium text-text-primary animate-toast-in';
+        toast.textContent = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.style.animation = 'toast-out 0.3s ease-in forwards';
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      };
+
+      // ── Liked Quotes Store ──
+      window.likedQuotes = {
+        _key: 'liked_quotes',
+        getAll() {
+          try { return JSON.parse(localStorage.getItem(this._key) || '[]'); }
+          catch { return []; }
+        },
+        has(id) { return this.getAll().includes(id); },
+        toggle(id) {
+          const all = this.getAll();
+          const idx = all.indexOf(id);
+          if (idx > -1) { all.splice(idx, 1); }
+          else { all.push(id); }
+          localStorage.setItem(this._key, JSON.stringify(all));
+          return idx === -1; // returns true if now liked
+        }
+      };
+    </script>
+  </body>
+</html>

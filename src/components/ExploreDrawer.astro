@@ -1,0 +1,201 @@
+---
+/**
+ * ExploreDrawer — Slide-up frosted-glass sheet.
+ *
+ * Tabs: Moods, Categories, Authors, Tags with quote counters.
+ * Built at build-time from the content collection.
+ */
+import { getCollection } from 'astro:content';
+import { moodMeta, allMoods } from '../data/mediaRegistry';
+
+const allQuotes = await getCollection('quotes');
+const BASE = '/wisdom';
+
+// Aggregate counts
+const moodCounts: Record<string, number> = {};
+const categoryCounts: Record<string, { name: string; slug: string; count: number }> = {};
+const authorCounts: Record<string, { name: string; slug: string; count: number }> = {};
+const tagCounts: Record<string, number> = {};
+
+allQuotes.forEach((q) => {
+  const d = q.data;
+  moodCounts[d.mood] = (moodCounts[d.mood] || 0) + 1;
+  if (!categoryCounts[d.categorySlug]) categoryCounts[d.categorySlug] = { name: d.category, slug: d.categorySlug, count: 0 };
+  categoryCounts[d.categorySlug].count++;
+  if (!authorCounts[d.authorSlug]) authorCounts[d.authorSlug] = { name: d.author, slug: d.authorSlug, count: 0 };
+  authorCounts[d.authorSlug].count++;
+  d.tags.forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+});
+
+const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
+const authors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
+const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+---
+
+<div
+  id="explore-drawer"
+  class="fixed inset-0 z-40 hidden"
+  style="display: none;"
+>
+  <!-- Backdrop -->
+  <div
+    id="explore-backdrop"
+    class="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer"
+  ></div>
+
+  <!-- Sheet -->
+  <div
+    id="explore-sheet"
+    class="absolute bottom-0 left-0 right-0 max-h-[85vh] glass-heavy rounded-t-3xl overflow-hidden animate-slide-up-sheet shadow-2xl shadow-black/80"
+  >
+    <!-- Handle -->
+    <div class="flex justify-center pt-3 pb-1 cursor-pointer">
+      <div class="w-12 h-1.5 rounded-full bg-white/25"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 pb-3 pt-1">
+      <div>
+        <h2 class="text-xl font-bold text-white tracking-tight">Explore Wisdom</h2>
+        <p class="text-xs text-white/50">{allQuotes.length} quotes across {categories.length} categories</p>
+      </div>
+      <button
+        id="explore-close-btn"
+        class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"
+        aria-label="Close explore drawer"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-white/10 px-6 gap-2">
+      <button class="explore-tab active text-sm font-semibold pb-3 px-3 text-white border-b-2 border-white transition-colors cursor-pointer" data-tab="moods">Moods</button>
+      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="categories">Categories</button>
+      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="authors">Authors</button>
+      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="tags">Tags</button>
+    </div>
+
+    <!-- Tab Content Container -->
+    <div class="overflow-y-auto max-h-[62vh] px-6 py-5 scrollbar-thin">
+      <!-- Moods Tab -->
+      <div id="tab-moods" class="explore-tab-content grid grid-cols-2 gap-3.5">
+        {allMoods.map((mood) => (
+          <a
+            href={`${BASE}/mood/${mood}/`}
+            class={`mood-pill-${mood} rounded-2xl p-4 flex flex-col justify-between h-28 hover:scale-[1.03] transition-all duration-200 shadow-lg shadow-black/20 group`}
+          >
+            <div class="flex items-center justify-between">
+              <span class="text-3xl group-hover:scale-110 transition-transform">{moodMeta[mood].emoji}</span>
+              <span class="text-[11px] font-semibold text-white/80 bg-black/20 rounded-full px-2 py-0.5">{moodCounts[mood] || 0}</span>
+            </div>
+            <div>
+              <span class="text-base font-bold text-white block capitalize">{moodMeta[mood].label}</span>
+              <span class="text-[11px] text-white/75">Stream feed</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Categories Tab -->
+      <div id="tab-categories" class="explore-tab-content hidden space-y-2.5">
+        {categories.map((cat) => (
+          <a
+            href={`${BASE}/category/${cat.slug}/`}
+            class="glass rounded-2xl px-5 py-4 flex items-center justify-between hover:bg-white/12 transition-all duration-200 block group"
+          >
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm font-bold text-white">#</span>
+              <span class="text-sm font-semibold text-white group-hover:text-white transition-colors">{cat.name}</span>
+            </div>
+            <span class="text-xs text-white/60 bg-white/10 rounded-full px-3 py-1 font-medium">{cat.count} quotes</span>
+          </a>
+        ))}
+      </div>
+
+      <!-- Authors Tab -->
+      <div id="tab-authors" class="explore-tab-content hidden space-y-2.5">
+        {authors.map((auth) => (
+          <a
+            href={`${BASE}/author/${auth.slug}/`}
+            class="glass rounded-2xl px-5 py-3.5 flex items-center gap-4 hover:bg-white/12 transition-all duration-200 block group"
+          >
+            <span class="w-11 h-11 rounded-full bg-gradient-to-br from-accent-start to-accent-end flex items-center justify-center text-base font-bold text-white shadow-md flex-shrink-0">
+              {auth.name.charAt(0)}
+            </span>
+            <div class="flex-1 min-w-0">
+              <span class="text-sm font-bold text-white block group-hover:text-white transition-colors">{auth.name}</span>
+              <span class="text-xs text-white/50">{auth.count} timeless quotes</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </a>
+        ))}
+      </div>
+
+      <!-- Tags Tab -->
+      <div id="tab-tags" class="explore-tab-content hidden">
+        <div class="flex flex-wrap gap-2.5">
+          {tags.map(([tag, count]) => (
+            <a
+              href={`${BASE}/tag/${tag}/`}
+              class="glass rounded-full px-4 py-2 text-xs font-medium text-white/80 hover:text-white hover:bg-white/15 transition-all duration-200 inline-flex items-center gap-1.5"
+            >
+              <span>#{tag}</span>
+              <span class="text-white/40 font-semibold text-[10px]">{count}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  function setupExploreDrawer() {
+    const drawer = document.getElementById('explore-drawer');
+    const backdrop = document.getElementById('explore-backdrop');
+    const closeBtn = document.getElementById('explore-close-btn');
+    const tabs = document.querySelectorAll('.explore-tab');
+    const tabContents = document.querySelectorAll('.explore-tab-content');
+
+    function closeDrawer() {
+      if (!drawer) return;
+      const sheet = document.getElementById('explore-sheet');
+      if (sheet) {
+        sheet.style.animation = 'slide-down-sheet 0.3s ease-in forwards';
+        setTimeout(() => {
+          drawer.style.display = 'none';
+          drawer.classList.add('hidden');
+          sheet.style.animation = '';
+        }, 280);
+      }
+    }
+
+    if (backdrop) backdrop.onclick = closeDrawer;
+    if (closeBtn) closeBtn.onclick = closeDrawer;
+
+    tabs.forEach(tab => {
+      tab.onclick = () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => {
+          t.classList.remove('active', 'text-white', 'border-white');
+          t.classList.add('text-white/40', 'border-transparent');
+        });
+        tab.classList.add('active', 'text-white', 'border-white');
+        tab.classList.remove('text-white/40', 'border-transparent');
+
+        tabContents.forEach(tc => tc.classList.add('hidden'));
+        const content = document.getElementById(`tab-${target}`);
+        if (content) content.classList.remove('hidden');
+      };
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupExploreDrawer);
+  document.addEventListener('astro:page-load', setupExploreDrawer);
+</script>

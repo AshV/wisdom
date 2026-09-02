@@ -1,0 +1,20 @@
+---
+/**
+ * Master Feed — All quotes, reverse-chronological.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReelFeed from '../components/ReelFeed.astro';
+import { getCollection } from 'astro:content';
+
+const allQuotes = await getCollection('quotes');
+const quotes = allQuotes
+  .map((q) => q.data)
+  .reverse();
+---
+<BaseLayout title="Wisdom — Timeless Quotes, Reimagined">
+  <ReelFeed
+    quotes={quotes}
+    feedTitle="Wisdom"
+    feedType="master"
+  />
+</BaseLayout>

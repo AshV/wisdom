@@ -1,0 +1,111 @@
+---
+/**
+ * ReelSlide — Individual quote slide for the vertical reel.
+ *
+ * Bottom-aligned layout mimicking TikTok/Reels with:
+ * - Quote text with text-shadow
+ * - Author link, category pill, mood badge, tag chips
+ * - Data attributes for IntersectionObserver media switching
+ */
+import { getMediaForQuote, getAudioForMood, moodMeta } from '../data/mediaRegistry';
+import type { Mood } from '../data/mediaRegistry';
+
+interface Props {
+  id: string;
+  content: string;
+  author: string;
+  authorSlug: string;
+  category: string;
+  categorySlug: string;
+  mood: Mood;
+  tags: string[];
+  index: number;
+}
+
+const { id, content, author, authorSlug, category, categorySlug, mood, tags, index } = Astro.props;
+
+const media = getMediaForQuote(id, mood);
+const audioSrc = getAudioForMood(mood);
+const moodInfo = moodMeta[mood];
+const BASE = '/wisdom';
+---
+<section
+  class="reel-slide relative flex flex-col justify-end px-6 pb-28 md:pb-32 md:px-12 lg:px-16 w-full h-[100dvh]"
+  id={`slide-${id}`}
+  data-quote-id={id}
+  data-content={content}
+  data-author={author}
+  data-video-src={media.video}
+  data-gradient-class={media.gradient}
+  data-mood={mood}
+  data-audio-src={audioSrc}
+  data-index={index}
+>
+  <!-- Double-tap detection zone -->
+  <div
+    class="absolute inset-0 z-10 cursor-pointer"
+    data-doubletap-zone={id}
+  ></div>
+
+  <!-- Quote Content Card -->
+  <div class="relative z-20 max-w-2xl pointer-events-none mb-2">
+    <!-- Quote Mark Icon -->
+    <div class="text-4xl md:text-5xl leading-none text-white/25 font-serif select-none mb-1">
+      &ldquo;
+    </div>
+
+    <!-- Quote Text -->
+    <p class="text-2xl sm:text-3xl md:text-4xl font-normal leading-snug tracking-tight text-white text-shadow-quote mb-5 select-none quote-text">
+      {content}
+    </p>
+
+    <!-- Author Attribution -->
+    <div class="mb-4">
+      <a
+        href={`${BASE}/author/${authorSlug}/`}
+        class="pointer-events-auto inline-flex items-center gap-2.5 text-base md:text-lg font-bold text-white/95 hover:text-white text-shadow-soft transition-all duration-200 hover:translate-x-1 group"
+      >
+        <!-- Author avatar circle -->
+        <span class="w-8 h-8 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-xs font-bold backdrop-blur-md shadow-sm group-hover:bg-white/30 transition-colors">
+          {author.charAt(0)}
+        </span>
+        <span class="author-name-text tracking-wide underline decoration-white/30 underline-offset-4 group-hover:decoration-white/80">{author}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="opacity-40 group-hover:opacity-100 transition-opacity">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Meta Row: Category + Mood Badges -->
+    <div class="flex flex-wrap items-center gap-2 mb-3.5">
+      <!-- Category Pill -->
+      <a
+        href={`${BASE}/category/${categorySlug}/`}
+        class="pointer-events-auto glass rounded-full px-3.5 py-1 text-xs font-semibold text-white/85 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm"
+      >
+        {category}
+      </a>
+
+      <!-- Mood Badge -->
+      <a
+        href={`${BASE}/mood/${mood}/`}
+        class={`pointer-events-auto mood-pill-${mood} rounded-full px-3.5 py-1 text-xs font-bold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 flex items-center gap-1.5`}
+      >
+        <span>{moodInfo.emoji}</span>
+        <span>{moodInfo.label}</span>
+      </a>
+    </div>
+
+    <!-- Tag Chips -->
+    <div class="flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <a
+          href={`${BASE}/tag/${tag}/`}
+          class="pointer-events-auto text-xs font-medium text-white/60 hover:text-white transition-colors duration-200 bg-white/5 hover:bg-white/10 px-2.5 py-0.5 rounded-md backdrop-blur-sm"
+        >
+          #{tag}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

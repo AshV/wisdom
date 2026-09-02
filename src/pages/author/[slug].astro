@@ -1,0 +1,41 @@
+---
+/**
+ * Author Feed — Quotes filtered by author.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReelFeed from '../../components/ReelFeed.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const slugs = [...new Set(allQuotes.map((q) => q.data.authorSlug))];
+
+  return slugs.map((slug) => {
+    const filtered = allQuotes.filter((q) => q.data.authorSlug === slug);
+    const authorName = filtered[0]?.data.author || slug;
+    return {
+      params: { slug },
+      props: {
+        quotes: filtered.map((q) => q.data),
+        authorName,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  authorName: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, authorName } = Astro.props;
+---
+<BaseLayout title={`${authorName} — Wisdom`} description={`Timeless quotes by ${authorName}, reimagined as immersive reels.`}>
+  <ReelFeed
+    quotes={quotes}
+    feedTitle={`Quotes by ${authorName}`}
+    feedType="author"
+  />
+</BaseLayout>

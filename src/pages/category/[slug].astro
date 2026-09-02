@@ -1,0 +1,41 @@
+---
+/**
+ * Category Feed — Quotes filtered by category.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReelFeed from '../../components/ReelFeed.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const slugs = [...new Set(allQuotes.map((q) => q.data.categorySlug))];
+
+  return slugs.map((slug) => {
+    const filtered = allQuotes.filter((q) => q.data.categorySlug === slug);
+    const categoryName = filtered[0]?.data.category || slug;
+    return {
+      params: { slug },
+      props: {
+        quotes: filtered.map((q) => q.data),
+        categoryName,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  categoryName: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, categoryName } = Astro.props;
+---
+<BaseLayout title={`${categoryName} — Wisdom`} description={`Explore ${categoryName.toLowerCase()} quotes reimagined as immersive reels.`}>
+  <ReelFeed
+    quotes={quotes}
+    feedTitle={categoryName}
+    feedType="category"
+  />
+</BaseLayout>

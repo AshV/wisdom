@@ -1,0 +1,42 @@
+---
+/**
+ * Mood Feed — Quotes filtered by mood.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReelFeed from '../../components/ReelFeed.astro';
+import { getCollection } from 'astro:content';
+import { moodMeta, allMoods } from '../../data/mediaRegistry';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+
+  return allMoods.map((mood) => {
+    const filtered = allQuotes.filter((q) => q.data.mood === mood);
+    return {
+      params: { slug: mood },
+      props: {
+        quotes: filtered.map((q) => q.data),
+        moodLabel: moodMeta[mood].label,
+        moodEmoji: moodMeta[mood].emoji,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  moodLabel: string;
+  moodEmoji: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, moodLabel, moodEmoji } = Astro.props;
+---
+<BaseLayout title={`${moodEmoji} ${moodLabel} — Wisdom`} description={`Explore ${moodLabel.toLowerCase()} quotes in an immersive reel experience.`}>
+  <ReelFeed
+    quotes={quotes}
+    feedTitle={`${moodEmoji} ${moodLabel}`}
+    feedType="mood"
+  />
+</BaseLayout>

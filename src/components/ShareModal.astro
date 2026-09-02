@@ -1,0 +1,262 @@
+---
+/**
+ * ShareModal — Share overlay with link sharing and 9:16 story PNG export.
+ *
+ * Uses Web Share API with clipboard fallback for link sharing.
+ * Uses html-to-image for 1080x1920 story PNG generation.
+ */
+---
+
+<div
+  id="share-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center"
+  style="display: none;"
+>
+  <!-- Backdrop -->
+  <div id="share-backdrop" class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+  <!-- Modal Content -->
+  <div class="relative z-10 glass-heavy rounded-3xl p-6 mx-5 max-w-sm w-full animate-slide-up">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-bold text-white">Share Quote</h3>
+      <button
+        id="share-close-btn"
+        class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+        aria-label="Close share modal"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Quote Preview -->
+    <div id="share-preview" class="glass rounded-2xl p-4 mb-5">
+      <p id="share-quote-text" class="text-sm text-white/90 font-light leading-relaxed mb-2 italic">"Loading..."</p>
+      <p id="share-quote-author" class="text-xs text-white/50 font-medium">—</p>
+    </div>
+
+    <!-- Share Actions -->
+    <div class="space-y-3">
+      <!-- Copy Link -->
+      <button
+        id="share-link-btn"
+        class="w-full flex items-center gap-3 glass rounded-xl px-4 py-3.5 hover:bg-white/10 transition-colors duration-200 cursor-pointer"
+      >
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center flex-shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          </svg>
+        </div>
+        <div class="text-left">
+          <span class="text-sm font-medium text-white block">Share Link</span>
+          <span class="text-xs text-white/40">Copy permalink or share via apps</span>
+        </div>
+      </button>
+
+      <!-- Save as Story Image -->
+      <button
+        id="share-image-btn"
+        class="w-full flex items-center gap-3 glass rounded-xl px-4 py-3.5 hover:bg-white/10 transition-colors duration-200 cursor-pointer"
+      >
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
+        </div>
+        <div class="text-left">
+          <span class="text-sm font-medium text-white block">Save as Story</span>
+          <span class="text-xs text-white/40">1080×1920 PNG for Instagram/WhatsApp</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden off-screen card for 1080x1920 PNG generation -->
+<div
+  id="story-card-container"
+  style="position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; overflow: hidden; pointer-events: none;"
+>
+  <div
+    id="story-card"
+    style="width: 1080px; height: 1920px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 80px; text-align: center; position: relative; box-sizing: border-box;"
+  >
+    <!-- Dynamic background gradient -->
+    <div id="story-bg" style="position: absolute; inset: 0; background: linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95);"></div>
+
+    <!-- Vignette / Soft shadows overlay -->
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 40%, rgba(0,0,0,0.5) 100%);"></div>
+
+    <!-- Content overlay -->
+    <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; max-width: 920px;">
+      <!-- Watermark top badge -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 60px; padding: 12px 28px; background: rgba(255,255,255,0.08); border-radius: 9999px; border: 1px solid rgba(255,255,255,0.15);">
+        <span style="font-size: 24px;">✨</span>
+        <span style="font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.9); letter-spacing: 4px; font-family: 'Inter', sans-serif;">WISDOM REELS</span>
+      </div>
+
+      <!-- Large decorative quote mark -->
+      <div style="font-size: 140px; line-height: 0.8; color: rgba(255,255,255,0.25); font-family: Georgia, serif; margin-bottom: 20px;">&ldquo;</div>
+
+      <!-- Quote text -->
+      <p id="story-quote" style="font-size: 54px; line-height: 1.35; font-weight: 400; color: #ffffff; margin-bottom: 50px; font-family: 'Inter', sans-serif; text-shadow: 0 4px 30px rgba(0,0,0,0.6);">
+      </p>
+
+      <!-- Author -->
+      <p id="story-author" style="font-size: 32px; font-weight: 700; color: #f0f0f5; letter-spacing: 3px; text-transform: uppercase; font-family: 'Inter', sans-serif; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+      </p>
+
+      <!-- Subtle separator -->
+      <div style="width: 120px; height: 3px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent); margin: 40px 0;"></div>
+
+      <!-- Domain watermark -->
+      <p style="font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.45); letter-spacing: 3px; font-family: 'Inter', sans-serif;">
+        ashishjain.github.io/wisdom
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Bundled script so html-to-image is compiled by Vite -->
+<script>
+  import { toPng } from 'html-to-image';
+  (window as any).htmlToImageToPng = toPng;
+</script>
+
+<script is:inline>
+  function setupShareModal() {
+    const modal = document.getElementById('share-modal');
+    const backdrop = document.getElementById('share-backdrop');
+    const closeBtn = document.getElementById('share-close-btn');
+    const linkBtn = document.getElementById('share-link-btn');
+    const imageBtn = document.getElementById('share-image-btn');
+
+    let currentQuoteId = '';
+    let currentQuoteText = '';
+    let currentAuthor = '';
+    let currentMood = '';
+
+    function closeModal() {
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+      }
+    }
+
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    // Update share context when active slide changes
+    window.updateShareContext = function(slide) {
+      if (!slide) return;
+      currentQuoteId = slide.dataset.quoteId || '';
+      currentMood = slide.dataset.mood || '';
+      currentQuoteText = slide.dataset.content || (slide.querySelector('.quote-text')?.textContent.trim() || '');
+      currentAuthor = slide.dataset.author || (slide.querySelector('.author-name-text')?.textContent.trim() || '');
+
+      const previewText = document.getElementById('share-quote-text');
+      const previewAuthor = document.getElementById('share-quote-author');
+      if (previewText) previewText.textContent = `"${currentQuoteText}"`;
+      if (previewAuthor) previewAuthor.textContent = `— ${currentAuthor}`;
+    };
+
+    // Share Link
+    if (linkBtn) {
+      linkBtn.onclick = async () => {
+        const url = `${window.location.origin}/wisdom/#${currentQuoteId}`;
+        const shareData = {
+          title: 'Wisdom Quote',
+          text: `"${currentQuoteText}" — ${currentAuthor}`,
+          url: url,
+        };
+
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (err) {
+            if (err.name !== 'AbortError') {
+              await copyToClipboard(url);
+            }
+          }
+        } else {
+          await copyToClipboard(url);
+        }
+        closeModal();
+      };
+    }
+
+    async function copyToClipboard(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        if (window.showToast) window.showToast('Link copied to clipboard ✓');
+      } catch {
+        if (window.showToast) window.showToast('Could not copy link');
+      }
+    }
+
+    // Save as Story Image
+    if (imageBtn) {
+      imageBtn.onclick = async () => {
+        const storyCard = document.getElementById('story-card');
+        const storyQuote = document.getElementById('story-quote');
+        const storyAuthor = document.getElementById('story-author');
+        const storyBg = document.getElementById('story-bg');
+
+        if (!storyCard || !storyQuote || !storyAuthor) return;
+
+        storyQuote.textContent = currentQuoteText;
+        storyAuthor.textContent = currentAuthor;
+
+        const gradients = {
+          reflective: 'linear-gradient(135deg, #1e1b4b, #312e81, #4c1d95)',
+          motivational: 'linear-gradient(135deg, #451a03, #78350f, #b45309)',
+          serene: 'linear-gradient(135deg, #042f2e, #0e4a46, #115e59)',
+          bold: 'linear-gradient(135deg, #450a0a, #7f1d1d, #b91c1c)',
+          melancholic: 'linear-gradient(135deg, #2e1065, #4c1d95, #6d28d9)',
+          joyful: 'linear-gradient(135deg, #022c22, #064e3b, #059669)',
+          philosophical: 'linear-gradient(135deg, #1e1b4b, #3730a3, #4f46e5)',
+          romantic: 'linear-gradient(135deg, #500724, #831843, #be185d)',
+        };
+        if (storyBg) {
+          storyBg.style.background = gradients[currentMood] || gradients.reflective;
+        }
+
+        if (window.showToast) window.showToast('Generating 9:16 story PNG...');
+
+        try {
+          const toPng = window.htmlToImageToPng;
+          if (!toPng) {
+            throw new Error('Image export module not loaded yet');
+          }
+
+          const dataUrl = await toPng(storyCard, {
+            width: 1080,
+            height: 1920,
+            pixelRatio: 1,
+          });
+
+          const link = document.createElement('a');
+          link.download = `wisdom-${currentQuoteId}.png`;
+          link.href = dataUrl;
+          link.click();
+
+          if (window.showToast) window.showToast('Story PNG downloaded! ✓');
+        } catch (err) {
+          console.error('Story generation failed:', err);
+          if (window.showToast) window.showToast('Could not generate image. Use Share Link.');
+        }
+
+        closeModal();
+      };
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', setupShareModal);
+  document.addEventListener('astro:page-load', setupShareModal);
+</script>

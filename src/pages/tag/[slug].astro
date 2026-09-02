@@ -1,0 +1,45 @@
+---
+/**
+ * Tag Feed — Quotes filtered by tag.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ReelFeed from '../../components/ReelFeed.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+
+  // Collect all unique tags
+  const tagMap = new Map<string, typeof allQuotes>();
+  allQuotes.forEach((q) => {
+    q.data.tags.forEach((tag) => {
+      if (!tagMap.has(tag)) tagMap.set(tag, []);
+      tagMap.get(tag)!.push(q);
+    });
+  });
+
+  return [...tagMap.entries()].map(([tag, tagQuotes]) => ({
+    params: { slug: tag },
+    props: {
+      quotes: tagQuotes.map((q) => q.data),
+      tagName: tag,
+    },
+  }));
+};
+
+interface Props {
+  quotes: any[];
+  tagName: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, tagName } = Astro.props;
+---
+<BaseLayout title={`#${tagName} — Wisdom`} description={`Quotes tagged #${tagName}, reimagined as immersive reels.`}>
+  <ReelFeed
+    quotes={quotes}
+    feedTitle={`#${tagName}`}
+    feedType="tag"
+  />
+</BaseLayout>

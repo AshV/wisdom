@@ -1,0 +1,223 @@
+---
+/**
+ * ReelFeed — Scroll-snap vertical reel container.
+ *
+ * Manages IntersectionObserver for:
+ * - Background media switching
+ * - URL hash updates
+ * - Audio source switching
+ * - Active slide tracking
+ * - Double-tap like detection
+ */
+import ReelSlide from './ReelSlide.astro';
+import RightActionRail from './RightActionRail.astro';
+import ExploreDrawer from './ExploreDrawer.astro';
+import ShareModal from './ShareModal.astro';
+
+interface QuoteData {
+  id: string;
+  content: string;
+  author: string;
+  authorSlug: string;
+  category: string;
+  categorySlug: string;
+  mood: 'reflective' | 'motivational' | 'serene' | 'bold' | 'melancholic' | 'joyful' | 'philosophical' | 'romantic';
+  tags: string[];
+}
+
+interface Props {
+  quotes: QuoteData[];
+  feedTitle: string;
+  feedType?: string;
+}
+
+const { quotes, feedTitle, feedType = 'master' } = Astro.props;
+---
+
+<!-- Feed Header (subtle overlay) -->
+<header class="fixed top-0 left-0 right-0 z-20 pointer-events-none">
+  <div class="flex items-center justify-between px-5 pt-[max(env(safe-area-inset-top),16px)] pb-3">
+    <div class="pointer-events-auto">
+      {feedType !== 'master' ? (
+        <a
+          href="/wisdom/"
+          class="glass rounded-full px-4 py-2 text-xs font-semibold text-white/80 hover:text-white flex items-center gap-1.5 transition-all duration-200 hover:scale-105 shadow-md shadow-black/20"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Back
+        </a>
+      ) : (
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-bold tracking-widest text-white/60 uppercase">WISDOM</span>
+        </div>
+      )}
+    </div>
+    <div class="text-center flex-1 mx-4 truncate">
+      <h1 class="text-sm font-bold text-white/90 tracking-wide text-shadow-soft truncate">{feedTitle}</h1>
+    </div>
+    <div class="w-16 flex justify-end">
+      <span class="text-[11px] font-mono font-medium text-white/40 glass px-2.5 py-1 rounded-full">{quotes.length}</span>
+    </div>
+  </div>
+</header>
+
+<!-- Scroll-Snap Reel Container -->
+<main id="reel-container" class="reel-container relative z-10 w-full h-[100dvh]">
+  {quotes.map((q, i) => (
+    <ReelSlide
+      id={q.id}
+      content={q.content}
+      author={q.author}
+      authorSlug={q.authorSlug}
+      category={q.category}
+      categorySlug={q.categorySlug}
+      mood={q.mood}
+      tags={q.tags}
+      index={i}
+    />
+  ))}
+
+  {quotes.length === 0 && (
+    <div class="reel-slide flex flex-col items-center justify-center p-6 text-center">
+      <p class="text-2xl text-white/70 font-light mb-4">No quotes found in this feed.</p>
+      <a href="/wisdom/" class="glass px-6 py-3 rounded-full text-sm font-medium text-white hover:bg-white/10">Return to Master Feed</a>
+    </div>
+  )}
+</main>
+
+<!-- Right Action Rail -->
+<RightActionRail />
+
+<!-- Explore Drawer -->
+<ExploreDrawer />
+
+<!-- Share Modal -->
+<ShareModal />
+
+<script is:inline>
+  function setupReelFeed() {
+    const container = document.getElementById('reel-container');
+    if (!container) return;
+
+    const slides = container.querySelectorAll('.reel-slide');
+    if (slides.length === 0) return;
+
+    let lastTapTime = 0;
+    let lastTapTarget = null;
+
+    // ── IntersectionObserver for active slide detection ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          const slide = entry.target;
+          const quoteId = slide.dataset.quoteId;
+          const videoSrc = slide.dataset.videoSrc;
+          const gradientClass = slide.dataset.gradientClass;
+          const mood = slide.dataset.mood;
+          const audioSrc = slide.dataset.audioSrc;
+
+          slides.forEach(s => s.classList.remove('is-active'));
+          slide.classList.add('is-active');
+
+          // Update background video / gradient
+          if (window.setBackground) {
+            window.setBackground(videoSrc, gradientClass, mood);
+          }
+
+          // Update audio source if mood changes
+          if (window.wisdomAudio && audioSrc) {
+            window.wisdomAudio.setSource(audioSrc);
+          }
+
+          // Update URL hash for permalink
+          if (quoteId) {
+            history.replaceState(null, '', `#${quoteId}`);
+          }
+
+          // Update like button state
+          if (window.likedQuotes && window.updateLikeUI) {
+            window.updateLikeUI(window.likedQuotes.has(quoteId));
+          }
+
+          // Update share context
+          if (window.updateShareContext) {
+            window.updateShareContext(slide);
+          }
+        }
+      });
+    }, {
+      root: container,
+      threshold: 0.5,
+    });
+
+    slides.forEach(slide => observer.observe(slide));
+
+    // Deep-link navigation to hash if present
+    if (window.location.hash) {
+      const targetId = window.location.hash.slice(1);
+      const targetSlide = document.getElementById(`slide-${targetId}`);
+      if (targetSlide) {
+        setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant' }), 100);
+      }
+    } else if (slides.length > 0) {
+      const first = slides[0];
+      first.classList.add('is-active');
+      if (window.setBackground) {
+        window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood);
+      }
+      if (window.likedQuotes && window.updateLikeUI) {
+        window.updateLikeUI(window.likedQuotes.has(first.dataset.quoteId));
+      }
+      if (window.updateShareContext) {
+        window.updateShareContext(first);
+      }
+    }
+
+    // ── Double-tap to Like ──
+    container.onclick = (e) => {
+      const zone = e.target.closest('[data-doubletap-zone]');
+      if (!zone) return;
+
+      const now = Date.now();
+      const zoneId = zone.dataset.doubletapZone;
+
+      if (now - lastTapTime < 380 && lastTapTarget === zoneId) {
+        e.preventDefault();
+        triggerDoubleTapLike(zoneId);
+        lastTapTime = 0;
+        lastTapTarget = null;
+      } else {
+        lastTapTime = now;
+        lastTapTarget = zoneId;
+      }
+    };
+
+    function triggerDoubleTapLike(quoteId) {
+      if (window.likedQuotes) {
+        if (!window.likedQuotes.has(quoteId)) {
+          window.likedQuotes.toggle(quoteId);
+          if (window.updateLikeUI) window.updateLikeUI(true);
+        }
+      }
+
+      // Heart burst animation
+      const overlay = document.getElementById('heart-burst-overlay');
+      if (overlay) {
+        overlay.style.display = 'flex';
+        const svg = overlay.querySelector('svg');
+        if (svg) {
+          svg.style.animation = 'none';
+          svg.offsetHeight; // force reflow
+          svg.style.animation = 'heart-burst 0.65s var(--ease-spring) forwards';
+        }
+        setTimeout(() => { overlay.style.display = 'none'; }, 700);
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', setupReelFeed);
+  document.addEventListener('astro:page-load', setupReelFeed);
+</script>

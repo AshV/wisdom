@@ -1,0 +1,109 @@
+---
+/**
+ * GlobalBackground — Fixed full-viewport video/gradient canvas.
+ *
+ * Persists across Astro ClientRouter page transitions.
+ * Two stacked layers enable opacity crossfade between backgrounds.
+ * Exposes window.setBackground(videoSrc, gradientClass, mood) for
+ * the IntersectionObserver in ReelFeed to call.
+ */
+---
+<div id="global-bg" class="fixed inset-0 z-0 overflow-hidden" transition:persist="global-bg">
+  <!-- Layer A (active) -->
+  <div
+    id="bg-layer-a"
+    class="absolute inset-0 transition-opacity duration-700 ease-out opacity-100"
+  >
+    <div id="bg-gradient-a" class="absolute inset-0 gradient-reflective"></div>
+    <video
+      id="bg-video-a"
+      class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+      muted
+      loop
+      playsinline
+      preload="none"
+    ></video>
+  </div>
+
+  <!-- Layer B (incoming, for crossfade) -->
+  <div
+    id="bg-layer-b"
+    class="absolute inset-0 transition-opacity duration-700 ease-out opacity-0"
+  >
+    <div id="bg-gradient-b" class="absolute inset-0 gradient-reflective"></div>
+    <video
+      id="bg-video-b"
+      class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+      muted
+      loop
+      playsinline
+      preload="none"
+    ></video>
+  </div>
+
+  <!-- Cinematic Vignette and Dark Overlay for maximum quote readability -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60 pointer-events-none"></div>
+</div>
+
+<script is:inline>
+  (function() {
+    let activeLayer = 'a';
+    let currentVideoSrc = '';
+    let currentGradient = '';
+
+    function getLayer(id) {
+      return {
+        container: document.getElementById(`bg-layer-${id}`),
+        gradient: document.getElementById(`bg-gradient-${id}`),
+        video: document.getElementById(`bg-video-${id}`),
+      };
+    }
+
+    window.setBackground = function(videoSrc, gradientClass, mood) {
+      if (videoSrc === currentVideoSrc && gradientClass === currentGradient) return;
+
+      const incoming = activeLayer === 'a' ? 'b' : 'a';
+      const inLayer = getLayer(incoming);
+      const outLayer = getLayer(activeLayer);
+
+      if (!inLayer.container || !outLayer.container) return;
+
+      // Set gradient on incoming layer
+      if (gradientClass && inLayer.gradient) {
+        const cl = inLayer.gradient.classList;
+        [...cl].forEach(c => { if (c.startsWith('gradient-')) cl.remove(c); });
+        cl.add(gradientClass);
+      }
+
+      // Try to load video on incoming layer if videoSrc exists
+      if (videoSrc && inLayer.video) {
+        const video = inLayer.video;
+        video.src = videoSrc;
+        video.load();
+        video.play().then(() => {
+          video.style.opacity = '1';
+        }).catch(() => {
+          // Video missing or autoplay blocked: keep gradient visible
+          video.style.opacity = '0';
+        });
+      }
+
+      // Crossfade
+      inLayer.container.style.opacity = '1';
+      outLayer.container.style.opacity = '0';
+
+      // Cleanup outgoing after transition
+      setTimeout(() => {
+        if (outLayer.video) {
+          outLayer.video.pause();
+          outLayer.video.removeAttribute('src');
+          outLayer.video.style.opacity = '0';
+        }
+      }, 750);
+
+      currentVideoSrc = videoSrc || '';
+      currentGradient = gradientClass || '';
+      activeLayer = incoming;
+    };
+  })();
+</script>

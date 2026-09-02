@@ -1,0 +1,150 @@
+---
+/**
+ * RightActionRail — Vertical icon stack on the right edge.
+ *
+ * Buttons: Like, Share, Audio Toggle, Explore.
+ * All icons are inline SVG for zero external dependencies.
+ */
+---
+<div
+  id="right-action-rail"
+  class="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-5"
+>
+  <!-- Like Button -->
+  <button
+    id="like-btn"
+    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    aria-label="Like this quote"
+  >
+    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
+      <svg id="like-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white transition-all duration-300">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+      </svg>
+    </div>
+    <span id="like-count" class="text-[11px] font-medium text-white/70 tracking-wide">Like</span>
+  </button>
+
+  <!-- Share Button -->
+  <button
+    id="share-btn"
+    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    aria-label="Share this quote"
+  >
+    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+        <polyline points="16 6 12 2 8 6" />
+        <line x1="12" y1="2" x2="12" y2="15" />
+      </svg>
+    </div>
+    <span class="text-[11px] font-medium text-white/70 tracking-wide">Share</span>
+  </button>
+
+  <!-- Audio Toggle -->
+  <button
+    id="audio-toggle-btn"
+    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    aria-label="Toggle ambient audio"
+  >
+    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+        <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+        <line x1="23" y1="9" x2="17" y2="15"/>
+        <line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+    </div>
+    <span class="text-[11px] font-medium text-white/70 tracking-wide">Audio</span>
+  </button>
+
+  <!-- Explore Button -->
+  <button
+    id="explore-btn"
+    class="group flex flex-col items-center gap-1 transition-transform duration-200 active:scale-90 cursor-pointer"
+    aria-label="Explore quotes"
+  >
+    <div class="w-12 h-12 rounded-full glass flex items-center justify-center group-hover:bg-white/15 transition-all duration-200 shadow-lg shadow-black/20">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    </div>
+    <span class="text-[11px] font-medium text-white/70 tracking-wide">Explore</span>
+  </button>
+</div>
+
+<script is:inline>
+  function setupRightRail() {
+    const likeBtn = document.getElementById('like-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const audioBtn = document.getElementById('audio-toggle-btn');
+    const exploreBtn = document.getElementById('explore-btn');
+
+    if (likeBtn) {
+      likeBtn.onclick = () => {
+        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+        if (!activeSlide) return;
+        const quoteId = activeSlide.dataset.quoteId;
+        const isLiked = window.likedQuotes.toggle(quoteId);
+        updateLikeUI(isLiked);
+      };
+    }
+
+    if (shareBtn) {
+      shareBtn.onclick = () => {
+        const modal = document.getElementById('share-modal');
+        if (modal) {
+          modal.classList.remove('hidden');
+          modal.style.display = 'flex';
+          const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+          if (window.updateShareContext && activeSlide) {
+            window.updateShareContext(activeSlide);
+          }
+        }
+      };
+    }
+
+    if (audioBtn) {
+      audioBtn.onclick = () => {
+        if (window.wisdomAudio) window.wisdomAudio.toggle();
+      };
+    }
+
+    if (exploreBtn) {
+      exploreBtn.onclick = () => {
+        const drawer = document.getElementById('explore-drawer');
+        if (drawer) {
+          drawer.classList.remove('hidden');
+          drawer.style.display = 'flex';
+        }
+      };
+    }
+
+    // Refresh like status for the currently active slide
+    const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+    if (activeSlide && window.likedQuotes) {
+      updateLikeUI(window.likedQuotes.has(activeSlide.dataset.quoteId));
+    }
+  }
+
+  function updateLikeUI(isLiked) {
+    const icon = document.getElementById('like-icon');
+    const label = document.getElementById('like-count');
+    if (!icon) return;
+    if (isLiked) {
+      icon.setAttribute('fill', '#ef4444');
+      icon.setAttribute('stroke', '#ef4444');
+      icon.style.transform = 'scale(1.2)';
+      setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+      if (label) label.textContent = 'Liked';
+    } else {
+      icon.setAttribute('fill', 'none');
+      icon.setAttribute('stroke', 'currentColor');
+      if (label) label.textContent = 'Like';
+    }
+  }
+
+  window.updateLikeUI = updateLikeUI;
+
+  document.addEventListener('DOMContentLoaded', setupRightRail);
+  document.addEventListener('astro:page-load', setupRightRail);
+</script>

@@ -1,24 +1,58 @@
-# build output
+# ── Build & Generated Output ──
 dist/
-# generated types
+build/
 .astro/
 
-# dependencies
+# ── Dependencies ──
 node_modules/
+/.pnp
+.pnp.js
 
-# logs
+# ── Environment Variables & Secrets ──
+.env
+.env.*
+!.env.example
+
+# ── Logs & Debugging ──
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
+# ── Runtime & Test Artifacts ──
+.wireit/
+.turbo/
+.cache/
+.eslintcache
+coverage/
+*.lcov
+.nyc_output
 
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
+# ── Editor & IDE Directories ──
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ── Operating System Files ──
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# ── Temporary & Scratch Files ──
+*.tmp
+*.temp
+scratch/

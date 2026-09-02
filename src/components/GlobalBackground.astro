@@ -1,36 +1,45 @@
 ---
 /**
- * GlobalBackground — Rich Generative Visual Atmosphere Engine.
+ * GlobalBackground — Atmospheric Canvas Architecture.
  *
- * Provides diverse, mesmerizing, mood-adaptive generative animations:
- * - Aurora Borealis flowing ribbons with undulating waves
- * - Constellations & star-graphs with periodic shooting stars
- * - Sacred geometry rotating celestial rings & gyroscopes
- * - Luminescent dancing fireflies with soft atmospheric halos
- * - Ascending golden embers & solar flares
- * - Drifting romantic rose-gold petals & bokeh orbs
- *
- * Features 10 vivid, multi-stop aesthetic color palettes.
- * Each quote receives its own distinctive visual world.
- * Persists across Astro ClientRouter transitions (transition:persist="global-bg").
+ * Combines:
+ * 1. Living Fluid Gradient Mesh: Smooth, morphing multi-stop radial gradient pools
+ *    that breathe and drift continuously with organic fluidity.
+ * 2. Pure Elegant Line Art: Sacred geometry, celestial astrolabes, topographic
+ *    contour waves, harmonic Lissajous orbits, and gossamer constellation lattices.
+ * 3. Distraction-Free: Zero harsh white star dots or flashing particle sparks,
+ *    ensuring text readability and pure aesthetic serenity.
  */
 ---
-<div id="global-bg" class="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none" transition:persist="global-bg">
+<div
+  data-astro-transition-persist="global-bg"
+  id="global-bg"
+  class="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none"
+>
   <!-- Dynamic Generative Visual Canvas -->
   <canvas id="ambient-canvas" class="absolute inset-0 w-full h-full"></canvas>
 
   <!-- Atmospheric Light Bloom Overlays -->
-  <div id="mood-glow-1" class="absolute -top-[15%] -left-[10%] w-[75vw] h-[75vw] rounded-full blur-[130px] opacity-45 transition-colors duration-1000 ease-out pointer-events-none"></div>
-  <div id="mood-glow-2" class="absolute -bottom-[15%] -right-[10%] w-[80vw] h-[80vw] rounded-full blur-[140px] opacity-40 transition-colors duration-1000 ease-out pointer-events-none"></div>
-  <div id="mood-glow-center" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] rounded-full blur-[160px] opacity-25 transition-colors duration-1000 ease-out pointer-events-none"></div>
+  <div
+    id="mood-glow-1"
+    class="absolute -top-[15%] -left-[10%] w-[75vw] h-[75vw] rounded-full blur-[130px] opacity-45 transition-colors duration-1000 ease-out pointer-events-none"
+  ></div>
+  <div
+    id="mood-glow-2"
+    class="absolute -bottom-[15%] -right-[10%] w-[80vw] h-[80vw] rounded-full blur-[140px] opacity-40 transition-colors duration-1000 ease-out pointer-events-none"
+  ></div>
+  <div
+    id="mood-glow-center"
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] rounded-full blur-[160px] opacity-25 transition-colors duration-1000 ease-out pointer-events-none"
+  ></div>
 
   <!-- Cinematic Vignette Overlay (Guarantees Quote Legibility) -->
   <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/70 pointer-events-none"></div>
 </div>
 
-<script is:inline>
+<script>
   (function() {
-    const canvas = document.getElementById('ambient-canvas');
+    const canvas = document.getElementById('ambient-canvas') as HTMLCanvasElement;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -38,7 +47,7 @@
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let animId = null;
+    let animId: number | null = null;
     let isVisible = true;
     let time = 0;
 
@@ -62,7 +71,7 @@
         glow1: 'rgba(255, 112, 166, 0.48)', // Rose Gold
         glow2: 'rgba(255, 158, 0, 0.42)',   // Warm Saffron
         glowCenter: 'rgba(239, 71, 111, 0.25)',
-        colors: [[255, 179, 198], [255, 209, 102], [239, 71, 111], [255, 225, 86]],
+        colors: [[255, 112, 166], [255, 158, 0], [239, 71, 111], [255, 209, 102]],
       },
       {
         name: 'Cosmic Ultraviolet',
@@ -92,7 +101,7 @@
         glow1: 'rgba(245, 158, 11, 0.48)',  // Amber
         glow2: 'rgba(234, 179, 8, 0.42)',   // Goldenrod
         glowCenter: 'rgba(251, 191, 36, 0.28)',
-        colors: [[254, 240, 138], [251, 191, 36], [245, 158, 11], [255, 255, 255]],
+        colors: [[254, 240, 138], [251, 191, 36], [245, 158, 11], [251, 146, 60]],
       },
       {
         name: 'Ethereal Lavender Dream',
@@ -102,7 +111,7 @@
         glow1: 'rgba(167, 139, 250, 0.48)', // Lilac
         glow2: 'rgba(244, 114, 182, 0.42)', // Pink Quartz
         glowCenter: 'rgba(192, 132, 252, 0.25)',
-        colors: [[233, 213, 255], [216, 180, 254], [249, 168, 212], [255, 255, 255]],
+        colors: [[167, 139, 250], [216, 180, 254], [244, 114, 182], [192, 132, 252]],
       },
       {
         name: 'Emerald Enchantment',
@@ -112,43 +121,50 @@
         glow1: 'rgba(16, 185, 129, 0.48)',  // Emerald
         glow2: 'rgba(52, 211, 153, 0.42)',  // Mint
         glowCenter: 'rgba(110, 231, 183, 0.25)',
-        colors: [[167, 243, 208], [110, 231, 183], [52, 211, 153], [253, 224, 71]],
+        colors: [[16, 185, 129], [110, 231, 183], [52, 211, 153], [253, 224, 71]],
       },
       {
         name: 'Crimson Nebula',
         bgTop: [34, 6, 12],
         bgMid: [54, 12, 18],
-        bgBottom: [18, 3, 6],
-        glow1: 'rgba(239, 68, 68, 0.52)',   // Crimson
-        glow2: 'rgba(217, 70, 239, 0.42)',  // Fuchsia
+        bgBottom: [18, 4, 8],
+        glow1: 'rgba(239, 68, 68, 0.48)',   // Fiery Crimson
+        glow2: 'rgba(236, 72, 153, 0.42)',  // Fuchsia
         glowCenter: 'rgba(244, 63, 94, 0.28)',
-        colors: [[254, 202, 202], [248, 113, 113], [239, 68, 68], [255, 182, 193]],
+        colors: [[239, 68, 68], [244, 63, 94], [236, 72, 153], [251, 113, 133]],
       },
       {
         name: 'Deep Cobalt Cosmos',
-        bgTop: [8, 14, 38],
-        bgMid: [14, 26, 62],
-        bgBottom: [4, 8, 24],
-        glow1: 'rgba(59, 130, 246, 0.48)',  // Royal Cobalt
+        bgTop: [6, 14, 36],
+        bgMid: [10, 24, 56],
+        bgBottom: [4, 8, 20],
+        glow1: 'rgba(59, 130, 246, 0.48)',  // Royal Sapphire
         glow2: 'rgba(99, 102, 241, 0.42)',  // Indigo
         glowCenter: 'rgba(147, 197, 253, 0.25)',
-        colors: [[191, 219, 254], [147, 197, 253], [96, 165, 250], [255, 255, 255]],
+        colors: [[59, 130, 246], [99, 102, 241], [147, 197, 253], [129, 140, 248]],
       },
       {
         name: 'Velvet Rose Gold',
-        bgTop: [32, 10, 24],
+        bgTop: [32, 10, 22],
         bgMid: [50, 18, 36],
         bgBottom: [18, 5, 14],
         glow1: 'rgba(244, 63, 94, 0.48)',   // Rose Red
         glow2: 'rgba(251, 146, 60, 0.42)',  // Peach Gold
         glowCenter: 'rgba(253, 164, 175, 0.28)',
-        colors: [[254, 205, 211], [251, 164, 175], [253, 186, 116], [255, 255, 255]],
+        colors: [[244, 63, 94], [251, 146, 60], [253, 164, 175], [251, 191, 36]],
       }
     ];
 
-    const ANIM_TYPES = ['aurora', 'constellation', 'sacred_geometry', 'fireflies', 'embers_solar', 'petals_leaves'];
+    // 5 Pure Elegant Line Art Animation Engines
+    const ANIM_TYPES = [
+      'sacred_mandala',
+      'contour_waves',
+      'constellation_lattice',
+      'lissajous_orbit',
+      'celestial_armillary'
+    ];
 
-    function djb2(str) {
+    function djb2(str: string) {
       let hash = 5381;
       for (let i = 0; i < str.length; i++) {
         hash = ((hash << 5) + hash + str.charCodeAt(i)) >>> 0;
@@ -157,13 +173,19 @@
     }
 
     let currentPalette = PALETTES[0];
-    let currentAnim = 'aurora';
+    let currentAnim = 'sacred_mandala';
     let currentTop = [...currentPalette.bgTop];
     let currentBottom = [...currentPalette.bgBottom];
 
-    let particles = [];
-    let shootingStars = [];
-    let lastShootingStarTime = 0;
+    // Node lattice for geometric line webs (no star dots drawn at vertices)
+    interface Node {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      phase: number;
+    }
+    let nodes: Node[] = [];
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -172,147 +194,180 @@
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.scale(dpr, dpr);
-      initParticles();
+      initNodes();
     }
 
-    function lerp(a, b, t) {
+    function lerp(a: number, b: number, t: number) {
       return a + (b - a) * t;
     }
 
-    function initParticles() {
-      particles = [];
-      const colors = currentPalette.colors;
-      const count = currentAnim === 'fireflies' ? 65 : currentAnim === 'constellation' ? 55 : 60;
-
+    function initNodes() {
+      nodes = [];
+      const count = 42;
       for (let i = 0; i < count; i++) {
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particles.push({
+        nodes.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.7,
-          vy: (Math.random() - 0.5) * 0.7,
-          radius: Math.random() * 2.8 + 1.2,
-          color: color,
-          alpha: Math.random() * 0.6 + 0.25,
-          angle: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.03,
-          size: Math.random() * 10 + 6,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          phase: Math.random() * Math.PI * 2,
         });
       }
     }
 
-    function spawnShootingStar() {
-      shootingStars.push({
-        x: Math.random() * width * 0.8,
-        y: Math.random() * height * 0.35,
-        length: Math.random() * 120 + 80,
-        speed: Math.random() * 9 + 11,
-        angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
-        alpha: 1.0,
-        decay: Math.random() * 0.02 + 0.015,
-      });
+    // ── Helper: Create a smooth multi-stop linear gradient across line art ──
+    function createStrokeGradient(x1: number, y1: number, x2: number, y2: number, alpha = 0.22) {
+      const g = ctx.createLinearGradient(x1, y1, x2, y2);
+      const c1 = currentPalette.colors[0];
+      const c2 = currentPalette.colors[1] || currentPalette.colors[0];
+      const c3 = currentPalette.colors[2] || currentPalette.colors[0];
+
+      g.addColorStop(0, `rgba(${c1[0]}, ${c1[1]}, ${c1[2]}, ${alpha * 0.7})`);
+      g.addColorStop(0.5, `rgba(${c2[0]}, ${c2[1]}, ${c2[2]}, ${alpha})`);
+      g.addColorStop(1, `rgba(${c3[0]}, ${c3[1]}, ${c3[2]}, ${alpha * 0.7})`);
+      return g;
     }
 
-    // ── Drawing Engine for Each Animation Style ──
-
-    // 1. Aurora Borealis Ribbon Waves
-    function drawAurora() {
-      const colors = currentPalette.colors;
-      ctx.save();
-      ctx.globalCompositeOperation = 'screen';
-
-      for (let j = 0; j < 3; j++) {
-        const [r, g, b] = colors[j % colors.length];
-        ctx.beginPath();
-        const baseOffset = height * (0.28 + j * 0.16);
-
-        ctx.moveTo(0, height);
-        ctx.lineTo(0, baseOffset);
-
-        const step = 20;
-        for (let x = 0; x <= width; x += step) {
-          const wave1 = Math.sin(x * 0.003 + time * 0.8 + j) * 55;
-          const wave2 = Math.cos(x * 0.006 - time * 0.5 + j * 2) * 35;
-          const wave3 = Math.sin(x * 0.0015 + time * 0.3) * 70;
-          const y = baseOffset + wave1 + wave2 + wave3;
-          ctx.lineTo(x, y);
-        }
-
-        ctx.lineTo(width, height);
-        ctx.closePath();
-
-        const grad = ctx.createLinearGradient(0, baseOffset - 80, 0, baseOffset + 180);
-        grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.22)`);
-        grad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, 0.12)`);
-        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = grad;
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
-    // 2. Sacred Geometry: Celestial Rotating Rings & Polyhedra
-    function drawSacredGeometry() {
+    // ── Engine 1: Sacred Geometry & Astrolabe Mandala Line Art ──
+    function drawSacredMandala() {
       ctx.save();
       const cx = width * 0.5;
       const cy = height * 0.5;
-      const radius = Math.min(width, height) * 0.32;
-      const [r, g, b] = currentPalette.colors[0];
+      const baseR = Math.min(width, height) * 0.36;
 
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.12)`;
-      ctx.lineWidth = 1.2;
+      ctx.lineWidth = 1.1;
 
-      // Outer breathing ring
+      // Outer astrolabe coordinate ring with subtle breathing
+      const breath = Math.sin(time * 0.4) * 14;
+      const rOuter = baseR + breath;
+      ctx.strokeStyle = createStrokeGradient(cx - rOuter, cy, cx + rOuter, cy, 0.18);
       ctx.beginPath();
-      ctx.arc(cx, cy, radius + Math.sin(time * 0.6) * 12, 0, Math.PI * 2);
+      ctx.arc(cx, cy, rOuter, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Intersecting orbital circles
-      for (let i = 0; i < 6; i++) {
-        const theta = (Math.PI * 2 / 6) * i + time * 0.12;
-        const ox = cx + Math.cos(theta) * (radius * 0.55);
-        const oy = cy + Math.sin(theta) * (radius * 0.55);
+      // Degree tick lines along outer perimeter
+      const ticks = 36;
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < ticks; i++) {
+        const theta = (Math.PI * 2 / ticks) * i + time * 0.04;
+        const innerLen = (i % 3 === 0) ? 14 : 7;
+        const x1 = cx + Math.cos(theta) * (rOuter - innerLen);
+        const y1 = cy + Math.sin(theta) * (rOuter - innerLen);
+        const x2 = cx + Math.cos(theta) * rOuter;
+        const y2 = cy + Math.sin(theta) * rOuter;
         ctx.beginPath();
-        ctx.arc(ox, oy, radius * 0.55, 0, Math.PI * 2);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.stroke();
       }
 
-      // Rotating diamond wireframe
+      // Intersecting Flower of Life circular arcs
+      ctx.lineWidth = 0.9;
+      const petalR = baseR * 0.55;
+      for (let i = 0; i < 6; i++) {
+        const theta = (Math.PI * 2 / 6) * i - time * 0.06;
+        const ox = cx + Math.cos(theta) * petalR;
+        const oy = cy + Math.sin(theta) * petalR;
+        ctx.strokeStyle = createStrokeGradient(ox - petalR, oy, ox + petalR, oy, 0.14);
+        ctx.beginPath();
+        ctx.arc(ox, oy, petalR, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // Rotating inner concentric polygon wireframes
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(time * 0.08);
-      const dSize = radius * 0.7;
-      ctx.beginPath();
-      ctx.moveTo(0, -dSize);
-      ctx.lineTo(dSize, 0);
-      ctx.lineTo(0, dSize);
-      ctx.lineTo(-dSize, 0);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.restore();
+      ctx.rotate(time * 0.05);
 
+      // Rotating 12-point star/polygon
+      ctx.beginPath();
+      const points = 12;
+      for (let i = 0; i <= points; i++) {
+        const theta = (Math.PI * 2 / points) * i;
+        const r = (i % 2 === 0) ? baseR * 0.75 : baseR * 0.42;
+        const px = Math.cos(theta) * r;
+        const py = Math.sin(theta) * r;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = createStrokeGradient(-baseR, -baseR, baseR, baseR, 0.16);
+      ctx.stroke();
+
+      // Counter-rotating nested square
+      ctx.rotate(-time * 0.1);
+      const sq = baseR * 0.38;
+      ctx.beginPath();
+      ctx.rect(-sq, -sq, sq * 2, sq * 2);
+      ctx.strokeStyle = createStrokeGradient(-sq, -sq, sq, sq, 0.14);
+      ctx.stroke();
+
+      ctx.restore();
       ctx.restore();
     }
 
-    // 3. Constellation & Interconnected Star Web
-    function drawConstellation() {
+    // ── Engine 2: Flowing Topographic Contour Lines ──
+    function drawContourWaves() {
       ctx.save();
-      const maxDist = 110;
-      ctx.lineWidth = 0.7;
+      const waveCount = 7;
+      ctx.lineWidth = 1.0;
 
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+      for (let j = 0; j < waveCount; j++) {
+        const progress = j / (waveCount - 1);
+        const yBase = height * (0.2 + progress * 0.6);
+        const grad = createStrokeGradient(0, yBase - 50, width, yBase + 50, 0.16 + (j % 2) * 0.06);
+        ctx.strokeStyle = grad;
+
+        ctx.beginPath();
+        const step = 25;
+        let first = true;
+
+        for (let x = 0; x <= width + step; x += step) {
+          const w1 = Math.sin(x * 0.0025 + time * 0.5 + j * 1.2) * 45;
+          const w2 = Math.cos(x * 0.005 - time * 0.35 + j * 0.8) * 28;
+          const w3 = Math.sin(x * 0.0012 + time * 0.2) * 55;
+          const y = yBase + w1 + w2 + w3;
+
+          if (first) {
+            ctx.moveTo(x, y);
+            first = false;
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // ── Engine 3: Pure Gossamer Geometric Constellation Lattice (No Star Dots) ──
+    function drawConstellationLattice() {
+      ctx.save();
+      const maxDist = 135;
+      ctx.lineWidth = 0.85;
+
+      // Update node physics smoothly
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+      }
+
+      // Draw connecting geometric lines only (zero vertex dots)
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDist) {
             const alpha = (1 - dist / maxDist) * 0.22;
-            const [r, g, b] = currentPalette.colors[0];
-            ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            ctx.strokeStyle = createStrokeGradient(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, alpha);
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
           }
         }
@@ -320,11 +375,113 @@
       ctx.restore();
     }
 
-    // ── Main Render Loop ──
-    function draw() {
-      if (!isVisible) return;
-      time += 0.016;
+    // ── Engine 4: Harmonic Lissajous Spirograph Orbit Line Art ──
+    function drawLissajousOrbit() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const a = Math.min(width, height) * 0.38;
+      const b = Math.min(width, height) * 0.32;
 
+      ctx.lineWidth = 1.0;
+      ctx.strokeStyle = createStrokeGradient(cx - a, cy - b, cx + a, cy + b, 0.18);
+
+      const segments = 220;
+      const delta = (Math.PI * 2) / segments;
+
+      // Lissajous Knot (3:4 ratio with gentle phase precession)
+      ctx.beginPath();
+      for (let i = 0; i <= segments; i++) {
+        const t = i * delta;
+        const x = cx + Math.sin(3 * t + time * 0.2) * a;
+        const y = cy + Math.cos(4 * t + time * 0.15) * b;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Outer harmonic orbital ellipse
+      ctx.beginPath();
+      for (let i = 0; i <= segments; i++) {
+        const t = i * delta;
+        const x = cx + Math.sin(5 * t - time * 0.1) * (a * 0.65);
+        const y = cy + Math.sin(6 * t + time * 0.25) * (b * 0.65);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = createStrokeGradient(cx - a * 0.7, cy, cx + a * 0.7, cy, 0.14);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // ── Engine 5: Celestial Armillary 3D Wireframe Line Art ──
+    function drawCelestialArmillary() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const r = Math.min(width, height) * 0.34;
+      const rotY = time * 0.12;
+      const rotX = Math.PI / 6;
+
+      ctx.lineWidth = 1.0;
+
+      // Draw latitude rings in 3D projection
+      const latSteps = 5;
+      for (let i = -latSteps; i <= latSteps; i++) {
+        const lat = (Math.PI / 2) * (i / (latSteps + 1));
+        const rLat = r * Math.cos(lat);
+        const yLat = r * Math.sin(lat);
+
+        ctx.beginPath();
+        const steps = 60;
+        for (let j = 0; j <= steps; j++) {
+          const lon = (Math.PI * 2 / steps) * j + rotY;
+          const x3d = rLat * Math.sin(lon);
+          const z3d = rLat * Math.cos(lon);
+
+          // Rotate around X
+          const yProj = yLat * Math.cos(rotX) - z3d * Math.sin(rotX);
+          const xProj = x3d;
+
+          const px = cx + xProj;
+          const py = cy + yProj;
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = createStrokeGradient(cx - rLat, cy, cx + rLat, cy, 0.12 + Math.cos(lat) * 0.08);
+        ctx.stroke();
+      }
+
+      // Draw meridian circles (longitudes)
+      const lonSteps = 4;
+      for (let k = 0; k < lonSteps; k++) {
+        const baseLon = (Math.PI / lonSteps) * k + rotY;
+        ctx.beginPath();
+        const steps = 60;
+        for (let j = 0; j <= steps; j++) {
+          const theta = (Math.PI * 2 / steps) * j;
+          const x3d = r * Math.sin(theta) * Math.sin(baseLon);
+          const y3d = r * Math.cos(theta);
+          const z3d = r * Math.sin(theta) * Math.cos(baseLon);
+
+          const yProj = y3d * Math.cos(rotX) - z3d * Math.sin(rotX);
+          const xProj = x3d;
+
+          const px = cx + xProj;
+          const py = cy + yProj;
+          if (j === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.strokeStyle = createStrokeGradient(cx - r, cy, cx + r, cy, 0.14);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    // ── Living Liquid Gradient Mesh: Smooth Morphing Fluid Color Pools ──
+    function drawLivingGradientMesh() {
       // Smooth background color interpolation (lerp 3% per frame)
       currentTop[0] = lerp(currentTop[0], currentPalette.bgTop[0], 0.03);
       currentTop[1] = lerp(currentTop[1], currentPalette.bgTop[1], 0.03);
@@ -334,151 +491,98 @@
       currentBottom[1] = lerp(currentBottom[1], currentPalette.bgBottom[1], 0.03);
       currentBottom[2] = lerp(currentBottom[2], currentPalette.bgBottom[2], 0.03);
 
-      // Render gradient background
-      const grad = ctx.createLinearGradient(0, 0, width * 0.4, height);
-      grad.addColorStop(0, `rgb(${Math.round(currentTop[0])}, ${Math.round(currentTop[1])}, ${Math.round(currentTop[2])})`);
-      grad.addColorStop(1, `rgb(${Math.round(currentBottom[0])}, ${Math.round(currentBottom[1])}, ${Math.round(currentBottom[2])})`);
-      ctx.fillStyle = grad;
+      // Deep foundation gradient
+      const baseGrad = ctx.createLinearGradient(0, 0, width * 0.3, height);
+      baseGrad.addColorStop(0, `rgb(${Math.round(currentTop[0])}, ${Math.round(currentTop[1])}, ${Math.round(currentTop[2])})`);
+      baseGrad.addColorStop(1, `rgb(${Math.round(currentBottom[0])}, ${Math.round(currentBottom[1])}, ${Math.round(currentBottom[2])})`);
+      ctx.fillStyle = baseGrad;
       ctx.fillRect(0, 0, width, height);
 
-      // Render animation style specific backgrounds
-      if (currentAnim === 'aurora') {
-        drawAurora();
-      } else if (currentAnim === 'sacred_geometry') {
-        drawSacredGeometry();
-      } else if (currentAnim === 'constellation') {
-        drawConstellation();
-      }
+      // Living organic radial gradient pool 1 (drifting upper quadrant)
+      const x1 = width * (0.35 + 0.22 * Math.sin(time * 0.35));
+      const y1 = height * (0.3 + 0.18 * Math.cos(time * 0.3));
+      const r1 = Math.max(width, height) * 0.55;
+      const c1 = currentPalette.colors[0];
+      const g1 = ctx.createRadialGradient(x1, y1, 0, x1, y1, r1);
+      g1.addColorStop(0, `rgba(${c1[0]}, ${c1[1]}, ${c1[2]}, 0.28)`);
+      g1.addColorStop(0.5, `rgba(${c1[0]}, ${c1[1]}, ${c1[2]}, 0.08)`);
+      g1.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = g1;
+      ctx.fillRect(0, 0, width, height);
 
-      // Render & Update Particles
-      particles.forEach(p => {
-        p.angle += p.rotSpeed;
+      // Living organic radial gradient pool 2 (drifting lower quadrant)
+      const x2 = width * (0.65 + 0.2 * Math.cos(time * 0.4));
+      const y2 = height * (0.7 + 0.18 * Math.sin(time * 0.32));
+      const r2 = Math.max(width, height) * 0.58;
+      const c2 = currentPalette.colors[1] || c1;
+      const g2 = ctx.createRadialGradient(x2, y2, 0, x2, y2, r2);
+      g2.addColorStop(0, `rgba(${c2[0]}, ${c2[1]}, ${c2[2]}, 0.24)`);
+      g2.addColorStop(0.5, `rgba(${c2[0]}, ${c2[1]}, ${c2[2]}, 0.07)`);
+      g2.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = g2;
+      ctx.fillRect(0, 0, width, height);
 
-        if (currentAnim === 'embers_solar') {
-          // Ascending solar sparks
-          p.y -= 1.2;
-          p.x += Math.sin(p.angle) * 0.8;
-          if (p.y < -15) { p.y = height + 15; p.x = Math.random() * width; }
-        } else if (currentAnim === 'petals_leaves') {
-          // Falling floating leaves / petals with fluttering sway
-          p.y += 0.85;
-          p.x += Math.sin(p.angle * 2) * 1.3;
-          if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
-        } else if (currentAnim === 'fireflies') {
-          // Playful organic Brownian motion
-          p.vx += (Math.random() - 0.5) * 0.15;
-          p.vy += (Math.random() - 0.5) * 0.15;
-          p.vx = Math.max(-1.4, Math.min(1.4, p.vx));
-          p.vy = Math.max(-1.4, Math.min(1.4, p.vy));
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
-        } else {
-          // Ambient celestial drift
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < -15) p.x = width + 15;
-          if (p.x > width + 15) p.x = -15;
-          if (p.y < -15) p.y = height + 15;
-          if (p.y > height + 15) p.y = -15;
-        }
+      // Living organic radial gradient pool 3 (center subtle shimmer)
+      const x3 = width * (0.5 + 0.15 * Math.sin(time * 0.25));
+      const y3 = height * (0.5 + 0.12 * Math.cos(time * 0.28));
+      const r3 = Math.max(width, height) * 0.45;
+      const c3 = currentPalette.colors[2] || c1;
+      const g3 = ctx.createRadialGradient(x3, y3, 0, x3, y3, r3);
+      g3.addColorStop(0, `rgba(${c3[0]}, ${c3[1]}, ${c3[2]}, 0.16)`);
+      g3.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = g3;
+      ctx.fillRect(0, 0, width, height);
+    }
 
-        const [r, g, b] = p.color;
-        const pulse = Math.sin(time * 2 + p.angle) * 0.2 + 0.55;
+    // ── Main Render Loop (60fps Hardware Accelerated) ──
+    function draw() {
+      if (!isVisible) return;
+      time += 0.016;
 
-        // Radial glow halo
-        const pGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 3.5);
-        pGrad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${pulse * 0.85})`);
-        pGrad.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${pulse * 0.25})`);
-        pGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      // 1. Render Living Liquid Gradient Mesh
+      drawLivingGradientMesh();
 
-        ctx.fillStyle = pGrad;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Bright sparkling core
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(1, pulse * 1.4)})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius * 0.65, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      // Occasional Shooting Star (Every ~8-12 seconds)
-      const now = Date.now();
-      if (now - lastShootingStarTime > 9000 && Math.random() < 0.03) {
-        spawnShootingStar();
-        lastShootingStarTime = now;
-      }
-
-      // Draw Shooting Stars
-      for (let i = shootingStars.length - 1; i >= 0; i--) {
-        const s = shootingStars[i];
-        s.x += Math.cos(s.angle) * s.speed;
-        s.y += Math.sin(s.angle) * s.speed;
-        s.alpha -= s.decay;
-
-        if (s.alpha <= 0 || s.x > width + 100 || s.y > height + 100) {
-          shootingStars.splice(i, 1);
-          continue;
-        }
-
-        const tailX = s.x - Math.cos(s.angle) * s.length;
-        const tailY = s.y - Math.sin(s.angle) * s.length;
-
-        const sGrad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        sGrad.addColorStop(0, `rgba(255, 255, 255, ${s.alpha})`);
-        sGrad.addColorStop(0.3, `rgba(165, 243, 252, ${s.alpha * 0.6})`);
-        sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.strokeStyle = sGrad;
-        ctx.lineWidth = 1.8;
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(tailX, tailY);
-        ctx.stroke();
+      // 2. Render Pure Elegant Line Art (Zero Star Dots)
+      if (currentAnim === 'sacred_mandala') {
+        drawSacredMandala();
+      } else if (currentAnim === 'contour_waves') {
+        drawContourWaves();
+      } else if (currentAnim === 'constellation_lattice') {
+        drawConstellationLattice();
+      } else if (currentAnim === 'lissajous_orbit') {
+        drawLissajousOrbit();
+      } else if (currentAnim === 'celestial_armillary') {
+        drawCelestialArmillary();
       }
 
       animId = requestAnimationFrame(draw);
     }
 
     // Public Controller: called on slide arrival
-    window.setBackground = function(videoSrc, gradientClass, mood, quoteId) {
-      // Deterministically select unique palette and animation style for this quote
-      const seed = quoteId ? djb2(quoteId) : Math.floor(Math.random() * 1000);
-      const paletteIndex = seed % PALETTES.length;
-      const animIndex = Math.floor(seed / PALETTES.length) % ANIM_TYPES.length;
+    (window as any).setBackground = function(videoSrc: string, gradientClass: string, mood: string, quoteId: string) {
+      // Deterministically select unique palette and line art engine for this quote
+      const key = quoteId || mood || 'wisdom';
+      const hash = djb2(key);
 
-      currentPalette = PALETTES[paletteIndex];
-      currentAnim = ANIM_TYPES[animIndex];
+      currentPalette = PALETTES[hash % PALETTES.length];
+      currentAnim = ANIM_TYPES[hash % ANIM_TYPES.length];
 
-      // Update atmospheric light bloom colors
-      const glow1 = document.getElementById('mood-glow-1');
-      const glow2 = document.getElementById('mood-glow-2');
-      const glowCenter = document.getElementById('mood-glow-center');
-
-      if (glow1) glow1.style.backgroundColor = currentPalette.glow1;
-      if (glow2) glow2.style.backgroundColor = currentPalette.glow2;
-      if (glowCenter) glowCenter.style.backgroundColor = currentPalette.glowCenter;
-
-      // Adapt existing particles to new color palette smoothly
-      const colors = currentPalette.colors;
-      particles.forEach(p => {
-        p.color = colors[Math.floor(Math.random() * colors.length)];
-      });
+      // Update ambient glow overlay CSS
+      const g1 = document.getElementById('mood-glow-1');
+      const g2 = document.getElementById('mood-glow-2');
+      const gc = document.getElementById('mood-glow-center');
+      if (g1) g1.style.background = currentPalette.glow1;
+      if (g2) g2.style.background = currentPalette.glow2;
+      if (gc) gc.style.background = currentPalette.glowCenter;
     };
 
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', () => {
       isVisible = !document.hidden;
-      if (isVisible && !animId) animId = requestAnimationFrame(draw);
+      if (isVisible && !animId) draw();
     });
 
-    // Start
     resize();
-    animId = requestAnimationFrame(draw);
+    draw();
   })();
 </script>

@@ -2,10 +2,12 @@
 /**
  * ReelSlide — Individual quote slide for the vertical reel.
  *
- * Layout requirements:
- * 1. ONLY quote in the center of the screen (vertically & horizontally centered)
- * 2. Rest of the metadata (Author, Category, Mood, Tags) at the bottom of the screen
- * 3. Dedicated safe right padding guarantees buttons NEVER overlap the quote or metadata
+ * Artistic Typography Engine:
+ * - Font: 'Playfair Display' high-contrast editorial serif
+ * - Adaptive space utilization: Font size scales fluidly based on quote length and viewport dimensions
+ * - Perfect vertical & horizontal centering for the quote
+ * - Bottom-docked metadata (Author, Category, Mood, Tags)
+ * - Symmetrical clamp padding guarantees zero overlap with right rail buttons
  */
 import { getMediaForQuote, getAudioForMood, moodMeta } from '../data/mediaRegistry';
 import type { Mood } from '../data/mediaRegistry';
@@ -28,6 +30,29 @@ const media = getMediaForQuote(id, mood);
 const audioSrc = getAudioForMood(mood);
 const moodInfo = moodMeta[mood];
 const BASE = '/wisdom';
+
+// Length-adaptive typography sizing: utilizes screen space dynamically
+const len = content.length;
+let quoteSizeStyle = '';
+let maxContainerClass = '';
+
+if (len <= 45) {
+  // Ultra-short (6-8 words): monumental, bold artistic display
+  quoteSizeStyle = 'font-size: clamp(2.25rem, 5.5vw, 4.25rem); line-height: 1.2;';
+  maxContainerClass = 'max-w-xl md:max-w-2xl';
+} else if (len <= 75) {
+  // Short (10-15 words): bold, prominent editorial serif
+  quoteSizeStyle = 'font-size: clamp(1.85rem, 4.2vw, 3.25rem); line-height: 1.28;';
+  maxContainerClass = 'max-w-xl md:max-w-2xl';
+} else if (len <= 105) {
+  // Medium (16-20 words): balanced, spacious literary serif
+  quoteSizeStyle = 'font-size: clamp(1.5rem, 3.4vw, 2.5rem); line-height: 1.38;';
+  maxContainerClass = 'max-w-lg md:max-w-xl';
+} else {
+  // Long (20+ words): refined bookish scale with breathing room
+  quoteSizeStyle = 'font-size: clamp(1.25rem, 2.7vw, 1.95rem); line-height: 1.48;';
+  maxContainerClass = 'max-w-md md:max-w-lg';
+}
 ---
 <section
   class="reel-slide relative flex flex-col justify-between w-full h-[100dvh] overflow-hidden select-none"
@@ -51,19 +76,22 @@ const BASE = '/wisdom';
   <div class="h-14 sm:h-16 w-full shrink-0 pointer-events-none" aria-hidden="true"></div>
 
   <!-- ── CENTER OF SCREEN: ONLY THE QUOTE ── -->
-  <!-- Equal left and right clamp padding guarantees true visual center and ZERO overlap with action rail -->
+  <!-- Symmetrical clamp padding guarantees true visual center and ZERO overlap with action rail -->
   <div
     class="relative z-20 flex-1 flex flex-col items-center justify-center pointer-events-none text-center w-full my-auto"
     style="padding-right: clamp(5.5rem, 14vw, 8.5rem); padding-left: clamp(5.5rem, 14vw, 8.5rem);"
   >
-    <div class="max-w-lg md:max-w-xl w-full flex flex-col items-center justify-center">
-      <!-- Decorative Quote Mark -->
-      <div class="text-4xl sm:text-5xl md:text-6xl leading-none text-white/30 font-serif select-none mb-3">
+    <div class={`${maxContainerClass} w-full flex flex-col items-center justify-center`}>
+      <!-- Artistic Decorative Quote Mark -->
+      <div class="text-4xl sm:text-5xl md:text-6xl leading-none text-white/30 font-serif select-none mb-3 font-display">
         &ldquo;
       </div>
 
-      <!-- The Centered Quote Text -->
-      <p class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight text-white text-shadow-quote select-none quote-text">
+      <!-- The Centered Artistic Quote Text -->
+      <p
+        class="font-display font-normal tracking-[-0.01em] text-white text-shadow-artistic select-none quote-text"
+        style={`${quoteSizeStyle} font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;`}
+      >
         {content}
       </p>
     </div>
@@ -73,7 +101,7 @@ const BASE = '/wisdom';
   <!-- Anchored to bottom with safe right clearance -->
   <div
     class="relative z-20 shrink-0 pb-[max(env(safe-area-inset-bottom,20px),20px)] pt-3 pointer-events-none"
-    style="padding-right: clamp(5rem, 12vw, 7rem); padding-left: clamp(1.25rem, 5vw, 3.5rem);"
+    style="padding-right: clamp(5rem, 12vw, 7.5rem); padding-left: clamp(1.25rem, 5vw, 3.5rem);"
   >
     <div class="flex flex-col gap-2.5 max-w-lg">
       <!-- Author Attribution Badge -->

@@ -160,7 +160,7 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
       const targetId = window.location.hash.slice(1);
       const targetSlide = document.getElementById(`slide-${targetId}`);
       if (targetSlide) {
-        setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant' }), 100);
+        setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
       }
     } else if (slides.length > 0) {
       const first = slides[0];

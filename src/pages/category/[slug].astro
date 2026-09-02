@@ -9,15 +9,18 @@ import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allQuotes = await getCollection('quotes');
-  const slugs = [...new Set(allQuotes.map((q) => q.data.categorySlug))];
+  const quotesData = allQuotes.map((q) => q.data);
+  const slugs = [...new Set(quotesData.map((q) => q.categorySlug))];
 
   return slugs.map((slug) => {
-    const filtered = allQuotes.filter((q) => q.data.categorySlug === slug);
-    const categoryName = filtered[0]?.data.category || slug;
+    const matched = quotesData.filter((q) => q.categorySlug === slug);
+    const remaining = quotesData.filter((q) => q.categorySlug !== slug);
+    const categoryName = matched[0]?.category || slug;
     return {
       params: { slug },
       props: {
-        quotes: filtered.map((q) => q.data),
+        quotes: [...matched, ...remaining],
+        matchedCount: matched.length,
         categoryName,
       },
     };
@@ -26,11 +29,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 interface Props {
   quotes: any[];
+  matchedCount: number;
   categoryName: string;
 }
 
 const { slug } = Astro.params;
-const { quotes, categoryName } = Astro.props;
+const { quotes, matchedCount, categoryName } = Astro.props;
 ---
 <BaseLayout
   title={`${categoryName} Quotes — Wisdom`}
@@ -43,6 +47,8 @@ const { quotes, categoryName } = Astro.props;
 >
   <ReelFeed
     quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`${categoryName} Wisdom`}
     feedTitle={categoryName}
     feedType="category"
   />

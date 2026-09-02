@@ -23,9 +23,10 @@ interface Props {
   mood: Mood;
   tags: string[];
   index: number;
+  isStreamContinuation?: boolean;
 }
 
-const { id, content, author, authorSlug, category, categorySlug, mood, tags, index } = Astro.props;
+const { id, content, author, authorSlug, category, categorySlug, mood, tags, index, isStreamContinuation = false } = Astro.props;
 
 const media = getMediaForQuote(id, mood);
 const audioSrc = getAudioForMood(mood);
@@ -38,27 +39,23 @@ const len = content.length;
 let quoteSizeStyle = '';
 let maxContainerClass = '';
 
-if (len <= 45) {
-  // Ultra-short (6-8 words): monumental, bold artistic display
-  quoteSizeStyle = 'font-size: clamp(2.25rem, 5.5vw, 4.25rem); line-height: 1.2;';
-  maxContainerClass = 'max-w-xl md:max-w-2xl';
-} else if (len <= 75) {
-  // Short (10-15 words): bold, prominent editorial serif
-  quoteSizeStyle = 'font-size: clamp(1.85rem, 4.2vw, 3.25rem); line-height: 1.28;';
-  maxContainerClass = 'max-w-xl md:max-w-2xl';
-} else if (len <= 105) {
-  // Medium (16-20 words): balanced, spacious literary serif
-  quoteSizeStyle = 'font-size: clamp(1.5rem, 3.4vw, 2.5rem); line-height: 1.38;';
-  maxContainerClass = 'max-w-lg md:max-w-xl';
+if (len < 55) {
+  quoteSizeStyle = 'font-size: clamp(2.2rem, 5.5vw, 4.2rem); line-height: 1.18; max-width: 900px;';
+  maxContainerClass = 'max-w-3xl';
+} else if (len < 110) {
+  quoteSizeStyle = 'font-size: clamp(1.75rem, 4.2vw, 3.1rem); line-height: 1.25; max-width: 950px;';
+  maxContainerClass = 'max-w-4xl';
+} else if (len < 180) {
+  quoteSizeStyle = 'font-size: clamp(1.4rem, 3.2vw, 2.4rem); line-height: 1.32; max-width: 1000px;';
+  maxContainerClass = 'max-w-4xl';
 } else {
-  // Long (20+ words): refined bookish scale with breathing room
-  quoteSizeStyle = 'font-size: clamp(1.25rem, 2.7vw, 1.95rem); line-height: 1.48;';
-  maxContainerClass = 'max-w-md md:max-w-lg';
+  quoteSizeStyle = 'font-size: clamp(1.2rem, 2.6vw, 1.95rem); line-height: 1.38; max-width: 1050px;';
+  maxContainerClass = 'max-w-5xl';
 }
 ---
 <section
-  class="reel-slide relative flex flex-col justify-between w-full h-[100dvh] overflow-hidden select-none"
   id={`slide-${id}`}
+  class="reel-slide relative z-10 w-full h-[100dvh] flex flex-col justify-between overflow-hidden select-none"
   data-quote-id={id}
   data-quote-slug={quoteSlug}
   data-content={content}
@@ -77,6 +74,13 @@ if (len <= 45) {
 
   <!-- Top spacer to balance the fixed header bar (56px) -->
   <div class="h-14 sm:h-16 w-full shrink-0 pointer-events-none" aria-hidden="true"></div>
+
+  {isStreamContinuation && (
+    <div class="continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-1.5 glass px-3.5 py-1 rounded-full border border-white/20 text-[11px] font-medium text-white/80 shadow-xl shadow-black/40 select-none tracking-wider uppercase">
+      <span class="text-amber-300">✦</span>
+      <span>More Wisdom Ahead</span>
+    </div>
+  )}
 
   <!-- ── CENTER OF SCREEN: ONLY THE QUOTE ── -->
   <!-- Wide, spacious canvas — action rail is positioned down in the bottom-right corner -->

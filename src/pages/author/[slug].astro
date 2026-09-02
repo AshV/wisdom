@@ -9,15 +9,18 @@ import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allQuotes = await getCollection('quotes');
-  const slugs = [...new Set(allQuotes.map((q) => q.data.authorSlug))];
+  const quotesData = allQuotes.map((q) => q.data);
+  const slugs = [...new Set(quotesData.map((q) => q.authorSlug))];
 
   return slugs.map((slug) => {
-    const filtered = allQuotes.filter((q) => q.data.authorSlug === slug);
-    const authorName = filtered[0]?.data.author || slug;
+    const matched = quotesData.filter((q) => q.authorSlug === slug);
+    const remaining = quotesData.filter((q) => q.authorSlug !== slug);
+    const authorName = matched[0]?.author || slug;
     return {
       params: { slug },
       props: {
-        quotes: filtered.map((q) => q.data),
+        quotes: [...matched, ...remaining],
+        matchedCount: matched.length,
         authorName,
       },
     };
@@ -26,11 +29,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 interface Props {
   quotes: any[];
+  matchedCount: number;
   authorName: string;
 }
 
 const { slug } = Astro.params;
-const { quotes, authorName } = Astro.props;
+const { quotes, matchedCount, authorName } = Astro.props;
 ---
 <BaseLayout
   title={`${authorName} Quotes — Wisdom`}
@@ -43,6 +47,8 @@ const { quotes, authorName } = Astro.props;
 >
   <ReelFeed
     quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`Quotes by ${authorName}`}
     feedTitle={`Quotes by ${authorName}`}
     feedType="author"
   />

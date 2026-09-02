@@ -10,13 +10,16 @@ import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map((q) => q.data);
 
   return allMoods.map((mood) => {
-    const filtered = allQuotes.filter((q) => q.data.mood === mood);
+    const matched = quotesData.filter((q) => q.mood === mood);
+    const remaining = quotesData.filter((q) => q.mood !== mood);
     return {
       params: { slug: mood },
       props: {
-        quotes: filtered.map((q) => q.data),
+        quotes: [...matched, ...remaining],
+        matchedCount: matched.length,
         moodLabel: moodMeta[mood].label,
         moodEmoji: moodMeta[mood].emoji,
       },
@@ -26,12 +29,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 interface Props {
   quotes: any[];
+  matchedCount: number;
   moodLabel: string;
   moodEmoji: string;
 }
 
 const { slug } = Astro.params;
-const { quotes, moodLabel, moodEmoji } = Astro.props;
+const { quotes, matchedCount, moodLabel, moodEmoji } = Astro.props;
 ---
 <BaseLayout
   title={`${moodEmoji} ${moodLabel} Quotes — Wisdom`}
@@ -44,6 +48,8 @@ const { quotes, moodLabel, moodEmoji } = Astro.props;
 >
   <ReelFeed
     quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`${moodEmoji} ${moodLabel} Reflections`}
     feedTitle={`${moodEmoji} ${moodLabel}`}
     feedType="mood"
   />

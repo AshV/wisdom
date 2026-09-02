@@ -29,9 +29,11 @@ interface Props {
   quotes: QuoteData[];
   feedTitle: string;
   feedType?: string;
+  matchedCount?: number;
+  filterLabel?: string;
 }
 
-const { quotes, feedTitle, feedType = 'master' } = Astro.props;
+const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = Astro.props;
 ---
 
 <!-- Feed Header (subtle overlay) -->
@@ -58,13 +60,27 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
     <div class="text-center flex-1 mx-4 truncate">
       <h1 class="text-sm font-bold text-white/90 tracking-wide text-shadow-soft truncate">{feedTitle}</h1>
     </div>
-    <div class="w-16 flex justify-end">
-      <span class="text-[11px] font-mono font-medium text-white/40 glass px-2.5 py-1 rounded-full">{quotes.length}</span>
+    <div class="w-20 flex justify-end">
+      <span class="text-[11px] font-mono font-medium text-white/70 glass px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+        {matchedCount && matchedCount < quotes.length ? (
+          <>
+            <span>{matchedCount}</span>
+            <span class="text-white/30">&bull;</span>
+            <span class="text-xs text-amber-300 font-sans">&infin;</span>
+          </>
+        ) : (
+          <>
+            <span>{quotes.length}</span>
+            <span class="text-white/30">&bull;</span>
+            <span class="text-xs text-amber-300 font-sans">&infin;</span>
+          </>
+        )}
+      </span>
     </div>
   </div>
 </header>
 
-<!-- Scroll-Snap Reel Container -->
+<!-- Scroll-Snap Reel Container (Infinite Never-Ending Stream) -->
 <main id="reel-container" class="reel-container relative z-10 w-full h-[100dvh]">
   {quotes.map((q, i) => (
     <ReelSlide
@@ -77,6 +93,7 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
       mood={q.mood}
       tags={q.tags}
       index={i}
+      isStreamContinuation={Boolean(matchedCount && i === matchedCount)}
     />
   ))}
 
@@ -102,8 +119,38 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
     const container = document.getElementById('reel-container');
     if (!container) return;
 
-    const slides = container.querySelectorAll('.reel-slide');
-    if (slides.length === 0) return;
+    let initialSlides = Array.from(container.querySelectorAll('.reel-slide'));
+    if (initialSlides.length === 0) return;
+
+    // Snapshot initial slides for infinite loop recycling
+    const templateSlides = [...initialSlides];
+    let loopNumber = 1;
+
+    // ── Infinite Scroll Appender: Appends next batch so scrolling never ends ──
+    function appendNextBatch() {
+      const fragment = document.createDocumentFragment();
+      const appendedSlides = [];
+
+      templateSlides.forEach((template, idx) => {
+        const clone = template.cloneNode(true);
+        const baseId = template.dataset.quoteId || `q${idx}`;
+        clone.id = `slide-${baseId}-loop${loopNumber}`;
+        clone.classList.remove('is-active');
+
+        // Remove continuation banner from cloned slides so it only shows once
+        const banner = clone.querySelector('.continuation-banner');
+        if (banner) banner.remove();
+
+        fragment.appendChild(clone);
+        appendedSlides.push(clone);
+      });
+
+      loopNumber++;
+      container.appendChild(fragment);
+
+      // Observe all newly appended slides
+      appendedSlides.forEach(slide => observer.observe(slide));
+    }
 
     let lastTapTime = 0;
     let lastTapTarget = null;
@@ -119,7 +166,15 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
           const mood = slide.dataset.mood;
           const audioSrc = slide.dataset.audioSrc;
 
-          slides.forEach(s => s.classList.remove('is-active'));
+          // Check if approaching the end of current slides — append next batch!
+          const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
+          const activeIdx = currentSlides.indexOf(slide);
+
+          if (activeIdx >= currentSlides.length - 4) {
+            appendNextBatch();
+          }
+
+          currentSlides.forEach(s => s.classList.remove('is-active'));
           slide.classList.add('is-active');
 
           // Update background animation with quoteId for unique diverse visual personality
@@ -157,7 +212,7 @@ const { quotes, feedTitle, feedType = 'master' } = Astro.props;
       threshold: 0.5,
     });
 
-    slides.forEach(slide => observer.observe(slide));
+    initialSlides.forEach(slide => observer.observe(slide));
 
     // Deep-link navigation to hash if present (supports both #quote-text-slug and #qXXX)
     if (window.location.hash) {

@@ -233,6 +233,10 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
         setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
         if (window.updateShareContext) window.updateShareContext(targetSlide);
         if (window.prepareQuoteCardImage) window.prepareQuoteCardImage(targetSlide);
+        if (window.wisdomAudio && targetSlide.dataset.mood) {
+          window.wisdomAudio.setMood(targetSlide.dataset.mood);
+          window.wisdomAudio.playOnce(targetSlide.dataset.mood);
+        }
       }
     } else if (initialSlides.length > 0) {
       const first = initialSlides[0];
@@ -259,6 +263,7 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       }
       if (window.wisdomAudio && first.dataset.mood) {
         window.wisdomAudio.setMood(first.dataset.mood);
+        window.wisdomAudio.playOnce(first.dataset.mood);
       }
     }
 

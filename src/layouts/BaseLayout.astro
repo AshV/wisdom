@@ -164,6 +164,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       // ── Zen Chime Controller (Play-Once on Slide Arrival) ──
       // Plays a single soothing Tibetan singing bowl / Zen chime once on arrival, then complete silence.
       // Zero loop fatigue, zero continuous drone, pure peaceful contemplation.
+      // Guarantees: Currently playing chime is ALWAYS strictly different from the last 2 played chimes.
       class ZenChimeEngine {
         constructor() {
           this.enabled = false;
@@ -174,12 +175,77 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           this.lastChimeTime = 0;
           this.pendingTimer = null;
           this.base = '/wisdom';
+          this.recentChimes = [];
+          this.allChimes = [
+            'chime-reflective',
+            'chime-reflective-alt',
+            'chime-serene',
+            'chime-serene-alt',
+            'chime-philosophical',
+            'chime-philosophical-alt',
+            'chime-motivational',
+            'chime-motivational-alt',
+            'chime-joyful',
+            'chime-joyful-alt',
+            'chime-bold',
+            'chime-bold-alt',
+            'chime-melancholic',
+            'chime-melancholic-alt',
+            'chime-romantic',
+            'chime-romantic-alt',
+            'zen-chime',
+            'chime-temple-bell',
+            'chime-crystal-bowl',
+            'chime-tingsha',
+            'chime-celestial',
+            'chime-bamboo',
+          ];
+
+          // Harmonic mood affinities for intelligent variety
+          this.moodAffinities = {
+            reflective: ['chime-reflective', 'chime-reflective-alt', 'zen-chime', 'chime-temple-bell'],
+            motivational: ['chime-motivational', 'chime-motivational-alt', 'chime-celestial', 'chime-crystal-bowl'],
+            serene: ['chime-serene', 'chime-serene-alt', 'chime-bamboo', 'zen-chime'],
+            bold: ['chime-bold', 'chime-bold-alt', 'chime-temple-bell', 'chime-tingsha'],
+            melancholic: ['chime-melancholic', 'chime-melancholic-alt', 'chime-crystal-bowl', 'chime-reflective-alt'],
+            joyful: ['chime-joyful', 'chime-joyful-alt', 'chime-celestial', 'chime-tingsha'],
+            philosophical: ['chime-philosophical', 'chime-philosophical-alt', 'chime-temple-bell', 'chime-reflective-alt'],
+            romantic: ['chime-romantic', 'chime-romantic-alt', 'chime-crystal-bowl', 'chime-celestial'],
+          };
         }
 
         init() {
           const saved = localStorage.getItem('wisdom_chime_enabled');
           this.enabled = saved === 'true';
+          try {
+            const cached = sessionStorage.getItem('wisdom_recent_chimes');
+            if (cached) this.recentChimes = JSON.parse(cached);
+          } catch {
+            this.recentChimes = [];
+          }
           this.updateUI();
+        }
+
+        setMood(mood) {
+          if (mood) this.currentMood = mood;
+        }
+
+        // Guarantees the selected chime is strictly different from the last 2 played
+        selectChime(preferredMood) {
+          const rawMood = preferredMood ? preferredMood.replace(/^chime-/, '') : 'reflective';
+          const affinities = this.moodAffinities[rawMood] || this.moodAffinities.reflective;
+
+          // 1. Pick from mood-compatible chimes that are NOT in the last 2 played
+          const moodEligible = affinities.filter(c => !this.recentChimes.includes(c));
+          if (moodEligible.length > 0) {
+            return moodEligible[Math.floor(Math.random() * moodEligible.length)];
+          }
+
+          // 2. Otherwise, select from the entire 22-chime library excluding the last 2 played
+          const allEligible = this.allChimes.filter(c => !this.recentChimes.includes(c));
+          if (allEligible.length === 0) return 'zen-chime';
+
+          return allEligible[Math.floor(Math.random() * allEligible.length)];
         }
 
         // Plays single peaceful chime after 1s of settling on a quote
@@ -194,7 +260,18 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           }
 
           this.pendingTimer = setTimeout(() => {
-            const chimeUrl = `${this.base}/media/audio/chime-${mood}.wav`;
+            const chimeKey = this.selectChime(this.currentMood);
+
+            // Record in history (strictly keep only the last 2)
+            this.recentChimes.push(chimeKey);
+            if (this.recentChimes.length > 2) {
+              this.recentChimes.shift();
+            }
+            try {
+              sessionStorage.setItem('wisdom_recent_chimes', JSON.stringify(this.recentChimes));
+            } catch {}
+
+            const chimeUrl = `${this.base}/media/audio/${chimeKey}.wav`;
             try {
               this.audioEl.pause();
               this.audioEl.currentTime = 0;

@@ -6,7 +6,11 @@
   "category": "Creativity",
   "categorySlug": "creativity",
   "mood": "melancholic",
-  "tags": ["expression", "creativity", "courage"],
+  "tags": [
+    "expression",
+    "creativity",
+    "courage"
+  ],
   "theme": "dark",
   "duration": 8
 }

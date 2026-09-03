@@ -6,7 +6,11 @@
   "category": "Nature",
   "categorySlug": "nature",
   "mood": "reflective",
-  "tags": ["transformation", "beauty", "nature"],
+  "tags": [
+    "transformation",
+    "beauty",
+    "nature"
+  ],
   "theme": "dark",
   "duration": 10
 }

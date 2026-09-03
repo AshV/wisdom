@@ -18,7 +18,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return {
       params: { slug: mood },
       props: {
-        quotes: [...matched, ...remaining],
+        quotes: [...matched, ...remaining.slice(0, 15)],
         matchedCount: matched.length,
         moodLabel: moodMeta[mood].label,
         moodEmoji: moodMeta[mood].emoji,

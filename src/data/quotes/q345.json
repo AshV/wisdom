@@ -1,0 +1,17 @@
+{
+  "id": "q345",
+  "content": "I am a slow walker, but I never walk back.",
+  "author": "Abraham Lincoln",
+  "authorSlug": "abraham-lincoln",
+  "category": "Leadership",
+  "categorySlug": "leadership",
+  "mood": "motivational",
+  "tags": [
+    "persistence",
+    "resolve",
+    "progress",
+    "grit"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

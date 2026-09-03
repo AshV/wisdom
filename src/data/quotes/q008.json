@@ -6,7 +6,11 @@
   "category": "Nature",
   "categorySlug": "nature",
   "mood": "serene",
-  "tags": ["patience", "nature", "flow"],
+  "tags": [
+    "patience",
+    "nature",
+    "flow"
+  ],
   "theme": "dark",
   "duration": 7
 }

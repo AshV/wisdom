@@ -6,7 +6,11 @@
   "category": "Nature",
   "categorySlug": "nature",
   "mood": "serene",
-  "tags": ["nature", "listening", "peace"],
+  "tags": [
+    "nature",
+    "listening",
+    "peace"
+  ],
   "theme": "dark",
   "duration": 6
 }

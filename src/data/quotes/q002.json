@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "philosophical",
-  "tags": ["purpose", "destiny", "seeking"],
+  "tags": [
+    "purpose",
+    "destiny",
+    "seeking"
+  ],
   "theme": "dark",
   "duration": 7
 }

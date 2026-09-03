@@ -6,7 +6,11 @@
   "category": "Wisdom",
   "categorySlug": "wisdom",
   "mood": "joyful",
-  "tags": ["authenticity", "identity", "humor"],
+  "tags": [
+    "authenticity",
+    "identity",
+    "humor"
+  ],
   "theme": "dark",
   "duration": 6
 }

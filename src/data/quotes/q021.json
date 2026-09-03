@@ -6,7 +6,11 @@
   "category": "Creativity",
   "categorySlug": "creativity",
   "mood": "motivational",
-  "tags": ["passion", "work", "purpose"],
+  "tags": [
+    "passion",
+    "work",
+    "purpose"
+  ],
   "theme": "dark",
   "duration": 7
 }

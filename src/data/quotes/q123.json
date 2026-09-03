@@ -1,0 +1,17 @@
+{
+  "id": "q123",
+  "content": "Set your life on fire. Seek those who fan your flames.",
+  "author": "Rumi",
+  "authorSlug": "rumi",
+  "category": "Wisdom",
+  "categorySlug": "wisdom",
+  "mood": "bold",
+  "tags": [
+    "passion",
+    "friendship",
+    "courage",
+    "authenticity"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

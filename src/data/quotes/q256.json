@@ -1,0 +1,17 @@
+{
+  "id": "q256",
+  "content": "Smile, breathe and go slowly.",
+  "author": "Thich Nhat Hanh",
+  "authorSlug": "thich-nhat-hanh",
+  "category": "Mindfulness",
+  "categorySlug": "mindfulness",
+  "mood": "serene",
+  "tags": [
+    "breathing",
+    "slowness",
+    "smile",
+    "peace"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

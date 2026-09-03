@@ -6,7 +6,11 @@
   "category": "Love",
   "categorySlug": "love",
   "mood": "romantic",
-  "tags": ["love", "intuition", "passion"],
+  "tags": [
+    "love",
+    "intuition",
+    "passion"
+  ],
   "theme": "dark",
   "duration": 9
 }

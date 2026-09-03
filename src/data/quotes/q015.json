@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "philosophical",
-  "tags": ["perception", "freedom", "individuality"],
+  "tags": [
+    "perception",
+    "freedom",
+    "individuality"
+  ],
   "theme": "dark",
   "duration": 9
 }

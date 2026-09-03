@@ -6,7 +6,11 @@
   "category": "Nature",
   "categorySlug": "nature",
   "mood": "melancholic",
-  "tags": ["solitude", "beauty", "soul"],
+  "tags": [
+    "solitude",
+    "beauty",
+    "soul"
+  ],
   "theme": "dark",
   "duration": 7
 }

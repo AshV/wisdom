@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "bold",
-  "tags": ["time", "urgency", "stoicism"],
+  "tags": [
+    "time",
+    "urgency",
+    "stoicism"
+  ],
   "theme": "dark",
   "duration": 8
 }

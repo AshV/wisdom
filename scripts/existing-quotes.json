@@ -1,0 +1,386 @@
+[
+  {
+    "id": "q001",
+    "content": "The wound is the place where the light enters you.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "categorySlug": "wisdom",
+    "mood": "reflective",
+    "tags": [
+      "healing",
+      "light",
+      "growth"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q002",
+    "content": "What you seek is seeking you.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "philosophical",
+    "tags": [
+      "purpose",
+      "destiny",
+      "seeking"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q003",
+    "content": "The happiness of your life depends upon the quality of your thoughts.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "reflective",
+    "tags": [
+      "mindset",
+      "happiness",
+      "stoicism"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q004",
+    "content": "Waste no more time arguing about what a good man should be. Be one.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "categorySlug": "resilience",
+    "mood": "bold",
+    "tags": [
+      "action",
+      "virtue",
+      "stoicism"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q005",
+    "content": "There is no greater agony than bearing an untold story inside you.",
+    "author": "Maya Angelou",
+    "authorSlug": "maya-angelou",
+    "category": "Creativity",
+    "categorySlug": "creativity",
+    "mood": "melancholic",
+    "tags": [
+      "expression",
+      "creativity",
+      "courage"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q006",
+    "content": "We delight in the beauty of the butterfly, but rarely admit the changes it has gone through to achieve that beauty.",
+    "author": "Maya Angelou",
+    "authorSlug": "maya-angelou",
+    "category": "Nature",
+    "categorySlug": "nature",
+    "mood": "reflective",
+    "tags": [
+      "transformation",
+      "beauty",
+      "nature"
+    ],
+    "theme": "dark",
+    "duration": 10
+  },
+  {
+    "id": "q007",
+    "content": "The journey of a thousand miles begins with a single step.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "categorySlug": "wisdom",
+    "mood": "motivational",
+    "tags": [
+      "journey",
+      "beginning",
+      "patience"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q008",
+    "content": "Nature does not hurry, yet everything is accomplished.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Nature",
+    "categorySlug": "nature",
+    "mood": "serene",
+    "tags": [
+      "patience",
+      "nature",
+      "flow"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q009",
+    "content": "Be yourself; everyone else is already taken.",
+    "author": "Oscar Wilde",
+    "authorSlug": "oscar-wilde",
+    "category": "Wisdom",
+    "categorySlug": "wisdom",
+    "mood": "joyful",
+    "tags": [
+      "authenticity",
+      "identity",
+      "humor"
+    ],
+    "theme": "dark",
+    "duration": 6
+  },
+  {
+    "id": "q010",
+    "content": "To live is the rarest thing in the world. Most people exist, that is all.",
+    "author": "Oscar Wilde",
+    "authorSlug": "oscar-wilde",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "bold",
+    "tags": [
+      "existence",
+      "living",
+      "awareness"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q011",
+    "content": "You cannot find peace by avoiding life.",
+    "author": "Virginia Woolf",
+    "authorSlug": "virginia-woolf",
+    "category": "Resilience",
+    "categorySlug": "resilience",
+    "mood": "melancholic",
+    "tags": [
+      "peace",
+      "courage",
+      "acceptance"
+    ],
+    "theme": "dark",
+    "duration": 6
+  },
+  {
+    "id": "q012",
+    "content": "One cannot think well, love well, sleep well, if one has not dined well.",
+    "author": "Virginia Woolf",
+    "authorSlug": "virginia-woolf",
+    "category": "Wisdom",
+    "categorySlug": "wisdom",
+    "mood": "joyful",
+    "tags": [
+      "self-care",
+      "wellness",
+      "nourishment"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q013",
+    "content": "Your task is not to seek for love, but merely to seek and find all the barriers within yourself that you have built against it.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "categorySlug": "love",
+    "mood": "romantic",
+    "tags": [
+      "love",
+      "self-discovery",
+      "barriers"
+    ],
+    "theme": "dark",
+    "duration": 10
+  },
+  {
+    "id": "q014",
+    "content": "Out of your vulnerabilities will come your strength.",
+    "author": "Sigmund Freud",
+    "authorSlug": "sigmund-freud",
+    "category": "Resilience",
+    "categorySlug": "resilience",
+    "mood": "motivational",
+    "tags": [
+      "vulnerability",
+      "strength",
+      "growth"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q015",
+    "content": "And those who were seen dancing were thought to be insane by those who could not hear the music.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "philosophical",
+    "tags": [
+      "perception",
+      "freedom",
+      "individuality"
+    ],
+    "theme": "dark",
+    "duration": 9
+  },
+  {
+    "id": "q016",
+    "content": "The soul that sees beauty may sometimes walk alone.",
+    "author": "Khalil Gibran",
+    "authorSlug": "khalil-gibran",
+    "category": "Nature",
+    "categorySlug": "nature",
+    "mood": "melancholic",
+    "tags": [
+      "solitude",
+      "beauty",
+      "soul"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q017",
+    "content": "Your living is determined not so much by what life brings to you as by the attitude you bring to life.",
+    "author": "Khalil Gibran",
+    "authorSlug": "khalil-gibran",
+    "category": "Wisdom",
+    "categorySlug": "wisdom",
+    "mood": "motivational",
+    "tags": [
+      "attitude",
+      "perspective",
+      "mindset"
+    ],
+    "theme": "dark",
+    "duration": 9
+  },
+  {
+    "id": "q018",
+    "content": "It is not that we have a short time to live, but that we waste a great deal of it.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "bold",
+    "tags": [
+      "time",
+      "urgency",
+      "stoicism"
+    ],
+    "theme": "dark",
+    "duration": 8
+  },
+  {
+    "id": "q019",
+    "content": "Luck is what happens when preparation meets opportunity.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "categorySlug": "resilience",
+    "mood": "motivational",
+    "tags": [
+      "luck",
+      "preparation",
+      "opportunity"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q020",
+    "content": "In the middle of difficulty lies opportunity.",
+    "author": "Albert Einstein",
+    "authorSlug": "albert-einstein",
+    "category": "Resilience",
+    "categorySlug": "resilience",
+    "mood": "motivational",
+    "tags": [
+      "adversity",
+      "opportunity",
+      "perspective"
+    ],
+    "theme": "dark",
+    "duration": 6
+  },
+  {
+    "id": "q021",
+    "content": "The only way to do great work is to love what you do.",
+    "author": "Steve Jobs",
+    "authorSlug": "steve-jobs",
+    "category": "Creativity",
+    "categorySlug": "creativity",
+    "mood": "motivational",
+    "tags": [
+      "passion",
+      "work",
+      "purpose"
+    ],
+    "theme": "dark",
+    "duration": 7
+  },
+  {
+    "id": "q022",
+    "content": "Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "categorySlug": "love",
+    "mood": "romantic",
+    "tags": [
+      "love",
+      "intuition",
+      "passion"
+    ],
+    "theme": "dark",
+    "duration": 9
+  },
+  {
+    "id": "q023",
+    "content": "The earth has music for those who listen.",
+    "author": "William Shakespeare",
+    "authorSlug": "william-shakespeare",
+    "category": "Nature",
+    "categorySlug": "nature",
+    "mood": "serene",
+    "tags": [
+      "nature",
+      "listening",
+      "peace"
+    ],
+    "theme": "dark",
+    "duration": 6
+  },
+  {
+    "id": "q024",
+    "content": "The privilege of a lifetime is to become who you truly are.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "categorySlug": "philosophy",
+    "mood": "philosophical",
+    "tags": [
+      "identity",
+      "self-discovery",
+      "authenticity"
+    ],
+    "theme": "dark",
+    "duration": 8
+  }
+]

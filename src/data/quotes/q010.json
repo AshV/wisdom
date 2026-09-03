@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "bold",
-  "tags": ["existence", "living", "awareness"],
+  "tags": [
+    "existence",
+    "living",
+    "awareness"
+  ],
   "theme": "dark",
   "duration": 8
 }

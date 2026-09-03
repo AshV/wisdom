@@ -6,7 +6,11 @@
   "category": "Wisdom",
   "categorySlug": "wisdom",
   "mood": "reflective",
-  "tags": ["healing", "light", "growth"],
+  "tags": [
+    "healing",
+    "light",
+    "growth"
+  ],
   "theme": "dark",
   "duration": 8
 }

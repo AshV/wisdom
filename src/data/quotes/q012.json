@@ -6,7 +6,11 @@
   "category": "Wisdom",
   "categorySlug": "wisdom",
   "mood": "joyful",
-  "tags": ["self-care", "wellness", "nourishment"],
+  "tags": [
+    "self-care",
+    "wellness",
+    "nourishment"
+  ],
   "theme": "dark",
   "duration": 8
 }

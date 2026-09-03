@@ -9,7 +9,8 @@ import { getCollection } from 'astro:content';
 const allQuotes = await getCollection('quotes');
 const quotes = allQuotes
   .map((q) => q.data)
-  .reverse();
+  .reverse()
+  .slice(0, 50);
 ---
 <BaseLayout title="Wisdom — Timeless Quotes, Reimagined">
   <ReelFeed

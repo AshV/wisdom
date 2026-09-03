@@ -1,0 +1,17 @@
+{
+  "id": "q226",
+  "content": "The mountains are calling and I must go.",
+  "author": "John Muir",
+  "authorSlug": "john-muir",
+  "category": "Nature",
+  "categorySlug": "nature",
+  "mood": "serene",
+  "tags": [
+    "mountains",
+    "nature",
+    "wanderlust",
+    "wilderness"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

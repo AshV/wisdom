@@ -1,0 +1,17 @@
+{
+  "id": "q415",
+  "content": "There is a pleasure in the pathless woods, there is a rapture on the lonely shore.",
+  "author": "Lord Byron",
+  "authorSlug": "lord-byron",
+  "category": "Nature",
+  "categorySlug": "nature",
+  "mood": "serene",
+  "tags": [
+    "woods",
+    "solitude",
+    "rapture",
+    "nature"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

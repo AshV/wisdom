@@ -6,7 +6,11 @@
   "category": "Wisdom",
   "categorySlug": "wisdom",
   "mood": "motivational",
-  "tags": ["journey", "beginning", "patience"],
+  "tags": [
+    "journey",
+    "beginning",
+    "patience"
+  ],
   "theme": "dark",
   "duration": 7
 }

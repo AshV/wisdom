@@ -1,0 +1,17 @@
+{
+  "id": "q231",
+  "content": "Going to the mountains is going home.",
+  "author": "John Muir",
+  "authorSlug": "john-muir",
+  "category": "Nature",
+  "categorySlug": "nature",
+  "mood": "reflective",
+  "tags": [
+    "mountains",
+    "home",
+    "belonging",
+    "peace"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

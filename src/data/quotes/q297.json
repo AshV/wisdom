@@ -1,0 +1,17 @@
+{
+  "id": "q297",
+  "content": "Life is like riding a bicycle. To keep your balance, you must keep moving.",
+  "author": "Albert Einstein",
+  "authorSlug": "albert-einstein",
+  "category": "Science",
+  "categorySlug": "science",
+  "mood": "motivational",
+  "tags": [
+    "balance",
+    "momentum",
+    "life",
+    "movement"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

@@ -53,10 +53,15 @@ const canonicalUrl = `/wisdom/quote/${textSlug}/`;
 const title = `“${content}” — ${author} | Wisdom`;
 const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore curated quotes on Wisdom.`;
 
-// Order feed so the target quote lands first, with remaining quotes smoothly scrollable
+// Order feed so target quote lands first, followed by a smooth continuation stream of related quotes
+const remaining = allQuotes.filter((q) => q.id !== targetQuote.id);
+const related = remaining.filter((q) => q.categorySlug === targetQuote.categorySlug || q.mood === targetQuote.mood);
+const other = remaining.filter((q) => q.categorySlug !== targetQuote.categorySlug && q.mood !== targetQuote.mood);
+const continuationBuffer = [...related, ...other].slice(0, 15);
+
 const feedQuotes = [
   targetQuote,
-  ...allQuotes.filter(q => q.id !== targetQuote.id),
+  ...continuationBuffer,
 ];
 
 const structuredData = {

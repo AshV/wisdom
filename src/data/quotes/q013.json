@@ -6,7 +6,11 @@
   "category": "Love",
   "categorySlug": "love",
   "mood": "romantic",
-  "tags": ["love", "self-discovery", "barriers"],
+  "tags": [
+    "love",
+    "self-discovery",
+    "barriers"
+  ],
   "theme": "dark",
   "duration": 10
 }

@@ -1,0 +1,17 @@
+{
+  "id": "q300",
+  "content": "Somewhere, something incredible is waiting to be known.",
+  "author": "Carl Sagan",
+  "authorSlug": "carl-sagan",
+  "category": "Science",
+  "categorySlug": "science",
+  "mood": "serene",
+  "tags": [
+    "wonder",
+    "discovery",
+    "cosmos",
+    "curiosity"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

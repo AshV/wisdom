@@ -1,0 +1,17 @@
+{
+  "id": "q111",
+  "content": "It does not matter how slowly you go as long as you do not stop.",
+  "author": "Confucius",
+  "authorSlug": "confucius",
+  "category": "Wisdom",
+  "categorySlug": "wisdom",
+  "mood": "motivational",
+  "tags": [
+    "persistence",
+    "perseverance",
+    "progress",
+    "patience"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

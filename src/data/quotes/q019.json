@@ -6,7 +6,11 @@
   "category": "Resilience",
   "categorySlug": "resilience",
   "mood": "motivational",
-  "tags": ["luck", "preparation", "opportunity"],
+  "tags": [
+    "luck",
+    "preparation",
+    "opportunity"
+  ],
   "theme": "dark",
   "duration": 7
 }

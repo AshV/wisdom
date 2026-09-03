@@ -1,0 +1,17 @@
+{
+  "id": "q230",
+  "content": "Between every two pines there is a door to a new world.",
+  "author": "John Muir",
+  "authorSlug": "john-muir",
+  "category": "Nature",
+  "categorySlug": "nature",
+  "mood": "serene",
+  "tags": [
+    "pines",
+    "wonder",
+    "nature",
+    "doors"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

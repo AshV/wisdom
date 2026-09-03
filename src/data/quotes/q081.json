@@ -1,0 +1,17 @@
+{
+  "id": "q081",
+  "content": "Hope is a waking dream.",
+  "author": "Aristotle",
+  "authorSlug": "aristotle",
+  "category": "Philosophy",
+  "categorySlug": "philosophy",
+  "mood": "serene",
+  "tags": [
+    "hope",
+    "dreams",
+    "optimism",
+    "imagination"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

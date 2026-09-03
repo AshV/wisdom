@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "reflective",
-  "tags": ["mindset", "happiness", "stoicism"],
+  "tags": [
+    "mindset",
+    "happiness",
+    "stoicism"
+  ],
   "theme": "dark",
   "duration": 8
 }

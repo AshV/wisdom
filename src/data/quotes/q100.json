@@ -1,0 +1,17 @@
+{
+  "id": "q100",
+  "content": "To conquer fear is the beginning of wisdom.",
+  "author": "Bertrand Russell",
+  "authorSlug": "bertrand-russell",
+  "category": "Philosophy",
+  "categorySlug": "philosophy",
+  "mood": "bold",
+  "tags": [
+    "fear",
+    "courage",
+    "wisdom",
+    "freedom"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

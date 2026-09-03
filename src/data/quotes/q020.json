@@ -6,7 +6,11 @@
   "category": "Resilience",
   "categorySlug": "resilience",
   "mood": "motivational",
-  "tags": ["adversity", "opportunity", "perspective"],
+  "tags": [
+    "adversity",
+    "opportunity",
+    "perspective"
+  ],
   "theme": "dark",
   "duration": 6
 }

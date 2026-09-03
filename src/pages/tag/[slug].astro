@@ -19,7 +19,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return {
       params: { slug: tag },
       props: {
-        quotes: [...matched, ...remaining],
+        quotes: [...matched, ...remaining.slice(0, 15)],
         matchedCount: matched.length,
         tagName: tag,
       },

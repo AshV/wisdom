@@ -1,0 +1,17 @@
+{
+  "id": "q303",
+  "content": "Extraordinary claims require extraordinary evidence.",
+  "author": "Carl Sagan",
+  "authorSlug": "carl-sagan",
+  "category": "Science",
+  "categorySlug": "science",
+  "mood": "bold",
+  "tags": [
+    "skepticism",
+    "scientific-method",
+    "evidence",
+    "truth"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

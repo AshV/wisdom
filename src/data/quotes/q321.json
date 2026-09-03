@@ -1,0 +1,17 @@
+{
+  "id": "q321",
+  "content": "Love looks not with the eyes, but with the mind, and therefore is winged Cupid painted blind.",
+  "author": "William Shakespeare",
+  "authorSlug": "william-shakespeare",
+  "category": "Love",
+  "categorySlug": "love",
+  "mood": "romantic",
+  "tags": [
+    "love",
+    "mind",
+    "perception",
+    "classic"
+  ],
+  "theme": "dark",
+  "duration": 7
+}

@@ -6,7 +6,11 @@
   "category": "Philosophy",
   "categorySlug": "philosophy",
   "mood": "philosophical",
-  "tags": ["identity", "self-discovery", "authenticity"],
+  "tags": [
+    "identity",
+    "self-discovery",
+    "authenticity"
+  ],
   "theme": "dark",
   "duration": 8
 }

@@ -1,0 +1,17 @@
+{
+  "id": "q181",
+  "content": "Security is mostly a superstition. Life is either a daring adventure or nothing.",
+  "author": "Helen Keller",
+  "authorSlug": "helen-keller",
+  "category": "Courage",
+  "categorySlug": "courage",
+  "mood": "bold",
+  "tags": [
+    "adventure",
+    "daring",
+    "courage",
+    "risk"
+  ],
+  "theme": "dark",
+  "duration": 6
+}

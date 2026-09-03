@@ -201,9 +201,20 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
             window.updateLikeUI(window.likedQuotes.has(quoteId));
           }
 
-          // Update share context
+          // Update share context & background prepare 4:5 quote card image
           if (window.updateShareContext) {
             window.updateShareContext(slide);
+          }
+          if (window.prepareQuoteCardImage) {
+            window.prepareQuoteCardImage(slide);
+            const nextSlide = slide.nextElementSibling;
+            if (nextSlide && nextSlide.classList && nextSlide.classList.contains('reel-slide')) {
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => window.prepareQuoteCardImage(nextSlide));
+              } else {
+                setTimeout(() => window.prepareQuoteCardImage(nextSlide), 350);
+              }
+            }
           }
         }
       });
@@ -220,9 +231,11 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       const targetSlide = container.querySelector(`[data-quote-slug="${targetHash}"]`) || document.getElementById(`slide-${targetHash}`);
       if (targetSlide) {
         setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
+        if (window.updateShareContext) window.updateShareContext(targetSlide);
+        if (window.prepareQuoteCardImage) window.prepareQuoteCardImage(targetSlide);
       }
-    } else if (slides.length > 0) {
-      const first = slides[0];
+    } else if (initialSlides.length > 0) {
+      const first = initialSlides[0];
       first.classList.add('is-active');
       if (window.setBackground) {
         window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);
@@ -232,6 +245,17 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       }
       if (window.updateShareContext) {
         window.updateShareContext(first);
+      }
+      if (window.prepareQuoteCardImage) {
+        window.prepareQuoteCardImage(first);
+        const second = initialSlides[1];
+        if (second) {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(() => window.prepareQuoteCardImage(second));
+          } else {
+            setTimeout(() => window.prepareQuoteCardImage(second), 400);
+          }
+        }
       }
       if (window.wisdomAudio && first.dataset.mood) {
         window.wisdomAudio.setMood(first.dataset.mood);

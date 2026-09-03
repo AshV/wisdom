@@ -56,3 +56,7 @@ Thumbs.db
 *.tmp
 *.temp
 scratch/
+__pycache__/
+*.py[cod]
+*$py.class
+

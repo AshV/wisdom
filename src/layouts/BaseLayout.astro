@@ -356,7 +356,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         const container = document.getElementById('toast-container');
         if (!container) return;
         const toast = document.createElement('div');
-        toast.className = 'glass rounded-xl px-5 py-3 text-sm font-medium text-text-primary animate-toast-in';
+        toast.className = 'glass rounded-2xl px-6 py-3.5 text-sm font-medium text-text-primary animate-toast-in leading-normal shadow-2xl';
         toast.textContent = message;
         container.appendChild(toast);
         setTimeout(() => {

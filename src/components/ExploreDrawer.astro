@@ -1,15 +1,38 @@
 ---
 /**
- * ExploreDrawer — Slide-up frosted-glass discovery sheet.
+ * ExploreDrawer — High-end slide-up discovery sheet.
  *
- * Tabs: Moods, Categories, Authors, Tags with quote counters.
- * Built at build-time from the content collection.
+ * Tabs:
+ * 1. Liked (Saved quotes from localStorage with instant unlike & jump-to)
+ * 2. Moods (Visual mood cards)
+ * 3. Categories (Categorized wisdom)
+ * 4. Authors (Directory of timeless thinkers)
+ * 5. Tags (Topic tag cloud)
  */
 import { getCollection } from 'astro:content';
 import { moodMeta, allMoods } from '../data/mediaRegistry';
+import { slugifyQuote } from '../utils/slug';
 
 const allQuotes = await getCollection('quotes');
 const BASE = '/wisdom';
+
+// Client-side quote index for the Liked tab and quick lookup
+const quoteMap = Object.fromEntries(
+  allQuotes.map((q) => [
+    q.data.id,
+    {
+      id: q.data.id,
+      content: q.data.content,
+      author: q.data.author,
+      authorSlug: q.data.authorSlug,
+      category: q.data.category,
+      categorySlug: q.data.categorySlug,
+      mood: q.data.mood,
+      slug: slugifyQuote(q.data.content),
+      tags: q.data.tags || [],
+    },
+  ])
+);
 
 // Aggregate counts
 const moodCounts: Record<string, number> = {};
@@ -20,18 +43,23 @@ const tagCounts: Record<string, number> = {};
 allQuotes.forEach((q) => {
   const d = q.data;
   moodCounts[d.mood] = (moodCounts[d.mood] || 0) + 1;
-  if (!categoryCounts[d.categorySlug]) categoryCounts[d.categorySlug] = { name: d.category, slug: d.categorySlug, count: 0 };
+  if (!categoryCounts[d.categorySlug]) {
+    categoryCounts[d.categorySlug] = { name: d.category, slug: d.categorySlug, count: 0 };
+  }
   categoryCounts[d.categorySlug].count++;
-  if (!authorCounts[d.authorSlug]) authorCounts[d.authorSlug] = { name: d.author, slug: d.authorSlug, count: 0 };
+  if (!authorCounts[d.authorSlug]) {
+    authorCounts[d.authorSlug] = { name: d.author, slug: d.authorSlug, count: 0 };
+  }
   authorCounts[d.authorSlug].count++;
-  d.tags.forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+  d.tags.forEach((t) => {
+    tagCounts[t] = (tagCounts[t] || 0) + 1;
+  });
 });
 
 const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
 const authors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
 const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
-// Category icon map — visually distinct per category
 const categoryIcons: Record<string, string> = {
   philosophy: '🏛️',
   wisdom: '📜',
@@ -50,129 +78,226 @@ const categoryIcons: Record<string, string> = {
   id="explore-drawer"
   class="fixed inset-0 z-40 hidden"
   style="display: none;"
+  aria-modal="true"
+  role="dialog"
 >
-  <!-- Backdrop -->
+  <!-- Backdrop with rich blur -->
   <div
     id="explore-backdrop"
-    class="absolute inset-0 bg-black/70 backdrop-blur-lg cursor-pointer transition-opacity duration-300"
+    class="absolute inset-0 bg-black/80 backdrop-blur-xl transition-opacity duration-300 cursor-pointer"
   ></div>
 
-  <!-- Sheet -->
+  <!-- Sheet Container: Absolute bottom-docked with zero horizontal margin on mobile -->
   <div
     id="explore-sheet"
-    class="absolute bottom-0 left-0 right-0 max-h-[88vh] rounded-t-[28px] overflow-hidden animate-slide-up-sheet shadow-2xl shadow-black/80"
-    style="background: linear-gradient(180deg, rgba(30,25,50,0.97) 0%, rgba(12,10,28,0.99) 100%); border-top: 1px solid rgba(255,255,255,0.08);"
+    class="absolute bottom-0 left-0 right-0 mx-auto w-full sm:max-w-xl h-[86vh] sm:h-[82vh] max-h-[92vh] rounded-t-[32px] sm:rounded-t-[36px] overflow-hidden flex flex-col z-10 animate-slide-up-sheet border-t sm:border-x border-white/15"
+    style="background: linear-gradient(180deg, rgba(20, 16, 36, 0.98) 0%, rgba(9, 7, 18, 0.99) 100%); box-shadow: 0 -16px 60px rgba(0,0,0,0.85);"
   >
-    <!-- Drag Handle -->
-    <div class="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
-      <div class="w-10 h-1 rounded-full bg-white/20"></div>
+    <!-- Top Pull Bar (Mobile drag affordance) -->
+    <div id="explore-drag-handle" class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing sm:hidden">
+      <div class="w-12 h-1.5 rounded-full bg-white/30 hover:bg-white/45 transition-colors"></div>
     </div>
 
     <!-- Header -->
-    <div class="flex items-start justify-between px-5 sm:px-6 pb-4 pt-1">
-      <div>
-        <h2 class="text-lg sm:text-xl font-bold text-white tracking-tight leading-tight">Explore</h2>
-        <p class="text-[11px] sm:text-xs text-white/40 mt-0.5">{allQuotes.length} quotes · {categories.length} categories · {authors.length} authors</p>
+    <div class="flex items-center justify-between px-5 sm:px-6 pt-2 sm:pt-4 pb-3">
+      <div class="flex items-center gap-2.5">
+        <h2 class="text-xl font-bold text-white tracking-tight">Explore Wisdom</h2>
+        <span class="text-[11px] font-semibold text-white/70 bg-white/10 rounded-full px-3.5 py-1 border border-white/10 leading-normal inline-flex items-center">
+          {allQuotes.length} Quotes
+        </span>
       </div>
       <button
         id="explore-close-btn"
-        class="w-8 h-8 rounded-full bg-white/8 hover:bg-white/15 flex items-center justify-center transition-all duration-200 cursor-pointer mt-0.5 active:scale-90"
-        aria-label="Close explore drawer"
+        class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 flex items-center justify-center transition-all text-white/70 hover:text-white cursor-pointer"
+        aria-label="Close Explore"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/60">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
     </div>
 
-    <!-- Search -->
-    <div class="px-5 sm:px-6 pb-4">
-      <div class="relative">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <!-- Search Input -->
+    <div class="px-5 sm:px-6 pb-3">
+      <div class="relative flex items-center">
+        <svg
+          class="absolute left-3.5 text-white/40 pointer-events-none"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
         </svg>
         <input
           id="explore-search"
           type="text"
-          placeholder="Search moods, categories, authors, tags…"
-          class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/6 border border-white/8 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-white/20 focus:bg-white/8 transition-all duration-200"
+          placeholder="Search quotes, authors, topics..."
+          class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white/8 hover:bg-white/10 focus:bg-white/12 border border-white/10 focus:border-white/30 text-sm text-white placeholder:text-white/35 focus:outline-none transition-all leading-normal"
           autocomplete="off"
         />
+        <button
+          id="explore-search-clear"
+          class="absolute right-2.5 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white hidden items-center justify-center cursor-pointer transition-colors"
+          aria-label="Clear search"
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
     </div>
 
-    <!-- Tabs -->
-    <div class="flex px-5 sm:px-6 gap-1.5 mb-1">
-      <button class="explore-tab active text-[13px] font-semibold py-2 px-3.5 rounded-full bg-white/12 text-white transition-all duration-200 cursor-pointer" data-tab="moods">Moods</button>
-      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="categories">Categories</button>
-      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="authors">Authors</button>
-      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="tags">Tags</button>
+    <!-- Scrollable Horizontal Tabs Bar -->
+    <div class="px-5 sm:px-6 pb-2.5 border-b border-white/10 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+      <button
+        class="explore-tab active flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        data-tab="liked"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" class="text-red-400">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <span>Liked</span>
+        <span id="liked-tab-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 ml-0.5 min-w-[18px] text-center inline-flex items-center justify-center leading-none">0</span>
+      </button>
+
+      <button
+        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        data-tab="moods"
+      >
+        <span>✨</span>
+        <span>Moods</span>
+        <span class="text-[10px] opacity-60 font-normal">({allMoods.length})</span>
+      </button>
+
+      <button
+        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        data-tab="categories"
+      >
+        <span>📂</span>
+        <span>Categories</span>
+        <span class="text-[10px] opacity-60 font-normal">({categories.length})</span>
+      </button>
+
+      <button
+        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        data-tab="authors"
+      >
+        <span>✍️</span>
+        <span>Authors</span>
+        <span class="text-[10px] opacity-60 font-normal">({authors.length})</span>
+      </button>
+
+      <button
+        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        data-tab="tags"
+      >
+        <span>🏷️</span>
+        <span>Tags</span>
+        <span class="text-[10px] opacity-60 font-normal">({tags.length})</span>
+      </button>
     </div>
 
-    <!-- Tab Content Container -->
-    <div class="overflow-y-auto max-h-[58vh] px-5 sm:px-6 py-4 scrollbar-thin" id="explore-scroll-area">
-      <!-- Moods Tab -->
-      <div id="tab-moods" class="explore-tab-content grid grid-cols-2 gap-2.5">
+    <!-- Content Area (Fixed Scrollable Viewport) -->
+    <div id="explore-scroll-area" class="flex-1 overflow-y-auto px-5 sm:px-6 py-4 scrollbar-thin pb-10">
+      
+      <!-- 1. Liked Tab -->
+      <div id="tab-liked" class="explore-tab-content space-y-3">
+        <!-- Liked items populated dynamically via JS -->
+        <div id="liked-items-container" class="space-y-3"></div>
+
+        <!-- Empty State for Liked -->
+        <div id="liked-empty-state" class="flex flex-col items-center justify-center py-12 px-4 text-center">
+          <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500/20 to-red-500/20 border border-red-500/30 flex items-center justify-center mb-3 shadow-lg shadow-red-500/10">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-bold text-white mb-1">No Liked Quotes Yet</h3>
+          <p class="text-xs text-white/50 max-w-xs leading-relaxed mb-4">
+            Double-tap any quote or tap the heart icon in the action rail to build your personal sanctuary of wisdom.
+          </p>
+          <button
+            id="liked-browse-btn"
+            class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-semibold text-white border border-white/15 transition-all cursor-pointer"
+          >
+            Explore Quotes
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Moods Tab -->
+      <div id="tab-moods" class="explore-tab-content hidden grid grid-cols-2 gap-3">
         {allMoods.map((mood) => (
           <a
             href={`${BASE}/mood/${mood}/`}
-            class={`explore-item mood-pill-${mood} rounded-2xl p-3.5 flex flex-col justify-between h-24 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 shadow-lg shadow-black/25 group`}
+            class={`explore-item mood-pill-${mood} rounded-2xl p-4 flex flex-col justify-between h-28 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-black/25 group border border-white/15 relative overflow-hidden`}
             data-search-text={`${moodMeta[mood].label} ${mood}`}
           >
             <div class="flex items-center justify-between">
-              <span class="text-2xl group-hover:scale-110 transition-transform duration-200">{moodMeta[mood].emoji}</span>
-              <span class="text-[10px] font-bold text-white/90 bg-black/25 rounded-full px-2 py-0.5 tabular-nums">{moodCounts[mood] || 0}</span>
+              <span class="text-3xl group-hover:scale-110 transition-transform">{moodMeta[mood].emoji}</span>
+              <span class="text-[11px] font-bold text-white/95 bg-black/40 rounded-full px-3 py-1 border border-white/10 min-w-[28px] text-center inline-flex items-center justify-center leading-none">
+                {moodCounts[mood] || 0}
+              </span>
             </div>
-            <span class="text-[13px] font-bold text-white capitalize leading-tight">{moodMeta[mood].label}</span>
+            <div>
+              <span class="text-sm font-bold text-white block capitalize tracking-wide leading-normal">{moodMeta[mood].label}</span>
+              <span class="text-xs text-white/75 leading-normal">Mood stream</span>
+            </div>
           </a>
         ))}
       </div>
 
-      <!-- Categories Tab -->
-      <div id="tab-categories" class="explore-tab-content hidden space-y-1.5">
+      <!-- 3. Categories Tab -->
+      <div id="tab-categories" class="explore-tab-content hidden grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         {categories.map((cat) => (
           <a
             href={`${BASE}/category/${cat.slug}/`}
-            class="explore-item rounded-xl px-4 py-3 flex items-center justify-between hover:bg-white/8 active:bg-white/12 active:scale-[0.98] transition-all duration-200 group"
+            class="explore-item glass rounded-2xl px-4 py-3.5 flex items-center justify-between hover:bg-white/12 active:scale-[0.98] border border-white/10 hover:border-white/20 transition-all duration-200 group"
             data-search-text={cat.name}
           >
             <div class="flex items-center gap-3">
-              <span class="w-9 h-9 rounded-xl bg-white/8 flex items-center justify-center text-lg flex-shrink-0">{categoryIcons[cat.slug.toLowerCase()] || '📂'}</span>
-              <span class="text-sm font-semibold text-white/90 group-hover:text-white transition-colors">{cat.name}</span>
+              <span class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform">
+                {categoryIcons[cat.slug.toLowerCase()] || '📂'}
+              </span>
+              <div>
+                <span class="text-sm font-bold text-white group-hover:text-white transition-colors block">{cat.name}</span>
+                <span class="text-[11px] text-white/50">{cat.count} curated quotes</span>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] text-white/40 font-medium tabular-nums">{cat.count}</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
           </a>
         ))}
       </div>
 
-      <!-- Authors Tab -->
-      <div id="tab-authors" class="explore-tab-content hidden space-y-1">
+      <!-- 4. Authors Tab -->
+      <div id="tab-authors" class="explore-tab-content hidden space-y-2">
         {authors.map((auth, i) => {
           const hue = (i * 137.5) % 360;
           return (
             <a
               href={`${BASE}/author/${auth.slug}/`}
-              class="explore-item rounded-xl px-4 py-3 flex items-center gap-3.5 hover:bg-white/8 active:bg-white/12 active:scale-[0.98] transition-all duration-200 group"
+              class="explore-item glass rounded-2xl px-4 py-3 flex items-center gap-3.5 hover:bg-white/12 active:scale-[0.98] border border-white/10 hover:border-white/20 transition-all duration-200 group"
               data-search-text={auth.name}
             >
               <span
                 class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md flex-shrink-0"
-                style={`background: linear-gradient(135deg, hsl(${hue}, 65%, 50%), hsl(${(hue + 40) % 360}, 55%, 40%));`}
+                style={`background: linear-gradient(135deg, hsl(${hue}, 65%, 48%), hsl(${(hue + 45) % 360}, 55%, 38%)); border: 1px solid rgba(255,255,255,0.2);`}
               >
                 {auth.name.charAt(0)}
               </span>
               <div class="flex-1 min-w-0">
-                <span class="text-sm font-semibold text-white/90 block group-hover:text-white transition-colors truncate">{auth.name}</span>
-                <span class="text-[11px] text-white/35">{auth.count} {auth.count === 1 ? 'quote' : 'quotes'}</span>
+                <span class="text-sm font-bold text-white block group-hover:text-white transition-colors truncate">{auth.name}</span>
+                <span class="text-[11px] text-white/50">{auth.count} {auth.count === 1 ? 'timeless quote' : 'timeless quotes'}</span>
               </div>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all flex-shrink-0">
                 <polyline points="9 18 15 12 9 6" />
               </svg>
             </a>
@@ -180,118 +305,295 @@ const categoryIcons: Record<string, string> = {
         })}
       </div>
 
-      <!-- Tags Tab -->
+      <!-- 5. Tags Tab -->
       <div id="tab-tags" class="explore-tab-content hidden">
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-2 pt-1">
           {tags.map(([tag, count]) => {
-            const weight = count >= 3 ? 'bg-white/12 text-white/90' : count >= 2 ? 'bg-white/8 text-white/70' : 'bg-white/5 text-white/50';
+            const isHighCount = count >= 3;
             return (
               <a
                 href={`${BASE}/tag/${tag}/`}
-                class={`explore-item rounded-full px-3.5 py-1.5 text-xs font-medium ${weight} hover:bg-white/18 hover:text-white active:scale-95 transition-all duration-200 inline-flex items-center gap-1.5 border border-white/5 hover:border-white/15`}
+                class={`explore-item rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 inline-flex items-center gap-2 active:scale-95 border leading-normal ${
+                  isHighCount
+                    ? 'bg-white/15 hover:bg-white/25 text-white border-white/20 shadow-sm'
+                    : 'bg-white/8 hover:bg-white/18 text-white/80 border-white/10'
+                }`}
                 data-search-text={tag}
               >
                 <span>#{tag}</span>
-                <span class="text-[10px] opacity-50 font-semibold tabular-nums">{count}</span>
+                <span class="text-[10px] text-white/70 font-bold bg-black/30 rounded-full px-2 py-0.5 min-w-[20px] text-center inline-flex items-center justify-center leading-none">
+                  {count}
+                </span>
               </a>
             );
           })}
         </div>
       </div>
 
-      <!-- Empty search state -->
-      <div id="explore-empty" class="hidden flex-col items-center justify-center py-12 text-center">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white/15 mb-3">
+      <!-- Empty Search Filter State -->
+      <div id="explore-search-empty" class="hidden flex-col items-center justify-center py-14 text-center">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white/20 mb-3">
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
         </svg>
-        <p class="text-sm text-white/30">No results found</p>
-        <p class="text-xs text-white/15 mt-1">Try a different search term</p>
+        <p class="text-sm font-semibold text-white/60">No matches found</p>
+        <p class="text-xs text-white/35 mt-1">Try another keyword</p>
+        <button
+          id="explore-reset-search-btn"
+          class="mt-3 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white font-medium cursor-pointer"
+        >
+          Clear filter
+        </button>
       </div>
+
     </div>
   </div>
 </div>
+
+<!-- Provide serialized quoteMap to client-side logic -->
+<script is:inline define:vars={{ quoteMap, BASE }}>
+  window.__wisdomQuoteMap = quoteMap;
+  window.__wisdomBaseUrl = BASE;
+</script>
 
 <script is:inline>
   function setupExploreDrawer() {
     const drawer = document.getElementById('explore-drawer');
     const backdrop = document.getElementById('explore-backdrop');
     const closeBtn = document.getElementById('explore-close-btn');
+    const sheet = document.getElementById('explore-sheet');
     const tabs = document.querySelectorAll('.explore-tab');
     const tabContents = document.querySelectorAll('.explore-tab-content');
     const searchInput = document.getElementById('explore-search');
-    const emptyState = document.getElementById('explore-empty');
+    const searchClear = document.getElementById('explore-search-clear');
+    const searchEmpty = document.getElementById('explore-search-empty');
+    const resetSearchBtn = document.getElementById('explore-reset-search-btn');
+    const likedBadge = document.getElementById('liked-tab-badge');
+    const likedContainer = document.getElementById('liked-items-container');
+    const likedEmpty = document.getElementById('liked-empty-state');
+    const likedBrowseBtn = document.getElementById('liked-browse-btn');
+    const dragHandle = document.getElementById('explore-drag-handle');
 
-    function closeDrawer() {
-      if (!drawer) return;
-      const sheet = document.getElementById('explore-sheet');
-      if (sheet) {
-        sheet.style.animation = 'slide-down-sheet 0.3s ease-in forwards';
-        setTimeout(() => {
-          drawer.style.display = 'none';
-          drawer.classList.add('hidden');
-          sheet.style.animation = '';
-          // Reset search on close
-          if (searchInput) {
-            searchInput.value = '';
-            filterItems('');
-          }
-        }, 280);
-      }
-    }
+    let currentActiveTab = 'liked';
 
-    if (backdrop) backdrop.onclick = closeDrawer;
-    if (closeBtn) closeBtn.onclick = closeDrawer;
+    // ── Update Liked Tab Badge & Render ──
+    function refreshLikedQuotes() {
+      if (!window.likedQuotes || !window.__wisdomQuoteMap) return;
+      const allLikedIds = window.likedQuotes.getAll();
 
-    // Tab switching — using inline styles because Tailwind classes with / chars
-    // (e.g. bg-white/12) can't be reliably toggled via classList.add/remove
-    function activateTab(activeTab) {
-      tabs.forEach(t => {
-        t.style.background = 'transparent';
-        t.style.color = 'rgba(255,255,255,0.4)';
-        t.classList.remove('active');
-      });
-      activeTab.style.background = 'rgba(255,255,255,0.12)';
-      activeTab.style.color = 'rgba(255,255,255,1)';
-      activeTab.classList.add('active');
-    }
-
-    // Apply initial active state
-    const initialActive = document.querySelector('.explore-tab.active');
-    if (initialActive) activateTab(initialActive);
-
-    tabs.forEach(tab => {
-      tab.onclick = () => {
-        const target = tab.dataset.tab;
-
-        activateTab(tab);
-
-        // Show target content
-        tabContents.forEach(tc => tc.classList.add('hidden'));
-        const content = document.getElementById(`tab-${target}`);
-        if (content) content.classList.remove('hidden');
-
-        // Re-apply search filter
-        if (searchInput && searchInput.value) {
-          filterItems(searchInput.value);
+      // Update count badge
+      if (likedBadge) {
+        likedBadge.textContent = String(allLikedIds.length);
+        if (allLikedIds.length > 0) {
+          likedBadge.classList.remove('bg-white/10', 'text-white/50');
+          likedBadge.classList.add('bg-red-500/25', 'text-red-300');
+        } else {
+          likedBadge.classList.remove('bg-red-500/25', 'text-red-300');
+          likedBadge.classList.add('bg-white/10', 'text-white/50');
         }
+      }
 
-        // Scroll to top
-        const scrollArea = document.getElementById('explore-scroll-area');
-        if (scrollArea) scrollArea.scrollTop = 0;
-      };
+      if (!likedContainer) return;
+      likedContainer.innerHTML = '';
+
+      if (allLikedIds.length === 0) {
+        if (likedEmpty) likedEmpty.classList.remove('hidden');
+        return;
+      }
+
+      if (likedEmpty) likedEmpty.classList.add('hidden');
+
+      // Render cards in reverse chronological order (newest likes first)
+      const base = window.__wisdomBaseUrl || '/wisdom';
+      const quoteMap = window.__wisdomQuoteMap;
+
+      allLikedIds.slice().reverse().forEach((id) => {
+        const quote = quoteMap[id];
+        if (!quote) return;
+
+        const card = document.createElement('div');
+        card.className =
+          'explore-item glass rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-all duration-200 group relative flex flex-col justify-between gap-3';
+        card.dataset.searchText = `${quote.content} ${quote.author} ${quote.category}`;
+
+        // Quote text & Author
+        const contentBlock = document.createElement('div');
+        contentBlock.className = 'cursor-pointer';
+        contentBlock.innerHTML = `
+          <p class="font-serif text-[14px] sm:text-[15px] text-white/95 leading-relaxed italic line-clamp-3 group-hover:text-white transition-colors">
+            "${escapeHtml(quote.content)}"
+          </p>
+          <div class="mt-2 flex items-center justify-between">
+            <span class="text-xs font-semibold text-white/70 tracking-wide">— ${escapeHtml(quote.author)}</span>
+            <span class="text-[10px] font-semibold text-white/60 bg-white/10 px-3 py-1 rounded-full border border-white/10 uppercase tracking-wider leading-normal">
+              ${escapeHtml(quote.category)}
+            </span>
+          </div>
+        `;
+
+        // Action Row
+        const actionRow = document.createElement('div');
+        actionRow.className = 'pt-2 border-t border-white/8 flex items-center justify-between';
+
+        // Navigate button
+        const jumpBtn = document.createElement('button');
+        jumpBtn.className =
+          'inline-flex items-center gap-1.5 text-xs font-medium text-accent-start hover:text-white transition-colors cursor-pointer';
+        jumpBtn.innerHTML = `
+          <span>Open Quote</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        `;
+        jumpBtn.onclick = (e) => {
+          e.stopPropagation();
+          navigateToQuote(quote);
+        };
+
+        // Unlike button
+        const unlikeBtn = document.createElement('button');
+        unlikeBtn.className =
+          'w-7 h-7 rounded-full bg-red-500/15 hover:bg-red-500/25 active:scale-90 flex items-center justify-center transition-all text-red-400 cursor-pointer';
+        unlikeBtn.title = 'Remove from Liked';
+        unlikeBtn.setAttribute('aria-label', 'Remove from Liked');
+        unlikeBtn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+        `;
+        unlikeBtn.onclick = (e) => {
+          e.stopPropagation();
+          window.likedQuotes.toggle(id);
+
+          // Animate card removal
+          card.style.transition = 'all 0.25s ease';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            refreshLikedQuotes();
+            // Sync with current slide if visible
+            const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+            if (activeSlide && window.updateLikeUI) {
+              window.updateLikeUI(window.likedQuotes.has(activeSlide.dataset.quoteId));
+            }
+          }, 240);
+
+          if (window.showToast) {
+            window.showToast('Removed from favorites');
+          }
+        };
+
+        contentBlock.onclick = () => navigateToQuote(quote);
+
+        actionRow.appendChild(jumpBtn);
+        actionRow.appendChild(unlikeBtn);
+        card.appendChild(contentBlock);
+        card.appendChild(actionRow);
+        likedContainer.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ── Navigation to Quote ──
+    function navigateToQuote(quote) {
+      closeDrawer();
+      const reelContainer = document.getElementById('reel-container');
+      const targetHash = quote.slug || quote.id;
+
+      if (reelContainer) {
+        // We are on the main feed page — scroll directly to slide!
+        const targetSlide =
+          reelContainer.querySelector(`[data-quote-slug="${targetHash}"]`) ||
+          document.getElementById(`slide-${quote.id}`);
+        if (targetSlide) {
+          setTimeout(() => {
+            targetSlide.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.replaceState(null, '', `#${targetHash}`);
+          }, 320);
+          return;
+        }
+      }
+
+      // If not in DOM or on a subpage, navigate to root feed with hash
+      const base = window.__wisdomBaseUrl || '/wisdom';
+      setTimeout(() => {
+        window.location.href = `${base}/#${targetHash}`;
+      }, 300);
+    }
+
+    // ── Tab Switching ──
+    function activateTab(target) {
+      currentActiveTab = target;
+
+      tabs.forEach((tab) => {
+        const isSelected = tab.dataset.tab === target;
+        if (isSelected) {
+          tab.classList.add('active', 'bg-white/18', 'text-white', 'border-white/25', 'shadow-sm');
+          tab.classList.remove('bg-transparent', 'text-white/60', 'border-transparent');
+          // Ensure active tab is scrolled into view in horizontal bar
+          tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          tab.classList.remove('active', 'bg-white/18', 'text-white', 'border-white/25', 'shadow-sm');
+          tab.classList.add('bg-transparent', 'text-white/60', 'border-transparent');
+        }
+      });
+
+      tabContents.forEach((content) => {
+        if (content.id === `tab-${target}`) {
+          content.classList.remove('hidden');
+        } else {
+          content.classList.add('hidden');
+        }
+      });
+
+      if (target === 'liked') {
+        refreshLikedQuotes();
+      }
+
+      // Re-apply active search filter
+      if (searchInput && searchInput.value.trim()) {
+        filterItems(searchInput.value);
+      } else {
+        resetFilterVisibility();
+      }
+
+      // Reset scroll position
+      const scrollArea = document.getElementById('explore-scroll-area');
+      if (scrollArea) scrollArea.scrollTop = 0;
+    }
+
+    tabs.forEach((tab) => {
+      tab.onclick = () => activateTab(tab.dataset.tab);
     });
 
-    // Search filtering
+    if (likedBrowseBtn) {
+      likedBrowseBtn.onclick = () => activateTab('moods');
+    }
+
+    // ── Search & Filter ──
     function filterItems(query) {
       const q = query.toLowerCase().trim();
       let visibleCount = 0;
 
-      // Filter items in the currently visible tab
-      tabContents.forEach(tc => {
+      if (searchClear) {
+        if (q.length > 0) {
+          searchClear.classList.remove('hidden');
+          searchClear.classList.add('flex');
+        } else {
+          searchClear.classList.add('hidden');
+          searchClear.classList.remove('flex');
+        }
+      }
+
+      tabContents.forEach((tc) => {
         if (tc.classList.contains('hidden')) return;
         const items = tc.querySelectorAll('.explore-item');
-        items.forEach(item => {
+        items.forEach((item) => {
           const text = (item.dataset.searchText || item.textContent || '').toLowerCase();
           const match = !q || text.includes(q);
           item.style.display = match ? '' : 'none';
@@ -299,25 +601,144 @@ const categoryIcons: Record<string, string> = {
         });
       });
 
-      // Show/hide empty state
-      if (emptyState) {
+      if (searchEmpty) {
         if (q && visibleCount === 0) {
-          emptyState.classList.remove('hidden');
-          emptyState.classList.add('flex');
+          searchEmpty.classList.remove('hidden');
+          searchEmpty.classList.add('flex');
         } else {
-          emptyState.classList.add('hidden');
-          emptyState.classList.remove('flex');
+          searchEmpty.classList.add('hidden');
+          searchEmpty.classList.remove('flex');
         }
       }
     }
 
+    function resetFilterVisibility() {
+      tabContents.forEach((tc) => {
+        const items = tc.querySelectorAll('.explore-item');
+        items.forEach((item) => {
+          item.style.display = '';
+        });
+      });
+      if (searchEmpty) {
+        searchEmpty.classList.add('hidden');
+        searchEmpty.classList.remove('flex');
+      }
+    }
+
     if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        filterItems(e.target.value);
+      searchInput.addEventListener('input', (e) => filterItems(e.target.value));
+    }
+
+    if (searchClear) {
+      searchClear.onclick = () => {
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+        }
+        filterItems('');
+      };
+    }
+
+    if (resetSearchBtn) {
+      resetSearchBtn.onclick = () => {
+        if (searchInput) {
+          searchInput.value = '';
+        }
+        filterItems('');
+      };
+    }
+
+    // ── Open / Close Mechanics ──
+    function openDrawer(tabToOpen = 'liked') {
+      if (!drawer) return;
+      drawer.classList.remove('hidden');
+      drawer.style.display = 'block';
+
+      // Always update likes whenever opening
+      refreshLikedQuotes();
+
+      // If user has > 0 likes, default to Liked tab; otherwise default to Moods tab
+      const hasLikes = window.likedQuotes && window.likedQuotes.getAll().length > 0;
+      activateTab(hasLikes ? tabToOpen : 'moods');
+
+      if (searchInput) {
+        searchInput.value = '';
+        filterItems('');
+      }
+    }
+
+    function closeDrawer() {
+      if (!drawer) return;
+      if (sheet) {
+        sheet.style.animation = 'slide-down-sheet 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+        setTimeout(() => {
+          drawer.style.display = 'none';
+          drawer.classList.add('hidden');
+          sheet.style.animation = '';
+        }, 260);
+      } else {
+        drawer.style.display = 'none';
+        drawer.classList.add('hidden');
+      }
+    }
+
+    if (backdrop) backdrop.onclick = closeDrawer;
+    if (closeBtn) closeBtn.onclick = closeDrawer;
+
+    // Swipe down to dismiss on mobile drag handle
+    let touchStartY = 0;
+    let touchDiffY = 0;
+
+    if (dragHandle && sheet) {
+      dragHandle.addEventListener(
+        'touchstart',
+        (e) => {
+          touchStartY = e.touches[0].clientY;
+          touchDiffY = 0;
+        },
+        { passive: true }
+      );
+
+      dragHandle.addEventListener(
+        'touchmove',
+        (e) => {
+          touchDiffY = e.touches[0].clientY - touchStartY;
+          if (touchDiffY > 0) {
+            sheet.style.transform = `translateY(${touchDiffY}px)`;
+          }
+        },
+        { passive: true }
+      );
+
+      dragHandle.addEventListener('touchend', () => {
+        if (touchDiffY > 120) {
+          closeDrawer();
+        } else {
+          sheet.style.transition = 'transform 0.2s ease-out';
+          sheet.style.transform = '';
+          setTimeout(() => {
+            sheet.style.transition = '';
+          }, 200);
+        }
       });
     }
+
+    // Global hook so RightActionRail or other triggers can open drawer directly to any tab
+    window.openExploreDrawer = openDrawer;
+    window.refreshExploreLikes = refreshLikedQuotes;
   }
 
   document.addEventListener('DOMContentLoaded', setupExploreDrawer);
   document.addEventListener('astro:page-load', setupExploreDrawer);
 </script>
+
+<style>
+  /* Custom horizontal scrollbar hiding for tabs */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

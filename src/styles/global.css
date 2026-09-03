@@ -244,11 +244,22 @@ body {
 .mood-pill-philosophical { background: linear-gradient(135deg, var(--color-mood-philosophical), #818cf8); }
 .mood-pill-romantic { background: linear-gradient(135deg, var(--color-mood-romantic), #f472b6); }
 
-/* ── Utility ── */
-.no-select {
+/* ── Utility & Selection Protection ── */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-select, .reel-slide, .reel-container, button, a {
   -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: inherit;
 }
 
 /* ── Reduced motion ── */

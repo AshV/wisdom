@@ -86,6 +86,7 @@
         const quoteId = activeSlide.dataset.quoteId;
         const isLiked = window.likedQuotes.toggle(quoteId);
         updateLikeUI(isLiked);
+        if (window.refreshExploreLikes) window.refreshExploreLikes();
       };
     }
 
@@ -111,10 +112,14 @@
 
     if (exploreBtn) {
       exploreBtn.onclick = () => {
-        const drawer = document.getElementById('explore-drawer');
-        if (drawer) {
-          drawer.classList.remove('hidden');
-          drawer.style.display = 'flex';
+        if (window.openExploreDrawer) {
+          window.openExploreDrawer();
+        } else {
+          const drawer = document.getElementById('explore-drawer');
+          if (drawer) {
+            drawer.classList.remove('hidden');
+            drawer.style.display = 'flex';
+          }
         }
       };
     }

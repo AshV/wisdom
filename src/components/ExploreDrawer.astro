@@ -1,6 +1,6 @@
 ---
 /**
- * ExploreDrawer — Slide-up frosted-glass sheet.
+ * ExploreDrawer — Slide-up frosted-glass discovery sheet.
  *
  * Tabs: Moods, Categories, Authors, Tags with quote counters.
  * Built at build-time from the content collection.
@@ -30,6 +30,20 @@ allQuotes.forEach((q) => {
 const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
 const authors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
 const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+// Category icon map — visually distinct per category
+const categoryIcons: Record<string, string> = {
+  philosophy: '🏛️',
+  wisdom: '📜',
+  resilience: '🛡️',
+  nature: '🌿',
+  creativity: '🎨',
+  love: '💕',
+  science: '🔬',
+  spirituality: '🕊️',
+  humor: '😄',
+  leadership: '👑',
+};
 ---
 
 <div
@@ -40,116 +54,159 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
   <!-- Backdrop -->
   <div
     id="explore-backdrop"
-    class="absolute inset-0 bg-black/75 backdrop-blur-md cursor-pointer"
+    class="absolute inset-0 bg-black/70 backdrop-blur-lg cursor-pointer transition-opacity duration-300"
   ></div>
 
   <!-- Sheet -->
   <div
     id="explore-sheet"
-    class="absolute bottom-0 left-0 right-0 max-h-[85vh] glass-heavy rounded-t-3xl overflow-hidden animate-slide-up-sheet shadow-2xl shadow-black/80"
+    class="absolute bottom-0 left-0 right-0 max-h-[88vh] rounded-t-[28px] overflow-hidden animate-slide-up-sheet shadow-2xl shadow-black/80"
+    style="background: linear-gradient(180deg, rgba(30,25,50,0.97) 0%, rgba(12,10,28,0.99) 100%); border-top: 1px solid rgba(255,255,255,0.08);"
   >
-    <!-- Handle -->
-    <div class="flex justify-center pt-3 pb-1 cursor-pointer">
-      <div class="w-12 h-1.5 rounded-full bg-white/25"></div>
+    <!-- Drag Handle -->
+    <div class="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
+      <div class="w-10 h-1 rounded-full bg-white/20"></div>
     </div>
 
     <!-- Header -->
-    <div class="flex items-center justify-between px-6 pb-3 pt-1">
+    <div class="flex items-start justify-between px-5 sm:px-6 pb-4 pt-1">
       <div>
-        <h2 class="text-xl font-bold text-white tracking-tight">Explore Wisdom</h2>
-        <p class="text-xs text-white/50">{allQuotes.length} quotes across {categories.length} categories</p>
+        <h2 class="text-lg sm:text-xl font-bold text-white tracking-tight leading-tight">Explore</h2>
+        <p class="text-[11px] sm:text-xs text-white/40 mt-0.5">{allQuotes.length} quotes · {categories.length} categories · {authors.length} authors</p>
       </div>
       <button
         id="explore-close-btn"
-        class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors cursor-pointer"
+        class="w-8 h-8 rounded-full bg-white/8 hover:bg-white/15 flex items-center justify-center transition-all duration-200 cursor-pointer mt-0.5 active:scale-90"
         aria-label="Close explore drawer"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/60">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
     </div>
 
+    <!-- Search -->
+    <div class="px-5 sm:px-6 pb-4">
+      <div class="relative">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          id="explore-search"
+          type="text"
+          placeholder="Search moods, categories, authors, tags…"
+          class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/6 border border-white/8 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-white/20 focus:bg-white/8 transition-all duration-200"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
     <!-- Tabs -->
-    <div class="flex border-b border-white/10 px-6 gap-2">
-      <button class="explore-tab active text-sm font-semibold pb-3 px-3 text-white border-b-2 border-white transition-colors cursor-pointer" data-tab="moods">Moods</button>
-      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="categories">Categories</button>
-      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="authors">Authors</button>
-      <button class="explore-tab text-sm font-semibold pb-3 px-3 text-white/40 border-b-2 border-transparent hover:text-white/70 transition-colors cursor-pointer" data-tab="tags">Tags</button>
+    <div class="flex px-5 sm:px-6 gap-1.5 mb-1">
+      <button class="explore-tab active text-[13px] font-semibold py-2 px-3.5 rounded-full bg-white/12 text-white transition-all duration-200 cursor-pointer" data-tab="moods">Moods</button>
+      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="categories">Categories</button>
+      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="authors">Authors</button>
+      <button class="explore-tab text-[13px] font-semibold py-2 px-3.5 rounded-full text-white/40 hover:text-white/60 hover:bg-white/5 transition-all duration-200 cursor-pointer" data-tab="tags">Tags</button>
     </div>
 
     <!-- Tab Content Container -->
-    <div class="overflow-y-auto max-h-[62vh] px-6 py-5 scrollbar-thin">
+    <div class="overflow-y-auto max-h-[58vh] px-5 sm:px-6 py-4 scrollbar-thin" id="explore-scroll-area">
       <!-- Moods Tab -->
-      <div id="tab-moods" class="explore-tab-content grid grid-cols-2 gap-3.5">
+      <div id="tab-moods" class="explore-tab-content grid grid-cols-2 gap-2.5">
         {allMoods.map((mood) => (
           <a
             href={`${BASE}/mood/${mood}/`}
-            class={`mood-pill-${mood} rounded-2xl p-4 flex flex-col justify-between h-28 hover:scale-[1.03] transition-all duration-200 shadow-lg shadow-black/20 group`}
+            class={`explore-item mood-pill-${mood} rounded-2xl p-3.5 flex flex-col justify-between h-24 hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 shadow-lg shadow-black/25 group`}
+            data-search-text={`${moodMeta[mood].label} ${mood}`}
           >
             <div class="flex items-center justify-between">
-              <span class="text-3xl group-hover:scale-110 transition-transform">{moodMeta[mood].emoji}</span>
-              <span class="text-[11px] font-semibold text-white/80 bg-black/20 rounded-full px-2 py-0.5">{moodCounts[mood] || 0}</span>
+              <span class="text-2xl group-hover:scale-110 transition-transform duration-200">{moodMeta[mood].emoji}</span>
+              <span class="text-[10px] font-bold text-white/90 bg-black/25 rounded-full px-2 py-0.5 tabular-nums">{moodCounts[mood] || 0}</span>
             </div>
-            <div>
-              <span class="text-base font-bold text-white block capitalize">{moodMeta[mood].label}</span>
-              <span class="text-[11px] text-white/75">Stream feed</span>
-            </div>
+            <span class="text-[13px] font-bold text-white capitalize leading-tight">{moodMeta[mood].label}</span>
           </a>
         ))}
       </div>
 
       <!-- Categories Tab -->
-      <div id="tab-categories" class="explore-tab-content hidden space-y-2.5">
+      <div id="tab-categories" class="explore-tab-content hidden space-y-1.5">
         {categories.map((cat) => (
           <a
             href={`${BASE}/category/${cat.slug}/`}
-            class="glass rounded-2xl px-5 py-4 flex items-center justify-between hover:bg-white/12 transition-all duration-200 block group"
+            class="explore-item rounded-xl px-4 py-3 flex items-center justify-between hover:bg-white/8 active:bg-white/12 active:scale-[0.98] transition-all duration-200 group"
+            data-search-text={cat.name}
           >
             <div class="flex items-center gap-3">
-              <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sm font-bold text-white">#</span>
-              <span class="text-sm font-semibold text-white group-hover:text-white transition-colors">{cat.name}</span>
+              <span class="w-9 h-9 rounded-xl bg-white/8 flex items-center justify-center text-lg flex-shrink-0">{categoryIcons[cat.slug.toLowerCase()] || '📂'}</span>
+              <span class="text-sm font-semibold text-white/90 group-hover:text-white transition-colors">{cat.name}</span>
             </div>
-            <span class="text-xs text-white/60 bg-white/10 rounded-full px-3 py-1 font-medium">{cat.count} quotes</span>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-white/40 font-medium tabular-nums">{cat.count}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
           </a>
         ))}
       </div>
 
       <!-- Authors Tab -->
-      <div id="tab-authors" class="explore-tab-content hidden space-y-2.5">
-        {authors.map((auth) => (
-          <a
-            href={`${BASE}/author/${auth.slug}/`}
-            class="glass rounded-2xl px-5 py-3.5 flex items-center gap-4 hover:bg-white/12 transition-all duration-200 block group"
-          >
-            <span class="w-11 h-11 rounded-full bg-gradient-to-br from-accent-start to-accent-end flex items-center justify-center text-base font-bold text-white shadow-md flex-shrink-0">
-              {auth.name.charAt(0)}
-            </span>
-            <div class="flex-1 min-w-0">
-              <span class="text-sm font-bold text-white block group-hover:text-white transition-colors">{auth.name}</span>
-              <span class="text-xs text-white/50">{auth.count} timeless quotes</span>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </a>
-        ))}
+      <div id="tab-authors" class="explore-tab-content hidden space-y-1">
+        {authors.map((auth, i) => {
+          const hue = (i * 137.5) % 360;
+          return (
+            <a
+              href={`${BASE}/author/${auth.slug}/`}
+              class="explore-item rounded-xl px-4 py-3 flex items-center gap-3.5 hover:bg-white/8 active:bg-white/12 active:scale-[0.98] transition-all duration-200 group"
+              data-search-text={auth.name}
+            >
+              <span
+                class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md flex-shrink-0"
+                style={`background: linear-gradient(135deg, hsl(${hue}, 65%, 50%), hsl(${(hue + 40) % 360}, 55%, 40%));`}
+              >
+                {auth.name.charAt(0)}
+              </span>
+              <div class="flex-1 min-w-0">
+                <span class="text-sm font-semibold text-white/90 block group-hover:text-white transition-colors truncate">{auth.name}</span>
+                <span class="text-[11px] text-white/35">{auth.count} {auth.count === 1 ? 'quote' : 'quotes'}</span>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/20 group-hover:text-white/50 group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          );
+        })}
       </div>
 
       <!-- Tags Tab -->
       <div id="tab-tags" class="explore-tab-content hidden">
-        <div class="flex flex-wrap gap-2.5">
-          {tags.map(([tag, count]) => (
-            <a
-              href={`${BASE}/tag/${tag}/`}
-              class="glass rounded-full px-4 py-2 text-xs font-medium text-white/80 hover:text-white hover:bg-white/15 transition-all duration-200 inline-flex items-center gap-1.5"
-            >
-              <span>#{tag}</span>
-              <span class="text-white/40 font-semibold text-[10px]">{count}</span>
-            </a>
-          ))}
+        <div class="flex flex-wrap gap-2">
+          {tags.map(([tag, count]) => {
+            const weight = count >= 3 ? 'bg-white/12 text-white/90' : count >= 2 ? 'bg-white/8 text-white/70' : 'bg-white/5 text-white/50';
+            return (
+              <a
+                href={`${BASE}/tag/${tag}/`}
+                class={`explore-item rounded-full px-3.5 py-1.5 text-xs font-medium ${weight} hover:bg-white/18 hover:text-white active:scale-95 transition-all duration-200 inline-flex items-center gap-1.5 border border-white/5 hover:border-white/15`}
+                data-search-text={tag}
+              >
+                <span>#{tag}</span>
+                <span class="text-[10px] opacity-50 font-semibold tabular-nums">{count}</span>
+              </a>
+            );
+          })}
         </div>
+      </div>
+
+      <!-- Empty search state -->
+      <div id="explore-empty" class="hidden flex-col items-center justify-center py-12 text-center">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white/15 mb-3">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <p class="text-sm text-white/30">No results found</p>
+        <p class="text-xs text-white/15 mt-1">Try a different search term</p>
       </div>
     </div>
   </div>
@@ -162,6 +219,8 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     const closeBtn = document.getElementById('explore-close-btn');
     const tabs = document.querySelectorAll('.explore-tab');
     const tabContents = document.querySelectorAll('.explore-tab-content');
+    const searchInput = document.getElementById('explore-search');
+    const emptyState = document.getElementById('explore-empty');
 
     function closeDrawer() {
       if (!drawer) return;
@@ -172,6 +231,11 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
           drawer.style.display = 'none';
           drawer.classList.add('hidden');
           sheet.style.animation = '';
+          // Reset search on close
+          if (searchInput) {
+            searchInput.value = '';
+            filterItems('');
+          }
         }, 280);
       }
     }
@@ -179,21 +243,79 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     if (backdrop) backdrop.onclick = closeDrawer;
     if (closeBtn) closeBtn.onclick = closeDrawer;
 
+    // Tab switching — using inline styles because Tailwind classes with / chars
+    // (e.g. bg-white/12) can't be reliably toggled via classList.add/remove
+    function activateTab(activeTab) {
+      tabs.forEach(t => {
+        t.style.background = 'transparent';
+        t.style.color = 'rgba(255,255,255,0.4)';
+        t.classList.remove('active');
+      });
+      activeTab.style.background = 'rgba(255,255,255,0.12)';
+      activeTab.style.color = 'rgba(255,255,255,1)';
+      activeTab.classList.add('active');
+    }
+
+    // Apply initial active state
+    const initialActive = document.querySelector('.explore-tab.active');
+    if (initialActive) activateTab(initialActive);
+
     tabs.forEach(tab => {
       tab.onclick = () => {
         const target = tab.dataset.tab;
-        tabs.forEach(t => {
-          t.classList.remove('active', 'text-white', 'border-white');
-          t.classList.add('text-white/40', 'border-transparent');
-        });
-        tab.classList.add('active', 'text-white', 'border-white');
-        tab.classList.remove('text-white/40', 'border-transparent');
 
+        activateTab(tab);
+
+        // Show target content
         tabContents.forEach(tc => tc.classList.add('hidden'));
         const content = document.getElementById(`tab-${target}`);
         if (content) content.classList.remove('hidden');
+
+        // Re-apply search filter
+        if (searchInput && searchInput.value) {
+          filterItems(searchInput.value);
+        }
+
+        // Scroll to top
+        const scrollArea = document.getElementById('explore-scroll-area');
+        if (scrollArea) scrollArea.scrollTop = 0;
       };
     });
+
+    // Search filtering
+    function filterItems(query) {
+      const q = query.toLowerCase().trim();
+      let visibleCount = 0;
+
+      // Filter items in the currently visible tab
+      tabContents.forEach(tc => {
+        if (tc.classList.contains('hidden')) return;
+        const items = tc.querySelectorAll('.explore-item');
+        items.forEach(item => {
+          const text = (item.dataset.searchText || item.textContent || '').toLowerCase();
+          const match = !q || text.includes(q);
+          item.style.display = match ? '' : 'none';
+          if (match) visibleCount++;
+        });
+      });
+
+      // Show/hide empty state
+      if (emptyState) {
+        if (q && visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+        } else {
+          emptyState.classList.add('hidden');
+          emptyState.classList.remove('flex');
+        }
+      }
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        filterItems(e.target.value);
+      });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', setupExploreDrawer);

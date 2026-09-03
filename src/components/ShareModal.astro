@@ -269,8 +269,8 @@
     }
     ctx.restore();
 
-    // 7. Author Attribution
-    const authorY = textStartY + totalTextHeight + 65;
+    // 7. Author Attribution (one line space below quote)
+    const authorY = textStartY + totalTextHeight + lineHeight;
     ctx.save();
     ctx.fillStyle = '#f3f4f6';
     ctx.font = '700 28px "Inter", -apple-system, sans-serif';

@@ -98,7 +98,7 @@
           modal.style.display = 'flex';
           const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
           if (window.updateShareContext && activeSlide) {
-            window.updateShareContext(activeSlide);
+            window.updateShareContext(activeSlide, true);
           }
         }
       };

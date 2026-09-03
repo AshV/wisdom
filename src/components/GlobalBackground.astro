@@ -996,6 +996,12 @@
       if (gc) gc.style.background = currentPalette.glowCenter;
     };
 
+    (window as any).wisdomBackground = {
+      getCurrentPalette: () => currentPalette,
+      getCurrentAnim: () => currentAnim,
+      getCanvas: () => canvas,
+    };
+
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', () => {
       isVisible = !document.hidden;

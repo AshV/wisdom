@@ -566,8 +566,8 @@
         const origin = window.location.origin.includes('localhost') ? window.location.origin : 'https://www.ashishvishwakarma.com';
         const url = `${origin}/wisdom/quote/${currentQuoteSlug}/`;
         const shareData = {
-          title: `"${currentQuoteText}" — ${currentAuthor}`,
-          text: `"${currentQuoteText}" — ${currentAuthor}\n${url}`,
+          text: url,
+          url: url,
           files: [entry.file],
         };
 

@@ -34,6 +34,7 @@ interface Props {
 }
 
 const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = Astro.props;
+const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedType === 'master' ? 0 : quotes.length));
 ---
 
 <!-- Feed Header (subtle overlay) -->
@@ -58,7 +59,12 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       )}
     </div>
     <div class="text-center flex-1 mx-4 truncate">
-      <h1 class="text-sm font-bold text-white/90 tracking-wide text-shadow-soft truncate">{feedTitle}</h1>
+      <h1
+        id="feed-header-title"
+        class="text-sm font-bold text-white/90 tracking-wide text-shadow-soft truncate transition-opacity duration-300"
+      >
+        {feedTitle}
+      </h1>
     </div>
     <div class="w-24 flex justify-end">
       <span class="text-[11px] font-mono font-medium text-white/80 glass px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm leading-normal">
@@ -98,7 +104,8 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       mood={q.mood}
       tags={q.tags}
       index={i}
-      isStreamContinuation={Boolean(matchedCount && i === matchedCount)}
+      isStreamContinuation={Boolean(effectiveMatchedCount && i === effectiveMatchedCount)}
+      isTopicMatch={Boolean(effectiveMatchedCount ? i < effectiveMatchedCount : true)}
     />
   ))}
 
@@ -274,6 +281,9 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
             window.updateLikeUI(window.likedQuotes.has(quoteId));
           }
 
+          // Update header topic text (remove on scroll if topic is deviated in infinite scroll)
+          updateHeaderTopicState(slide);
+
           // Update share context & background prepare 4:5 quote card image
           if (window.updateShareContext) {
             window.updateShareContext(slide);
@@ -296,6 +306,24 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       threshold: 0.5,
     });
 
+    // Helper: update header topic visibility when scrolling between matched and continuation quotes
+    function updateHeaderTopicState(slide) {
+      if (!slide) return;
+      const isTopicMatch = slide.dataset.topicMatch !== 'false';
+      const headerTitle = document.getElementById('feed-header-title');
+      if (headerTitle && feedType !== 'master') {
+        if (isTopicMatch) {
+          headerTitle.classList.remove('opacity-0', 'pointer-events-none');
+          headerTitle.classList.add('opacity-100');
+          headerTitle.removeAttribute('aria-hidden');
+        } else {
+          headerTitle.classList.remove('opacity-100');
+          headerTitle.classList.add('opacity-0', 'pointer-events-none');
+          headerTitle.setAttribute('aria-hidden', 'true');
+        }
+      }
+    }
+
     initialSlides.forEach(slide => observer.observe(slide));
 
     // Initialize first slide (target quote or freshly randomized top quote)
@@ -303,6 +331,7 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       const first = initialSlides[0];
       initialSlides.forEach(s => s.classList.remove('is-active'));
       first.classList.add('is-active');
+      updateHeaderTopicState(first);
 
       if (window.setBackground) {
         window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);

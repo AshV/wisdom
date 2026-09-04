@@ -24,9 +24,22 @@ interface Props {
   tags: string[];
   index: number;
   isStreamContinuation?: boolean;
+  isTopicMatch?: boolean;
 }
 
-const { id, content, author, authorSlug, category, categorySlug, mood, tags, index, isStreamContinuation = false } = Astro.props;
+const {
+  id,
+  content,
+  author,
+  authorSlug,
+  category,
+  categorySlug,
+  mood,
+  tags,
+  index,
+  isStreamContinuation = false,
+  isTopicMatch = true,
+} = Astro.props;
 
 const media = getMediaForQuote(id, mood);
 const audioSrc = getAudioForMood(mood);
@@ -60,12 +73,15 @@ if (len < 55) {
   data-quote-slug={quoteSlug}
   data-content={content}
   data-author={author}
+  data-author-slug={authorSlug}
   data-video-src={media.video}
   data-gradient-class={media.gradient}
   data-mood={mood}
   data-category={category}
+  data-category-slug={categorySlug}
   data-audio-src={audioSrc}
   data-index={index}
+  data-topic-match={isTopicMatch ? 'true' : 'false'}
 >
   <!-- Double-tap detection zone across entire slide -->
   <div

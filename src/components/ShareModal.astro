@@ -14,17 +14,17 @@
 
 <div
   id="share-modal"
-  class="fixed inset-0 z-50 hidden items-center justify-center"
+  class="fixed inset-0 z-50 hidden flex flex-col items-center justify-center p-4 sm:p-6 overflow-y-auto"
   style="display: none;"
 >
   <!-- Backdrop -->
-  <div id="share-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"></div>
+  <div id="share-backdrop" class="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"></div>
 
-  <!-- Modal Content -->
-  <div class="relative z-10 glass-heavy rounded-3xl p-5 mx-4 max-w-[340px] w-full animate-slide-up overflow-hidden shadow-2xl border border-white/15">
+  <!-- Modal Content Card -->
+  <div class="relative z-10 glass-heavy rounded-3xl p-6 sm:p-8 m-auto max-w-[420px] sm:max-w-[450px] w-full animate-slide-up shadow-2xl border border-white/20">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-base font-bold text-white tracking-wide">Share Quote</h3>
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-base sm:text-lg font-bold text-white tracking-wide">Share Quote</h3>
       <button
         id="share-close-btn"
         class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors text-white/80 hover:text-white cursor-pointer"
@@ -38,10 +38,10 @@
     </div>
 
     <!-- Visual Card Preview (Hero) -->
-    <div class="relative mb-5 flex flex-col items-center">
-      <div class="relative w-44 aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/60 border border-white/20 bg-black/40 flex items-center justify-center">
+    <div class="relative mb-6 flex flex-col items-center">
+      <div class="relative w-48 sm:w-52 aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/70 border border-white/20 bg-black/40 flex items-center justify-center">
         <!-- Ambient glow behind preview card -->
-        <div id="share-preview-glow" class="absolute -inset-2 rounded-2xl bg-gradient-to-r from-purple-500/25 to-pink-500/25 blur-xl opacity-70 pointer-events-none"></div>
+        <div id="share-preview-glow" class="absolute -inset-3 rounded-2xl bg-gradient-to-r from-purple-500/25 to-pink-500/25 blur-xl opacity-70 pointer-events-none"></div>
 
         <img
           id="share-preview-image"
@@ -58,11 +58,11 @@
     </div>
 
     <!-- Actions -->
-    <div class="space-y-2.5">
+    <div class="flex flex-col gap-4">
       <!-- 1. Primary Action: Share Image -->
       <button
         id="share-image-btn"
-        class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer shadow-lg shadow-purple-900/30 active:scale-[0.98] leading-normal"
+        class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold text-sm flex items-center justify-center gap-2.5 transition-all duration-200 cursor-pointer shadow-lg shadow-purple-900/30 active:scale-[0.98] leading-normal"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
@@ -73,45 +73,45 @@
       </button>
 
       <!-- 2. Secondary Quick Actions Row: Copy Image | Save PNG | Copy Link -->
-      <div class="grid grid-cols-3 gap-2">
+      <div class="grid grid-cols-3 gap-3.5 sm:gap-4">
         <!-- Copy Image to Clipboard -->
         <button
           id="copy-image-btn"
-          class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl glass hover:bg-white/10 active:scale-95 transition-all text-white/85 hover:text-white cursor-pointer"
+          class="flex flex-col items-center justify-center gap-2 py-3.5 px-2 rounded-2xl glass hover:bg-white/12 active:scale-95 transition-all text-white/90 hover:text-white cursor-pointer border border-white/10"
           title="Copy image to clipboard"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
           </svg>
-          <span class="text-[11px] font-medium leading-normal text-center">Copy Image</span>
+          <span class="text-xs font-medium leading-tight text-center">Copy Image</span>
         </button>
 
         <!-- Save PNG -->
         <button
           id="download-image-btn"
-          class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl glass hover:bg-white/10 active:scale-95 transition-all text-white/85 hover:text-white cursor-pointer"
+          class="flex flex-col items-center justify-center gap-2 py-3.5 px-2 rounded-2xl glass hover:bg-white/12 active:scale-95 transition-all text-white/90 hover:text-white cursor-pointer border border-white/10"
           title="Download PNG image"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          <span class="text-[11px] font-medium leading-normal text-center">Save PNG</span>
+          <span class="text-xs font-medium leading-tight text-center">Save PNG</span>
         </button>
 
         <!-- Copy Link -->
         <button
           id="share-link-btn"
-          class="flex flex-col items-center justify-center gap-1.5 py-3 px-2 rounded-xl glass hover:bg-white/10 active:scale-95 transition-all text-white/85 hover:text-white cursor-pointer"
+          class="flex flex-col items-center justify-center gap-2 py-3.5 px-2 rounded-2xl glass hover:bg-white/12 active:scale-95 transition-all text-white/90 hover:text-white cursor-pointer border border-white/10"
           title="Share or copy quote link"
         >
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
-          <span class="text-[11px] font-medium leading-normal text-center">Copy Link</span>
+          <span class="text-xs font-medium leading-tight text-center">Copy Link</span>
         </button>
       </div>
     </div>
@@ -147,18 +147,6 @@
         c.arcTo(x, y, x + w, y, r);
       }
     }
-
-    const moodInfoMap = {
-      reflective: { label: 'Reflective', emoji: '🌙', colors: ['#6366f1', '#818cf8'] },
-      motivational: { label: 'Motivational', emoji: '🔥', colors: ['#f59e0b', '#fbbf24'] },
-      serene: { label: 'Serene', emoji: '🌊', colors: ['#06b6d4', '#22d3ee'] },
-      bold: { label: 'Bold', emoji: '⚡', colors: ['#ef4444', '#f87171'] },
-      melancholic: { label: 'Melancholic', emoji: '🌧️', colors: ['#8b5cf6', '#a78bfa'] },
-      joyful: { label: 'Joyful', emoji: '✨', colors: ['#10b981', '#34d399'] },
-      philosophical: { label: 'Philosophical', emoji: '🤔', colors: ['#6366f1', '#818cf8'] },
-      romantic: { label: 'Romantic', emoji: '💜', colors: ['#ec4899', '#f472b6'] },
-    };
-    const moodInfo = moodInfoMap[mood] || moodInfoMap.reflective;
 
     // ── 1. Live Screen Background Canvas Snapshot ──
     const ambientCanvas = document.getElementById('ambient-canvas');
@@ -256,40 +244,7 @@
     drawRoundRect(ctx, inset, inset, width - inset * 2, height - inset * 2, radius);
     ctx.stroke();
 
-    // ── 5. Minimalist Screen Header Bar (Matching Top Screen Bar) ──
-    const topY = 88;
-
-    // Emerald Active Dot
-    ctx.save();
-    ctx.fillStyle = '#10b981';
-    ctx.shadowColor = 'rgba(16, 185, 129, 0.85)';
-    ctx.shadowBlur = 12;
-    ctx.beginPath();
-    ctx.arc(inset + 32, topY, 4.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-
-    // Brand Title "WISDOM"
-    ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
-    ctx.font = '700 14px "Inter", -apple-system, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '3px';
-    ctx.fillText('WISDOM', inset + 46, topY);
-    ctx.restore();
-
-    // Header Right: "TIMELESS WISDOM"
-    ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.font = '500 13px "Inter", -apple-system, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    ctx.fillText('TIMELESS WISDOM', width - inset - 32, topY);
-    ctx.restore();
-
-    // ── 6. Typography Engine (Matching Screen Font & Artistic Shadows) ──
+    // ── 5. Typography Engine (Matching Screen Font & Artistic Shadows) ──
     const len = content.length;
     let fontSize = 54;
     let lineHeight = 76;
@@ -333,9 +288,9 @@
     const authorHeight = 40;
     const totalBlockHeight = quoteMarkHeight + quoteMarkGap + totalQuoteTextHeight + authorGap + authorHeight;
 
-    // Center quote block comfortably in viewport
-    let blockStartY = (height - totalBlockHeight) / 2 - 25;
-    if (blockStartY < 170) blockStartY = 170;
+    // Center quote block comfortably in viewport (allowing breathing space for bottom watermark)
+    let blockStartY = (height - 60 - totalBlockHeight) / 2;
+    if (blockStartY < 140) blockStartY = 140;
 
     // Decorative Quotation Mark (Playfair Display, delicate white/35)
     const quoteMarkY = blockStartY + (quoteMarkHeight / 2);
@@ -377,73 +332,10 @@
     ctx.fillText(`— ${author}`, width / 2, authorY);
     ctx.restore();
 
-    // ── 7. Screen Category & Mood Pills (Exact Replica of Screen UI) ──
-    const pillsY = 1120;
-    const pillHeight = 46;
-    const pillRadius = 23;
-
-    // Category pill calculation
-    const categoryText = category;
-    ctx.font = '500 17px "Inter", -apple-system, sans-serif';
-    const catMetrics = ctx.measureText(categoryText);
-    const catPillWidth = catMetrics.width + 48;
-
-    // Mood badge calculation
-    ctx.font = '600 17px "Inter", -apple-system, sans-serif';
-    const moodMetrics = ctx.measureText(`${moodInfo.emoji}  ${moodInfo.label}`);
-    const moodPillWidth = moodMetrics.width + 48;
-
-    const gap = 16;
-    const totalPillsWidth = catPillWidth + gap + moodPillWidth;
-    const pillsStartX = (width - totalPillsWidth) / 2;
-
-    // Draw Category Pill (Glass Rounded Full)
-    const catX = pillsStartX;
-    ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.10)';
-    ctx.beginPath();
-    drawRoundRect(ctx, catX, pillsY, catPillWidth, pillHeight, pillRadius);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
-    ctx.font = '500 17px "Inter", -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(categoryText, catX + catPillWidth / 2, pillsY + pillHeight / 2);
-    ctx.restore();
-
-    // Draw Mood Badge (Tailored Mood Gradient Pill)
-    const moodX = catX + catPillWidth + gap;
-    const moodGradColors = moodInfo.colors;
-    ctx.save();
-    const mGrad = ctx.createLinearGradient(moodX, pillsY, moodX + moodPillWidth, pillsY + pillHeight);
-    mGrad.addColorStop(0, moodGradColors[0]);
-    mGrad.addColorStop(1, moodGradColors[1]);
-    ctx.fillStyle = mGrad;
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.40)';
-    ctx.shadowBlur = 12;
-    ctx.shadowOffsetY = 3;
-    ctx.beginPath();
-    drawRoundRect(ctx, moodX, pillsY, moodPillWidth, pillHeight, pillRadius);
-    ctx.fill();
-    ctx.restore();
-
-    // Mood Badge Text + Emoji
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '600 16px "Inter", -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(`${moodInfo.emoji}  ${moodInfo.label}`, moodX + moodPillWidth / 2, pillsY + pillHeight / 2);
-    ctx.restore();
-
-    // ── 8. Footer Domain Watermark ──
+    // ── 6. Footer Domain Watermark ──
     ctx.save();
     ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.font = '500 15px "Inter", -apple-system, sans-serif';
+    ctx.font = '500 16px "Inter", -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '3px';
@@ -585,6 +477,11 @@
     }
 
     if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
     // ESC key closes modal

@@ -81,7 +81,12 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
 </header>
 
 <!-- Scroll-Snap Reel Container (Infinite Never-Ending Stream) -->
-<main id="reel-container" class="reel-container relative z-10 w-full h-[100dvh]">
+<main
+  id="reel-container"
+  class="reel-container relative z-10 w-full h-[100dvh]"
+  data-feed-type={feedType}
+  data-matched-count={matchedCount}
+>
   {quotes.map((q, i) => (
     <ReelSlide
       id={q.id}
@@ -121,6 +126,74 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
 
     let initialSlides = Array.from(container.querySelectorAll('.reel-slide'));
     if (initialSlides.length === 0) return;
+
+    // ── Fisher-Yates shuffle helper ──
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+      return arr;
+    }
+
+    // ── Check for deep-link hash and feed configuration ──
+    const rawHash = window.location.hash ? window.location.hash.slice(1) : null;
+    const targetHash = rawHash ? decodeURIComponent(rawHash) : null;
+    const feedType = container.dataset.feedType || 'master';
+    const matchedCount = parseInt(container.dataset.matchedCount, 10) || 0;
+
+    // ── Intelligent Reordering & Shuffling ──
+    if (targetHash) {
+      // If a #hash permalink exists, pin the target quote to index 0 and randomize the rest
+      const targetIdx = initialSlides.findIndex(s =>
+        s.dataset.quoteSlug === targetHash ||
+        s.id === `slide-${targetHash}` ||
+        s.dataset.quoteId === targetHash
+      );
+      if (targetIdx !== -1) {
+        const [targetSlide] = initialSlides.splice(targetIdx, 1);
+        shuffleArray(initialSlides);
+        initialSlides = [targetSlide, ...initialSlides];
+      } else {
+        shuffleArray(initialSlides);
+      }
+    } else if (feedType === 'quote') {
+      // On individual canonical quote pages, keep target quote first, shuffle continuation stream
+      const primary = initialSlides[0];
+      const rest = initialSlides.slice(1);
+      shuffleArray(rest);
+      initialSlides = [primary, ...rest];
+    } else if (matchedCount > 0 && matchedCount < initialSlides.length) {
+      // In filtered feeds (author, category, mood, tag), shuffle matched quotes among themselves,
+      // and shuffle continuation quotes among themselves, preserving category integrity with fresh ordering
+      const matched = initialSlides.slice(0, matchedCount);
+      const continuation = initialSlides.slice(matchedCount);
+      shuffleArray(matched);
+      shuffleArray(continuation);
+      initialSlides = [...matched, ...continuation];
+
+      // Keep continuation banner precisely positioned on the first continuation slide
+      initialSlides.forEach(s => {
+        const b = s.querySelector('.continuation-banner');
+        if (b) b.remove();
+      });
+      if (initialSlides[matchedCount]) {
+        const bannerDiv = document.createElement('div');
+        bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4 py-1.5 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
+        bannerDiv.innerHTML = '<span class="text-amber-300">✦</span><span>More Wisdom Ahead</span>';
+        initialSlides[matchedCount].appendChild(bannerDiv);
+      }
+    } else {
+      // General master feed: randomize all quotes on every visit!
+      shuffleArray(initialSlides);
+    }
+
+    // Reorder DOM nodes in container
+    const fragment = document.createDocumentFragment();
+    initialSlides.forEach(slide => fragment.appendChild(slide));
+    container.appendChild(fragment);
 
     // Snapshot initial slides for infinite loop recycling
     const templateSlides = [...initialSlides];
@@ -225,22 +298,12 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
 
     initialSlides.forEach(slide => observer.observe(slide));
 
-    // Deep-link navigation to hash if present (supports both #quote-text-slug and #qXXX)
-    if (window.location.hash) {
-      const targetHash = window.location.hash.slice(1);
-      const targetSlide = container.querySelector(`[data-quote-slug="${targetHash}"]`) || document.getElementById(`slide-${targetHash}`);
-      if (targetSlide) {
-        setTimeout(() => targetSlide.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
-        if (window.updateShareContext) window.updateShareContext(targetSlide);
-        if (window.prepareQuoteCardImage) window.prepareQuoteCardImage(targetSlide);
-        if (window.wisdomAudio && targetSlide.dataset.mood) {
-          window.wisdomAudio.setMood(targetSlide.dataset.mood);
-          window.wisdomAudio.playOnce(targetSlide.dataset.mood);
-        }
-      }
-    } else if (initialSlides.length > 0) {
+    // Initialize first slide (target quote or freshly randomized top quote)
+    if (initialSlides.length > 0) {
       const first = initialSlides[0];
+      initialSlides.forEach(s => s.classList.remove('is-active'));
       first.classList.add('is-active');
+
       if (window.setBackground) {
         window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);
       }
@@ -264,6 +327,13 @@ const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = As
       if (window.wisdomAudio && first.dataset.mood) {
         window.wisdomAudio.setMood(first.dataset.mood);
         window.wisdomAudio.playOnce(first.dataset.mood);
+      }
+
+      // Sync URL hash with the first quote
+      if (targetHash) {
+        history.replaceState(null, '', `#${targetHash}`);
+      } else if (first.dataset.quoteSlug) {
+        history.replaceState(null, '', `#${first.dataset.quoteSlug}`);
       }
     }
 

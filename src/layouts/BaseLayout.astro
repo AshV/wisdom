@@ -274,9 +274,16 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           };
         }
 
+        isEnabled() {
+          try {
+            return localStorage.getItem('wisdom_chime_enabled') === 'true';
+          } catch {
+            return false;
+          }
+        }
+
         init() {
-          const saved = localStorage.getItem('wisdom_chime_enabled');
-          this.enabled = saved === 'true';
+          this.enabled = this.isEnabled();
           try {
             const cached = sessionStorage.getItem('wisdom_recent_chimes');
             if (cached) this.recentChimes = JSON.parse(cached);
@@ -308,9 +315,24 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           return allEligible[Math.floor(Math.random() * allEligible.length)];
         }
 
+        stopAll() {
+          if (this.pendingTimer) {
+            clearTimeout(this.pendingTimer);
+            this.pendingTimer = null;
+          }
+          try {
+            this.audioEl.pause();
+            this.audioEl.currentTime = 0;
+          } catch (e) {}
+        }
+
         // Plays single peaceful chime after 1s of settling on a quote
         playOnce(mood = 'reflective', delay = 1000) {
-          if (!this.enabled) return;
+          // Strict mute verification: zero audio if not enabled
+          if (!this.isEnabled()) {
+            this.stopAll();
+            return;
+          }
           this.currentMood = mood;
 
           // Clear previous pending chime if user swipes through quickly
@@ -320,6 +342,13 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           }
 
           this.pendingTimer = setTimeout(() => {
+            this.pendingTimer = null;
+            // CRITICAL CHECK: In case user muted during the delay period!
+            if (!this.isEnabled()) {
+              this.stopAll();
+              return;
+            }
+
             const chimeKey = this.selectChime(this.currentMood);
 
             // Record in history (strictly keep only the last 2)
@@ -339,11 +368,12 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
               const p = this.audioEl.play();
               if (p) p.catch(() => {});
             } catch (e) {}
-            this.pendingTimer = null;
           }, delay);
         }
 
         playZenBell() {
+          // Strictly respect global mute state!
+          if (!this.isEnabled()) return;
           const chimeUrl = `${this.base}/media/audio/zen-chime.wav`;
           try {
             const zenAudio = new Audio(chimeUrl);
@@ -353,72 +383,89 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
 
         toggle() {
-          this.enabled = !this.enabled;
-          localStorage.setItem('wisdom_chime_enabled', String(this.enabled));
-          this.updateUI();
+          const nextState = !this.isEnabled();
+          try {
+            localStorage.setItem('wisdom_chime_enabled', String(nextState));
+          } catch {}
+          this.enabled = nextState;
 
-          if (this.pendingTimer) {
-            clearTimeout(this.pendingTimer);
-            this.pendingTimer = null;
-          }
-
-          if (this.enabled) {
-            if (window.showToast) window.showToast('Zen chime enabled (plays 1s after arrival)');
-            this.playOnce(this.currentMood, 0); // immediate preview when explicitly enabled
-          } else {
+          if (!nextState) {
+            this.stopAll();
             if (window.showToast) window.showToast('Zen chime muted');
-            try {
-              this.audioEl.pause();
-              this.audioEl.currentTime = 0;
-            } catch (e) {}
+          } else {
+            if (window.showToast) window.showToast('Zen chime enabled (plays on arrival)');
+            this.playOnce(this.currentMood, 0); // immediate preview when explicitly enabled
           }
-          return this.enabled;
+          this.updateUI();
+          return nextState;
         }
 
         updateUI() {
           const btn = document.getElementById('audio-toggle-btn');
           if (!btn) return;
-          const icon = btn.querySelector('svg');
-          const label = btn.querySelector('span');
+          const circle = btn.querySelector('div');
+          const active = this.isEnabled();
 
-          if (this.enabled) {
+          if (active) {
+            btn.setAttribute('title', 'Chimes Active (Click to mute)');
+            btn.setAttribute('aria-label', 'Mute zen chime sound');
+            btn.classList.remove('text-white/50');
             btn.classList.add('text-amber-300');
-            if (icon) {
-              // Ringing Bell SVG
-              icon.innerHTML = `
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            if (circle) {
+              circle.className = 'w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg shadow-amber-500/25 bg-amber-400/20 border border-amber-300/60 text-amber-300 hover:bg-amber-400/30';
+              circle.innerHTML = `
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-300 sm:w-[19px] sm:h-[19px]">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
               `;
-            }
-            if (label) {
-              label.textContent = 'Chime On';
-              label.classList.add('text-amber-300');
             }
           } else {
+            btn.setAttribute('title', 'Chimes Muted (Click to enable)');
+            btn.setAttribute('aria-label', 'Enable zen chime sound');
             btn.classList.remove('text-amber-300');
-            if (icon) {
-              // Muted Bell SVG (with strike line)
-              icon.innerHTML = `
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-                <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
+            btn.classList.add('text-white/50');
+            if (circle) {
+              circle.className = 'w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center transition-all duration-200 shadow-md shadow-black/30 bg-white/5 border border-white/10 text-white/40 hover:bg-white/15 hover:text-white/70';
+              circle.innerHTML = `
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/50 sm:w-[19px] sm:h-[19px]">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
+                </svg>
               `;
-            }
-            if (label) {
-              label.textContent = 'Chime';
-              label.classList.remove('text-amber-300');
             }
           }
         }
       }
 
-      window.wisdomAudio = new ZenChimeEngine();
-      // Initialize on DOM ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => window.wisdomAudio.init());
-      } else {
-        window.wisdomAudio.init();
+      // Reuse existing instance on window across page navigations
+      if (!window.wisdomAudio) {
+        window.wisdomAudio = new ZenChimeEngine();
       }
+
+      function syncChimeAudioUI() {
+        if (window.wisdomAudio) {
+          window.wisdomAudio.init();
+          window.wisdomAudio.updateUI();
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncChimeAudioUI);
+      } else {
+        syncChimeAudioUI();
+      }
+      document.addEventListener('astro:page-load', syncChimeAudioUI);
+
+      window.addEventListener('storage', (e) => {
+        if (e.key === 'wisdom_chime_enabled') {
+          syncChimeAudioUI();
+          if (window.wisdomAudio && !window.wisdomAudio.isEnabled()) {
+            window.wisdomAudio.stopAll();
+          }
+        }
+      });
 
       // ── Toast Utility ──
       window.showToast = function(message, duration = 2500) {
@@ -640,11 +687,13 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       // ── Daily Rituals & Zen Mindfulness Scheduler ──
       (function() {
         const BASE = '/wisdom';
-        let zenTimer = null;
 
         function triggerZenMoment() {
-          if (window.wisdomAudio && typeof window.wisdomAudio.playZenBell === 'function') {
-            window.wisdomAudio.playZenBell();
+          // Strictly verify that chimes are not muted
+          if (window.wisdomAudio && typeof window.wisdomAudio.isEnabled === 'function') {
+            if (window.wisdomAudio.isEnabled()) {
+              window.wisdomAudio.playZenBell();
+            }
           }
           const pill = document.getElementById('zen-breath-pill');
           if (pill) {
@@ -658,16 +707,16 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
 
         function setupZenBell() {
-          if (zenTimer) {
-            clearInterval(zenTimer);
-            zenTimer = null;
+          if (window.__wisdomZenTimer) {
+            clearInterval(window.__wisdomZenTimer);
+            window.__wisdomZenTimer = null;
           }
           try {
             const raw = localStorage.getItem('wisdom_ritual_settings');
             const settings = raw ? JSON.parse(raw) : null;
             if (settings && settings.zenBell) {
               const minutes = Number(settings.zenIntervalMinutes) || 10;
-              zenTimer = setInterval(() => {
+              window.__wisdomZenTimer = setInterval(() => {
                 triggerZenMoment();
               }, minutes * 60 * 1000);
             }
@@ -752,8 +801,12 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         setupZenBell();
         checkScheduledRituals();
 
-        // Periodic check every 60s
-        setInterval(checkScheduledRituals, 60000);
+        // Clear existing interval on window to prevent duplicate interval leaks
+        if (window.__wisdomRitualInterval) {
+          clearInterval(window.__wisdomRitualInterval);
+          window.__wisdomRitualInterval = null;
+        }
+        window.__wisdomRitualInterval = setInterval(checkScheduledRituals, 60000);
 
         // Visibility change check (when user comes back to tab)
         document.addEventListener('visibilitychange', () => {

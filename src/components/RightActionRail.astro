@@ -44,11 +44,11 @@
   <button
     id="audio-toggle-btn"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
-    aria-label="Toggle zen chime sound"
-    title="Toggle Chime"
+    aria-label="Enable zen chime sound"
+    title="Chimes Muted (Click to enable)"
   >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center transition-all duration-200 shadow-md shadow-black/30 bg-white/5 border border-white/10 text-white/40 group-hover:bg-white/15 group-hover:text-white/70">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/50 sm:w-[19px] sm:h-[19px]">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
         <line x1="2" y1="2" x2="22" y2="22" stroke="currentColor" stroke-width="2"/>
@@ -108,6 +108,9 @@
       audioBtn.onclick = () => {
         if (window.wisdomAudio) window.wisdomAudio.toggle();
       };
+      if (window.wisdomAudio && typeof window.wisdomAudio.updateUI === 'function') {
+        window.wisdomAudio.updateUI();
+      }
     }
 
     if (exploreBtn) {

@@ -1,0 +1,17 @@
+{
+  "id": "q1234",
+  "content": "The charm of knowledge would be small if so much shame did not have to be overcome on the way to it.",
+  "author": "Friedrich Nietzsche",
+  "authorSlug": "friedrich-nietzsche",
+  "category": "Wisdom",
+  "categorySlug": "wisdom",
+  "mood": "reflective",
+  "tags": [
+    "knowledge",
+    "shame",
+    "courage",
+    "discovery"
+  ],
+  "theme": "dark",
+  "duration": 8
+}

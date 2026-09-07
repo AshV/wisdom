@@ -1,8 +1,9 @@
-const CACHE_NAME = 'wisdom-v1';
+const CACHE_NAME = 'wisdom-v2';
 const PRECACHE_ASSETS = [
   '/wisdom/',
   '/wisdom/manifest.webmanifest',
   '/wisdom/favicon.png',
+  '/wisdom/daily-quotes.json',
   '/wisdom/icons/icon-192.png',
   '/wisdom/icons/icon-512.png',
   '/wisdom/icons/apple-touch-icon.png',
@@ -68,13 +69,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Google Fonts & Static Assets (_astro bundles, icons, audio)
+  // 2. Google Fonts & Static Assets (_astro bundles, icons, audio, daily quotes)
   const isStaticAsset =
     url.origin.includes('fonts.googleapis.com') ||
     url.origin.includes('fonts.gstatic.com') ||
     url.pathname.startsWith('/wisdom/_astro/') ||
     url.pathname.startsWith('/wisdom/icons/') ||
-    url.pathname.startsWith('/wisdom/media/audio/');
+    url.pathname.startsWith('/wisdom/media/audio/') ||
+    url.pathname.endsWith('daily-quotes.json');
 
   if (isStaticAsset) {
     event.respondWith(
@@ -115,4 +117,58 @@ self.addEventListener('fetch', (event) => {
       })
       .catch(() => caches.match(request))
   );
+});
+
+// 4. Notification click: focus existing tab or open new window to the reflection quote
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const targetUrl = (event.notification.data && event.notification.data.url) || '/wisdom/';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // Find an open Wisdom window
+      for (const client of windowClients) {
+        if (client.url.includes('/wisdom') && 'focus' in client) {
+          if ('navigate' in client) {
+            client.navigate(targetUrl);
+          }
+          return client.focus();
+        }
+      }
+      // If no window is open, open a new one
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
+
+// 5. Periodic Background Sync: background reflection checks
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'daily-reflection') {
+    event.waitUntil(
+      fetch('/wisdom/daily-quotes.json')
+        .then((res) => res.json())
+        .then((quotes) => {
+          if (!Array.isArray(quotes) || quotes.length === 0) return;
+          const now = new Date();
+          const start = new Date(now.getFullYear(), 0, 0);
+          const day = Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+          const quote = quotes.find((q) => q.day === day) || quotes[day % quotes.length] || quotes[0];
+          if (!quote) return;
+
+          const isEvening = now.getHours() >= 18;
+          const ritualTitle = isEvening ? 'Evening Stillness' : 'Morning Reflection';
+
+          return self.registration.showNotification(`${ritualTitle} — ${quote.author}`, {
+            body: `“${quote.content}”`,
+            icon: '/wisdom/icons/icon-192.png',
+            badge: '/wisdom/icons/favicon-64.png',
+            tag: 'wisdom-daily-reflection',
+            data: { url: `/wisdom/#${quote.slug}` },
+          });
+        })
+        .catch(() => {})
+    );
+  }
 });

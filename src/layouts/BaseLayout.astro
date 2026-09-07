@@ -209,6 +209,17 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       </div>
     </div>
 
+    <!-- Zen Mindfulness Contemplation Breath Pill -->
+    <div
+      id="zen-breath-pill"
+      class="fixed top-6 left-1/2 -translate-x-1/2 z-[55] pointer-events-none opacity-0 -translate-y-4 transition-all duration-700 flex items-center gap-2.5 px-4 py-2 rounded-full glass border border-amber-300/40 text-amber-200 text-xs font-serif tracking-widest shadow-2xl backdrop-blur-md select-none"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+      <span>✦ A moment of stillness... pause and breathe</span>
+    </div>
+
     <script is:inline>
       // ── Zen Chime Controller (Play-Once on Slide Arrival) ──
       // Plays a single soothing Tibetan singing bowl / Zen chime once on arrival, then complete silence.
@@ -330,6 +341,15 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
             } catch (e) {}
             this.pendingTimer = null;
           }, delay);
+        }
+
+        playZenBell() {
+          const chimeUrl = `${this.base}/media/audio/zen-chime.wav`;
+          try {
+            const zenAudio = new Audio(chimeUrl);
+            zenAudio.volume = 0.65;
+            zenAudio.play().catch(() => {});
+          } catch (e) {}
         }
 
         toggle() {
@@ -615,6 +635,141 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           const drawerBtn = document.getElementById('pwa-drawer-install-btn');
           if (drawerBtn) drawerBtn.classList.add('hidden');
         });
+      })();
+
+      // ── Daily Rituals & Zen Mindfulness Scheduler ──
+      (function() {
+        const BASE = '/wisdom';
+        let zenTimer = null;
+
+        function triggerZenMoment() {
+          if (window.wisdomAudio && typeof window.wisdomAudio.playZenBell === 'function') {
+            window.wisdomAudio.playZenBell();
+          }
+          const pill = document.getElementById('zen-breath-pill');
+          if (pill) {
+            pill.classList.remove('opacity-0', '-translate-y-4');
+            pill.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+              pill.classList.remove('opacity-100', 'translate-y-0');
+              pill.classList.add('opacity-0', '-translate-y-4');
+            }, 6000);
+          }
+        }
+
+        function setupZenBell() {
+          if (zenTimer) {
+            clearInterval(zenTimer);
+            zenTimer = null;
+          }
+          try {
+            const raw = localStorage.getItem('wisdom_ritual_settings');
+            const settings = raw ? JSON.parse(raw) : null;
+            if (settings && settings.zenBell) {
+              const minutes = Number(settings.zenIntervalMinutes) || 10;
+              zenTimer = setInterval(() => {
+                triggerZenMoment();
+              }, minutes * 60 * 1000);
+            }
+          } catch {}
+        }
+
+        async function checkScheduledRituals() {
+          if (!('Notification' in window) || Notification.permission !== 'granted') return;
+          try {
+            const raw = localStorage.getItem('wisdom_ritual_settings');
+            if (!raw) return;
+            const settings = JSON.parse(raw);
+            if (!settings.morning && !settings.evening) return;
+
+            const now = new Date();
+            const todayStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+            const currentHours = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentTotalMin = currentHours * 60 + currentMinutes;
+
+            let delivered = {};
+            try {
+              delivered = JSON.parse(localStorage.getItem('wisdom_last_delivered_rituals') || '{}');
+            } catch {}
+            const todayDelivered = delivered[todayStr] || [];
+
+            let dueType = null;
+            if (settings.morning && !todayDelivered.includes('morning')) {
+              const [mH, mM] = (settings.morningTime || '08:00').split(':').map(Number);
+              const target = mH * 60 + mM;
+              if (currentTotalMin >= target && currentTotalMin < target + 180) {
+                dueType = 'morning';
+              }
+            }
+
+            if (!dueType && settings.evening && !todayDelivered.includes('evening')) {
+              const [eH, eM] = (settings.eveningTime || '21:00').split(':').map(Number);
+              const target = eH * 60 + eM;
+              if (currentTotalMin >= target && currentTotalMin < target + 180) {
+                dueType = 'evening';
+              }
+            }
+
+            if (!dueType) return;
+
+            // Fetch daily quote
+            const res = await fetch(`${BASE}/daily-quotes.json`);
+            const quotes = await res.json();
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+            const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / 86400000);
+            const quote = quotes[dayOfYear % quotes.length] || quotes[0];
+
+            const title = `${dueType === 'morning' ? 'Morning Reflection' : 'Evening Stillness'} — ${quote.author}`;
+            const options = {
+              body: `“${quote.content}”`,
+              icon: `${BASE}/icons/icon-192.png`,
+              badge: `${BASE}/icons/favicon-64.png`,
+              tag: `wisdom-${dueType}-reflection`,
+              data: { url: `${BASE}/#${quote.slug}` }
+            };
+
+            if ('serviceWorker' in navigator) {
+              const reg = await navigator.serviceWorker.ready;
+              if (reg && 'showNotification' in reg) {
+                await reg.showNotification(title, options);
+              } else {
+                new Notification(title, options);
+              }
+            } else {
+              new Notification(title, options);
+            }
+
+            todayDelivered.push(dueType);
+            delivered[todayStr] = todayDelivered;
+            localStorage.setItem('wisdom_last_delivered_rituals', JSON.stringify(delivered));
+          } catch (err) {
+            console.debug('Ritual check error:', err);
+          }
+        }
+
+        // Initialize and listen for changes
+        setupZenBell();
+        checkScheduledRituals();
+
+        // Periodic check every 60s
+        setInterval(checkScheduledRituals, 60000);
+
+        // Visibility change check (when user comes back to tab)
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            checkScheduledRituals();
+          }
+        });
+
+        // Listen for setting changes
+        window.addEventListener('wisdom:ritual-settings-changed', () => {
+          setupZenBell();
+          checkScheduledRituals();
+        });
+
+        // Expose trigger for preview or testing
+        window.triggerZenContemplation = triggerZenMoment;
       })();
     </script>
   </body>

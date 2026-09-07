@@ -50,14 +50,22 @@ For the catalog expansion roadmap of timeless thinkers, see [`TODO.md`](file:///
 
 ---
 
-### 4. 🧘 Contemplation & Daily Ritual Features (Backlog)
-- [ ] **Daily Quote / Morning Reflection**:
-  - Deterministic daily quote derived from date, refreshed every 24 hours.
-  - Dedicated lightweight `/wisdom/today/` permalink.
-- [ ] **Ambient Soundscape Selector**:
-  - Allow user to toggle ambient soundscape presets (Night Breeze, Temple Rain, Cosmic Drone, Silent Void).
-- [ ] **Contemplation Timer / Zen Breath Mode**:
-  - Optional subtle breathing rhythm indicator to pace reading and slow down scrolling.
+### 4. 🧘 Daily Contemplation Rituals & Local Notifications (Phase 1 COMPLETED)
+- [x] **Zero-Server Private Daily Rituals Engine**:
+  - Deterministic 366-day quote resolver (`src/utils/dailyQuote.ts` & `public/daily-quotes.json`) drawing from the 12 master thinkers.
+  - Zero-cloud, zero-tracking: 100% private, runs directly on client device / service worker.
+- [x] **Sacred Lock Screen Notifications**:
+  - **🌅 Morning Reflection**: User-chosen time (default 08:00). Full quote + author formatted cleanly for lock screens and smartwatches.
+  - **🌌 Evening Stillness**: User-chosen time (default 21:00) for night winding down.
+  - **Anti-Spam Permission UX**: Notification permissions are never prompted on page load; requested strictly upon engaging ritual switches.
+- [x] **🔔 In-App Zen Contemplation Bell**:
+  - Periodic mindfulness interval (every 5, 10, 15, or 20 minutes) playing a soothing Tibetan singing bowl chime (`zen-chime.wav`).
+  - Subtle breathing moment indicator (`#zen-breath-pill`: *"✦ A moment of stillness... pause and breathe"*) to ground reading.
+- [x] **Explore Drawer Rituals Hub**:
+  - Added dedicated "🧘 Rituals" tab with live time selectors, toggle switches, interval configuration, and "Preview Daily Reflection Now" test runner.
+- [ ] **Phase 2 (Future / Backlog)**:
+  - Dedicated `/wisdom/today/` permalink page with high-res daily contemplation card generator.
+  - Periodic Background Sync optimization for chromium browsers when supported.
 
 ---
 

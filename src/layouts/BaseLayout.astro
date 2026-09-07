@@ -382,6 +382,42 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           return idx === -1; // returns true if now liked
         }
       };
+
+      // ── Recent Viewed Quotes Store (Last 50 Quotes FIFO Queue) ──
+      window.recentQuotes = {
+        _key: 'wisdom_recent_quotes',
+        _max: 50,
+        getAll() {
+          try {
+            const data = JSON.parse(localStorage.getItem(this._key) || '[]');
+            return Array.isArray(data) ? data : [];
+          } catch {
+            return [];
+          }
+        },
+        has(id) {
+          if (!id) return false;
+          return this.getAll().includes(id);
+        },
+        add(id) {
+          if (!id) return;
+          try {
+            let list = this.getAll();
+            const idx = list.indexOf(id);
+            if (idx > -1) {
+              list.splice(idx, 1);
+            }
+            list.push(id);
+            if (list.length > this._max) {
+              list = list.slice(-this._max);
+            }
+            localStorage.setItem(this._key, JSON.stringify(list));
+          } catch {}
+        },
+        clear() {
+          try { localStorage.removeItem(this._key); } catch {}
+        }
+      };
     </script>
   </body>
 </html>

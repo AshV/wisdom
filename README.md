@@ -52,8 +52,8 @@ Wisdom prioritizes **timeless thinkers across human history** (ancient philosoph
 
 - Detailed Roadmap & Editorial Guidelines: [`TODO.md`](file:///a:/GitHub/wisdom/TODO.md)
 - Web Page: [`/wisdom/todo/`](https://www.ashishvishwakarma.com/wisdom/todo/)
-- Current 100+ Batches: **Plato** (106), **Marcus Aurelius** (114), **Seneca** (114), **Rumi** (115), **Osho** (100).
-- Next Immediate Priorities: **Epictetus**, **Lao Tzu**, **Friedrich Nietzsche**, **Alan Watts**, **Carl Jung**.
+- Current 100+ Batches: **Plato** (106), **Marcus Aurelius** (114), **Seneca** (114), **Epictetus** (112), **Rumi** (115), **Osho** (100).
+- Next Immediate Priorities: **Lao Tzu**, **Friedrich Nietzsche**, **Alan Watts**, **Carl Jung**.
 
 ---
 
@@ -74,7 +74,7 @@ Wisdom prioritizes **timeless thinkers across human history** (ancient philosoph
 │   │   └── ShareModal.astro       # Share drawer with 4:5 image generator
 │   ├── data/
 │   │   ├── mediaRegistry.ts       # Video, audio, and mood metadata mappings
-│   │   └── quotes/                # 1,000 curated quote JSON files (q001.json - q1000.json)
+│   │   └── quotes/                # 1,100 curated quote JSON files (q001.json - q1100.json)
 │   ├── layouts/
 │   │   └── BaseLayout.astro       # Base layout, audio engine, and recentQuotes store
 │   └── pages/

@@ -182,10 +182,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
     const base = window.__wisdomBaseUrl || '/wisdom';
 
     function getMediaForClientQuote(id, mood) {
-      const idx = (djb2(id) % 2) + 1;
-      const numStr = idx < 10 ? '0' + idx : '' + idx;
       return {
-        video: `${base}/media/videos/${mood}-${numStr}.mp4`,
         gradient: `gradient-${mood}`,
         audio: `${base}/media/audio/chime-${mood}.wav`
       };

@@ -17,50 +17,24 @@ export type Mood =
   | 'romantic';
 
 export interface MediaEntry {
-  video: string;
   gradient: string;
 }
 
 const BASE = '/wisdom';
 
 /**
- * Mood → media pool. Each mood has multiple visual options.
- * Videos reference files in public/media/videos/ (720x1280 MP4 loops).
- * Gradients are CSS class names for fallback when video is absent.
+ * Mood → visual gradient pool.
+ * Gradients are CSS class names applied for mood-specific aura styling.
  */
 export const moodMedia: Record<Mood, MediaEntry[]> = {
-  reflective: [
-    { video: `${BASE}/media/videos/reflective-01.mp4`, gradient: 'gradient-reflective' },
-    { video: `${BASE}/media/videos/reflective-02.mp4`, gradient: 'gradient-reflective' },
-  ],
-  motivational: [
-    { video: `${BASE}/media/videos/motivational-01.mp4`, gradient: 'gradient-motivational' },
-    { video: `${BASE}/media/videos/motivational-02.mp4`, gradient: 'gradient-motivational' },
-  ],
-  serene: [
-    { video: `${BASE}/media/videos/serene-01.mp4`, gradient: 'gradient-serene' },
-    { video: `${BASE}/media/videos/serene-02.mp4`, gradient: 'gradient-serene' },
-  ],
-  bold: [
-    { video: `${BASE}/media/videos/bold-01.mp4`, gradient: 'gradient-bold' },
-    { video: `${BASE}/media/videos/bold-02.mp4`, gradient: 'gradient-bold' },
-  ],
-  melancholic: [
-    { video: `${BASE}/media/videos/melancholic-01.mp4`, gradient: 'gradient-melancholic' },
-    { video: `${BASE}/media/videos/melancholic-02.mp4`, gradient: 'gradient-melancholic' },
-  ],
-  joyful: [
-    { video: `${BASE}/media/videos/joyful-01.mp4`, gradient: 'gradient-joyful' },
-    { video: `${BASE}/media/videos/joyful-02.mp4`, gradient: 'gradient-joyful' },
-  ],
-  philosophical: [
-    { video: `${BASE}/media/videos/philosophical-01.mp4`, gradient: 'gradient-philosophical' },
-    { video: `${BASE}/media/videos/philosophical-02.mp4`, gradient: 'gradient-philosophical' },
-  ],
-  romantic: [
-    { video: `${BASE}/media/videos/romantic-01.mp4`, gradient: 'gradient-romantic' },
-    { video: `${BASE}/media/videos/romantic-02.mp4`, gradient: 'gradient-romantic' },
-  ],
+  reflective: [{ gradient: 'gradient-reflective' }],
+  motivational: [{ gradient: 'gradient-motivational' }],
+  serene: [{ gradient: 'gradient-serene' }],
+  bold: [{ gradient: 'gradient-bold' }],
+  melancholic: [{ gradient: 'gradient-melancholic' }],
+  joyful: [{ gradient: 'gradient-joyful' }],
+  philosophical: [{ gradient: 'gradient-philosophical' }],
+  romantic: [{ gradient: 'gradient-romantic' }],
 };
 
 /**

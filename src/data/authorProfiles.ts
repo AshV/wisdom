@@ -68,6 +68,30 @@ export const authorProfiles: Record<string, AuthorProfile> = {
     whyTimeless: 'Plato articulated the eternal human struggle between superficial appearance and deeper reality, shaping two millennia of philosophy, literature, and spiritual aspiration.'
   },
 
+  aristotle: {
+    slug: 'aristotle',
+    name: 'Aristotle',
+    era: '384 – 322 BC',
+    tradition: 'Peripatetic Philosophy & Virtue Ethics',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Aristotle',
+    summary: 'Universal Greek polymath, student of Plato, and founder of the Lyceum who systematized logic, biology, and virtue ethics.',
+    bio: 'Aristotle of Stagira was one of the greatest polymaths in human history, pioneering the formal study of logic, biology, ethics, political theory, rhetoric, and metaphysics. Studying at Plato’s Academy for twenty years before tutoring Alexander the Great and founding the Lyceum in Athens, Aristotle approached reality with empirical curiosity and structured rigor. His ethical philosophy centers on Eudaimonia—human flourishing achieved not through fleeting pleasure or passive belief, but through the lifelong, active practice of excellence (arete) guided by reason and the Golden Mean.',
+    keyWorks: [
+      { title: "Nicomachean Ethics", description: "The definitive treatise on virtue, moral character, the Golden Mean, friendship (philia), and eudaimonia." },
+      { title: "Politics", description: "An examination of the ideal state, citizenship, law, and why man is by nature a political (social) animal." },
+      { title: "Metaphysics", description: "The pioneering study of being as being, causality, potentiality vs actuality, and the Unmoved Mover." },
+      { title: "Poetics", description: "The foundational work of dramatic theory, defining tragedy, catharsis, plot, and character." },
+      { title: "Rhetoric", description: "A masterclass in persuasion, analyzing the three pillars of proof: Ethos (character), Pathos (emotion), and Logos (reason)." }
+    ],
+    pillars: [
+      { concept: 'Eudaimonia (Flourishing)', description: 'The highest human good: an active life of the soul in accordance with reason and virtue over a complete lifespan.' },
+      { concept: 'The Golden Mean', description: 'Virtue as the balanced intermediate between excess and deficiency (e.g. courage between cowardice and recklessness).' },
+      { concept: 'Habitual Excellence (Hexis)', description: 'We are what we repeatedly do; moral virtue is not a single act or innate trait, but a habit forged through practice.' },
+      { concept: 'Perfect Friendship (Philia)', description: 'A single soul dwelling in two bodies; true friendship exists when two good people wish well to each other for their own sake.' }
+    ],
+    whyTimeless: 'Aristotle provided the fundamental blueprint for practical wisdom (phronesis), showing that living a good and happy life is an actionable craft cultivated through daily choices.'
+  },
+
   'marcus-aurelius': {
     slug: 'marcus-aurelius',
     name: 'Marcus Aurelius',

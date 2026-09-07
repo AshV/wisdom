@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Wisdom — Timeless Quotes",
+  "short_name": "Wisdom",
+  "description": "An immersive sanctuary of timeless reflections and philosophical wisdom from history's greatest thinkers.",
+  "start_url": "/wisdom/",
+  "scope": "/wisdom/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "categories": ["lifestyle", "education", "books"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/wisdom/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/wisdom/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/wisdom/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/wisdom/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/wisdom/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Reflection",
+      "short_name": "Reflection",
+      "description": "Contemplate today's timeless thought",
+      "url": "/wisdom/",
+      "icons": [{ "src": "/wisdom/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Thinkers",
+      "short_name": "Thinkers",
+      "description": "Explore timeless philosophers and authors",
+      "url": "/wisdom/#explore",
+      "icons": [{ "src": "/wisdom/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -111,7 +111,12 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
     <meta name="twitter:image:alt" content="Wisdom — Timeless Quotes, Reimagined" />
 
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${BASE}/favicon.png`} />
     <link rel="icon" type="image/svg+xml" href={`${BASE}/favicon.svg`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${BASE}/icons/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${BASE}/manifest.webmanifest`} />
+    <meta name="application-name" content="Wisdom" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
@@ -128,7 +133,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
     <ClientRouter />
   </head>
   <body class="bg-surface text-text-primary overflow-hidden no-select">
-    <!-- Global Video Background -->
+    <!-- Global Atmospheric Canvas & Fluid Aura -->
     <GlobalBackground />
 
     <!-- Page Content -->
@@ -161,6 +166,48 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       id="toast-container"
       class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] pointer-events-none"
     ></div>
+
+    <!-- Offline Sanctuary Indicator Badge -->
+    <div
+      id="offline-sanctuary-badge"
+      class="fixed top-3.5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-6 transition-all duration-500 flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border border-emerald-400/40 text-emerald-300 text-xs font-medium tracking-wide shadow-2xl backdrop-blur-md select-none"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Offline Sanctuary Active</span>
+    </div>
+
+    <!-- Engagement-Gated PWA Install Toast -->
+    <div
+      id="pwa-install-toast"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[70] pointer-events-none opacity-0 translate-y-8 transition-all duration-500 w-[94vw] max-w-md rounded-2xl bg-neutral-900/95 border border-amber-300/30 px-4 py-3.5 shadow-2xl backdrop-blur-xl text-white flex items-center justify-between gap-3 select-none"
+      role="alert"
+    >
+      <div class="flex items-center gap-3 min-w-0">
+        <img src={`${BASE}/icons/icon-192.png`} alt="Wisdom" class="w-10 h-10 rounded-xl shadow-md shrink-0 border border-white/10" />
+        <div class="leading-tight truncate">
+          <div class="text-xs font-semibold text-white">Install Wisdom App</div>
+          <div class="text-[11px] text-white/60 truncate">Meditate anytime, even offline.</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button
+          id="pwa-dismiss-btn"
+          type="button"
+          class="px-2.5 py-1.5 rounded-lg text-white/50 hover:text-white text-xs font-medium transition-colors cursor-pointer"
+        >
+          Later
+        </button>
+        <button
+          id="pwa-install-btn"
+          type="button"
+          class="px-3.5 py-1.5 rounded-lg bg-amber-400 text-black text-xs font-semibold hover:bg-amber-300 active:scale-95 transition-all shadow-md cursor-pointer whitespace-nowrap"
+        >
+          Install
+        </button>
+      </div>
+    </div>
 
     <script is:inline>
       // ── Zen Chime Controller (Play-Once on Slide Arrival) ──
@@ -420,6 +467,155 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           try { localStorage.removeItem(this._key); } catch {}
         }
       };
+
+      // ── Progressive Web App (PWA) & Offline Sanctuary Controller ──
+      (function() {
+        const BASE = '/wisdom';
+
+        // 1. Register Service Worker
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register(`${BASE}/sw.js`, { scope: `${BASE}/` })
+              .catch((err) => console.debug('SW reg failed', err));
+          });
+        }
+
+        // 2. Offline Sanctuary Status Monitoring
+        function updateNetworkStatus() {
+          const badge = document.getElementById('offline-sanctuary-badge');
+          if (!badge) return;
+          if (!navigator.onLine) {
+            badge.classList.remove('opacity-0', '-translate-y-6', 'pointer-events-none');
+            badge.classList.add('opacity-100', 'translate-y-0');
+          } else {
+            badge.classList.remove('opacity-100', 'translate-y-0');
+            badge.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
+          }
+        }
+        window.addEventListener('offline', updateNetworkStatus);
+        window.addEventListener('online', updateNetworkStatus);
+        document.addEventListener('DOMContentLoaded', updateNetworkStatus);
+        document.addEventListener('astro:page-load', updateNetworkStatus);
+
+        // 3. Mindful Engagement-Gated Install Prompt
+        let deferredPrompt = null;
+        let quotesViewed = 0;
+        let installPromptShown = false;
+        const SNOOZE_DAYS = 14;
+        const SNOOZE_KEY = 'wisdom_pwa_snooze_until';
+
+        function isSnoozed() {
+          try {
+            const until = localStorage.getItem(SNOOZE_KEY);
+            return until && Date.now() < parseInt(until, 10);
+          } catch {
+            return false;
+          }
+        }
+
+        function isStandalone() {
+          return window.matchMedia('(display-mode: standalone)').matches ||
+                 window.navigator.standalone === true;
+        }
+
+        function showInstallToast() {
+          if (installPromptShown || isSnoozed() || isStandalone() || !deferredPrompt) return;
+          const toast = document.getElementById('pwa-install-toast');
+          if (!toast) return;
+          installPromptShown = true;
+          toast.classList.remove('opacity-0', 'translate-y-8', 'pointer-events-none');
+          toast.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
+
+        function hideInstallToast() {
+          const toast = document.getElementById('pwa-install-toast');
+          if (!toast) return;
+          toast.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+          toast.classList.add('opacity-0', 'translate-y-8', 'pointer-events-none');
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          window.__pwaInstallPrompt = e;
+
+          // Reveal drawer install button if present and not installed
+          const drawerBtn = document.getElementById('pwa-drawer-install-btn');
+          if (drawerBtn && !isStandalone()) {
+            drawerBtn.classList.remove('hidden');
+            drawerBtn.classList.add('inline-flex');
+          }
+
+          // Trigger after 45s of meditation
+          setTimeout(() => {
+            showInstallToast();
+          }, 45000);
+        });
+
+        // Trigger after viewing 4+ quotes
+        window.addEventListener('quoteChange', () => {
+          quotesViewed++;
+          if (quotesViewed >= 4) {
+            showInstallToast();
+          }
+        });
+
+        function setupInstallButtons() {
+          const installBtn = document.getElementById('pwa-install-btn');
+          const dismissBtn = document.getElementById('pwa-dismiss-btn');
+          const drawerBtn = document.getElementById('pwa-drawer-install-btn');
+
+          if (installBtn) {
+            installBtn.onclick = async () => {
+              hideInstallToast();
+              if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                window.__pwaInstallPrompt = null;
+              }
+            };
+          }
+
+          if (dismissBtn) {
+            dismissBtn.onclick = () => {
+              hideInstallToast();
+              try {
+                const snoozeUntil = Date.now() + (SNOOZE_DAYS * 24 * 60 * 60 * 1000);
+                localStorage.setItem(SNOOZE_KEY, snoozeUntil.toString());
+              } catch {}
+            };
+          }
+
+          if (drawerBtn) {
+            if (window.__pwaInstallPrompt && !isStandalone()) {
+              drawerBtn.classList.remove('hidden');
+              drawerBtn.classList.add('inline-flex');
+            }
+            drawerBtn.onclick = async () => {
+              const promptToUse = deferredPrompt || window.__pwaInstallPrompt;
+              if (promptToUse) {
+                promptToUse.prompt();
+                await promptToUse.userChoice;
+                deferredPrompt = null;
+                window.__pwaInstallPrompt = null;
+                drawerBtn.classList.add('hidden');
+              }
+            };
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', setupInstallButtons);
+        document.addEventListener('astro:page-load', setupInstallButtons);
+
+        window.addEventListener('appinstalled', () => {
+          deferredPrompt = null;
+          window.__pwaInstallPrompt = null;
+          hideInstallToast();
+          const drawerBtn = document.getElementById('pwa-drawer-install-btn');
+          if (drawerBtn) drawerBtn.classList.add('hidden');
+        });
+      })();
     </script>
   </body>
 </html>

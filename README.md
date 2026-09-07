@@ -67,10 +67,11 @@ All commands are run from the root of the project:
 
 Wisdom prioritizes **timeless thinkers across human history** (ancient philosophers, mystics, classic literature, pioneering scientists) over transient pop-culture celebrity noise.
 
-- Detailed Roadmap & Editorial Guidelines: [`TODO.md`](file:///a:/GitHub/wisdom/TODO.md)
+- Product & Technical Roadmap: [`ROADMAP.md`](file:///a:/GitHub/wisdom/ROADMAP.md)
+- Detailed Author Expansion Roadmap: [`TODO.md`](file:///a:/GitHub/wisdom/TODO.md)
 - Web Page: [`/wisdom/todo/`](https://www.ashishvishwakarma.com/wisdom/todo/)
-- Current 100+ Batches: **Socrates** (107), **Plato** (106), **Marcus Aurelius** (114), **Seneca** (114), **Epictetus** (112), **Lao Tzu** (112), **Friedrich Nietzsche** (110), **Alan Watts** (107), **Carl Jung** (104), **Rumi** (115), **Osho** (100).
-- Next Immediate Priorities: **Aristotle**, **Epicurus**, **Heraclitus**, **Cicero** (Tier 2 Classical Philosophy).
+- Current 100+ Batches: **Aristotle** (107), **Socrates** (107), **Plato** (106), **Marcus Aurelius** (114), **Seneca** (114), **Epictetus** (112), **Lao Tzu** (112), **Friedrich Nietzsche** (110), **Alan Watts** (107), **Carl Jung** (104), **Rumi** (115), **Osho** (100).
+- Next Immediate Priorities: **Epicurus**, **Heraclitus**, **Cicero** (Tier 2 Classical Philosophy).
 
 ---
 
@@ -91,7 +92,7 @@ Wisdom prioritizes **timeless thinkers across human history** (ancient philosoph
 │   │   └── ShareModal.astro       # Share drawer with 4:5 image generator
 │   ├── data/
 │   │   ├── mediaRegistry.ts       # Video, audio, and mood metadata mappings
-│   │   └── quotes/                # 1,600 curated quote JSON files (q001.json - q1600.json)
+│   │   └── quotes/                # 1,700 curated quote JSON files (q001.json - q1700.json)
 │   ├── layouts/
 │   │   └── BaseLayout.astro       # Base layout, audio engine, and recentQuotes store
 │   └── pages/

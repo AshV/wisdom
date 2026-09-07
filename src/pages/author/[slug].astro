@@ -1,10 +1,13 @@
 ---
 /**
- * Author Feed — Quotes filtered by author.
+ * Author Feed — Quotes and philosophical context filtered by author.
+ * Thick pillar hub page featuring author biography, historical context,
+ * primary source bibliography, core concepts, and quote reels.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ReelFeed from '../../components/ReelFeed.astro';
 import { getCollection } from 'astro:content';
+import { getAuthorProfile } from '../../data/authorProfiles';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -35,21 +38,247 @@ interface Props {
 
 const { slug } = Astro.params;
 const { quotes, matchedCount, authorName } = Astro.props;
+
+const profile = getAuthorProfile(slug!, authorName);
+
+const pageTitle = `${profile.name} Quotes & Philosophy — Wisdom`;
+const pageDescription = `Explore ${matchedCount}+ verified quotes, reflections, and primary philosophy of ${profile.name} (${profile.era}), ${profile.tradition}. Immersive quote reels & context.`;
+
+// Rich Schema.org CollectionPage & Person Structured Data for Google E-E-A-T
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pageTitle,
+  description: profile.summary,
+  url: `https://www.ashishvishwakarma.com/wisdom/author/${slug}/`,
+  about: {
+    '@type': 'Person',
+    name: profile.name,
+    description: profile.bio,
+    sameAs: profile.wikipediaUrl,
+    knowsAbout: [profile.tradition, ...profile.pillars.map((p) => p.concept)],
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: matchedCount,
+    itemListElement: quotes.slice(0, 30).map((q, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Quotation',
+        text: q.content,
+        creator: {
+          '@type': 'Person',
+          name: profile.name,
+        },
+      },
+    })),
+  },
+};
 ---
+
 <BaseLayout
-  title={`${authorName} Quotes — Wisdom`}
-  description={`Explore timeless wisdom, reflections, and inspirational quotes by ${authorName}, reimagined as immersive reels.`}
-  keywords={[`${authorName} quotes`, authorName, 'wisdom', 'philosophy', 'quotes', 'timeless reflections']}
+  title={pageTitle}
+  description={pageDescription}
+  robots="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  keywords={[
+    `${profile.name} quotes`,
+    `${profile.name} philosophy`,
+    profile.tradition,
+    ...profile.pillars.map((p) => p.concept.toLowerCase()),
+    'wisdom',
+    'quotes',
+    'timeless reflections',
+  ]}
   breadcrumbs={[
     { name: 'Authors', url: '/wisdom/' },
-    { name: authorName, url: `/wisdom/author/${slug}/` },
+    { name: profile.name, url: `/wisdom/author/${slug}/` },
   ]}
 >
+  <!-- Schema.org JSON-LD for Google E-E-A-T and Knowledge Graph -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <!-- Author Context Pill Button (Floating in Top Right / Header) -->
+  <button
+    id="author-context-trigger"
+    type="button"
+    class="fixed top-3.5 right-28 z-40 px-2.5 py-1.5 rounded-full glass border border-white/20 text-white/90 hover:text-white hover:border-amber-300/40 text-[11px] font-medium tracking-wide transition-all duration-300 flex items-center gap-1.5 shadow-lg backdrop-blur-md cursor-pointer group"
+    aria-label={`Read biographical context for ${profile.name}`}
+    title={`Biographical & Philosophical Context for ${profile.name}`}
+  >
+    <svg class="w-3.5 h-3.5 text-amber-300 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </svg>
+    <span class="hidden sm:inline">About</span>
+    <span>{profile.name.split(' ')[0]}</span>
+  </button>
+
+  <!-- Accessible Author Editorial Modal / Sheet -->
+  <div
+    id="author-context-modal"
+    class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="author-modal-title"
+  >
+    <div
+      class="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-neutral-900/90 border border-white/15 p-6 sm:p-8 shadow-2xl text-white scrollbar-thin"
+    >
+      <!-- Close Button -->
+      <button
+        id="author-context-close"
+        type="button"
+        class="absolute top-5 right-5 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Close author bio"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <!-- Modal Content Header -->
+      <header class="mb-6 pr-8">
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="text-xs uppercase tracking-widest text-amber-300 font-semibold px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/20">
+            {profile.tradition}
+          </span>
+          <span class="text-xs text-white/60 font-mono">{profile.era}</span>
+          <span class="text-xs text-white/40">&bull;</span>
+          <span class="text-xs text-white/70 font-medium">{matchedCount} Curated Quotes</span>
+        </div>
+        <h2 id="author-modal-title" class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-wide">
+          {profile.name}
+        </h2>
+      </header>
+
+      <!-- Biography -->
+      <section class="mb-6 text-sm sm:text-base text-white/80 leading-relaxed space-y-3 font-sans">
+        <p>{profile.bio}</p>
+      </section>
+
+      <!-- Core Philosophical Pillars -->
+      {profile.pillars.length > 0 && (
+        <section class="mb-6 pt-4 border-t border-white/10">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-amber-300/90 mb-3">
+            Key Philosophical Pillars
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {profile.pillars.map((pillar) => (
+              <div class="p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-colors">
+                <div class="font-semibold text-xs sm:text-sm text-white mb-1">{pillar.concept}</div>
+                <div class="text-xs text-white/70 leading-relaxed">{pillar.description}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Primary Sourced Works -->
+      {profile.keyWorks.length > 0 && (
+        <section class="mb-6 pt-4 border-t border-white/10">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-amber-300/90 mb-3">
+            Primary Sourced Works
+          </h3>
+          <ul class="space-y-2 text-xs sm:text-sm">
+            {profile.keyWorks.map((work) => (
+              <li class="flex items-start gap-2 text-white/80">
+                <span class="text-amber-400 mt-0.5">•</span>
+                <div>
+                  <strong class="text-white font-medium">{work.title}:</strong>{' '}
+                  <span class="text-white/70">{work.description}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <!-- Why Timeless -->
+      <footer class="pt-4 border-t border-white/10 text-xs sm:text-sm text-white/60 italic flex items-center justify-between gap-4">
+        <span>"{profile.whyTimeless}"</span>
+        {profile.wikipediaUrl && (
+          <a
+            href={profile.wikipediaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs text-amber-300 hover:underline shrink-0 not-italic"
+          >
+            Wikipedia &rarr;
+          </a>
+        )}
+      </footer>
+    </div>
+  </div>
+
+  <!-- Semantic Hidden-to-Viewers / Visible-to-Crawlers Fallback Block for SEO (No-JS Crawlers) -->
+  <article class="sr-only" itemscope itemtype="https://schema.org/Person">
+    <h1 itemprop="name">{profile.name}</h1>
+    <p><strong>Historical Era:</strong> {profile.era}</p>
+    <p><strong>Philosophical Tradition:</strong> {profile.tradition}</p>
+    <div itemprop="description">
+      <p>{profile.bio}</p>
+      <h2>Philosophical Teachings</h2>
+      <ul>
+        {profile.pillars.map((p) => (
+          <li><strong>{p.concept}:</strong> {p.description}</li>
+        ))}
+      </ul>
+      <h2>Sourced Works & Literature</h2>
+      <ul>
+        {profile.keyWorks.map((w) => (
+          <li><strong>{w.title}:</strong> {w.description}</li>
+        ))}
+      </ul>
+      <p>{profile.whyTimeless}</p>
+    </div>
+  </article>
+
+  <!-- Interactive Full-Screen Reel Feed -->
   <ReelFeed
     quotes={quotes}
     matchedCount={matchedCount}
-    filterLabel={`Quotes by ${authorName}`}
-    feedTitle={`Quotes by ${authorName}`}
+    filterLabel={`Quotes by ${profile.name}`}
+    feedTitle={`Quotes by ${profile.name}`}
     feedType="author"
   />
+
+  <script is:inline>
+    // Client-side controller for Author Context Modal
+    function setupAuthorModal() {
+      const trigger = document.getElementById('author-context-trigger');
+      const modal = document.getElementById('author-context-modal');
+      const closeBtn = document.getElementById('author-context-close');
+
+      if (!trigger || !modal || !closeBtn) return;
+
+      function openModal() {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('opacity-100', 'pointer-events-auto');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+
+      trigger.onclick = openModal;
+      closeBtn.onclick = closeModal;
+
+      modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', setupAuthorModal);
+    document.addEventListener('astro:page-load', setupAuthorModal);
+  </script>
 </BaseLayout>

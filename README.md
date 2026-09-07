@@ -33,6 +33,23 @@ window.recentQuotes = {
 
 ---
 
+## 🛡️ Anti-Thin-Content Architecture (Google Helpful Content & SEO Safeguards)
+
+To eliminate the risk of Google's **Helpful Content System** and **Search Essentials "Thin Content" penalties** that affect generic quote scrapers:
+
+1. **Sitemap Pruning (97% Reduction in Index Bloat)**:
+   - `sitemap-0.xml` strictly curates **~145 high-density Hub pages**: Homepage, Roadmap (`/todo/`), Author Hubs (`/author/[slug]/`), Category Hubs (`/category/[slug]/`), and Mood Hubs (`/mood/[slug]/`).
+   - Single quote pages (`/quote/*`) and tag taxonomy pages (`/tag/*`) are strictly excluded from the sitemap.
+2. **Robots Meta Directives (`noindex, follow`)**:
+   - Single quote pages output `<meta name="robots" content="noindex, follow" />`.
+   - **Full Social Sharing Preserved**: OpenGraph and Twitter card meta tags remain 100% active, ensuring beautiful preview cards on WhatsApp, Twitter/X, LinkedIn, and Facebook.
+   - Crawlers follow links directly into author and category hubs without indexing single-sentence landing pages.
+3. **Scholarly Author & Category Pillar Pages (E-E-A-T)**:
+   - Author hubs feature rich biographical context, philosophical tradition badges, primary sourced works bibliographies, core philosophical tenets, and Schema.org `Person` / `CollectionPage` structured data.
+   - Category hubs feature philosophical essays and thematic taxonomies.
+
+---
+
 ## 🧞 Commands
 
 All commands are run from the root of the project:

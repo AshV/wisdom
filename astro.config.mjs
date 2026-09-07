@@ -10,7 +10,13 @@ export default defineConfig({
   output: 'static',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/quote/q0'),
+      filter: (page) => {
+        // Exclude single quote pages (both text slug and short ID) to eliminate thin content
+        if (page.includes('/quote/')) return false;
+        // Exclude tag taxonomy archives to avoid micro-content index bloat
+        if (page.includes('/tag/')) return false;
+        return true;
+      },
       changefreq: 'weekly',
       priority: 0.8,
       lastmod: new Date(),

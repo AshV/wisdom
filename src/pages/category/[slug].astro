@@ -1,10 +1,12 @@
 ---
 /**
- * Category Feed — Quotes filtered by category.
+ * Category Feed — Quotes and philosophical context filtered by category.
+ * High-value pillar hub page featuring category essay, historical themes, and quote reels.
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ReelFeed from '../../components/ReelFeed.astro';
 import { getCollection } from 'astro:content';
+import { getCategoryProfile } from '../../data/categoryProfiles';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -35,21 +37,198 @@ interface Props {
 
 const { slug } = Astro.params;
 const { quotes, matchedCount, categoryName } = Astro.props;
+
+const profile = getCategoryProfile(slug!, categoryName);
+
+const pageTitle = `${profile.name} Quotes & Philosophy — Wisdom`;
+const pageDescription = `Explore ${matchedCount}+ timeless quotes and philosophical reflections on ${profile.name.toLowerCase()}. ${profile.summary}`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pageTitle,
+  description: profile.summary,
+  url: `https://www.ashishvishwakarma.com/wisdom/category/${slug}/`,
+  about: {
+    '@type': 'Thing',
+    name: profile.name,
+    description: profile.essay,
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: matchedCount,
+    itemListElement: quotes.slice(0, 30).map((q, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Quotation',
+        text: q.content,
+        creator: {
+          '@type': 'Person',
+          name: q.author,
+        },
+      },
+    })),
+  },
+};
 ---
+
 <BaseLayout
-  title={`${categoryName} Quotes — Wisdom`}
-  description={`Explore timeless ${categoryName.toLowerCase()} quotes and philosophy reimagined as immersive reels.`}
-  keywords={[`${categoryName} quotes`, categoryName, 'wisdom', 'philosophy', 'quotes', 'inspirational thoughts']}
+  title={pageTitle}
+  description={pageDescription}
+  robots="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  keywords={[
+    `${profile.name} quotes`,
+    `${profile.name} philosophy`,
+    ...profile.themes.map((t) => t.toLowerCase()),
+    'wisdom',
+    'quotes',
+    'inspirational thoughts',
+  ]}
   breadcrumbs={[
     { name: 'Categories', url: '/wisdom/' },
-    { name: categoryName, url: `/wisdom/category/${slug}/` },
+    { name: profile.name, url: `/wisdom/category/${slug}/` },
   ]}
 >
+  <!-- Schema.org JSON-LD for Google E-E-A-T -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <!-- Category Context Pill Button -->
+  <button
+    id="category-context-trigger"
+    type="button"
+    class="fixed top-3.5 right-28 z-40 px-2.5 py-1.5 rounded-full glass border border-white/20 text-white/90 hover:text-white hover:border-amber-300/40 text-[11px] font-medium tracking-wide transition-all duration-300 flex items-center gap-1.5 shadow-lg backdrop-blur-md cursor-pointer group"
+    aria-label={`Read philosophical overview for ${profile.name}`}
+    title={`Philosophical Overview of ${profile.name}`}
+  >
+    <svg class="w-3.5 h-3.5 text-amber-300 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12.01" y2="8" />
+    </svg>
+    <span class="hidden sm:inline">About</span>
+    <span>{profile.name}</span>
+  </button>
+
+  <!-- Accessible Category Modal -->
+  <div
+    id="category-context-modal"
+    class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="category-modal-title"
+  >
+    <div
+      class="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-neutral-900/90 border border-white/15 p-6 sm:p-8 shadow-2xl text-white scrollbar-thin"
+    >
+      <!-- Close Button -->
+      <button
+        id="category-context-close"
+        type="button"
+        class="absolute top-5 right-5 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+        aria-label="Close overview"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <!-- Modal Header -->
+      <header class="mb-6 pr-8">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-xs uppercase tracking-widest text-amber-300 font-semibold px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/20">
+            Wisdom Category
+          </span>
+          <span class="text-xs text-white/50">&bull;</span>
+          <span class="text-xs text-white/70 font-medium">{matchedCount} Curated Quotes</span>
+        </div>
+        <h2 id="category-modal-title" class="text-2xl sm:text-3xl font-serif font-bold text-white tracking-wide">
+          {profile.name}
+        </h2>
+      </header>
+
+      <!-- Essay -->
+      <section class="mb-6 text-sm sm:text-base text-white/80 leading-relaxed space-y-3 font-sans">
+        <p>{profile.essay}</p>
+      </section>
+
+      <!-- Associated Themes -->
+      {profile.themes.length > 0 && (
+        <section class="pt-4 border-t border-white/10">
+          <h3 class="text-xs font-mono uppercase tracking-wider text-amber-300/90 mb-3">
+            Core Inquiry Themes
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {profile.themes.map((theme) => (
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-white/80">
+                {theme}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </div>
+
+  <!-- Semantic Hidden-to-Viewers / Visible-to-Crawlers Fallback Block -->
+  <article class="sr-only">
+    <h1>{profile.name} Quotes & Philosophy</h1>
+    <p>{profile.summary}</p>
+    <div>
+      <h2>Understanding {profile.name}</h2>
+      <p>{profile.essay}</p>
+      <h2>Key Philosophical Themes</h2>
+      <ul>
+        {profile.themes.map((t) => (
+          <li>{t}</li>
+        ))}
+      </ul>
+    </div>
+  </article>
+
+  <!-- Reel Feed -->
   <ReelFeed
     quotes={quotes}
     matchedCount={matchedCount}
-    filterLabel={`${categoryName} Wisdom`}
-    feedTitle={categoryName}
+    filterLabel={`${profile.name} Wisdom`}
+    feedTitle={profile.name}
     feedType="category"
   />
+
+  <script is:inline>
+    function setupCategoryModal() {
+      const trigger = document.getElementById('category-context-trigger');
+      const modal = document.getElementById('category-context-modal');
+      const closeBtn = document.getElementById('category-context-close');
+
+      if (!trigger || !modal || !closeBtn) return;
+
+      function openModal() {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('opacity-100', 'pointer-events-auto');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }
+
+      trigger.onclick = openModal;
+      closeBtn.onclick = closeModal;
+
+      modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', setupCategoryModal);
+    document.addEventListener('astro:page-load', setupCategoryModal);
+  </script>
 </BaseLayout>

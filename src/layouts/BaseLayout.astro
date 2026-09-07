@@ -10,6 +10,7 @@ interface Props {
   ogType?: string;
   keywords?: string[];
   breadcrumbs?: Array<{ name: string; url: string }>;
+  robots?: string;
 }
 
 const {
@@ -35,6 +36,7 @@ const {
     'quote reels',
   ],
   breadcrumbs = [],
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -85,7 +87,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords.join(', ')} />
     <meta name="author" content="Ashish Vishwakarma" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content={robots} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 

@@ -39,6 +39,7 @@ const { quotes, matchedCount, tagName } = Astro.props;
 <BaseLayout
   title={`#${tagName} Quotes — Wisdom`}
   description={`Discover inspiring quotes and wisdom tagged #${tagName}, reimagined as immersive reels.`}
+  robots="noindex, follow"
   keywords={[`#${tagName}`, `${tagName} quotes`, tagName, 'wisdom', 'quotes', 'inspirational thoughts']}
   breadcrumbs={[
     { name: 'Tags', url: '/wisdom/' },

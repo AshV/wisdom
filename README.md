@@ -46,6 +46,17 @@ All commands are run from the root of the project:
 
 ---
 
+## 📜 Author Expansion Roadmap & ToDo
+
+Wisdom prioritizes **timeless thinkers across human history** (ancient philosophers, mystics, classic literature, pioneering scientists) over transient pop-culture celebrity noise.
+
+- Detailed Roadmap & Editorial Guidelines: [`TODO.md`](file:///a:/GitHub/wisdom/TODO.md)
+- Web Page: [`/wisdom/todo/`](https://www.ashishvishwakarma.com/wisdom/todo/)
+- Current 100+ Batches: **Plato** (106), **Marcus Aurelius** (114), **Seneca** (114), **Rumi** (115), **Osho** (100).
+- Next Immediate Priorities: **Epictetus**, **Lao Tzu**, **Friedrich Nietzsche**, **Alan Watts**, **Carl Jung**.
+
+---
+
 ## 🚀 Project Structure
 
 ```text
@@ -63,15 +74,18 @@ All commands are run from the root of the project:
 │   │   └── ShareModal.astro       # Share drawer with 4:5 image generator
 │   ├── data/
 │   │   ├── mediaRegistry.ts       # Video, audio, and mood metadata mappings
-│   │   └── quotes/                # 600 curated quote JSON files (q001.json - q600.json)
+│   │   └── quotes/                # 1,000 curated quote JSON files (q001.json - q1000.json)
 │   ├── layouts/
 │   │   └── BaseLayout.astro       # Base layout, audio engine, and recentQuotes store
 │   └── pages/
 │       ├── index.astro            # Master feed
+│       ├── todo.astro             # Author expansion roadmap & ToDo page
 │       ├── quote/[slug].astro     # Individual quote canonical pages
 │       ├── author/[slug].astro    # Author feeds
 │       ├── category/[slug].astro  # Category feeds
 │       ├── mood/[slug].astro      # Mood feeds
 │       └── tag/[slug].astro       # Tag feeds
+├── TODO.md                        # Author roadmap & contribution guidelines
 └── astro.config.mjs
 ```
+

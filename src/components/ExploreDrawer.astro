@@ -279,6 +279,25 @@ const categoryIcons: Record<string, string> = {
 
       <!-- 4. Authors Tab -->
       <div id="tab-authors" class="explore-tab-content hidden space-y-2">
+        <!-- Author Roadmap / ToDo Banner -->
+        <a
+          href={`${BASE}/todo/`}
+          class="rounded-2xl p-3.5 mb-2 flex items-center justify-between gap-3 bg-gradient-to-r from-purple-900/40 via-indigo-900/30 to-purple-950/40 border border-purple-400/30 hover:border-purple-400/50 hover:scale-[1.01] active:scale-[0.99] transition-all group shadow-lg"
+        >
+          <div class="flex items-center gap-3">
+            <span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 text-sm font-bold">
+              ✦
+            </span>
+            <div>
+              <span class="text-xs font-bold text-purple-200 block">Author Roadmap & ToDo</span>
+              <span class="text-[11px] text-white/50">Planned 100+ batches for timeless thinkers</span>
+            </div>
+          </div>
+          <span class="text-xs text-purple-300 font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+            View
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6" /></svg>
+          </span>
+        </a>
         {authors.map((auth, i) => {
           const hue = (i * 137.5) % 360;
           return (

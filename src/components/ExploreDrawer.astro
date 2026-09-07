@@ -76,41 +76,51 @@ const categoryIcons: Record<string, string> = {
 
 <div
   id="explore-drawer"
-  class="fixed inset-0 z-40 hidden"
+  class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8"
   style="display: none;"
   aria-modal="true"
   role="dialog"
 >
-  <!-- Backdrop with rich blur -->
+  <!-- Backdrop -->
   <div
     id="explore-backdrop"
-    class="absolute inset-0 bg-black/80 backdrop-blur-xl transition-opacity duration-300 cursor-pointer"
+    class="absolute inset-0 bg-black/80 backdrop-blur-2xl transition-opacity duration-300 cursor-pointer"
   ></div>
 
-  <!-- Sheet Container: Absolute bottom-docked with zero horizontal margin on mobile -->
+  <!-- Sheet: Centered, expansive, luxury sanctuary dialog on desktop / sleek bottom sheet on mobile -->
   <div
     id="explore-sheet"
-    class="absolute bottom-0 left-0 right-0 mx-auto w-full sm:max-w-xl h-[86vh] sm:h-[82vh] max-h-[92vh] rounded-t-[32px] sm:rounded-t-[36px] overflow-hidden flex flex-col z-10 animate-slide-up-sheet border-t sm:border-x border-white/15"
-    style="background: linear-gradient(180deg, rgba(20, 16, 36, 0.98) 0%, rgba(9, 7, 18, 0.99) 100%); box-shadow: 0 -16px 60px rgba(0,0,0,0.85);"
+    class="relative w-full sm:max-w-4xl lg:max-w-5xl h-[92dvh] sm:h-[86dvh] max-h-[920px] flex flex-col z-10 animate-slide-up-sheet overflow-hidden rounded-t-[28px] sm:rounded-3xl border border-white/10"
+    style="background: linear-gradient(180deg, rgba(20, 15, 38, 0.98) 0%, rgba(10, 8, 20, 0.99) 100%); box-shadow: 0 25px 80px -15px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.08);"
   >
     <!-- Top Pull Bar (Mobile drag affordance) -->
-    <div id="explore-drag-handle" class="flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing sm:hidden">
-      <div class="w-12 h-1.5 rounded-full bg-white/30 hover:bg-white/45 transition-colors"></div>
+    <div id="explore-drag-handle" class="sm:hidden flex justify-center pt-3 pb-1 cursor-grab active:cursor-grabbing">
+      <div class="w-12 h-1.5 rounded-full bg-white/25 hover:bg-white/40 transition-colors"></div>
     </div>
 
     <!-- Header -->
-    <div class="flex items-center justify-between px-5 sm:px-6 pt-2 sm:pt-4 pb-3">
-      <div class="flex items-center gap-2.5">
-        <h2 class="text-xl font-bold text-white tracking-tight">Explore Wisdom</h2>
-        <span class="text-[11px] font-semibold text-white/70 bg-white/10 rounded-full px-3.5 py-1 border border-white/10 leading-normal inline-flex items-center">
-          {allQuotes.length} Quotes
-        </span>
+    <div class="flex items-center justify-between px-6 sm:px-10 pt-4 sm:pt-5 pb-4 border-b border-white/6">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400/20 via-purple-500/15 to-transparent border border-amber-400/30 flex items-center justify-center text-amber-300 shadow-sm flex-shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight">Explore Wisdom</h2>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span class="text-xs text-white/50">{allQuotes.length} Timeless Quotes</span>
+            <span class="text-white/20">•</span>
+            <span class="text-xs text-white/50">{authors.length} Authors</span>
+          </div>
+        </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2.5">
         <button
           id="pwa-drawer-install-btn"
           type="button"
-          class="hidden items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 hover:bg-amber-400/25 hover:text-amber-200 text-xs font-medium tracking-wide transition-all cursor-pointer"
+          class="hidden items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 hover:bg-amber-400/25 hover:text-amber-200 text-xs font-medium tracking-wide transition-all cursor-pointer"
           title="Install Wisdom App to Home Screen"
         >
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -122,10 +132,10 @@ const categoryIcons: Record<string, string> = {
         </button>
         <button
           id="explore-close-btn"
-          class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 flex items-center justify-center transition-all text-white/70 hover:text-white cursor-pointer"
+          class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/8 hover:bg-white/18 active:scale-90 flex items-center justify-center transition-all text-white/60 hover:text-white cursor-pointer border border-white/10"
           aria-label="Close Explore"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -134,12 +144,12 @@ const categoryIcons: Record<string, string> = {
     </div>
 
     <!-- Search Input -->
-    <div class="px-5 sm:px-6 pb-3">
+    <div class="px-6 sm:px-10 pt-4 pb-3">
       <div class="relative flex items-center">
         <svg
-          class="absolute left-3.5 text-white/40 pointer-events-none"
-          width="16"
-          height="16"
+          class="absolute left-4 text-white/40 pointer-events-none z-10"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -151,16 +161,17 @@ const categoryIcons: Record<string, string> = {
         <input
           id="explore-search"
           type="text"
-          placeholder="Search quotes, authors, topics..."
-          class="w-full pl-10 pr-9 py-2.5 rounded-xl bg-white/8 hover:bg-white/10 focus:bg-white/12 border border-white/10 focus:border-white/30 text-sm text-white placeholder:text-white/35 focus:outline-none transition-all leading-normal"
+          placeholder="Search quotes, authors, topics, or keywords..."
+          style="padding-left: 52px; padding-right: 48px;"
+          class="w-full py-3 sm:py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.08] focus:bg-white/[0.1] border border-white/[0.1] focus:border-amber-400/50 text-sm sm:text-base text-white placeholder:text-white/35 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all leading-normal shadow-inner"
           autocomplete="off"
         />
         <button
           id="explore-search-clear"
-          class="absolute right-2.5 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white hidden items-center justify-center cursor-pointer transition-colors"
+          class="absolute right-3.5 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white hidden items-center justify-center cursor-pointer transition-colors z-10"
           aria-label="Clear search"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
@@ -168,57 +179,57 @@ const categoryIcons: Record<string, string> = {
       </div>
     </div>
 
-    <!-- Scrollable Horizontal Tabs Bar -->
-    <div class="px-5 sm:px-6 pb-2.5 border-b border-white/10 flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+    <!-- Horizontal Tab Bar -->
+    <div class="px-6 sm:px-10 border-b border-white/8 flex items-center gap-2 overflow-x-auto no-scrollbar py-2.5 bg-white/[0.02]">
       <button
-        class="explore-tab active flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab active flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border bg-white/15 text-white border-white/20 shadow-sm backdrop-blur-md"
         data-tab="liked"
       >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" class="text-red-400">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-red-400">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
         <span>Liked</span>
-        <span id="liked-tab-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 ml-0.5 min-w-[18px] text-center inline-flex items-center justify-center leading-none">0</span>
+        <span id="liked-tab-badge" class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white/10 text-white/60 ml-0.5 min-w-[20px] text-center inline-flex items-center justify-center leading-none">0</span>
       </button>
 
       <button
-        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="moods"
       >
         <span>✨</span>
         <span>Moods</span>
-        <span class="text-[10px] opacity-60 font-normal">({allMoods.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({allMoods.length})</span>
       </button>
 
       <button
-        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="categories"
       >
         <span>📂</span>
         <span>Categories</span>
-        <span class="text-[10px] opacity-60 font-normal">({categories.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({categories.length})</span>
       </button>
 
       <button
-        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="authors"
       >
         <span>✍️</span>
         <span>Authors</span>
-        <span class="text-[10px] opacity-60 font-normal">({authors.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({authors.length})</span>
       </button>
 
       <button
-        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="tags"
       >
         <span>🏷️</span>
         <span>Tags</span>
-        <span class="text-[10px] opacity-60 font-normal">({tags.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({tags.length})</span>
       </button>
 
       <button
-        class="explore-tab flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 leading-normal"
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="rituals"
       >
         <span>🧘</span>
@@ -226,74 +237,79 @@ const categoryIcons: Record<string, string> = {
       </button>
     </div>
 
-    <!-- Content Area (Fixed Scrollable Viewport) -->
-    <div id="explore-scroll-area" class="flex-1 overflow-y-auto px-5 sm:px-6 py-4 scrollbar-thin pb-10">
+    <!-- Content Area (Scrollable Viewport with Generous Padding) -->
+    <div id="explore-scroll-area" class="flex-1 overflow-y-auto overflow-x-hidden px-6 sm:px-10 py-6 scrollbar-thin pb-20">
       
       <!-- 1. Liked Tab -->
-      <div id="tab-liked" class="explore-tab-content space-y-3">
-        <!-- Liked items populated dynamically via JS -->
-        <div id="liked-items-container" class="space-y-3"></div>
+      <div id="tab-liked" class="explore-tab-content">
+        <!-- Liked items populated dynamically via JS in 2-column responsive grid -->
+        <div id="liked-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
         <!-- Empty State for Liked -->
-        <div id="liked-empty-state" class="flex flex-col items-center justify-center py-12 px-4 text-center">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-500/20 to-red-500/20 border border-red-500/30 flex items-center justify-center mb-3 shadow-lg shadow-red-500/10">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2">
+        <div id="liked-empty-state" class="flex flex-col items-center justify-center py-20 px-6 text-center">
+          <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-pink-500/20 via-red-500/15 to-transparent border border-red-500/25 flex items-center justify-center mb-5 shadow-xl shadow-red-500/10">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           </div>
-          <h3 class="text-base font-bold text-white mb-1">No Liked Quotes Yet</h3>
-          <p class="text-xs text-white/50 max-w-xs leading-relaxed mb-4">
-            Double-tap any quote or tap the heart icon in the action rail to build your personal sanctuary of wisdom.
+          <h3 class="text-lg sm:text-xl font-bold text-white mb-2 font-serif">Your Sanctuary Awaits</h3>
+          <p class="text-sm text-white/50 max-w-md leading-relaxed mb-6">
+            Double-tap any quote or tap the heart in the action rail while browsing to save timeless reflections here for offline contemplation.
           </p>
           <button
             id="liked-browse-btn"
-            class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-semibold text-white border border-white/15 transition-all cursor-pointer"
+            class="px-6 py-3 rounded-full bg-white/12 hover:bg-white/20 active:scale-95 text-sm font-semibold text-white border border-white/15 transition-all cursor-pointer shadow-lg hover:shadow-white/5"
           >
-            Explore Quotes
+            Explore Moods &amp; Inspirations
           </button>
         </div>
       </div>
 
       <!-- 2. Moods Tab -->
-      <div id="tab-moods" class="explore-tab-content hidden grid grid-cols-2 gap-3">
+      <div id="tab-moods" class="explore-tab-content hidden grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
         {allMoods.map((mood) => (
           <a
             href={`${BASE}/mood/${mood}/`}
-            class={`explore-item mood-pill-${mood} rounded-2xl p-4 flex flex-col justify-between h-28 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-black/25 group border border-white/15 relative overflow-hidden`}
+            class={`explore-item mood-pill-${mood} rounded-2xl sm:rounded-3xl flex flex-col justify-between min-h-[190px] sm:min-h-[200px] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-xl group border border-white/15 hover:border-white/30 relative overflow-hidden`}
+            style="padding: 1.5rem 1.5rem 2.25rem 1.5rem;"
             data-search-text={`${moodMeta[mood].label} ${mood}`}
           >
-            <div class="flex items-center justify-between">
-              <span class="text-3xl group-hover:scale-110 transition-transform">{moodMeta[mood].emoji}</span>
-              <span class="text-[11px] font-bold text-white/95 bg-black/40 rounded-full px-3 py-1 border border-white/10 min-w-[28px] text-center inline-flex items-center justify-center leading-none">
+            <div class="flex items-center justify-between z-10">
+              <span class="text-4xl sm:text-5xl group-hover:scale-110 transition-transform duration-300 select-none">{moodMeta[mood].emoji}</span>
+              <span class="text-xs font-bold text-white/95 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/15 min-w-[32px] text-center inline-flex items-center justify-center leading-none">
                 {moodCounts[mood] || 0}
               </span>
             </div>
-            <div>
-              <span class="text-sm font-bold text-white block capitalize tracking-wide leading-normal">{moodMeta[mood].label}</span>
-              <span class="text-xs text-white/75 leading-normal">Mood stream</span>
+            <div class="z-10 mt-auto pt-4">
+              <span class="text-base sm:text-lg font-bold text-white block capitalize tracking-tight leading-tight mb-1">{moodMeta[mood].label}</span>
+              <span class="text-xs text-white/80 group-hover:text-white font-medium flex items-center gap-1 transition-colors">
+                Explore stream <span class="group-hover:translate-x-1 transition-transform">→</span>
+              </span>
             </div>
+            <!-- Subtle bottom contrast vignette -->
+            <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 via-black/20 to-transparent pointer-events-none"></div>
           </a>
         ))}
       </div>
 
       <!-- 3. Categories Tab -->
-      <div id="tab-categories" class="explore-tab-content hidden grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+      <div id="tab-categories" class="explore-tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
         {categories.map((cat) => (
           <a
             href={`${BASE}/category/${cat.slug}/`}
-            class="explore-item glass rounded-2xl px-4 py-3.5 flex items-center justify-between hover:bg-white/12 active:scale-[0.98] border border-white/10 hover:border-white/20 transition-all duration-200 group"
+            class="explore-item glass rounded-2xl px-5 py-4 sm:py-4.5 flex items-center justify-between hover:bg-white/[0.09] active:scale-[0.98] border border-white/8 hover:border-white/20 transition-all duration-200 group"
             data-search-text={cat.name}
           >
-            <div class="flex items-center gap-3">
-              <span class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-105 transition-transform">
+            <div class="flex items-center gap-4">
+              <span class="w-12 h-12 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform select-none">
                 {categoryIcons[cat.slug.toLowerCase()] || '📂'}
               </span>
               <div>
-                <span class="text-sm font-bold text-white group-hover:text-white transition-colors block">{cat.name}</span>
-                <span class="text-[11px] text-white/50">{cat.count} curated quotes</span>
+                <span class="text-sm sm:text-base font-bold text-white group-hover:text-amber-200 transition-colors block mb-0.5">{cat.name}</span>
+                <span class="text-xs text-white/50">{cat.count} curated quotes</span>
               </div>
             </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0">
               <polyline points="9 18 15 12 9 6" />
             </svg>
           </a>
@@ -301,69 +317,73 @@ const categoryIcons: Record<string, string> = {
       </div>
 
       <!-- 4. Authors Tab -->
-      <div id="tab-authors" class="explore-tab-content hidden space-y-2">
+      <div id="tab-authors" class="explore-tab-content hidden space-y-4">
         <!-- Author Roadmap / ToDo Banner -->
         <a
           href={`${BASE}/todo/`}
-          class="rounded-2xl p-3.5 mb-2 flex items-center justify-between gap-3 bg-gradient-to-r from-purple-900/40 via-indigo-900/30 to-purple-950/40 border border-purple-400/30 hover:border-purple-400/50 hover:scale-[1.01] active:scale-[0.99] transition-all group shadow-lg"
+          class="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex items-center justify-between gap-4 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 border border-purple-400/30 hover:border-purple-400/50 hover:scale-[1.005] active:scale-[0.99] transition-all group shadow-xl"
         >
-          <div class="flex items-center gap-3">
-            <span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 text-sm font-bold">
+          <div class="flex items-center gap-4">
+            <span class="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 text-lg font-bold flex-shrink-0">
               ✦
             </span>
             <div>
-              <span class="text-xs font-bold text-purple-200 block">Author Roadmap & ToDo</span>
-              <span class="text-[11px] text-white/50">Planned 100+ batches for timeless thinkers</span>
+              <span class="text-base font-bold text-purple-200 block mb-0.5">Author Roadmap &amp; Curation Tracker</span>
+              <span class="text-xs text-white/50">Planned 100+ batches across Eastern, Stoic, and Modern philosophers</span>
             </div>
           </div>
-          <span class="text-xs text-purple-300 font-semibold flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-            View
+          <span class="text-xs text-purple-300 font-semibold flex items-center gap-1.5 group-hover:translate-x-1 transition-transform flex-shrink-0 bg-purple-500/20 px-3 py-1.5 rounded-full border border-purple-400/30">
+            View Roadmap
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6" /></svg>
           </span>
         </a>
-        {authors.map((auth, i) => {
-          const hue = (i * 137.5) % 360;
-          return (
-            <a
-              href={`${BASE}/author/${auth.slug}/`}
-              class="explore-item glass rounded-2xl px-4 py-3 flex items-center gap-3.5 hover:bg-white/12 active:scale-[0.98] border border-white/10 hover:border-white/20 transition-all duration-200 group"
-              data-search-text={auth.name}
-            >
-              <span
-                class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md flex-shrink-0"
-                style={`background: linear-gradient(135deg, hsl(${hue}, 65%, 48%), hsl(${(hue + 45) % 360}, 55%, 38%)); border: 1px solid rgba(255,255,255,0.2);`}
+
+        <!-- Authors Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {authors.map((auth, i) => {
+            const hue = (i * 137.5) % 360;
+            return (
+              <a
+                href={`${BASE}/author/${auth.slug}/`}
+                class="explore-item glass rounded-2xl p-4 flex items-center gap-3.5 hover:bg-white/[0.09] active:scale-[0.98] border border-white/8 hover:border-white/20 transition-all duration-200 group"
+                data-search-text={auth.name}
               >
-                {auth.name.charAt(0)}
-              </span>
-              <div class="flex-1 min-w-0">
-                <span class="text-sm font-bold text-white block group-hover:text-white transition-colors truncate">{auth.name}</span>
-                <span class="text-[11px] text-white/50">{auth.count} {auth.count === 1 ? 'timeless quote' : 'timeless quotes'}</span>
-              </div>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white/80 group-hover:translate-x-1 transition-all flex-shrink-0">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </a>
-          );
-        })}
+                <span
+                  class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md flex-shrink-0 select-none"
+                  style={`background: linear-gradient(135deg, hsl(${hue}, 65%, 48%), hsl(${(hue + 45) % 360}, 55%, 38%)); border: 1px solid rgba(255,255,255,0.25);`}
+                >
+                  {auth.name.charAt(0)}
+                </span>
+                <div class="flex-1 min-w-0">
+                  <span class="text-sm font-bold text-white block group-hover:text-amber-200 transition-colors truncate mb-0.5">{auth.name}</span>
+                  <span class="text-xs text-white/50">{auth.count} {auth.count === 1 ? 'timeless quote' : 'timeless quotes'}</span>
+                </div>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/25 group-hover:text-white/80 group-hover:translate-x-1 transition-all flex-shrink-0">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </a>
+            );
+          })}
+        </div>
       </div>
 
       <!-- 5. Tags Tab -->
       <div id="tab-tags" class="explore-tab-content hidden">
-        <div class="flex flex-wrap gap-2 pt-1">
+        <div class="flex flex-wrap gap-2.5 sm:gap-3 pt-1">
           {tags.map(([tag, count]) => {
             const isHighCount = count >= 3;
             return (
               <a
                 href={`${BASE}/tag/${tag}/`}
-                class={`explore-item rounded-full px-4 py-2 text-xs font-medium transition-all duration-200 inline-flex items-center gap-2 active:scale-95 border leading-normal ${
+                class={`explore-item rounded-full px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 inline-flex items-center gap-2.5 active:scale-95 border leading-normal ${
                   isHighCount
-                    ? 'bg-white/15 hover:bg-white/25 text-white border-white/20 shadow-sm'
-                    : 'bg-white/8 hover:bg-white/18 text-white/80 border-white/10'
+                    ? 'bg-white/12 hover:bg-white/22 text-white border-white/20 shadow-sm'
+                    : 'bg-white/6 hover:bg-white/14 text-white/80 border-white/8'
                 }`}
                 data-search-text={tag}
               >
                 <span>#{tag}</span>
-                <span class="text-[10px] text-white/70 font-bold bg-black/30 rounded-full px-2 py-0.5 min-w-[20px] text-center inline-flex items-center justify-center leading-none">
+                <span class="text-[10px] text-white/70 font-bold bg-black/35 rounded-full px-2 py-0.5 min-w-[20px] text-center inline-flex items-center justify-center leading-none">
                   {count}
                 </span>
               </a>
@@ -373,132 +393,135 @@ const categoryIcons: Record<string, string> = {
       </div>
 
       <!-- 6. Rituals Tab -->
-      <div id="tab-rituals" class="explore-tab-content hidden space-y-4">
+      <div id="tab-rituals" class="explore-tab-content hidden space-y-5">
         <!-- Header Banner -->
-        <div class="p-4 rounded-2xl bg-gradient-to-br from-amber-500/15 via-purple-500/10 to-transparent border border-amber-400/20 shadow-lg">
-          <div class="flex items-center gap-2.5 mb-1.5">
-            <span class="text-xl">🧘</span>
-            <h3 class="text-sm font-bold text-white tracking-wide">Daily Contemplation Rituals</h3>
+        <div class="p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-amber-500/15 via-purple-500/10 to-transparent border border-amber-400/20 shadow-xl">
+          <div class="flex items-center gap-3.5 mb-2.5">
+            <span class="text-3xl select-none">🧘</span>
+            <div>
+              <h3 class="text-lg font-bold text-white tracking-wide font-serif">Daily Contemplation Rituals</h3>
+              <span class="text-xs text-amber-300/80 font-medium">Sacred pauses delivered directly to your device</span>
+            </div>
           </div>
-          <p class="text-xs text-white/70 leading-relaxed font-sans">
-            Anchor your day with timeless philosophy. Receive a single reflection on your lock screen at your chosen sacred hours—100% private, 0% spam.
+          <p class="text-sm text-white/65 leading-relaxed font-sans max-w-2xl">
+            Anchor your daily life with timeless philosophy. Receive gentle, mindful reflections on your screen at your chosen sacred hours — 100% offline, privacy-first, zero distractions.
           </p>
         </div>
 
-        <!-- Ritual Card 1: Morning Reflection -->
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-2xl">🌅</span>
-              <div>
-                <div class="text-sm font-semibold text-white">Morning Reflection</div>
-                <div class="text-xs text-white/50">Awaken your mind with purpose</div>
+        <!-- Ritual Cards in 3-column responsive grid on desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Ritual Card 1: Morning Reflection -->
+          <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/8 hover:border-white/18 transition-all flex flex-col justify-between gap-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl select-none">🌅</span>
+                <div>
+                  <div class="text-sm font-semibold text-white mb-0.5">Morning Awakening</div>
+                  <div class="text-xs text-white/50">Awaken your mind with purpose</div>
+                </div>
               </div>
+              <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-1">
+                <input type="checkbox" id="ritual-morning-toggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400 shadow-inner"></div>
+              </label>
             </div>
-            <!-- Toggle Switch -->
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="ritual-morning-toggle" class="sr-only peer">
-              <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400"></div>
-            </label>
+            <div class="flex items-center justify-between pt-3 border-t border-white/8 text-xs text-white/65">
+              <span class="font-medium">Scheduled Time</span>
+              <input
+                type="time"
+                id="ritual-morning-time"
+                value="08:00"
+                class="bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono transition-colors"
+              />
+            </div>
           </div>
-          <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-white/70">
-            <span>Scheduled Time</span>
-            <input
-              type="time"
-              id="ritual-morning-time"
-              value="08:00"
-              class="bg-white/10 border border-white/15 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-amber-400 font-mono"
-            />
-          </div>
-        </div>
 
-        <!-- Ritual Card 2: Evening Stillness -->
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-2xl">🌌</span>
-              <div>
-                <div class="text-sm font-semibold text-white">Evening Stillness</div>
-                <div class="text-xs text-white/50">Release the day into peace</div>
+          <!-- Ritual Card 2: Evening Stillness -->
+          <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/8 hover:border-white/18 transition-all flex flex-col justify-between gap-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl select-none">🌌</span>
+                <div>
+                  <div class="text-sm font-semibold text-white mb-0.5">Evening Stillness</div>
+                  <div class="text-xs text-white/50">Release the day into peace</div>
+                </div>
               </div>
+              <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-1">
+                <input type="checkbox" id="ritual-evening-toggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400 shadow-inner"></div>
+              </label>
             </div>
-            <!-- Toggle Switch -->
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="ritual-evening-toggle" class="sr-only peer">
-              <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400"></div>
-            </label>
+            <div class="flex items-center justify-between pt-3 border-t border-white/8 text-xs text-white/65">
+              <span class="font-medium">Scheduled Time</span>
+              <input
+                type="time"
+                id="ritual-evening-time"
+                value="21:00"
+                class="bg-white/10 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono transition-colors"
+              />
+            </div>
           </div>
-          <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-white/70">
-            <span>Scheduled Time</span>
-            <input
-              type="time"
-              id="ritual-evening-time"
-              value="21:00"
-              class="bg-white/10 border border-white/15 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-amber-400 font-mono"
-            />
-          </div>
-        </div>
 
-        <!-- Ritual Card 3: Zen Contemplation Bell -->
-        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <span class="text-2xl">🔔</span>
-              <div>
-                <div class="text-sm font-semibold text-white">Zen Contemplation Bell</div>
-                <div class="text-xs text-white/50">Gentle singing bowl while reading</div>
+          <!-- Ritual Card 3: Zen Contemplation Bell -->
+          <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/8 hover:border-white/18 transition-all flex flex-col justify-between gap-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl select-none">🔔</span>
+                <div>
+                  <div class="text-sm font-semibold text-white mb-0.5">Zen Temple Bell</div>
+                  <div class="text-xs text-white/50">Gentle chime while reading</div>
+                </div>
               </div>
+              <label class="relative inline-flex items-center cursor-pointer flex-shrink-0 mt-1">
+                <input type="checkbox" id="ritual-zen-toggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400 shadow-inner"></div>
+              </label>
             </div>
-            <!-- Toggle Switch -->
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="ritual-zen-toggle" class="sr-only peer">
-              <div class="w-11 h-6 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-400"></div>
-            </label>
-          </div>
-          <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-white/70">
-            <span>Chime Interval</span>
-            <select
-              id="ritual-zen-interval"
-              class="bg-neutral-800 border border-white/15 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-amber-400 font-sans cursor-pointer"
-            >
-              <option value="5">Every 5 minutes</option>
-              <option value="10" selected>Every 10 minutes</option>
-              <option value="15">Every 15 minutes</option>
-              <option value="20">Every 20 minutes</option>
-            </select>
+            <div class="flex items-center justify-between pt-3 border-t border-white/8 text-xs text-white/65">
+              <span class="font-medium">Chime Interval</span>
+              <select
+                id="ritual-zen-interval"
+                class="bg-neutral-900 border border-white/15 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-sans cursor-pointer transition-colors"
+              >
+                <option value="5">Every 5 min</option>
+                <option value="10" selected>Every 10 min</option>
+                <option value="15">Every 15 min</option>
+                <option value="20">Every 20 min</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <!-- Action Buttons: Send Test Reflection & Status -->
-        <div class="pt-2 flex flex-col gap-2.5">
+        <div class="pt-2 flex flex-col gap-3 max-w-md mx-auto">
           <button
             id="ritual-test-btn"
             type="button"
-            class="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-xs font-semibold text-white border border-white/15 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+            class="w-full py-3.5 px-6 rounded-2xl bg-white/8 hover:bg-white/15 active:scale-95 text-sm font-semibold text-white border border-white/12 hover:border-white/25 transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-lg"
           >
             <svg class="w-4 h-4 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
-            <span>Preview Daily Reflection Now</span>
+            <span>Preview Daily Reflection Notification</span>
           </button>
-          <div id="ritual-status-msg" class="text-[11px] text-center text-white/50 hidden"></div>
+          <div id="ritual-status-msg" class="text-xs text-center text-white/50 hidden py-1"></div>
         </div>
       </div>
 
       <!-- Empty Search Filter State -->
-      <div id="explore-search-empty" class="hidden flex-col items-center justify-center py-14 text-center">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white/20 mb-3">
+      <div id="explore-search-empty" class="hidden flex-col items-center justify-center py-20 text-center">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-white/20 mb-4">
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.35-4.35" />
         </svg>
-        <p class="text-sm font-semibold text-white/60">No matches found</p>
-        <p class="text-xs text-white/35 mt-1">Try another keyword</p>
+        <p class="text-base font-semibold text-white/70 mb-1">No matches found</p>
+        <p class="text-xs text-white/40 mt-1">Try a different author, mood, or keyword</p>
         <button
           id="explore-reset-search-btn"
-          class="mt-3 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white font-medium cursor-pointer"
+          class="mt-5 px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white/80 hover:text-white font-medium cursor-pointer transition-colors border border-white/12"
         >
-          Clear filter
+          Clear search filter
         </button>
       </div>
 
@@ -569,19 +592,22 @@ const categoryIcons: Record<string, string> = {
 
         const card = document.createElement('div');
         card.className =
-          'explore-item glass rounded-2xl p-4 border border-white/10 hover:border-white/20 transition-all duration-200 group relative flex flex-col justify-between gap-3';
+          'explore-item rounded-2xl p-5 sm:p-6 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all duration-200 group relative flex flex-col justify-between gap-4 shadow-sm';
         card.dataset.searchText = `${quote.content} ${quote.author} ${quote.category}`;
 
         // Quote text & Author
         const contentBlock = document.createElement('div');
-        contentBlock.className = 'cursor-pointer';
+        contentBlock.className = 'cursor-pointer flex-1';
         contentBlock.innerHTML = `
-          <p class="font-serif text-[14px] sm:text-[15px] text-white/95 leading-relaxed italic line-clamp-3 group-hover:text-white transition-colors">
-            "${escapeHtml(quote.content)}"
-          </p>
-          <div class="mt-2 flex items-center justify-between">
-            <span class="text-xs font-semibold text-white/70 tracking-wide">— ${escapeHtml(quote.author)}</span>
-            <span class="text-[10px] font-semibold text-white/60 bg-white/10 px-3 py-1 rounded-full border border-white/10 uppercase tracking-wider leading-normal">
+          <div class="flex items-start gap-2 mb-2">
+            <span class="text-2xl sm:text-3xl text-amber-400/40 font-serif leading-none select-none">“</span>
+            <p class="font-serif text-[15px] sm:text-[16px] text-white/95 leading-relaxed italic line-clamp-4 group-hover:text-white transition-colors">
+              ${escapeHtml(quote.content)}
+            </p>
+          </div>
+          <div class="mt-3 flex items-center justify-between">
+            <span class="text-xs font-semibold text-white/75 tracking-wide">— ${escapeHtml(quote.author)}</span>
+            <span class="text-[10px] font-semibold text-white/60 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/10 uppercase tracking-wider leading-normal">
               ${escapeHtml(quote.category)}
             </span>
           </div>
@@ -689,13 +715,13 @@ const categoryIcons: Record<string, string> = {
       tabs.forEach((tab) => {
         const isSelected = tab.dataset.tab === target;
         if (isSelected) {
-          tab.classList.add('active', 'bg-white/18', 'text-white', 'border-white/25', 'shadow-sm');
-          tab.classList.remove('bg-transparent', 'text-white/60', 'border-transparent');
+          tab.classList.add('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
+          tab.classList.remove('border-transparent', 'text-white/55');
           // Ensure active tab is scrolled into view in horizontal bar
           tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         } else {
-          tab.classList.remove('active', 'bg-white/18', 'text-white', 'border-white/25', 'shadow-sm');
-          tab.classList.add('bg-transparent', 'text-white/60', 'border-transparent');
+          tab.classList.remove('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
+          tab.classList.add('border-transparent', 'text-white/55');
         }
       });
 
@@ -808,7 +834,7 @@ const categoryIcons: Record<string, string> = {
     function openDrawer(tabToOpen = 'liked') {
       if (!drawer) return;
       drawer.classList.remove('hidden');
-      drawer.style.display = 'block';
+      drawer.style.display = 'flex'; // Uses flexbox to perfectly center sheet on all viewports
 
       // Always update likes whenever opening
       refreshLikedQuotes();
@@ -826,12 +852,12 @@ const categoryIcons: Record<string, string> = {
     function closeDrawer() {
       if (!drawer) return;
       if (sheet) {
-        sheet.style.animation = 'slide-down-sheet 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+        sheet.style.animation = 'slide-down-sheet 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards';
         setTimeout(() => {
           drawer.style.display = 'none';
           drawer.classList.add('hidden');
           sheet.style.animation = '';
-        }, 260);
+        }, 240);
       } else {
         drawer.style.display = 'none';
         drawer.classList.add('hidden');
@@ -840,6 +866,13 @@ const categoryIcons: Record<string, string> = {
 
     if (backdrop) backdrop.onclick = closeDrawer;
     if (closeBtn) closeBtn.onclick = closeDrawer;
+
+    // Keyboard ESC to close drawer
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer && drawer.style.display === 'flex') {
+        closeDrawer();
+      }
+    });
 
     // Swipe down to dismiss on mobile drag handle
     let touchStartY = 0;

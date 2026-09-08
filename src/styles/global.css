@@ -34,6 +34,7 @@
 
   /* Spacing */
   --spacing-rail: 1rem;
+  --spacing-4_5: 1.125rem;
 
   /* Animations */
   --animate-fade-in: fade-in 0.5s var(--ease-out-expo) forwards;
@@ -243,6 +244,17 @@ body {
 .mood-pill-joyful { background: linear-gradient(135deg, var(--color-mood-joyful), #34d399); }
 .mood-pill-philosophical { background: linear-gradient(135deg, var(--color-mood-philosophical), #818cf8); }
 .mood-pill-romantic { background: linear-gradient(135deg, var(--color-mood-romantic), #f472b6); }
+
+/* ── Pill Badges & Chips ── */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.125rem;
+  border-radius: 9999px;
+  line-height: 1.25;
+}
 
 /* ── Utility & Selection Protection ── */
 *, *::before, *::after {

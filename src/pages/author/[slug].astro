@@ -112,7 +112,7 @@ const structuredData = {
   <button
     id="author-context-trigger"
     type="button"
-    class="fixed top-14 left-1/2 -translate-x-1/2 sm:top-3.5 sm:left-auto sm:right-24 md:right-28 sm:translate-x-0 z-40 px-3 py-1 sm:py-1.5 rounded-full glass border border-amber-300/30 text-amber-200 hover:text-white hover:border-amber-300/60 hover:bg-amber-400/10 text-xs font-medium tracking-wide transition-all duration-300 flex items-center gap-2 shadow-lg backdrop-blur-md cursor-pointer group active:scale-95 whitespace-nowrap"
+    class="fixed top-14 left-1/2 -translate-x-1/2 sm:top-3.5 sm:left-auto sm:right-24 md:right-28 sm:translate-x-0 z-40 px-4 py-2 rounded-full glass border border-amber-300/30 text-amber-200 hover:text-white hover:border-amber-300/60 hover:bg-amber-400/10 text-xs font-medium tracking-wide transition-all duration-300 flex items-center gap-2 shadow-lg backdrop-blur-md cursor-pointer group active:scale-95 whitespace-nowrap"
     aria-label={`Read biographical context for ${profile.name}`}
     title={`Biographical & Philosophical Context for ${profile.name} (Press 'i')`}
   >
@@ -204,11 +204,11 @@ const structuredData = {
                 </div>
 
                 <div class="flex-1 min-w-0 space-y-2">
-                  <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold px-2.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/30">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30">
                       {profile.tradition}
                     </span>
-                    <span class="text-[10px] text-white/60 font-mono px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
+                    <span class="text-[10px] text-white/60 font-mono px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
                       {profile.era}
                     </span>
                   </div>
@@ -337,7 +337,7 @@ const structuredData = {
                           <span class="text-sm sm:text-base font-bold font-serif text-white group-hover:text-amber-200 transition-colors">
                             {pillar.concept}
                           </span>
-                          <span class="text-[10px] font-mono font-bold text-amber-400/70 bg-amber-400/10 px-2.5 py-0.5 rounded border border-amber-400/20 shrink-0">
+                          <span class="text-[10px] font-mono font-bold text-amber-400/70 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20 shrink-0">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
                         </div>

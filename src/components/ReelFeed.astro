@@ -67,7 +67,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       </h1>
     </div>
     <div class="w-24 flex justify-end">
-      <span class="text-[11px] font-mono font-medium text-white/80 glass px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm leading-normal">
+      <span class="text-[11px] font-mono font-medium text-white/80 glass px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm leading-normal">
         {matchedCount && matchedCount < quotes.length ? (
           <>
             <span>{matchedCount}</span>
@@ -261,6 +261,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       // Category pill
       const categoryLink = clone.querySelector('a[href*="/category/"]');
       if (categoryLink) {
+        categoryLink.className = 'pointer-events-auto glass rounded-full px-4.5 py-2 text-xs font-medium text-white/90 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm whitespace-nowrap inline-flex items-center leading-normal';
         categoryLink.href = `${base}/category/${quote.categorySlug}/`;
         categoryLink.textContent = quote.category;
       }
@@ -268,7 +269,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       // Mood pill
       const moodLink = clone.querySelector('a[href*="/mood/"]');
       if (moodLink) {
-        moodLink.className = `pointer-events-auto mood-pill-${quote.mood} rounded-full px-5 py-1.5 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-2 whitespace-nowrap shrink-0 leading-normal`;
+        moodLink.className = `pointer-events-auto mood-pill-${quote.mood} rounded-full px-5 py-2 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-2 whitespace-nowrap shrink-0 leading-normal`;
         moodLink.href = `${base}/mood/${quote.mood}/`;
         moodLink.innerHTML = `<span class="shrink-0 text-sm leading-none">${moodInfo.emoji}</span><span class="whitespace-nowrap tracking-wide leading-normal">${moodInfo.label}</span>`;
       }
@@ -277,7 +278,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       const tagContainer = clone.querySelector('[data-tags-container]') || clone.querySelector('.flex.flex-wrap');
       if (tagContainer) {
         tagContainer.innerHTML = (quote.tags || []).map(t =>
-          `<a href="${base}/tag/${encodeURIComponent(t)}/" class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-1.5 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal">#${escapeHtml(t)}</a>`
+          `<a href="${base}/tag/${encodeURIComponent(t)}/" class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal">#${escapeHtml(t)}</a>`
         ).join('');
       }
 
@@ -385,7 +386,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
         });
         if (initialSlides[matchedCount]) {
           const bannerDiv = document.createElement('div');
-          bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4 py-1.5 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
+          bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4.5 py-2 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
           bannerDiv.innerHTML = '<span class="text-amber-300">✦</span><span>More Wisdom Ahead</span>';
           initialSlides[matchedCount].appendChild(bannerDiv);
         }

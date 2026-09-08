@@ -672,6 +672,10 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', setupShareModal);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupShareModal);
+  } else {
+    setupShareModal();
+  }
   document.addEventListener('astro:page-load', setupShareModal);
 </script>

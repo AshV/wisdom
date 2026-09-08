@@ -122,28 +122,45 @@ self.addEventListener('fetch', (event) => {
 // 4. Notification click: focus existing tab or open new window to the reflection quote
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  const targetUrl = (event.notification.data && event.notification.data.url) || '/wisdom/';
+  const rawUrl = (event.notification.data && event.notification.data.url) || '/wisdom/';
+  const absoluteUrl = new URL(rawUrl, self.location.origin).href;
+  const quoteSlug = (event.notification.data && (event.notification.data.quoteSlug || event.notification.data.slug)) || '';
+  const quoteId = (event.notification.data && event.notification.data.quoteId) || '';
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
       // Find an open Wisdom window
       for (const client of windowClients) {
         if (client.url.includes('/wisdom') && 'focus' in client) {
+          client.postMessage({
+            type: 'WISDOM_NAVIGATE_QUOTE',
+            url: absoluteUrl,
+            quoteSlug: quoteSlug,
+            quoteId: quoteId
+          });
           if ('navigate' in client) {
-            client.navigate(targetUrl);
+            client.navigate(absoluteUrl);
           }
           return client.focus();
         }
       }
       // If no window is open, open a new one
       if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
+        return clients.openWindow(absoluteUrl);
       }
     })
   );
 });
 
-// 5. Periodic Background Sync: background reflection checks
+// 5. Message listener: receive synced ritual settings from client
+let storedRitualSettings = null;
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SET_RITUAL_SETTINGS') {
+    storedRitualSettings = event.data.settings;
+  }
+});
+
+// 6. Periodic Background Sync: background reflection checks
 self.addEventListener('periodicsync', (event) => {
   if (event.tag === 'daily-reflection') {
     event.waitUntil(
@@ -157,15 +174,43 @@ self.addEventListener('periodicsync', (event) => {
           const quote = quotes.find((q) => q.day === day) || quotes[day % quotes.length] || quotes[0];
           if (!quote) return;
 
-          const isEvening = now.getHours() >= 18;
-          const ritualTitle = isEvening ? 'Evening Stillness' : 'Morning Reflection';
+          const currentTotalMin = now.getHours() * 60 + now.getMinutes();
+          let dueType = null;
+
+          if (storedRitualSettings) {
+            if (storedRitualSettings.morning) {
+              const [mH, mM] = (storedRitualSettings.morningTime || '08:00').split(':').map(Number);
+              const target = mH * 60 + mM;
+              if (Math.abs(currentTotalMin - target) <= 15) {
+                dueType = 'morning';
+              }
+            }
+            if (!dueType && storedRitualSettings.evening) {
+              const [eH, eM] = (storedRitualSettings.eveningTime || '21:00').split(':').map(Number);
+              const target = eH * 60 + eM;
+              if (Math.abs(currentTotalMin - target) <= 15) {
+                dueType = 'evening';
+              }
+            }
+          } else {
+            const isEvening = now.getHours() >= 18;
+            dueType = isEvening ? 'evening' : 'morning';
+          }
+
+          if (!dueType) return;
+
+          const ritualTitle = dueType === 'evening' ? 'Evening Stillness' : 'Morning Reflection';
 
           return self.registration.showNotification(`${ritualTitle} — ${quote.author}`, {
             body: `“${quote.content}”`,
             icon: '/wisdom/icons/icon-192.png',
             badge: '/wisdom/icons/favicon-64.png',
-            tag: 'wisdom-daily-reflection',
-            data: { url: `/wisdom/#${quote.slug}` },
+            tag: `wisdom-${dueType}-reflection`,
+            data: {
+              url: `/wisdom/#${quote.slug}`,
+              quoteSlug: quote.slug,
+              quoteId: quote.id
+            },
           });
         })
         .catch(() => {})

@@ -153,6 +153,10 @@
 
   window.updateLikeUI = updateLikeUI;
 
-  document.addEventListener('DOMContentLoaded', setupRightRail);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupRightRail);
+  } else {
+    setupRightRail();
+  }
   document.addEventListener('astro:page-load', setupRightRail);
 </script>

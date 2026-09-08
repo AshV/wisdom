@@ -72,6 +72,7 @@ export async function sendReflectionNotification(
     tag: `wisdom-${type.toLowerCase().replace(/\s+/g, '-')}`,
     data: {
       url: `${baseUrl}/#${quote.slug}`,
+      quoteSlug: quote.slug,
       quoteId: quote.id,
       author: quote.author,
     },
@@ -87,7 +88,11 @@ export async function sendReflectionNotification(
       }
     }
     // Fallback to Window Notification API
-    new Notification(title, options);
+    const notif = new Notification(title, options);
+    notif.onclick = function() {
+      window.focus();
+      if (window.location) window.location.href = options.data.url;
+    };
     return true;
   } catch (err) {
     console.debug('Notification dispatch failed:', err);
@@ -121,32 +126,53 @@ export async function checkAndTriggerScheduledRituals(baseUrl = '/wisdom'): Prom
   const quote = await fetchDailyQuote(now, baseUrl);
   if (!quote) return;
 
-  // Morning check
+  // Morning check (strict 3-minute delivery window)
   if (settings.morning && !todayDelivered.includes('morning')) {
     const [mH, mM] = settings.morningTime.split(':').map(Number);
     const morningTarget = mH * 60 + mM;
-    // Deliver if current time is within or past the scheduled morning hour
-    if (currentTimeMinutes >= morningTarget && currentTimeMinutes < morningTarget + 180) {
-      const sent = await sendReflectionNotification('Morning Reflection', quote, baseUrl);
-      if (sent) {
+    if (currentTimeMinutes >= morningTarget && currentTimeMinutes <= morningTarget + 3) {
+      if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+        // App is in foreground, suppress tray notification
         todayDelivered.push('morning');
         delivered[todayStr] = todayDelivered;
         localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
+      } else {
+        const sent = await sendReflectionNotification('Morning Reflection', quote, baseUrl);
+        if (sent) {
+          todayDelivered.push('morning');
+          delivered[todayStr] = todayDelivered;
+          localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
+        }
       }
+    } else if (currentTimeMinutes > morningTarget + 3) {
+      // Past scheduled window, mark passed so no delayed notification fires on app open
+      todayDelivered.push('morning');
+      delivered[todayStr] = todayDelivered;
+      localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
     }
   }
 
-  // Evening check
+  // Evening check (strict 3-minute delivery window)
   if (settings.evening && !todayDelivered.includes('evening')) {
     const [eH, eM] = settings.eveningTime.split(':').map(Number);
     const eveningTarget = eH * 60 + eM;
-    if (currentTimeMinutes >= eveningTarget && currentTimeMinutes < eveningTarget + 180) {
-      const sent = await sendReflectionNotification('Evening Stillness', quote, baseUrl);
-      if (sent) {
+    if (currentTimeMinutes >= eveningTarget && currentTimeMinutes <= eveningTarget + 3) {
+      if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
         todayDelivered.push('evening');
         delivered[todayStr] = todayDelivered;
         localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
+      } else {
+        const sent = await sendReflectionNotification('Evening Stillness', quote, baseUrl);
+        if (sent) {
+          todayDelivered.push('evening');
+          delivered[todayStr] = todayDelivered;
+          localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
+        }
       }
+    } else if (currentTimeMinutes > eveningTarget + 3) {
+      todayDelivered.push('evening');
+      delivered[todayStr] = todayDelivered;
+      localStorage.setItem(LAST_DELIVERED_KEY, JSON.stringify(delivered));
     }
   }
 }

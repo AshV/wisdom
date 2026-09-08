@@ -521,7 +521,11 @@ const structuredData = {
       }
     }
 
-    document.addEventListener('DOMContentLoaded', setupAuthorModal);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupAuthorModal);
+    } else {
+      setupAuthorModal();
+    }
     document.addEventListener('astro:page-load', setupAuthorModal);
   </script>
 </BaseLayout>

@@ -1045,7 +1045,11 @@ const categoryIcons: Record<string, string> = {
               icon: `${base}/icons/icon-192.png`,
               badge: `${base}/icons/favicon-64.png`,
               tag: 'wisdom-test-reflection',
-              data: { url: `${base}/#${quote.slug}` }
+              data: {
+                url: `${base}/#${quote.slug}`,
+                quoteSlug: quote.slug,
+                quoteId: quote.id
+              }
             };
 
             if ('serviceWorker' in navigator) {
@@ -1053,10 +1057,18 @@ const categoryIcons: Record<string, string> = {
               if (reg && 'showNotification' in reg) {
                 await reg.showNotification(title, options);
               } else {
-                new Notification(title, options);
+                const notif = new Notification(title, options);
+                notif.onclick = function() {
+                  window.focus();
+                  if (window.location) window.location.href = options.data.url;
+                };
               }
             } else {
-              new Notification(title, options);
+              const notif = new Notification(title, options);
+              notif.onclick = function() {
+                window.focus();
+                if (window.location) window.location.href = options.data.url;
+              };
             }
 
             if (statusMsg) {
@@ -1081,7 +1093,11 @@ const categoryIcons: Record<string, string> = {
     window.refreshExploreLikes = refreshLikedQuotes;
   }
 
-  document.addEventListener('DOMContentLoaded', setupExploreDrawer);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupExploreDrawer);
+  } else {
+    setupExploreDrawer();
+  }
   document.addEventListener('astro:page-load', setupExploreDrawer);
 </script>
 

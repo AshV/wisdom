@@ -286,100 +286,136 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
 
     // ── Check for deep-link hash and feed configuration ──
     const rawHash = window.location.hash ? window.location.hash.slice(1) : null;
-    const targetHash = rawHash ? decodeURIComponent(rawHash) : null;
+    let targetHash = rawHash ? decodeURIComponent(rawHash) : null;
     const feedType = container.dataset.feedType || 'master';
     const matchedCount = parseInt(container.dataset.matchedCount, 10) || 0;
 
-    // Retrieve user's recently viewed quote IDs (last 50 seen quotes)
+    // Retrieve user's recently viewed quote IDs (up to 1000 seen quotes)
     const recentSeenList = (window.recentQuotes && typeof window.recentQuotes.getAll === 'function')
       ? window.recentQuotes.getAll()
       : [];
     const recentSeenSet = new Set(recentSeenList);
 
-    // ── Intelligent Reordering & Shuffling with 50-Quote Deduplication ──
+    // If master feed and targetHash represents a quote the user ALREADY visited,
+    // it is a residual hash from an earlier session. Clear it so the user sees a fresh quote!
+    if (feedType === 'master' && targetHash) {
+      let isAlreadySeen = recentSeenSet.has(targetHash);
+      if (!isAlreadySeen && window.__wisdomQuoteMap) {
+        const matchingQuote = Object.values(window.__wisdomQuoteMap).find(q =>
+          q.slug === targetHash || q.id === targetHash
+        );
+        if (matchingQuote && recentSeenSet.has(matchingQuote.id)) {
+          isAlreadySeen = true;
+        }
+      }
+      if (isAlreadySeen) {
+        targetHash = null;
+        try {
+          history.replaceState(null, '', window.location.pathname);
+        } catch {}
+      }
+    }
+
+    // ── Intelligent Reordering & Shuffling with Visited Deduplication ──
     if (targetHash) {
-      // If a #hash permalink exists, pin the target quote to index 0 and randomize the rest avoiding recent 50
-      const targetIdx = initialSlides.findIndex(s =>
+      // Intentional deep link or notification target: find or create target slide
+      let targetIdx = initialSlides.findIndex(s =>
         s.dataset.quoteSlug === targetHash ||
         s.id === `slide-${targetHash}` ||
         s.dataset.quoteId === targetHash
       );
+      let targetSlide = null;
       if (targetIdx !== -1) {
-        const [targetSlide] = initialSlides.splice(targetIdx, 1);
+        [targetSlide] = initialSlides.splice(targetIdx, 1);
+      } else if (window.__wisdomQuoteMap) {
+        const allQuotes = Object.values(window.__wisdomQuoteMap);
+        const targetQuote = allQuotes.find(q =>
+          q.slug === targetHash ||
+          q.id === targetHash ||
+          q.id.toLowerCase() === targetHash.toLowerCase()
+        );
+        if (targetQuote) {
+          targetSlide = createSlideFromQuote(targetQuote, templateSlide, 'deep');
+        }
+      }
+
+      if (targetSlide) {
         const unseenRemaining = initialSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
         const seenRemaining = initialSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
         shuffleArray(unseenRemaining);
         seenRemaining.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
         initialSlides = [targetSlide, ...unseenRemaining, ...seenRemaining];
       } else {
-        const unseen = initialSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
+        // Target hash not found; treat as master feed
+        targetHash = null;
+      }
+    }
+
+    if (!targetHash) {
+      if (feedType === 'quote') {
+        // On individual canonical quote pages, keep target quote first, shuffle continuation stream avoiding seen
+        const primary = initialSlides[0];
+        const rest = initialSlides.slice(1);
+        const unseenRest = rest.filter(s => !recentSeenSet.has(s.dataset.quoteId));
+        const seenRest = rest.filter(s => recentSeenSet.has(s.dataset.quoteId));
+        shuffleArray(unseenRest);
+        seenRest.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
+        initialSlides = [primary, ...unseenRest, ...seenRest];
+      } else if (matchedCount > 0 && matchedCount < initialSlides.length) {
+        // In filtered feeds (author, category, mood, tag)
+        const matched = initialSlides.slice(0, matchedCount);
+        const continuation = initialSlides.slice(matchedCount);
+
+        const unseenMatched = matched.filter(s => !recentSeenSet.has(s.dataset.quoteId));
+        const seenMatched = matched.filter(s => recentSeenSet.has(s.dataset.quoteId));
+        shuffleArray(unseenMatched);
+        seenMatched.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
+
+        const unseenCont = continuation.filter(s => !recentSeenSet.has(s.dataset.quoteId));
+        const seenCont = continuation.filter(s => recentSeenSet.has(s.dataset.quoteId));
+        shuffleArray(unseenCont);
+        seenCont.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
+
+        initialSlides = [...unseenMatched, ...seenMatched, ...unseenCont, ...seenCont];
+
+        // Keep continuation banner precisely positioned on the first continuation slide
+        initialSlides.forEach(s => {
+          const b = s.querySelector('.continuation-banner');
+          if (b) b.remove();
+        });
+        if (initialSlides[matchedCount]) {
+          const bannerDiv = document.createElement('div');
+          bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4 py-1.5 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
+          bannerDiv.innerHTML = '<span class="text-amber-300">✦</span><span>More Wisdom Ahead</span>';
+          initialSlides[matchedCount].appendChild(bannerDiv);
+        }
+      } else {
+        // General master feed:
+        // Separate into unseen and seen slides
+        let unseen = initialSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
         const seen = initialSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
+
+        // Rely on visited quotes: always guarantee fresh unseen quotes at top
+        if (window.__wisdomQuoteMap) {
+          const existingIds = new Set(initialSlides.map(s => s.dataset.quoteId));
+          const allQuotes = Object.values(window.__wisdomQuoteMap);
+          const freshCatalogQuotes = allQuotes.filter(q => !recentSeenSet.has(q.id) && !existingIds.has(q.id));
+          shuffleArray(freshCatalogQuotes);
+          const needed = Math.max(0, 35 - unseen.length);
+          if (needed > 0) {
+            const toInject = freshCatalogQuotes.slice(0, needed);
+            toInject.forEach(q => {
+              const newSlide = createSlideFromQuote(q, templateSlide, 'init');
+              unseen.push(newSlide);
+            });
+          }
+        }
+
         shuffleArray(unseen);
+        // Sort seen slides by oldest seen first
         seen.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
         initialSlides = [...unseen, ...seen];
       }
-    } else if (feedType === 'quote') {
-      // On individual canonical quote pages, keep target quote first, shuffle continuation stream avoiding last 50 seen
-      const primary = initialSlides[0];
-      const rest = initialSlides.slice(1);
-      const unseenRest = rest.filter(s => !recentSeenSet.has(s.dataset.quoteId));
-      const seenRest = rest.filter(s => recentSeenSet.has(s.dataset.quoteId));
-      shuffleArray(unseenRest);
-      seenRest.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-      initialSlides = [primary, ...unseenRest, ...seenRest];
-    } else if (matchedCount > 0 && matchedCount < initialSlides.length) {
-      // In filtered feeds (author, category, mood, tag), place unseen matched quotes first,
-      // and unseen continuation quotes before seen continuation quotes
-      const matched = initialSlides.slice(0, matchedCount);
-      const continuation = initialSlides.slice(matchedCount);
-
-      const unseenMatched = matched.filter(s => !recentSeenSet.has(s.dataset.quoteId));
-      const seenMatched = matched.filter(s => recentSeenSet.has(s.dataset.quoteId));
-      shuffleArray(unseenMatched);
-      seenMatched.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-
-      const unseenCont = continuation.filter(s => !recentSeenSet.has(s.dataset.quoteId));
-      const seenCont = continuation.filter(s => recentSeenSet.has(s.dataset.quoteId));
-      shuffleArray(unseenCont);
-      seenCont.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-
-      initialSlides = [...unseenMatched, ...seenMatched, ...unseenCont, ...seenCont];
-
-      // Keep continuation banner precisely positioned on the first continuation slide
-      initialSlides.forEach(s => {
-        const b = s.querySelector('.continuation-banner');
-        if (b) b.remove();
-      });
-      if (initialSlides[matchedCount]) {
-        const bannerDiv = document.createElement('div');
-        bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4 py-1.5 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
-        bannerDiv.innerHTML = '<span class="text-amber-300">✦</span><span>More Wisdom Ahead</span>';
-        initialSlides[matchedCount].appendChild(bannerDiv);
-      }
-    } else {
-      // General master feed:
-      // Separate into unseen and seen slides
-      let unseen = initialSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
-      const seen = initialSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
-
-      // If user has seen many of the static initial slides, inject fresh unseen quotes from client catalog
-      if (unseen.length < 25 && window.__wisdomQuoteMap) {
-        const existingIds = new Set(initialSlides.map(s => s.dataset.quoteId));
-        const allQuotes = Object.values(window.__wisdomQuoteMap);
-        const freshCatalogQuotes = allQuotes.filter(q => !recentSeenSet.has(q.id) && !existingIds.has(q.id));
-        shuffleArray(freshCatalogQuotes);
-        const needed = 30 - unseen.length;
-        const toInject = freshCatalogQuotes.slice(0, needed);
-        toInject.forEach(q => {
-          const newSlide = createSlideFromQuote(q, templateSlide, 'init');
-          unseen.push(newSlide);
-        });
-      }
-
-      shuffleArray(unseen);
-      // Sort seen slides by oldest seen first
-      seen.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-      initialSlides = [...unseen, ...seen];
     }
 
     // Reorder DOM nodes in container
@@ -603,12 +639,91 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
         window.wisdomAudio.playOnce(first.dataset.mood);
       }
 
-      // Sync URL hash with the first quote
+      // Sync URL hash with the first quote only if explicit targetHash was requested or on filtered pages
       if (targetHash) {
         history.replaceState(null, '', `#${targetHash}`);
-      } else if (first.dataset.quoteSlug) {
+      } else if (feedType !== 'master' && first.dataset.quoteSlug) {
         history.replaceState(null, '', `#${first.dataset.quoteSlug}`);
       }
+    }
+
+    // ── Deep-Link & Notification Navigation Engine ──
+    function navigateToQuote(slugOrId) {
+      if (!slugOrId) return false;
+      const cleanTarget = decodeURIComponent(slugOrId).replace(/^#/, '');
+
+      // 1. Check if matching slide is already rendered in container
+      const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
+      let match = currentSlides.find(s =>
+        s.dataset.quoteSlug === cleanTarget ||
+        s.dataset.quoteId === cleanTarget ||
+        s.id === `slide-${cleanTarget}` ||
+        (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === cleanTarget.toLowerCase())
+      );
+
+      // 2. If not found in DOM, look up in catalog and instantiate slide dynamically
+      if (!match && window.__wisdomQuoteMap) {
+        const allQuotes = Object.values(window.__wisdomQuoteMap);
+        const quoteObj = allQuotes.find(q =>
+          q.slug === cleanTarget ||
+          q.id === cleanTarget ||
+          q.id.toLowerCase() === cleanTarget.toLowerCase()
+        );
+        if (quoteObj) {
+          match = createSlideFromQuote(quoteObj, templateSlide, 'nav');
+          const activeSlide = container.querySelector('.reel-slide.is-active');
+          if (activeSlide) {
+            container.insertBefore(match, activeSlide);
+          } else {
+            container.insertBefore(match, container.firstChild);
+          }
+          observer.observe(match);
+        }
+      }
+
+      // 3. Scroll to and activate match
+      if (match) {
+        match.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const updatedSlides = Array.from(container.querySelectorAll('.reel-slide'));
+        updatedSlides.forEach(s => s.classList.remove('is-active'));
+        match.classList.add('is-active');
+        recordQuoteSeen(match.dataset.quoteId);
+        if (window.setBackground) {
+          window.setBackground(match.dataset.videoSrc, match.dataset.gradientClass, match.dataset.mood, match.dataset.quoteId);
+        }
+        if (window.wisdomAudio && match.dataset.mood) {
+          window.wisdomAudio.playOnce(match.dataset.mood);
+        }
+        if (window.likedQuotes && window.updateLikeUI) {
+          window.updateLikeUI(window.likedQuotes.has(match.dataset.quoteId));
+        }
+        if (window.updateShareContext) {
+          window.updateShareContext(match);
+        }
+        updateHeaderTopicState(match);
+        return true;
+      }
+      return false;
+    }
+
+    // Global hook & live event listeners
+    window.__wisdomNavigateToQuote = navigateToQuote;
+
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash) {
+        navigateToQuote(window.location.hash.slice(1));
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'WISDOM_NAVIGATE_QUOTE') {
+          const target = event.data.quoteSlug || event.data.quoteId || (event.data.url && event.data.url.split('#')[1]);
+          if (target) {
+            navigateToQuote(target);
+          }
+        }
+      });
     }
 
     // ── Double-tap to Like ──
@@ -653,6 +768,10 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
     }
   }
 
-  document.addEventListener('DOMContentLoaded', setupReelFeed);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupReelFeed);
+  } else {
+    setupReelFeed();
+  }
   document.addEventListener('astro:page-load', setupReelFeed);
 </script>

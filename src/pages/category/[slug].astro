@@ -228,7 +228,11 @@ const structuredData = {
       });
     }
 
-    document.addEventListener('DOMContentLoaded', setupCategoryModal);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupCategoryModal);
+    } else {
+      setupCategoryModal();
+    }
     document.addEventListener('astro:page-load', setupCategoryModal);
   </script>
 </BaseLayout>

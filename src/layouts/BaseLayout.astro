@@ -499,10 +499,10 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
       };
 
-      // ── Recent Viewed Quotes Store (Last 50 Quotes FIFO Queue) ──
+      // ── Recent Viewed Quotes Store (Up to 1000 Quotes FIFO Queue) ──
       window.recentQuotes = {
         _key: 'wisdom_recent_quotes',
-        _max: 50,
+        _max: 1000,
         getAll() {
           try {
             const data = JSON.parse(localStorage.getItem(this._key) || '[]');
@@ -561,7 +561,11 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
         window.addEventListener('offline', updateNetworkStatus);
         window.addEventListener('online', updateNetworkStatus);
-        document.addEventListener('DOMContentLoaded', updateNetworkStatus);
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', updateNetworkStatus);
+        } else {
+          updateNetworkStatus();
+        }
         document.addEventListener('astro:page-load', updateNetworkStatus);
 
         // 3. Mindful Engagement-Gated Install Prompt
@@ -672,7 +676,11 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           }
         }
 
-        document.addEventListener('DOMContentLoaded', setupInstallButtons);
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupInstallButtons);
+        } else {
+          setupInstallButtons();
+        }
         document.addEventListener('astro:page-load', setupInstallButtons);
 
         window.addEventListener('appinstalled', () => {
@@ -688,7 +696,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       (function() {
         const BASE = '/wisdom';
 
-        function triggerZenMoment() {
+        function triggerZenMoment(customText) {
           // Strictly verify that chimes are not muted
           if (window.wisdomAudio && typeof window.wisdomAudio.isEnabled === 'function') {
             if (window.wisdomAudio.isEnabled()) {
@@ -697,6 +705,10 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           }
           const pill = document.getElementById('zen-breath-pill');
           if (pill) {
+            if (customText) {
+              const textSpan = pill.querySelector('span:last-child');
+              if (textSpan) textSpan.textContent = customText;
+            }
             pill.classList.remove('opacity-0', '-translate-y-4');
             pill.classList.add('opacity-100', 'translate-y-0');
             setTimeout(() => {
@@ -723,6 +735,25 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           } catch {}
         }
 
+        function syncSettingsWithServiceWorker(settings) {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then((reg) => {
+              if (reg.active) {
+                reg.active.postMessage({ type: 'SET_RITUAL_SETTINGS', settings });
+              }
+              if ('periodicSync' in reg) {
+                navigator.permissions?.query({ name: 'periodic-background-sync' }).then((status) => {
+                  if (status.state === 'granted') {
+                    reg.periodicSync.register('daily-reflection', {
+                      minInterval: 4 * 60 * 60 * 1000,
+                    }).catch(() => {});
+                  }
+                }).catch(() => {});
+              }
+            }).catch(() => {});
+          }
+        }
+
         async function checkScheduledRituals() {
           if (!('Notification' in window) || Notification.permission !== 'granted') return;
           try {
@@ -747,20 +778,34 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
             if (settings.morning && !todayDelivered.includes('morning')) {
               const [mH, mM] = (settings.morningTime || '08:00').split(':').map(Number);
               const target = mH * 60 + mM;
-              if (currentTotalMin >= target && currentTotalMin < target + 180) {
+              // Strict delivery window: within 3 minutes of scheduled time
+              if (currentTotalMin >= target && currentTotalMin <= target + 3) {
                 dueType = 'morning';
+              } else if (currentTotalMin > target + 3) {
+                // Scheduled time has already passed before opening app:
+                // Mark as completed for today so no delayed notification fires on app open!
+                todayDelivered.push('morning');
+                delivered[todayStr] = todayDelivered;
+                localStorage.setItem('wisdom_last_delivered_rituals', JSON.stringify(delivered));
               }
             }
 
             if (!dueType && settings.evening && !todayDelivered.includes('evening')) {
               const [eH, eM] = (settings.eveningTime || '21:00').split(':').map(Number);
               const target = eH * 60 + eM;
-              if (currentTotalMin >= target && currentTotalMin < target + 180) {
+              if (currentTotalMin >= target && currentTotalMin <= target + 3) {
                 dueType = 'evening';
+              } else if (currentTotalMin > target + 3) {
+                todayDelivered.push('evening');
+                delivered[todayStr] = todayDelivered;
+                localStorage.setItem('wisdom_last_delivered_rituals', JSON.stringify(delivered));
               }
             }
 
-            if (!dueType) return;
+            if (!dueType) {
+              scheduleNextRitualTimer();
+              return;
+            }
 
             // Fetch daily quote
             const res = await fetch(`${BASE}/daily-quotes.json`);
@@ -769,56 +814,130 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
             const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / 86400000);
             const quote = quotes[dayOfYear % quotes.length] || quotes[0];
 
-            const title = `${dueType === 'morning' ? 'Morning Reflection' : 'Evening Stillness'} — ${quote.author}`;
-            const options = {
-              body: `“${quote.content}”`,
-              icon: `${BASE}/icons/icon-192.png`,
-              badge: `${BASE}/icons/favicon-64.png`,
-              tag: `wisdom-${dueType}-reflection`,
-              data: { url: `${BASE}/#${quote.slug}` }
-            };
+            const ritualLabel = dueType === 'morning' ? 'Morning Reflection' : 'Evening Stillness';
 
-            if ('serviceWorker' in navigator) {
-              const reg = await navigator.serviceWorker.ready;
-              if (reg && 'showNotification' in reg) {
-                await reg.showNotification(title, options);
-              } else {
-                new Notification(title, options);
-              }
+            // Foreground vs Background:
+            // If the user is ACTIVELY looking at the app, do not spam system notification tray.
+            // Provide a tranquil in-app mindfulness pill and chime instead!
+            if (document.visibilityState === 'visible') {
+              triggerZenMoment(`✦ ${ritualLabel} — ${quote.author}`);
             } else {
-              new Notification(title, options);
+              const title = `${ritualLabel} — ${quote.author}`;
+              const options = {
+                body: `“${quote.content}”`,
+                icon: `${BASE}/icons/icon-192.png`,
+                badge: `${BASE}/icons/favicon-64.png`,
+                tag: `wisdom-${dueType}-reflection`,
+                data: {
+                  url: `${BASE}/#${quote.slug}`,
+                  quoteSlug: quote.slug,
+                  quoteId: quote.id
+                }
+              };
+
+              if ('serviceWorker' in navigator) {
+                const reg = await navigator.serviceWorker.ready;
+                if (reg && 'showNotification' in reg) {
+                  await reg.showNotification(title, options);
+                } else {
+                  const notif = new Notification(title, options);
+                  notif.onclick = function() {
+                    window.focus();
+                    if (window.location) window.location.href = options.data.url;
+                  };
+                }
+              } else {
+                const notif = new Notification(title, options);
+                notif.onclick = function() {
+                  window.focus();
+                  if (window.location) window.location.href = options.data.url;
+                };
+              }
             }
 
             todayDelivered.push(dueType);
             delivered[todayStr] = todayDelivered;
             localStorage.setItem('wisdom_last_delivered_rituals', JSON.stringify(delivered));
+            scheduleNextRitualTimer();
           } catch (err) {
             console.debug('Ritual check error:', err);
           }
         }
 
+        // Precision timer scheduling to exact minute of next upcoming ritual
+        function scheduleNextRitualTimer() {
+          if (window.__wisdomRitualTimeout) {
+            clearTimeout(window.__wisdomRitualTimeout);
+            window.__wisdomRitualTimeout = null;
+          }
+          try {
+            const raw = localStorage.getItem('wisdom_ritual_settings');
+            if (!raw) return;
+            const settings = JSON.parse(raw);
+            if (!settings.morning && !settings.evening) return;
+
+            const now = new Date();
+            const candidates = [];
+
+            if (settings.morning) {
+              const [mH, mM] = (settings.morningTime || '08:00').split(':').map(Number);
+              const mDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), mH, mM, 0, 0);
+              if (mDate.getTime() > now.getTime()) {
+                candidates.push(mDate.getTime());
+              } else {
+                candidates.push(mDate.getTime() + 24 * 60 * 60 * 1000);
+              }
+            }
+
+            if (settings.evening) {
+              const [eH, eM] = (settings.eveningTime || '21:00').split(':').map(Number);
+              const eDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), eH, eM, 0, 0);
+              if (eDate.getTime() > now.getTime()) {
+                candidates.push(eDate.getTime());
+              } else {
+                candidates.push(eDate.getTime() + 24 * 60 * 60 * 1000);
+              }
+            }
+
+            if (candidates.length === 0) return;
+            const nextTargetTime = Math.min(...candidates);
+            const delayMs = Math.max(1000, nextTargetTime - now.getTime());
+
+            window.__wisdomRitualTimeout = setTimeout(() => {
+              checkScheduledRituals();
+            }, delayMs);
+          } catch {}
+        }
+
         // Initialize and listen for changes
         setupZenBell();
         checkScheduledRituals();
+        scheduleNextRitualTimer();
 
-        // Clear existing interval on window to prevent duplicate interval leaks
+        // Sync settings on startup with Service Worker
+        try {
+          const raw = localStorage.getItem('wisdom_ritual_settings');
+          if (raw) syncSettingsWithServiceWorker(JSON.parse(raw));
+        } catch {}
+
+        // Fallback interval (runs every 30s as safety heartbeat)
         if (window.__wisdomRitualInterval) {
           clearInterval(window.__wisdomRitualInterval);
           window.__wisdomRitualInterval = null;
         }
-        window.__wisdomRitualInterval = setInterval(checkScheduledRituals, 60000);
+        window.__wisdomRitualInterval = setInterval(checkScheduledRituals, 30000);
 
-        // Visibility change check (when user comes back to tab)
+        // Visibility change check (marks expired or checks current time)
         document.addEventListener('visibilitychange', () => {
-          if (document.visibilityState === 'visible') {
-            checkScheduledRituals();
-          }
+          checkScheduledRituals();
         });
 
         // Listen for setting changes
-        window.addEventListener('wisdom:ritual-settings-changed', () => {
+        window.addEventListener('wisdom:ritual-settings-changed', (e) => {
           setupZenBell();
           checkScheduledRituals();
+          scheduleNextRitualTimer();
+          if (e && e.detail) syncSettingsWithServiceWorker(e.detail);
         });
 
         // Expose trigger for preview or testing

@@ -755,7 +755,7 @@ const plannedCount = authors.length - completedCount;
 
   <!-- Interactive Filter Logic -->
   <script is:inline>
-    document.addEventListener('DOMContentLoaded', () => {
+    function setupTodoFilters() {
       const filterBtns = document.querySelectorAll('.filter-btn');
       const authorCards = document.querySelectorAll('.author-card');
 
@@ -788,6 +788,13 @@ const plannedCount = authors.length - completedCount;
           });
         });
       });
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupTodoFilters);
+    } else {
+      setupTodoFilters();
+    }
+    document.addEventListener('astro:page-load', setupTodoFilters);
   </script>
 </BaseLayout>

@@ -7,9 +7,10 @@ import ReelFeed from '../components/ReelFeed.astro';
 import { getCollection } from 'astro:content';
 
 const allQuotes = await getCollection('quotes');
+const parseQuoteNum = (id: string) => parseInt(id.replace(/\D/g, ''), 10) || 0;
 const quotes = allQuotes
   .map((q) => q.data)
-  .reverse()
+  .sort((a, b) => parseQuoteNum(b.id) - parseQuoteNum(a.id))
   .slice(0, 50);
 ---
 <BaseLayout title="Wisdom — Timeless Quotes, Reimagined">

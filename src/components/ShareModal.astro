@@ -597,8 +597,8 @@
         }
 
         const origin = window.location.origin.includes('localhost') ? window.location.origin : 'https://www.ashishvishwakarma.com';
-        const quoteNumSlug = currentQuoteId ? currentQuoteId.toLowerCase() : currentQuoteSlug;
-        const url = `${origin}/wisdom/quote/${quoteNumSlug}/`;
+        const quoteSlug = currentQuoteSlug || currentQuoteId;
+        const url = `${origin}/wisdom/quote/${quoteSlug}/`;
         const shareData = {
           title: `"${currentQuoteText}" — ${currentAuthor}`,
           text: url,
@@ -674,8 +674,8 @@
     if (linkBtn) {
       linkBtn.onclick = async () => {
         const origin = window.location.origin.includes('localhost') ? window.location.origin : 'https://www.ashishvishwakarma.com';
-        const quoteNumSlug = currentQuoteId ? currentQuoteId.toLowerCase() : currentQuoteSlug;
-        const url = `${origin}/wisdom/quote/${quoteNumSlug}/`;
+        const quoteSlug = currentQuoteSlug || currentQuoteId;
+        const url = `${origin}/wisdom/quote/${quoteSlug}/`;
         const shareData = {
           title: `"${currentQuoteText}" — ${currentAuthor}`,
           text: `"${currentQuoteText}" — ${currentAuthor}`,

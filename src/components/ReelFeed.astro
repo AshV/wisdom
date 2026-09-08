@@ -39,6 +39,19 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
 const BASE = '/wisdom';
 const firstQuote = quotes.length > 0 ? quotes[0] : null;
 const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
+
+function getAuthorInitials(name: string): string {
+  if (!name) return 'W';
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
+
+const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 'W';
 ---
 
 <!-- Feed Header (subtle overlay) -->
@@ -150,7 +163,7 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
   </nav>
 )}
 
-<!-- Fixed Bottom Metadata Dock (Category & Mood with 3D flip-in-place transition) -->
+<!-- Fixed Bottom Metadata Dock (About Author, Category & Mood with 3D flip-in-place transition) -->
 {firstQuote && (
   <aside
     id="fixed-metadata-dock"
@@ -159,7 +172,29 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
     aria-label="Quote Metadata"
   >
     <div class="flex flex-col gap-2.5 w-full max-w-md md:max-w-lg">
-      <!-- Meta Row: Category Pill + Mood Badge -->
+      <!-- Row 1: About Author Pill (Always visible for current author, placed above mood and category pill) -->
+      <div class="flex items-center">
+        <div id="dock-author-wrapper" class="flip-pill-wrapper inline-flex">
+          <a
+            id="dock-author-pill"
+            href={`${BASE}/author/${firstQuote.authorSlug}/?about=1`}
+            class="pointer-events-auto glass rounded-full px-4 py-2 text-xs font-medium text-amber-200/95 hover:text-white border border-amber-300/30 hover:border-amber-300/60 hover:bg-amber-400/15 transition-all duration-200 shadow-md inline-flex items-center gap-2 leading-normal dock-pill group active:scale-95 whitespace-nowrap"
+            aria-label={`About ${firstQuote.author}`}
+            title={`About ${firstQuote.author}`}
+          >
+            <span
+              id="dock-author-initial"
+              class="w-4 h-4 rounded-full bg-amber-400/20 text-amber-300 text-[9px] font-serif font-bold flex items-center justify-center border border-amber-400/40 group-hover:scale-110 transition-transform"
+            >
+              {firstAuthorInitials}
+            </span>
+            <span class="text-white/80">About</span>
+            <span id="dock-author-name" class="font-semibold text-amber-300">{firstQuote.author}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Row 2: Category Pill + Mood Badge -->
       <div class="flex flex-wrap items-center gap-2.5">
         <div id="dock-category-wrapper" class="flip-pill-wrapper inline-flex">
           <a
@@ -588,8 +623,20 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
     let lastTapTime = 0;
     let lastTapTarget = null;
 
+    function getAuthorInitialsClient(name) {
+      if (!name) return 'W';
+      return name
+        .split(' ')
+        .map(function(part) { return part[0]; })
+        .filter(Boolean)
+        .slice(0, 2)
+        .join('')
+        .toUpperCase();
+    }
+
     // ── Fixed Metadata Dock Flip-in-Place Controller ──
     let currentDockQuoteId = (initialSlides.length > 0 && initialSlides[0].dataset) ? initialSlides[0].dataset.quoteId : null;
+    let currentDockAuthor = (initialSlides.length > 0 && initialSlides[0].dataset) ? initialSlides[0].dataset.author : null;
     let flipToken = 0;
 
     function renderDockTagsHtml(tagsArray, isFlipping = false) {
@@ -613,6 +660,11 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
       currentDockQuoteId = quoteId;
       const thisToken = ++flipToken;
 
+      const author = slide.dataset.author || 'Wisdom';
+      const authorSlug = slide.dataset.authorSlug || 'wisdom';
+      const authorChanged = (!currentDockAuthor || currentDockAuthor !== author);
+      currentDockAuthor = author;
+
       const category = slide.dataset.category || 'Wisdom';
       const categorySlug = slide.dataset.categorySlug || 'wisdom';
       const mood = slide.dataset.mood || 'reflective';
@@ -627,6 +679,9 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
         } catch {}
       }
 
+      const authorPill = document.getElementById('dock-author-pill');
+      const authorNameSpan = document.getElementById('dock-author-name');
+      const authorInitialSpan = document.getElementById('dock-author-initial');
       const catPill = document.getElementById('dock-category-pill');
       const moodPill = document.getElementById('dock-mood-pill');
       const moodEmojiSpan = document.getElementById('dock-mood-emoji');
@@ -636,6 +691,13 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
       const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (immediate || prefersReducedMotion) {
+        if (authorPill) {
+          authorPill.href = `${base}/author/${authorSlug}/?about=1`;
+          authorPill.setAttribute('aria-label', `About ${author}`);
+          authorPill.setAttribute('title', `About ${author}`);
+          if (authorNameSpan) authorNameSpan.textContent = author;
+          if (authorInitialSpan) authorInitialSpan.textContent = getAuthorInitialsClient(author);
+        }
         if (catPill) {
           catPill.textContent = category;
           catPill.href = `${base}/category/${categorySlug}/`;
@@ -654,24 +716,47 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
       }
 
       // ── 3D Perspective Flip-in-Place Sequence ──
-      // 1. Category Pill Flip (starts at 0ms)
-      if (catPill) {
-        catPill.classList.remove('pill-flipping-in');
-        catPill.classList.add('pill-flipping-out');
+      // 0. About Author Pill Flip (starts at 0ms if author changed)
+      if (authorPill && authorChanged) {
+        authorPill.classList.remove('pill-flipping-in');
+        authorPill.classList.add('pill-flipping-out');
         setTimeout(() => {
           if (thisToken !== flipToken) return;
-          catPill.textContent = category;
-          catPill.href = `${base}/category/${categorySlug}/`;
-          catPill.classList.remove('pill-flipping-out');
-          catPill.classList.add('pill-flipping-in');
+          authorPill.href = `${base}/author/${authorSlug}/?about=1`;
+          authorPill.setAttribute('aria-label', `About ${author}`);
+          authorPill.setAttribute('title', `About ${author}`);
+          if (authorNameSpan) authorNameSpan.textContent = author;
+          if (authorInitialSpan) authorInitialSpan.textContent = getAuthorInitialsClient(author);
+          authorPill.classList.remove('pill-flipping-out');
+          authorPill.classList.add('pill-flipping-in');
           setTimeout(() => {
             if (thisToken !== flipToken) return;
-            catPill.classList.remove('pill-flipping-in');
+            authorPill.classList.remove('pill-flipping-in');
           }, 240);
         }, 140);
       }
 
-      // 2. Mood Badge Flip (starts at 35ms)
+      // 1. Category Pill Flip (starts at 35ms)
+      if (catPill) {
+        setTimeout(() => {
+          if (thisToken !== flipToken) return;
+          catPill.classList.remove('pill-flipping-in');
+          catPill.classList.add('pill-flipping-out');
+          setTimeout(() => {
+            if (thisToken !== flipToken) return;
+            catPill.textContent = category;
+            catPill.href = `${base}/category/${categorySlug}/`;
+            catPill.classList.remove('pill-flipping-out');
+            catPill.classList.add('pill-flipping-in');
+            setTimeout(() => {
+              if (thisToken !== flipToken) return;
+              catPill.classList.remove('pill-flipping-in');
+            }, 240);
+          }, 140);
+        }, 35);
+      }
+
+      // 2. Mood Badge Flip (starts at 70ms)
       if (moodPill) {
         setTimeout(() => {
           if (thisToken !== flipToken) return;
@@ -688,10 +773,10 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
               moodPill.classList.remove('pill-flipping-in');
             }, 240);
           }, 140);
-        }, 35);
+        }, 70);
       }
 
-      // 3. Tag Chips Flip (starts at 70ms)
+      // 3. Tag Chips Flip (starts at 105ms)
       if (tagsContainer) {
         setTimeout(() => {
           if (thisToken !== flipToken) return;
@@ -716,7 +801,7 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
               });
             }, 240 + (tags.length * 30));
           }, oldTagPills.length > 0 ? 140 : 0);
-        }, 70);
+        }, 105);
       }
     }
 

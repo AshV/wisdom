@@ -107,11 +107,11 @@ const structuredData = {
   <!-- Schema.org JSON-LD for Google E-E-A-T and Knowledge Graph -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-  <!-- Author Context Pill Button (Responsive: Centered below header on mobile, docked in top-right header on desktop) -->
+  <!-- Author Context Pill Button (Desktop header pill; mobile uses fixed metadata dock About Author pill) -->
   <button
     id="author-context-trigger"
     type="button"
-    class="fixed top-14 left-1/2 -translate-x-1/2 sm:top-3.5 sm:left-auto sm:right-24 md:right-28 sm:translate-x-0 z-40 px-4 py-2 rounded-full glass border border-amber-300/30 text-amber-200 hover:text-white hover:border-amber-300/60 hover:bg-amber-400/10 text-xs font-medium tracking-wide transition-all duration-300 flex items-center gap-2 shadow-lg backdrop-blur-md cursor-pointer group active:scale-95 whitespace-nowrap"
+    class="hidden sm:flex fixed sm:top-3.5 sm:left-auto sm:right-24 md:right-28 sm:translate-x-0 z-40 px-4 py-2 rounded-full glass border border-amber-300/30 text-amber-200 hover:text-white hover:border-amber-300/60 hover:bg-amber-400/10 text-xs font-medium tracking-wide transition-all duration-300 items-center gap-2 shadow-lg backdrop-blur-md cursor-pointer group active:scale-95 whitespace-nowrap"
     aria-label={`Read biographical context for ${profile.name}`}
     title={`Biographical & Philosophical Context for ${profile.name} (Press 'i')`}
   >
@@ -459,12 +459,14 @@ const structuredData = {
     // Client-side controller for Author Context Modal
     function setupAuthorModal() {
       const trigger = document.getElementById('author-context-trigger');
+      const dockAuthorPill = document.getElementById('dock-author-pill');
       const modal = document.getElementById('author-context-modal');
       const closeBtn = document.getElementById('author-context-close');
       const exploreCta = document.getElementById('author-modal-explore-cta');
       const shareBtn = document.getElementById('author-modal-share-btn');
+      const currentProfileSlug = `${profile.slug}`;
 
-      if (!trigger || !modal) return;
+      if (!modal) return;
 
       function openModal() {
         modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -478,7 +480,17 @@ const structuredData = {
         document.body.style.overflow = '';
       }
 
-      trigger.onclick = openModal;
+      if (trigger) trigger.onclick = openModal;
+      if (dockAuthorPill) {
+        dockAuthorPill.onclick = (e) => {
+          const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+          const slideAuthorSlug = activeSlide?.dataset?.authorSlug;
+          if (!slideAuthorSlug || slideAuthorSlug === currentProfileSlug) {
+            e.preventDefault();
+            openModal();
+          }
+        };
+      }
       if (closeBtn) closeBtn.onclick = closeModal;
 
       if (exploreCta) {

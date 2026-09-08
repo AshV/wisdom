@@ -256,6 +256,55 @@ body {
   line-height: 1.25;
 }
 
+/* ── 3D Pill Flip-in-Place Mechanics ── */
+.flip-pill-wrapper {
+  perspective: 600px;
+  -webkit-perspective: 600px;
+  display: inline-flex;
+}
+
+.dock-pill {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.pill-flipping-out {
+  animation: pill-flip-out 0.14s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.pill-flipping-in {
+  animation: pill-flip-in 0.24s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes pill-flip-out {
+  0% {
+    transform: perspective(600px) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(600px) rotateX(-90deg) scale(0.92);
+    opacity: 0.15;
+  }
+}
+
+@keyframes pill-flip-in {
+  0% {
+    transform: perspective(600px) rotateX(90deg) scale(0.92);
+    opacity: 0.15;
+  }
+  70% {
+    transform: perspective(600px) rotateX(-8deg) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(600px) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
 /* ── Utility & Selection Protection ── */
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent;
@@ -283,5 +332,10 @@ body {
   }
   .reel-container {
     scroll-behavior: auto;
+  }
+  .pill-flipping-out,
+  .pill-flipping-in {
+    animation: none !important;
+    transform: none !important;
   }
 }

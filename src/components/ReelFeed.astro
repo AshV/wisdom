@@ -13,6 +13,7 @@ import ReelSlide from './ReelSlide.astro';
 import RightActionRail from './RightActionRail.astro';
 import ExploreDrawer from './ExploreDrawer.astro';
 import ShareModal from './ShareModal.astro';
+import { moodMeta } from '../data/mediaRegistry';
 
 interface QuoteData {
   id: string;
@@ -35,6 +36,9 @@ interface Props {
 
 const { quotes, feedTitle, feedType = 'master', matchedCount, filterLabel } = Astro.props;
 const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedType === 'master' ? 0 : quotes.length));
+const BASE = '/wisdom';
+const firstQuote = quotes.length > 0 ? quotes[0] : null;
+const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
 ---
 
 <!-- Feed Header (subtle overlay) -->
@@ -119,6 +123,56 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
 
 <!-- Right Action Rail -->
 <RightActionRail />
+
+<!-- Fixed Bottom Metadata Dock (Category, Mood, Tags with 3D flip-in-place transition) -->
+{firstQuote && (
+  <aside
+    id="fixed-metadata-dock"
+    class="fixed bottom-0 left-0 right-0 z-20 pointer-events-none mb-6 sm:mb-8 md:mb-10 pb-[max(env(safe-area-inset-bottom,28px),44px)] pt-2"
+    style="padding-right: clamp(4.5rem, 12vw, 6.5rem); padding-left: clamp(1.25rem, 4vw, 2.5rem);"
+    aria-label="Quote Metadata"
+  >
+    <div class="flex flex-col gap-2.5 w-full max-w-md md:max-w-lg">
+      <!-- Meta Row: Category Pill + Mood Badge -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <div id="dock-category-wrapper" class="flip-pill-wrapper inline-flex">
+          <a
+            id="dock-category-pill"
+            href={`${BASE}/category/${firstQuote.categorySlug}/`}
+            class="pointer-events-auto glass rounded-full px-4.5 py-2 text-xs font-medium text-white/90 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm whitespace-nowrap inline-flex items-center leading-normal dock-pill"
+          >
+            {firstQuote.category}
+          </a>
+        </div>
+
+        <div id="dock-mood-wrapper" class="flip-pill-wrapper inline-flex">
+          <a
+            id="dock-mood-pill"
+            href={`${BASE}/mood/${firstQuote.mood}/`}
+            class={`pointer-events-auto mood-pill-${firstQuote.mood} rounded-full px-5 py-2 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-2 whitespace-nowrap shrink-0 leading-normal dock-pill`}
+          >
+            <span id="dock-mood-emoji" class="shrink-0 text-sm leading-none">{firstMoodInfo?.emoji}</span>
+            <span id="dock-mood-label" class="whitespace-nowrap tracking-wide leading-normal">{firstMoodInfo?.label}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tag Chips with generous tap targets and safe bottom clearance -->
+      <div id="dock-tags-container" class="flex flex-wrap gap-2 pt-0.5">
+        {firstQuote.tags.map((tag) => (
+          <div class="flip-pill-wrapper inline-flex" data-dock-tag-wrapper>
+            <a
+              href={`${BASE}/tag/${encodeURIComponent(tag)}/`}
+              class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal dock-pill"
+            >
+              #{tag}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </aside>
+)}
 
 <!-- Explore Drawer -->
 <ExploreDrawer />
@@ -217,10 +271,18 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       clone.dataset.videoSrc = media.video;
       clone.dataset.gradientClass = media.gradient;
       clone.dataset.mood = quote.mood;
+      clone.dataset.moodLabel = moodInfo.label;
+      clone.dataset.moodEmoji = moodInfo.emoji;
       clone.dataset.category = quote.category;
       clone.dataset.categorySlug = quote.categorySlug;
+      clone.dataset.tags = JSON.stringify(quote.tags || []);
       clone.dataset.audioSrc = media.audio;
       clone.dataset.topicMatch = 'true';
+
+      const srMeta = clone.querySelector('.sr-only');
+      if (srMeta) {
+        srMeta.innerHTML = `<span>Category: ${escapeHtml(quote.category)}</span><span>Mood: ${escapeHtml(moodInfo.label)}</span><span>Tags: ${(quote.tags || []).map(t => `#${escapeHtml(t)}`).join(' ')}</span>`;
+      }
 
       // Remove continuation banner from cloned slides
       const banner = clone.querySelector('.continuation-banner');
@@ -513,6 +575,138 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
     let lastTapTime = 0;
     let lastTapTarget = null;
 
+    // ── Fixed Metadata Dock Flip-in-Place Controller ──
+    let currentDockQuoteId = (initialSlides.length > 0 && initialSlides[0].dataset) ? initialSlides[0].dataset.quoteId : null;
+    let flipToken = 0;
+
+    function renderDockTagsHtml(tagsArray, isFlipping = false) {
+      return tagsArray.map((t, idx) => `
+        <div class="flip-pill-wrapper inline-flex" data-dock-tag-wrapper>
+          <a href="${base}/tag/${encodeURIComponent(t)}/"
+             class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal dock-pill ${isFlipping ? 'pill-flipping-in' : ''}"
+             ${isFlipping ? `style="animation-delay: ${idx * 30}ms;"` : ''}>
+            #${escapeHtml(t)}
+          </a>
+        </div>
+      `).join('');
+    }
+
+    function updateDockPills(slide, immediate = false) {
+      if (!slide || !slide.dataset) return;
+      const quoteId = slide.dataset.quoteId;
+      if (!quoteId) return;
+      if (!immediate && quoteId === currentDockQuoteId) return;
+
+      currentDockQuoteId = quoteId;
+      const thisToken = ++flipToken;
+
+      const category = slide.dataset.category || 'Wisdom';
+      const categorySlug = slide.dataset.categorySlug || 'wisdom';
+      const mood = slide.dataset.mood || 'reflective';
+      const moodInfo = moodMetaClient[mood] || { label: mood, emoji: '✨' };
+      const moodLabel = slide.dataset.moodLabel || moodInfo.label;
+      const moodEmoji = slide.dataset.moodEmoji || moodInfo.emoji;
+
+      let tags = [];
+      if (slide.dataset.tags) {
+        try {
+          tags = JSON.parse(slide.dataset.tags);
+        } catch {}
+      }
+
+      const catPill = document.getElementById('dock-category-pill');
+      const moodPill = document.getElementById('dock-mood-pill');
+      const moodEmojiSpan = document.getElementById('dock-mood-emoji');
+      const moodLabelSpan = document.getElementById('dock-mood-label');
+      const tagsContainer = document.getElementById('dock-tags-container');
+
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (immediate || prefersReducedMotion) {
+        if (catPill) {
+          catPill.textContent = category;
+          catPill.href = `${base}/category/${categorySlug}/`;
+          catPill.className = 'pointer-events-auto glass rounded-full px-4.5 py-2 text-xs font-medium text-white/90 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm whitespace-nowrap inline-flex items-center leading-normal dock-pill';
+        }
+        if (moodPill) {
+          moodPill.href = `${base}/mood/${mood}/`;
+          moodPill.className = `pointer-events-auto mood-pill-${mood} rounded-full px-5 py-2 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-2 whitespace-nowrap shrink-0 leading-normal dock-pill`;
+          if (moodEmojiSpan) moodEmojiSpan.textContent = moodEmoji;
+          if (moodLabelSpan) moodLabelSpan.textContent = moodLabel;
+        }
+        if (tagsContainer) {
+          tagsContainer.innerHTML = renderDockTagsHtml(tags, false);
+        }
+        return;
+      }
+
+      // ── 3D Perspective Flip-in-Place Sequence ──
+      // 1. Category Pill Flip (starts at 0ms)
+      if (catPill) {
+        catPill.classList.remove('pill-flipping-in');
+        catPill.classList.add('pill-flipping-out');
+        setTimeout(() => {
+          if (thisToken !== flipToken) return;
+          catPill.textContent = category;
+          catPill.href = `${base}/category/${categorySlug}/`;
+          catPill.classList.remove('pill-flipping-out');
+          catPill.classList.add('pill-flipping-in');
+          setTimeout(() => {
+            if (thisToken !== flipToken) return;
+            catPill.classList.remove('pill-flipping-in');
+          }, 240);
+        }, 140);
+      }
+
+      // 2. Mood Badge Flip (starts at 35ms)
+      if (moodPill) {
+        setTimeout(() => {
+          if (thisToken !== flipToken) return;
+          moodPill.classList.remove('pill-flipping-in');
+          moodPill.classList.add('pill-flipping-out');
+          setTimeout(() => {
+            if (thisToken !== flipToken) return;
+            moodPill.href = `${base}/mood/${mood}/`;
+            moodPill.className = `pointer-events-auto mood-pill-${mood} rounded-full px-5 py-2 text-xs font-semibold text-white hover:scale-105 transition-all duration-200 shadow-md shadow-black/20 inline-flex items-center gap-2 whitespace-nowrap shrink-0 leading-normal dock-pill pill-flipping-in`;
+            if (moodEmojiSpan) moodEmojiSpan.textContent = moodEmoji;
+            if (moodLabelSpan) moodLabelSpan.textContent = moodLabel;
+            setTimeout(() => {
+              if (thisToken !== flipToken) return;
+              moodPill.classList.remove('pill-flipping-in');
+            }, 240);
+          }, 140);
+        }, 35);
+      }
+
+      // 3. Tag Chips Flip (starts at 70ms)
+      if (tagsContainer) {
+        setTimeout(() => {
+          if (thisToken !== flipToken) return;
+          const oldTagPills = Array.from(tagsContainer.querySelectorAll('.dock-pill'));
+          if (oldTagPills.length > 0) {
+            oldTagPills.forEach((p, idx) => {
+              p.classList.remove('pill-flipping-in');
+              p.style.animationDelay = `${idx * 25}ms`;
+              p.classList.add('pill-flipping-out');
+            });
+          }
+
+          setTimeout(() => {
+            if (thisToken !== flipToken) return;
+            tagsContainer.innerHTML = renderDockTagsHtml(tags, true);
+            setTimeout(() => {
+              if (thisToken !== flipToken) return;
+              const newPills = Array.from(tagsContainer.querySelectorAll('.dock-pill'));
+              newPills.forEach(p => {
+                p.classList.remove('pill-flipping-in');
+                p.style.animationDelay = '';
+              });
+            }, 240 + (tags.length * 30));
+          }, oldTagPills.length > 0 ? 140 : 0);
+        }, 70);
+      }
+    }
+
     // ── IntersectionObserver for active slide detection ──
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -534,6 +728,9 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
 
           currentSlides.forEach(s => s.classList.remove('is-active'));
           slide.classList.add('is-active');
+
+          // Flip dock metadata pills (category, mood, tags) to match newly active slide
+          updateDockPills(slide, false);
 
           // Record as viewed in the last 50 seen quotes history
           recordQuoteSeen(quoteId);
@@ -614,6 +811,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
       first.classList.add('is-active');
       recordQuoteSeen(first.dataset.quoteId);
       updateHeaderTopicState(first);
+      updateDockPills(first, true);
 
       if (window.setBackground) {
         window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);
@@ -689,6 +887,7 @@ const effectiveMatchedCount = matchedCount ?? (feedType === 'quote' ? 1 : (feedT
         updatedSlides.forEach(s => s.classList.remove('is-active'));
         match.classList.add('is-active');
         recordQuoteSeen(match.dataset.quoteId);
+        updateDockPills(match, false);
         if (window.setBackground) {
           window.setBackground(match.dataset.videoSrc, match.dataset.gradientClass, match.dataset.mood, match.dataset.quoteId);
         }

@@ -49,8 +49,6 @@ const initials = profile.name
   .join('')
   .toUpperCase();
 
-const firstName = profile.name.split(' ')[0];
-
 const pageTitle = `${profile.name} Quotes & Philosophy — Wisdom`;
 const pageDescription = `Explore ${matchedCount}+ verified quotes, reflections, and primary philosophy of ${profile.name} (${profile.era}), ${profile.tradition}. Immersive quote reels & context.`;
 
@@ -64,6 +62,7 @@ const structuredData = {
   about: {
     '@type': 'Person',
     name: profile.name,
+    alternateName: profile.longName !== profile.name ? profile.longName : undefined,
     description: profile.bio,
     sameAs: profile.wikipediaUrl,
     knowsAbout: [profile.tradition, ...profile.pillars.map((p) => p.concept)],
@@ -120,7 +119,7 @@ const structuredData = {
       {initials}
     </span>
     <span class="text-white/90">About</span>
-    <span class="font-semibold text-amber-300">{firstName}</span>
+    <span class="font-semibold text-amber-300">{profile.name}</span>
     <span class="hidden md:inline-block text-[10px] text-white/40 font-mono pl-0.5">[i]</span>
   </button>
 
@@ -302,9 +301,16 @@ const structuredData = {
             
             <!-- Biography / Narrative Section -->
             <section class="space-y-3.5">
-              <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-300/90 font-semibold">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                Biographical Narrative
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-amber-300/90 font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                  Biographical Narrative
+                </div>
+                {profile.longName && profile.longName !== profile.name && (
+                  <span class="text-xs font-serif italic text-amber-200/90 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/25">
+                    Full Name: {profile.longName}
+                  </span>
+                )}
               </div>
               <div
                 class="rounded-2xl sm:rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 text-base sm:text-lg text-white/90 leading-relaxed font-sans shadow-inner"

@@ -11,6 +11,7 @@ export interface PhilosophicalPillar {
 export interface AuthorProfile {
   slug: string;
   name: string;
+  longName?: string;
   era: string;
   tradition: string;
   wikipediaUrl: string;
@@ -114,7 +115,8 @@ export const authorProfiles: Record<string, AuthorProfile> = {
 
   seneca: {
     slug: 'seneca',
-    name: 'Seneca (Lucius Annaeus Seneca)',
+    name: 'Seneca',
+    longName: 'Seneca (Lucius Annaeus Seneca)',
     era: 'c. 4 BC – 65 AD',
     tradition: 'Roman Stoicism',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Seneca_the_Younger',
@@ -157,7 +159,8 @@ export const authorProfiles: Record<string, AuthorProfile> = {
 
   'lao-tzu': {
     slug: 'lao-tzu',
-    name: 'Lao Tzu (Laozi)',
+    name: 'Lao Tzu',
+    longName: 'Lao Tzu (Laozi)',
     era: '6th – 4th Century BC',
     tradition: 'Taoism (Daoism)',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Laozi',
@@ -223,7 +226,8 @@ export const authorProfiles: Record<string, AuthorProfile> = {
 
   'carl-jung': {
     slug: 'carl-jung',
-    name: 'Carl Gustav Jung',
+    name: 'Carl Jung',
+    longName: 'Carl Gustav Jung',
     era: '1875 – 1961',
     tradition: 'Analytical & Depth Psychology',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Carl_Jung',
@@ -246,7 +250,8 @@ export const authorProfiles: Record<string, AuthorProfile> = {
 
   rumi: {
     slug: 'rumi',
-    name: 'Jalal al-Din Muhammad Rumi',
+    name: 'Rumi',
+    longName: 'Jalal al-Din Muhammad Rumi',
     era: '1207 – 1273 AD',
     tradition: 'Sufi Mysticism & Poetry',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Rumi',
@@ -268,7 +273,8 @@ export const authorProfiles: Record<string, AuthorProfile> = {
 
   osho: {
     slug: 'osho',
-    name: 'Osho (Bhagwan Shree Rajneesh)',
+    name: 'Osho',
+    longName: 'Osho (Bhagwan Shree Rajneesh)',
     era: '1931 – 1990',
     tradition: 'Contemporary Eastern Thought & Meditation',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Rajneesh',
@@ -293,7 +299,12 @@ export const authorProfiles: Record<string, AuthorProfile> = {
  */
 export function getAuthorProfile(slug: string, fallbackName?: string): AuthorProfile {
   if (authorProfiles[slug]) {
-    return authorProfiles[slug];
+    const prof = authorProfiles[slug];
+    return {
+      ...prof,
+      name: fallbackName || prof.name,
+      longName: prof.longName || prof.name,
+    };
   }
 
   const cleanName = fallbackName || slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -301,6 +312,7 @@ export function getAuthorProfile(slug: string, fallbackName?: string): AuthorPro
   return {
     slug,
     name: cleanName,
+    longName: cleanName,
     era: 'Historical Thinker',
     tradition: 'Wisdom & Philosophy',
     wikipediaUrl: `https://en.wikipedia.org/wiki/${encodeURIComponent(cleanName.replace(/ /g, '_'))}`,

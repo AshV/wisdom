@@ -1,14 +1,14 @@
 ---
 /**
- * ShareModal — Share overlay with 4:5 (1080×1350) HD quote card pre-generation and native file sharing.
+ * ShareModal — Share overlay with 9:16 (1080×1920) HD quote card pre-generation and native file sharing.
  *
  * Key Capabilities:
- * 1. Background Pre-Generation: Canvas 2D renders 1080×1350 4:5 quote card in ~15ms in background
+ * 1. Background Pre-Generation: Canvas 2D renders 1080×1920 9:16 quote card in ~15ms in background
  * 2. In-Memory Cache: Pre-rendered { blob, file, dataUrl, objectUrl } stored per quote ID
  * 3. Native Web Share API with Files: Opens OS native share sheet directly with PNG attached (Instagram Stories, WhatsApp, etc.)
  * 4. Clipboard Image Copy: navigator.clipboard.write allows instant pasting on desktop without downloading
- * 5. Instant PNG Download: 1080×1350 PNG saved directly from pre-generated blob
- * 6. Live 4:5 Card Preview: Visual card thumbnail showing the ready-to-share graphic
+ * 5. Instant PNG Download: 1080×1920 PNG saved directly from pre-generated blob
+ * 6. Live 9:16 Card Preview: Visual card thumbnail showing the ready-to-share graphic
  */
 ---
 
@@ -39,7 +39,7 @@
 
     <!-- Visual Card Preview (Hero) -->
     <div class="relative mb-6 flex flex-col items-center">
-      <div class="relative w-48 sm:w-52 aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl shadow-black/70 border border-white/20 bg-black/40 flex items-center justify-center">
+      <div class="relative w-40 sm:w-44 aspect-[9/16] rounded-2xl overflow-hidden shadow-2xl shadow-black/70 border border-white/20 bg-black/40 flex items-center justify-center">
         <!-- Ambient glow behind preview card -->
         <div id="share-preview-glow" class="absolute -inset-3 rounded-2xl bg-gradient-to-r from-purple-500/25 to-pink-500/25 blur-xl opacity-70 pointer-events-none"></div>
 
@@ -119,11 +119,11 @@
 </div>
 
 <script is:inline>
-  // ── High-Performance Canvas 2D 4:5 Quote Card Generator ──
-  // Renders a stunning 1080×1350 (4:5) image matching the exact visual style, colors, and live ambient background shown on screen.
-  function renderQuoteCard4x5(quote) {
+  // ── High-Performance Canvas 2D 9:16 Quote Card Generator ──
+  // Renders a stunning 1080×1920 (9:16) Story/Reel HD image matching the exact visual style, colors, and live ambient background shown on screen.
+  function renderQuoteCard9x16(quote) {
     const width = 1080;
-    const height = 1350;
+    const height = 1920;
     const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
@@ -156,7 +156,7 @@
       try {
         const cw = ambientCanvas.width;
         const ch = ambientCanvas.height;
-        const targetRatio = width / height; // 1080 / 1350 = 0.8
+        const targetRatio = width / height; // 1080 / 1920 = 0.5625
         const srcRatio = cw / ch;
 
         let sx = 0, sy = 0, sw = cw, sh = ch;
@@ -206,65 +206,89 @@
     const glowCenter = activePalette?.glowCenter || 'rgba(167, 139, 250, 0.25)';
 
     // Glow 1: Top-Left
-    const g1 = ctx.createRadialGradient(width * 0.05, height * 0.05, 0, width * 0.05, height * 0.05, width * 0.75);
+    const g1 = ctx.createRadialGradient(width * 0.05, height * 0.05, 0, width * 0.05, height * 0.05, width * 0.85);
     g1.addColorStop(0, glow1);
     g1.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = g1;
     ctx.fillRect(0, 0, width, height);
 
     // Glow 2: Bottom-Right
-    const g2 = ctx.createRadialGradient(width * 0.95, height * 0.95, 0, width * 0.95, height * 0.95, width * 0.80);
+    const g2 = ctx.createRadialGradient(width * 0.95, height * 0.95, 0, width * 0.95, height * 0.95, width * 0.90);
     g2.addColorStop(0, glow2);
     g2.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = g2;
     ctx.fillRect(0, 0, width, height);
 
     // Glow Center: Soft ambient illumination
-    const gc = ctx.createRadialGradient(width * 0.5, height * 0.48, 0, width * 0.5, height * 0.48, width * 0.55);
+    const gc = ctx.createRadialGradient(width * 0.5, height * 0.48, 0, width * 0.5, height * 0.48, width * 0.65);
     gc.addColorStop(0, glowCenter);
     gc.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = gc;
     ctx.fillRect(0, 0, width, height);
 
-    // ── 3. Screen Vignette (from-black/85 via-black/40 to-black/70) ──
+    // ── 3. Screen Vignette (from-black/88 via-black/45 to-black/72) ──
     const vignette = ctx.createLinearGradient(0, height, 0, 0); // bottom to top
-    vignette.addColorStop(0, 'rgba(0, 0, 0, 0.88)');    // bottom: protects badges & branding
-    vignette.addColorStop(0.35, 'rgba(0, 0, 0, 0.50)');
-    vignette.addColorStop(0.65, 'rgba(0, 0, 0, 0.42)');
+    vignette.addColorStop(0, 'rgba(0, 0, 0, 0.88)');    // bottom: protects branding
+    vignette.addColorStop(0.35, 'rgba(0, 0, 0, 0.48)');
+    vignette.addColorStop(0.65, 'rgba(0, 0, 0, 0.40)');
     vignette.addColorStop(1, 'rgba(0, 0, 0, 0.72)');    // top: protects header
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, width, height);
 
-    // ── 4. Editorial Inner Border Frame (Inset 40px, rounded 24px) ──
-    const inset = 40;
-    const radius = 24;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    // ── 4. Editorial Inner Border Frame (Inset 48px, rounded 32px) ──
+    const inset = 48;
+    const radius = 32;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     drawRoundRect(ctx, inset, inset, width - inset * 2, height - inset * 2, radius);
     ctx.stroke();
 
-    // ── 5. Typography Engine (Matching Screen Font & Artistic Shadows) ──
+    // ── 5. Top Brand & Taxonomy Badge ──
+    ctx.save();
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+    ctx.font = '700 16px "Inter", -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '6px';
+    ctx.fillText('WISDOM', width / 2, 130);
+    ctx.restore();
+
+    if (category) {
+      ctx.save();
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
+      ctx.font = '500 14px "Inter", -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '3px';
+      ctx.fillText(category.toUpperCase(), width / 2, 168);
+      ctx.restore();
+    }
+
+    // ── 6. Large Adaptive Typography Engine ──
     const len = content.length;
-    let fontSize = 54;
-    let lineHeight = 76;
+    let fontSize = 72;
+    let lineHeight = 104;
 
     if (len < 65) {
-      fontSize = 64;
-      lineHeight = 90;
-    } else if (len < 130) {
+      fontSize = 90;
+      lineHeight = 126;
+    } else if (len < 120) {
+      fontSize = 78;
+      lineHeight = 110;
+    } else if (len < 190) {
+      fontSize = 66;
+      lineHeight = 94;
+    } else if (len < 270) {
       fontSize = 54;
-      lineHeight = 76;
-    } else if (len < 200) {
-      fontSize = 44;
-      lineHeight = 62;
+      lineHeight = 78;
     } else {
-      fontSize = 36;
-      lineHeight = 52;
+      fontSize = 44;
+      lineHeight = 64;
     }
 
     ctx.font = `400 ${fontSize}px "Playfair Display", "Cormorant Garamond", Georgia, serif`;
-    const maxTextWidth = 860;
+    const maxTextWidth = 880;
     const words = content.split(/\s+/);
     const lines = [];
     let curLine = '';
@@ -281,22 +305,22 @@
     }
     if (curLine) lines.push(curLine);
 
-    const quoteMarkHeight = 56;
-    const quoteMarkGap = 20;
+    const quoteMarkHeight = 72;
+    const quoteMarkGap = 24;
     const totalQuoteTextHeight = lines.length * lineHeight;
-    const authorGap = lineHeight; // Exactly one line space below quote
-    const authorHeight = 40;
+    const authorGap = Math.max(52, Math.round(lineHeight * 0.65));
+    const authorHeight = 48;
     const totalBlockHeight = quoteMarkHeight + quoteMarkGap + totalQuoteTextHeight + authorGap + authorHeight;
 
-    // Center quote block comfortably in viewport (allowing breathing space for bottom watermark)
-    let blockStartY = (height - 60 - totalBlockHeight) / 2;
-    if (blockStartY < 140) blockStartY = 140;
+    // Center quote block comfortably in 9:16 viewport
+    let blockStartY = (height - totalBlockHeight) / 2;
+    if (blockStartY < 240) blockStartY = 240;
 
     // Decorative Quotation Mark (Playfair Display, delicate white/35)
     const quoteMarkY = blockStartY + (quoteMarkHeight / 2);
     ctx.save();
     ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-    ctx.font = 'italic 400 84px "Playfair Display", Georgia, serif';
+    ctx.font = 'italic 400 100px "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('“', width / 2, quoteMarkY);
@@ -310,40 +334,43 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-    ctx.shadowBlur = 32;
-    ctx.shadowOffsetY = 4;
+    ctx.shadowBlur = 36;
+    ctx.shadowOffsetY = 5;
 
     for (let i = 0; i < lines.length; i++) {
       ctx.fillText(lines[i], width / 2, quoteStartY + (i * lineHeight) + (lineHeight / 2));
     }
     ctx.restore();
 
-    // Author Attribution (Italic Serif, Original Case, Exactly 1 Line Space Below Quote)
+    // Author Attribution (Italic Serif, Original Case)
     const authorY = quoteStartY + totalQuoteTextHeight + authorGap;
     ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.90)';
-    ctx.font = 'italic 400 34px "Cormorant Garamond", "Playfair Display", Georgia, serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+    ctx.font = 'italic 400 44px "Cormorant Garamond", "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '1.5px';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
-    ctx.shadowBlur = 14;
-    ctx.shadowOffsetY = 2;
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.80)';
+    ctx.shadowBlur = 18;
+    ctx.shadowOffsetY = 3;
     ctx.fillText(`— ${author}`, width / 2, authorY);
     ctx.restore();
 
-    // ── 6. Footer Domain Watermark ──
+    // ── 7. Footer Domain Watermark ──
     ctx.save();
     ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.font = '500 16px "Inter", -apple-system, sans-serif';
+    ctx.font = '500 18px "Inter", -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '3px';
-    ctx.fillText('ashishvishwakarma.com/wisdom', width / 2, 1265);
+    ctx.fillText('ashishvishwakarma.com/wisdom', width / 2, height - 90);
     ctx.restore();
 
     return canvas;
   }
+
+  // Backwards-compatible alias
+  const renderQuoteCard4x5 = renderQuoteCard9x16;
 
   // ── In-Memory Pre-Rendered Cache ──
   window.quoteCardCache = window.quoteCardCache || new Map();
@@ -395,13 +422,13 @@
           await document.fonts.ready;
         }
 
-        const canvas = renderQuoteCard4x5({ id, content, author, mood, category, slug });
+        const canvas = renderQuoteCard9x16({ id, content, author, mood, category, slug });
         if (!canvas) return null;
 
         const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
         if (!blob) return null;
 
-        const file = new File([blob], `wisdom-${id}-4x5.png`, { type: 'image/png' });
+        const file = new File([blob], `wisdom-${id}-9x16.png`, { type: 'image/png' });
         const objectUrl = URL.createObjectURL(blob);
         const dataUrl = canvas.toDataURL('image/png');
 
@@ -417,7 +444,7 @@
           objectUrl,
           dataUrl,
           width: 1080,
-          height: 1350,
+          height: 1920,
         };
 
         window.quoteCardCache.set(id, entry);
@@ -548,7 +575,7 @@
     function triggerDownload(entry) {
       if (!entry) return;
       const link = document.createElement('a');
-      link.download = `wisdom-${entry.id}-4x5.png`;
+      link.download = `wisdom-${entry.id}-9x16.png`;
       link.href = entry.objectUrl || entry.dataUrl;
       link.click();
       if (window.showToast) window.showToast('Quote image saved! ✓');
@@ -614,7 +641,7 @@
             await navigator.clipboard.write([
               new ClipboardItem({ 'image/png': entry.blob })
             ]);
-            if (window.showToast) window.showToast('4:5 Quote Card copied to clipboard! Paste anywhere (Ctrl+V) ✓');
+            if (window.showToast) window.showToast('9:16 Quote Card copied to clipboard! Paste anywhere (Ctrl+V) ✓');
             closeModal();
             return;
           } catch (err) {
@@ -627,7 +654,7 @@
       };
     }
 
-    // 3. Quick Action: Download 1080×1350 PNG
+    // 3. Quick Action: Download 1080×1920 PNG
     if (downloadImageBtn) {
       downloadImageBtn.onclick = async () => {
         const entry = await ensureQuoteEntry();

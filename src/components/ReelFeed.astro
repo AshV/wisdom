@@ -13,6 +13,7 @@ import ReelSlide from './ReelSlide.astro';
 import RightActionRail from './RightActionRail.astro';
 import ExploreDrawer from './ExploreDrawer.astro';
 import ShareModal from './ShareModal.astro';
+import AuthorDossierModal from './AuthorDossierModal.astro';
 import { moodMeta } from '../data/mediaRegistry';
 
 interface QuoteData {
@@ -173,7 +174,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           <a
             id="dock-author-pill"
             href={`${BASE}/author/${firstQuote.authorSlug}/?about=1`}
-            class="pointer-events-auto glass rounded-full px-4 py-2 text-xs font-medium text-amber-200/95 hover:text-white border border-amber-300/30 hover:border-amber-300/60 hover:bg-amber-400/15 transition-all duration-200 shadow-md inline-flex items-center gap-2 leading-normal dock-pill group active:scale-95 whitespace-nowrap"
+            data-author-slug={firstQuote.authorSlug}
+            data-author-name={firstQuote.author}
+            class="pointer-events-auto glass rounded-full px-4 py-2 text-xs font-medium text-amber-200/95 hover:text-white border border-amber-300/30 hover:border-amber-300/60 hover:bg-amber-400/15 transition-all duration-200 shadow-md inline-flex items-center gap-2 leading-normal dock-pill group active:scale-95 whitespace-nowrap cursor-pointer"
             aria-label={`About ${firstQuote.author}`}
             title={`About ${firstQuote.author}`}
           >
@@ -221,6 +224,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
 <!-- Share Modal -->
 <ShareModal />
+
+<!-- Author Dossier Modal -->
+<AuthorDossierModal />
 
 <script is:inline>
   function setupReelFeed() {
@@ -688,6 +694,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       if (immediate || prefersReducedMotion) {
         if (authorPill) {
           authorPill.href = `${base}/author/${authorSlug}/?about=1`;
+          authorPill.setAttribute('data-author-slug', authorSlug);
+          authorPill.setAttribute('data-author-name', author);
           authorPill.setAttribute('aria-label', `About ${author}`);
           authorPill.setAttribute('title', `About ${author}`);
           if (authorNameSpan) authorNameSpan.textContent = author;
@@ -718,6 +726,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         setTimeout(() => {
           if (thisToken !== flipToken) return;
           authorPill.href = `${base}/author/${authorSlug}/?about=1`;
+          authorPill.setAttribute('data-author-slug', authorSlug);
+          authorPill.setAttribute('data-author-name', author);
           authorPill.setAttribute('aria-label', `About ${author}`);
           authorPill.setAttribute('title', `About ${author}`);
           if (authorNameSpan) authorNameSpan.textContent = author;
@@ -1058,6 +1068,22 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         }
         setTimeout(() => { overlay.style.display = 'none'; }, 700);
       }
+    }
+
+    // ── About Author Pill click handler ──
+    const authorPill = document.getElementById('dock-author-pill');
+    if (authorPill) {
+      authorPill.onclick = (e) => {
+        e.preventDefault();
+        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+        const authorSlug = activeSlide?.dataset?.authorSlug || authorPill.getAttribute('data-author-slug') || '';
+        const authorName = activeSlide?.dataset?.author || authorPill.getAttribute('data-author-name') || document.getElementById('dock-author-name')?.textContent?.trim() || '';
+        if (window.openAuthorDossierModal) {
+          window.openAuthorDossierModal(authorSlug, authorName);
+        } else if (authorPill.href) {
+          window.location.href = authorPill.href;
+        }
+      };
     }
   }
 

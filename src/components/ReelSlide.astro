@@ -91,11 +91,18 @@ if (len < 55) {
     data-doubletap-zone={id}
   ></div>
 
-  <!-- Top spacer to balance the fixed header bar (56px) -->
-  <div class="h-14 sm:h-16 w-full shrink-0 pointer-events-none" aria-hidden="true"></div>
+  <!-- Top spacer to balance the fixed header bar and top tags dock -->
+  <div
+    class="h-24 sm:h-28 w-full shrink-0 pointer-events-none"
+    style="min-height: calc(max(env(safe-area-inset-top, 0px), 16px) + 84px);"
+    aria-hidden="true"
+  ></div>
 
   {isStreamContinuation && (
-    <div class="continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4.5 py-2 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal">
+    <div
+      class="continuation-banner pointer-events-none absolute top-28 sm:top-32 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4.5 py-2 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal"
+      style="top: calc(max(env(safe-area-inset-top, 0px), 16px) + 94px);"
+    >
       <span class="text-amber-300">✦</span>
       <span>More Wisdom Ahead</span>
     </div>
@@ -137,13 +144,13 @@ if (len < 55) {
   </div>
 
   <!-- ── BOTTOM OF SCREEN: CLEARANCE SPACER ── -->
-  <!-- Reserves vertical space matching the fixed bottom metadata dock so quote never overlaps -->
+  <!-- Reserves vertical space matching the fixed bottom metadata dock (Category & Mood) -->
   <div
     class="relative z-20 shrink-0 mb-6 sm:mb-8 md:mb-10 pb-[max(env(safe-area-inset-bottom,28px),44px)] pt-2 pointer-events-none"
     style="padding-right: clamp(4.5rem, 12vw, 6.5rem); padding-left: clamp(1.25rem, 4vw, 2.5rem);"
     aria-hidden="true"
   >
-    <div class="h-20 sm:h-24 md:h-28 w-full max-w-md md:max-w-lg pointer-events-none"></div>
+    <div class="h-12 sm:h-14 md:h-16 w-full max-w-md md:max-w-lg pointer-events-none"></div>
   </div>
 
   <!-- Accessible Screen Reader & SEO Metadata -->

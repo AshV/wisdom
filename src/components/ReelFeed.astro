@@ -124,7 +124,33 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
 <!-- Right Action Rail -->
 <RightActionRail />
 
-<!-- Fixed Bottom Metadata Dock (Category, Mood, Tags with 3D flip-in-place transition) -->
+<!-- Fixed Top Center Tags Dock (with 3D flip-in-place transition) -->
+{firstQuote && (
+  <nav
+    id="fixed-tags-dock"
+    class="fixed top-14 sm:top-16 left-0 right-0 z-20 pointer-events-none flex justify-center px-4"
+    style="top: calc(max(env(safe-area-inset-top, 0px), 16px) + 48px);"
+    aria-label="Quote Tags"
+  >
+    <div
+      id="dock-tags-container"
+      class="flex flex-wrap items-center justify-center gap-2 max-w-md sm:max-w-lg md:max-w-xl text-center pointer-events-none"
+    >
+      {firstQuote.tags.map((tag) => (
+        <div class="flip-pill-wrapper inline-flex" data-dock-tag-wrapper>
+          <a
+            href={`${BASE}/tag/${encodeURIComponent(tag)}/`}
+            class="pointer-events-auto text-xs font-medium text-white/80 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-md border border-white/15 cursor-pointer shadow-md inline-flex items-center leading-normal dock-pill"
+          >
+            #{tag}
+          </a>
+        </div>
+      ))}
+    </div>
+  </nav>
+)}
+
+<!-- Fixed Bottom Metadata Dock (Category & Mood with 3D flip-in-place transition) -->
 {firstQuote && (
   <aside
     id="fixed-metadata-dock"
@@ -155,20 +181,6 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
             <span id="dock-mood-label" class="whitespace-nowrap tracking-wide leading-normal">{firstMoodInfo?.label}</span>
           </a>
         </div>
-      </div>
-
-      <!-- Tag Chips with generous tap targets and safe bottom clearance -->
-      <div id="dock-tags-container" class="flex flex-wrap gap-2 pt-0.5">
-        {firstQuote.tags.map((tag) => (
-          <div class="flip-pill-wrapper inline-flex" data-dock-tag-wrapper>
-            <a
-              href={`${BASE}/tag/${encodeURIComponent(tag)}/`}
-              class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal dock-pill"
-            >
-              #{tag}
-            </a>
-          </div>
-        ))}
       </div>
     </div>
   </aside>
@@ -448,7 +460,8 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
         });
         if (initialSlides[matchedCount]) {
           const bannerDiv = document.createElement('div');
-          bannerDiv.className = 'continuation-banner pointer-events-none absolute top-14 sm:top-16 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4.5 py-2 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
+          bannerDiv.className = 'continuation-banner pointer-events-none absolute top-28 sm:top-32 z-30 left-1/2 -translate-x-1/2 flex items-center gap-2 glass px-4.5 py-2 rounded-full border border-white/20 text-[11px] font-medium text-white/90 shadow-xl shadow-black/40 select-none tracking-wider uppercase leading-normal';
+          bannerDiv.style.top = 'calc(max(env(safe-area-inset-top, 0px), 16px) + 94px)';
           bannerDiv.innerHTML = '<span class="text-amber-300">✦</span><span>More Wisdom Ahead</span>';
           initialSlides[matchedCount].appendChild(bannerDiv);
         }
@@ -583,7 +596,7 @@ const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
       return tagsArray.map((t, idx) => `
         <div class="flip-pill-wrapper inline-flex" data-dock-tag-wrapper>
           <a href="${base}/tag/${encodeURIComponent(t)}/"
-             class="pointer-events-auto text-xs font-medium text-white/75 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15 cursor-pointer shadow-sm inline-flex items-center leading-normal dock-pill ${isFlipping ? 'pill-flipping-in' : ''}"
+             class="pointer-events-auto text-xs font-medium text-white/80 hover:text-white transition-colors duration-200 bg-white/10 hover:bg-white/20 active:scale-95 px-4 py-2 rounded-full backdrop-blur-md border border-white/15 cursor-pointer shadow-md inline-flex items-center leading-normal dock-pill ${isFlipping ? 'pill-flipping-in' : ''}"
              ${isFlipping ? `style="animation-delay: ${idx * 30}ms;"` : ''}>
             #${escapeHtml(t)}
           </a>

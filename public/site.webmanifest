@@ -7,7 +7,7 @@
   "scope": "/wisdom/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0a0a0f",
   "theme_color": "#0a0a0f",
   "categories": ["lifestyle", "education", "books"],

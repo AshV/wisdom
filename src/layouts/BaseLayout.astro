@@ -568,6 +568,21 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
         document.addEventListener('astro:page-load', updateNetworkStatus);
 
+        // 2.5 Ensure orientation is unlocked across all standalone PWA devices
+        function unlockOrientation() {
+          if (window.screen && window.screen.orientation && typeof window.screen.orientation.unlock === 'function') {
+            try {
+              const res = window.screen.orientation.unlock();
+              if (res && typeof res.catch === 'function') res.catch(() => {});
+            } catch {
+              // Ignore if unsupported or already unrestricted
+            }
+          }
+        }
+        unlockOrientation();
+        window.addEventListener('orientationchange', unlockOrientation);
+        document.addEventListener('astro:page-load', unlockOrientation);
+
         // 3. Mindful Engagement-Gated Install Prompt
         let deferredPrompt = null;
         let quotesViewed = 0;

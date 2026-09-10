@@ -481,21 +481,53 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }, duration);
       };
 
-      // ── Liked Quotes Store ──
+      // ── Liked Quotes Store (Self-Contained Offline Favorites) ──
       window.likedQuotes = {
         _key: 'liked_quotes',
         getAll() {
-          try { return JSON.parse(localStorage.getItem(this._key) || '[]'); }
-          catch { return []; }
+          try {
+            const data = JSON.parse(localStorage.getItem(this._key) || '[]');
+            return Array.isArray(data) ? data : [];
+          } catch {
+            return [];
+          }
         },
-        has(id) { return this.getAll().includes(id); },
-        toggle(id) {
-          const all = this.getAll();
-          const idx = all.indexOf(id);
-          if (idx > -1) { all.splice(idx, 1); }
-          else { all.push(id); }
-          localStorage.setItem(this._key, JSON.stringify(all));
-          return idx === -1; // returns true if now liked
+        has(id) {
+          if (!id) return false;
+          return this.getAll().some(item => (typeof item === 'string' ? item === id : item?.id === id));
+        },
+        toggle(quoteOrId) {
+          const id = typeof quoteOrId === 'string' ? quoteOrId : quoteOrId?.id;
+          if (!id) return false;
+          let all = this.getAll();
+          const idx = all.findIndex(item => (typeof item === 'string' ? item === id : item?.id === id));
+          if (idx > -1) {
+            all.splice(idx, 1);
+            localStorage.setItem(this._key, JSON.stringify(all));
+            return false; // unliked
+          } else {
+            let quoteObj = (typeof quoteOrId === 'object' && quoteOrId !== null) ? quoteOrId : null;
+            if (!quoteObj || !quoteObj.content) {
+              const slide = document.getElementById(`slide-${id}`) || document.querySelector(`[data-quote-id="${id}"]`);
+              if (slide) {
+                quoteObj = {
+                  id,
+                  content: slide.dataset.content || slide.querySelector('blockquote p')?.textContent?.trim() || '',
+                  author: slide.dataset.author || '',
+                  authorSlug: slide.dataset.authorSlug || '',
+                  category: slide.dataset.category || '',
+                  categorySlug: slide.dataset.categorySlug || '',
+                  mood: slide.dataset.mood || '',
+                  slug: slide.dataset.quoteSlug || id,
+                };
+              } else {
+                quoteObj = { id };
+              }
+            }
+            all.unshift(quoteObj);
+            localStorage.setItem(this._key, JSON.stringify(all));
+            return true; // liked
+          }
         }
       };
 

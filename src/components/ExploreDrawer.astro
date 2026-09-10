@@ -16,24 +16,6 @@ import { slugifyQuote } from '../utils/slug';
 const allQuotes = await getCollection('quotes');
 const BASE = '/wisdom';
 
-// Client-side quote index for the Liked tab and quick lookup
-const quoteMap = Object.fromEntries(
-  allQuotes.map((q) => [
-    q.data.id,
-    {
-      id: q.data.id,
-      content: q.data.content,
-      author: q.data.author,
-      authorSlug: q.data.authorSlug,
-      category: q.data.category,
-      categorySlug: q.data.categorySlug,
-      mood: q.data.mood,
-      slug: slugifyQuote(q.data.content),
-      tags: q.data.tags || [],
-    },
-  ])
-);
-
 // Aggregate counts
 const moodCounts: Record<string, number> = {};
 const categoryCounts: Record<string, { name: string; slug: string; count: number }> = {};
@@ -57,8 +39,10 @@ allQuotes.forEach((q) => {
 });
 
 const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
-const authors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
-const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+const totalAuthorsCount = Object.keys(authorCounts).length;
+const totalTagsCount = Object.keys(tagCounts).length;
+const popularAuthors = Object.values(authorCounts).sort((a, b) => b.count - a.count).slice(0, 24);
+const popularTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 48);
 
 const categoryIcons: Record<string, string> = {
   philosophy: '🏛️',
@@ -115,7 +99,7 @@ const categoryIcons: Record<string, string> = {
           <div class="flex items-center gap-2 mt-0.5">
             <span class="text-xs text-white/50">{allQuotes.length} Timeless Quotes</span>
             <span class="text-white/20">•</span>
-            <span class="text-xs text-white/50">{authors.length} Authors</span>
+            <span class="text-xs text-white/50">{totalAuthorsCount} Authors</span>
           </div>
         </div>
       </div>
@@ -222,7 +206,7 @@ const categoryIcons: Record<string, string> = {
       >
         <span>✍️</span>
         <span>Authors</span>
-        <span class="text-[11px] text-white/40 font-normal">({authors.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({totalAuthorsCount})</span>
       </button>
 
       <button
@@ -231,7 +215,7 @@ const categoryIcons: Record<string, string> = {
       >
         <span>🏷️</span>
         <span>Tags</span>
-        <span class="text-[11px] text-white/40 font-normal">({tags.length})</span>
+        <span class="text-[11px] text-white/40 font-normal">({totalTagsCount})</span>
       </button>
 
       <button
@@ -348,9 +332,9 @@ const categoryIcons: Record<string, string> = {
           </span>
         </a>
 
-        <!-- Authors Grid -->
+        <!-- Authors Grid (Curated Primary Thinkers) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {authors.map((auth, i) => {
+          {popularAuthors.map((auth, i) => {
             const hue = (i * 137.5) % 360;
             return (
               <a
@@ -377,10 +361,10 @@ const categoryIcons: Record<string, string> = {
         </div>
       </div>
 
-      <!-- 5. Tags Tab -->
+      <!-- 5. Tags Tab (Popular & Trending Themes) -->
       <div id="tab-tags" class="explore-tab-content hidden">
         <div class="flex flex-wrap gap-2.5 sm:gap-3 pt-1">
-          {tags.map(([tag, count]) => {
+          {popularTags.map(([tag, count]) => {
             const isHighCount = count >= 3;
             return (
               <a
@@ -539,10 +523,9 @@ const categoryIcons: Record<string, string> = {
   </div>
 </div>
 
-<!-- Provide serialized quoteMap to client-side logic -->
-<script is:inline define:vars={{ quoteMap, BASE }}>
-  window.__wisdomQuoteMap = quoteMap;
-  window.__wisdomBaseUrl = BASE;
+<!-- Base URL configuration -->
+<script is:inline>
+  window.__wisdomBaseUrl = '/wisdom';
 </script>
 
 <script is:inline>
@@ -565,15 +548,15 @@ const categoryIcons: Record<string, string> = {
 
     let currentActiveTab = 'liked';
 
-    // ── Update Liked Tab Badge & Render ──
+    // ── Update Liked Tab Badge & Render (Self-Contained Local Storage) ──
     function refreshLikedQuotes() {
-      if (!window.likedQuotes || !window.__wisdomQuoteMap) return;
-      const allLikedIds = window.likedQuotes.getAll();
+      if (!window.likedQuotes) return;
+      const allLikes = window.likedQuotes.getAll();
 
       // Update count badge
       if (likedBadge) {
-        likedBadge.textContent = String(allLikedIds.length);
-        if (allLikedIds.length > 0) {
+        likedBadge.textContent = String(allLikes.length);
+        if (allLikes.length > 0) {
           likedBadge.classList.remove('bg-white/10', 'text-white/50');
           likedBadge.classList.add('bg-red-500/25', 'text-red-300');
         } else {
@@ -585,7 +568,7 @@ const categoryIcons: Record<string, string> = {
       if (!likedContainer) return;
       likedContainer.innerHTML = '';
 
-      if (allLikedIds.length === 0) {
+      if (allLikes.length === 0) {
         if (likedEmpty) likedEmpty.classList.remove('hidden');
         return;
       }
@@ -594,11 +577,11 @@ const categoryIcons: Record<string, string> = {
 
       // Render cards in reverse chronological order (newest likes first)
       const base = window.__wisdomBaseUrl || '/wisdom';
-      const quoteMap = window.__wisdomQuoteMap;
 
-      allLikedIds.slice().reverse().forEach((id) => {
-        const quote = quoteMap[id];
-        if (!quote) return;
+      allLikes.slice().reverse().forEach((item) => {
+        const quote = (typeof item === 'object' && item !== null) ? item : (window.__wisdomQuoteMap ? window.__wisdomQuoteMap[item] : null);
+        if (!quote || !quote.content) return;
+        const id = quote.id;
 
         const card = document.createElement('div');
         card.className =

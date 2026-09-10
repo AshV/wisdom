@@ -537,9 +537,43 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     container.appendChild(fragment);
 
     let batchNumber = 1;
+    let currentChunkPage = 1;
+    let isFetchingChunk = false;
+    let loadedQuoteList = [];
+
+    async function loadNextQuoteChunk() {
+      if (isFetchingChunk) return [];
+      isFetchingChunk = true;
+      try {
+        const base = window.__wisdomBaseUrl || '/wisdom';
+        const res = await fetch(`${base}/api/quotes/chunk-${currentChunkPage}.json`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.quotes) {
+            loadedQuoteList.push(...data.quotes);
+            currentChunkPage++;
+            return data.quotes;
+          }
+        }
+      } catch (e) {
+        console.warn('Could not load quote chunk:', e);
+      } finally {
+        isFetchingChunk = false;
+      }
+      return [];
+    }
+
+    // Pre-warm chunk 1 on idle
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => loadNextQuoteChunk());
+      } else {
+        setTimeout(() => loadNextQuoteChunk(), 1200);
+      }
+    }
 
     // ── Infinite Scroll Appender: Appends fresh unseen quotes avoiding the last 50 seen ──
-    function appendNextBatch() {
+    async function appendNextBatch() {
       const batchFragment = document.createDocumentFragment();
       const appendedSlides = [];
 
@@ -553,10 +587,16 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         Array.from(container.querySelectorAll('.reel-slide')).map(s => s.dataset.quoteId)
       );
 
-      const quoteMap = window.__wisdomQuoteMap || {};
-      const allQuoteList = Object.values(quoteMap);
+      // If quotes pool is running low, trigger next chunk fetch
+      if (loadedQuoteList.length < 35) {
+        await loadNextQuoteChunk();
+      }
 
-      // Candidate quotes from full catalog:
+      const quoteMap = window.__wisdomQuoteMap || {};
+      const allQuoteList = loadedQuoteList.length > 0 ? loadedQuoteList : Object.values(quoteMap);
+      if (allQuoteList.length === 0) return;
+
+      // Candidate quotes from loaded catalog:
       // 1. Must NOT be in the last 50 seen quotes (currentSeenSet)
       // 2. Must NOT be currently in the DOM (domQuoteIds)
       let freshCandidates = allQuoteList.filter(q =>

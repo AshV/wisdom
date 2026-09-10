@@ -13,13 +13,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const tags = [...new Set(quotesData.flatMap((q) => q.tags))];
 
-  return tags.map((tag) => {
+  // Only generate dedicated static landing pages for tags with >= 2 quotes
+  // Pruning single-use micro-tags eliminates 688 thin pages and improves Google crawl budget & SEO quality
+  const substantiveTags = tags.filter((tag) => {
+    return quotesData.filter((q) => q.tags.includes(tag)).length >= 2;
+  });
+
+  return substantiveTags.map((tag) => {
     const matched = quotesData.filter((q) => q.tags.includes(tag));
     const remaining = quotesData.filter((q) => !q.tags.includes(tag));
     return {
       params: { slug: tag },
       props: {
-        quotes: [...matched, ...remaining.slice(0, 15)],
+        quotes: [...matched, ...remaining.slice(0, 10)],
         matchedCount: matched.length,
         tagName: tag,
       },

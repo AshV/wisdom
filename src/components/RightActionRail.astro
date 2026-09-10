@@ -84,7 +84,17 @@
         const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
         if (!activeSlide) return;
         const quoteId = activeSlide.dataset.quoteId;
-        const isLiked = window.likedQuotes.toggle(quoteId);
+        const quoteObj = {
+          id: quoteId,
+          content: activeSlide.dataset.content || activeSlide.querySelector('blockquote p')?.textContent?.trim() || '',
+          author: activeSlide.dataset.author || '',
+          authorSlug: activeSlide.dataset.authorSlug || '',
+          category: activeSlide.dataset.category || '',
+          categorySlug: activeSlide.dataset.categorySlug || '',
+          mood: activeSlide.dataset.mood || '',
+          slug: activeSlide.dataset.quoteSlug || quoteId,
+        };
+        const isLiked = window.likedQuotes.toggle(quoteObj);
         updateLikeUI(isLiked);
         if (window.refreshExploreLikes) window.refreshExploreLikes();
       };

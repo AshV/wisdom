@@ -14,22 +14,24 @@ export const getStaticPaths: GetStaticPaths = async () => {
   for (const quote of allQuotes) {
     const textSlug = slugifyQuote(quote.data.content);
 
-    // Primary human-readable text slug (e.g. /wisdom/quote/the-earth-has-music-for-those-who-listen/)
+    // Primary human-readable text slug (canonical SEO landing page)
     paths.push({
       params: { slug: textSlug },
       props: {
         targetQuote: quote.data,
         allQuotes: quotesData,
+        isShortId: false,
       },
     });
 
-    // Short ID alias (e.g. /wisdom/quote/q023/)
+    // Short ID alias (e.g. /wisdom/quote/q001/ — ultra-lightweight client redirect)
     if (textSlug !== quote.data.id) {
       paths.push({
         params: { slug: quote.data.id },
         props: {
           targetQuote: quote.data,
           allQuotes: quotesData,
+          isShortId: true,
         },
       });
     }
@@ -41,9 +43,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 interface Props {
   targetQuote: any;
   allQuotes: any[];
+  isShortId?: boolean;
 }
 
-const { targetQuote, allQuotes } = Astro.props;
+const { targetQuote, allQuotes, isShortId = false } = Astro.props;
 const { content, author, authorSlug, category, tags, id } = targetQuote;
 
 const textSlug = slugifyQuote(content);
@@ -53,11 +56,11 @@ const canonicalUrl = `/wisdom/quote/${textSlug}/`;
 const title = `“${content}” — ${author} | Wisdom`;
 const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore curated quotes on Wisdom.`;
 
-// Order feed so target quote lands first, followed by a smooth continuation stream of related quotes
+// Order feed so target quote lands first, followed by a lightweight 3-quote continuation buffer
+// The client-side infinite stream dynamically loads further slides as user swipes
 const remaining = allQuotes.filter((q) => q.id !== targetQuote.id);
 const related = remaining.filter((q) => q.categorySlug === targetQuote.categorySlug || q.mood === targetQuote.mood);
-const other = remaining.filter((q) => q.categorySlug !== targetQuote.categorySlug && q.mood !== targetQuote.mood);
-const continuationBuffer = [...related, ...other].slice(0, 15);
+const continuationBuffer = related.slice(0, 3);
 
 const feedQuotes = [
   targetQuote,
@@ -82,25 +85,42 @@ const structuredData = {
 };
 ---
 
-<BaseLayout
-  title={title}
-  description={description}
-  ogType="article"
-  robots="noindex, follow, max-image-preview:large"
-  keywords={[...tags, author, category, 'wisdom quote', 'inspirational quotation']}
-  breadcrumbs={[
-    { name: 'Authors', url: '/wisdom/' },
-    { name: author, url: `/wisdom/author/${authorSlug}/` },
-    { name: `“${content.slice(0, 30)}...”`, url: canonicalUrl },
-  ]}
->
-  <!-- Schema.org Quotation Rich Snippet for Google Search -->
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+{isShortId ? (
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="refresh" content={`0;url=${canonicalUrl}`} />
+      <link rel="canonical" href={canonicalUrl} />
+      <title>Redirecting...</title>
+      <script is:inline define:vars={{ canonicalUrl }}>
+        window.location.replace(canonicalUrl);
+      </script>
+    </head>
+    <body style="background:#0a0a0f; color:#ffffff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0;">
+      <p style="text-align:center; font-family:sans-serif; color:rgba(255,255,255,0.7);">Redirecting to quote...</p>
+    </body>
+  </html>
+) : (
+  <BaseLayout
+    title={title}
+    description={description}
+    ogType="article"
+    robots="noindex, follow, max-image-preview:large"
+    keywords={[...tags, author, category, 'wisdom quote', 'inspirational quotation']}
+    breadcrumbs={[
+      { name: 'Authors', url: '/wisdom/' },
+      { name: author, url: `/wisdom/author/${authorSlug}/` },
+      { name: `“${content.slice(0, 30)}...”`, url: canonicalUrl },
+    ]}
+  >
+    <!-- Schema.org Quotation Rich Snippet for Google Search -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-  <ReelFeed
-    quotes={feedQuotes}
-    feedTitle={`Quote by ${author}`}
-    feedType="quote"
-    matchedCount={1}
-  />
-</BaseLayout>
+    <ReelFeed
+      quotes={feedQuotes}
+      feedTitle={`Quote by ${author}`}
+      feedType="quote"
+      matchedCount={1}
+    />
+  </BaseLayout>
+)}

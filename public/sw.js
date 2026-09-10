@@ -69,13 +69,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Google Fonts & Static Assets (_astro bundles, icons, audio, daily quotes)
+  // 2. Google Fonts & Static Assets (_astro bundles, icons, audio, daily quotes, API micro-endpoints)
   const isStaticAsset =
     url.origin.includes('fonts.googleapis.com') ||
     url.origin.includes('fonts.gstatic.com') ||
     url.pathname.startsWith('/wisdom/_astro/') ||
     url.pathname.startsWith('/wisdom/icons/') ||
     url.pathname.startsWith('/wisdom/media/audio/') ||
+    url.pathname.startsWith('/wisdom/api/') ||
     url.pathname.endsWith('daily-quotes.json');
 
   if (isStaticAsset) {

@@ -7,31 +7,8 @@
  * primary sourced literature, and why their voice endures.
  *
  * Universally available across all feeds (main reel, author, category, mood, tag, quote).
+ * Author profiles are fetched on-demand from /wisdom/api/authors/[slug].json (2 KB per author).
  */
-import { getCollection } from 'astro:content';
-import { authorProfiles, getAuthorProfile } from '../data/authorProfiles';
-
-const allQuotes = await getCollection('quotes');
-const authorCounts: Record<string, number> = {};
-const authorNames: Record<string, string> = {};
-
-allQuotes.forEach((q) => {
-  const slug = q.data.authorSlug;
-  authorCounts[slug] = (authorCounts[slug] || 0) + 1;
-  if (!authorNames[slug]) authorNames[slug] = q.data.author;
-});
-
-// Build comprehensive client profiles dictionary
-const allSlugs = [...new Set([...Object.keys(authorProfiles), ...Object.keys(authorCounts)])];
-const clientProfiles: Record<string, any> = {};
-
-allSlugs.forEach((slug) => {
-  const prof = getAuthorProfile(slug, authorNames[slug]);
-  clientProfiles[slug] = {
-    ...prof,
-    count: authorCounts[slug] || 0,
-  };
-});
 ---
 
 <!-- Accessible Author Editorial Dossier Modal -->
@@ -306,8 +283,25 @@ allSlugs.forEach((slug) => {
   }
 </style>
 
-<script is:inline define:vars={{ clientProfiles }}>
-  window.__wisdomAuthorProfiles = clientProfiles;
+<script is:inline>
+  const _authorCache = {};
+
+  async function fetchAuthorProfile(slug) {
+    if (!slug) return null;
+    if (_authorCache[slug]) return _authorCache[slug];
+    try {
+      const base = window.__wisdomBaseUrl || '/wisdom';
+      const res = await fetch(`${base}/api/authors/${slug}.json`);
+      if (res.ok) {
+        const data = await res.json();
+        _authorCache[slug] = data;
+        return data;
+      }
+    } catch (e) {
+      console.warn('Could not fetch author profile:', slug, e);
+    }
+    return null;
+  }
 
   function escapeHtml(text) {
     if (!text) return '';
@@ -316,21 +310,11 @@ allSlugs.forEach((slug) => {
     return div.innerHTML;
   }
 
-  window.openAuthorDossierModal = function(slug, fallbackName) {
+  window.openAuthorDossierModal = async function(slug, fallbackName) {
     const modal = document.getElementById('author-context-modal');
     if (!modal) return;
 
-    const profiles = window.__wisdomAuthorProfiles || {};
-    let profile = (slug && profiles[slug]) ? profiles[slug] : null;
-
-    if (!profile && fallbackName) {
-      const cleanFallback = fallbackName.toLowerCase().trim();
-      const foundSlug = Object.keys(profiles).find((k) =>
-        profiles[k].name.toLowerCase() === cleanFallback ||
-        (profiles[k].longName && profiles[k].longName.toLowerCase() === cleanFallback)
-      );
-      if (foundSlug) profile = profiles[foundSlug];
-    }
+    let profile = await fetchAuthorProfile(slug);
 
     if (!profile) {
       const cleanName = fallbackName || (slug ? slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Philosopher');

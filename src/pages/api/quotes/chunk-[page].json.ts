@@ -22,6 +22,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
       mood: q.data.mood,
       slug: slugifyQuote(q.data.content),
       tags: q.data.tags || [],
+      sourceWork: q.data.sourceWork,
+      story: q.data.story,
+      reflectionPrompt: q.data.reflectionPrompt,
     }));
 
     paths.push({

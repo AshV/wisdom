@@ -13,5 +13,8 @@
     "psychology"
   ],
   "theme": "dark",
-  "duration": 5
+  "duration": 5,
+  "sourceWork": "Maximes et Réflexions Morales (1665), Maxim 2",
+  "story": "A high aristocrat who led rebel armies in the Fronde against Cardinal Mazarin, François de La Rochefoucauld was shot in the face at the battle of the Faubourg Saint-Antoine and permanently exiled from power. Retiring to Parisian salons, he dissected human motives with microscopic precision, revealing how courtiers constantly convince themselves that their actions are driven by noble virtue, when subtle self-love (amour-propre) secretly pulls every string.",
+  "reflectionPrompt": "Think of an opinion or dispute you've recently defended. How might subtle self-love be flattering you into believing you were purely noble?"
 }

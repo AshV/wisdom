@@ -12,5 +12,8 @@
     "patience"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "Tao Te Ching (Dao De Jing), Chapter 64",
+  "story": "Attributed to the legendary archivist Lao Tzu as he prepared to depart ancient China toward the western mountains, Chapter 64 observes that the tallest tree begins as a tiny sprout, a nine-story terrace begins with a basket of dirt, and a journey of a thousand leagues begins beneath your feet. In an era obsessed with grandiose ambitions, Lao Tzu grounded greatness in the humble reverence for the immediate first step.",
+  "reflectionPrompt": "What ambitious long-term goal feels intimidating right now, and what single miniature action can you execute in the next ten minutes to begin?"
 }

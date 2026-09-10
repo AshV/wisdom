@@ -25,6 +25,9 @@ interface Props {
   index: number;
   isStreamContinuation?: boolean;
   isTopicMatch?: boolean;
+  sourceWork?: string;
+  story?: string;
+  reflectionPrompt?: string;
 }
 
 const {
@@ -39,6 +42,9 @@ const {
   index,
   isStreamContinuation = false,
   isTopicMatch = true,
+  sourceWork,
+  story,
+  reflectionPrompt,
 } = Astro.props;
 
 const media = getMediaForQuote(id, mood);
@@ -84,6 +90,9 @@ if (len < 55) {
   data-audio-src={audioSrc}
   data-index={index}
   data-topic-match={isTopicMatch ? 'true' : 'false'}
+  data-source-work={sourceWork || ''}
+  data-story={story || ''}
+  data-reflection-prompt={reflectionPrompt || ''}
 >
   <!-- Double-tap detection zone across entire slide -->
   <div
@@ -128,17 +137,37 @@ if (len < 55) {
         {content}
       </p>
 
-      <!-- Author Attribution Directly Below Quote (No initial circle) with one line space -->
-      <div class="mt-7 sm:mt-9 select-none">
+      <!-- Author Attribution & Optional Story Pill -->
+      <div class="mt-7 sm:mt-9 select-none flex flex-col items-center gap-2.5">
         <a
           href={`${BASE}/author/${authorSlug}/`}
-          class="pointer-events-auto inline-flex items-center gap-1.5 text-base sm:text-lg md:text-xl font-normal text-white/80 hover:text-white transition-all duration-200 group cursor-pointer"
+          class="pointer-events-auto inline-flex items-center flex-wrap justify-center gap-1.5 text-base sm:text-lg md:text-xl font-normal text-white/80 hover:text-white transition-all duration-200 group cursor-pointer"
           style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; letter-spacing: 0.02em;"
           title={`More quotes by ${author}`}
         >
           <span class="text-white/40 not-italic font-light select-none">&mdash;</span>
           <span class="author-name-text group-hover:underline underline-offset-4 decoration-white/40 transition-all">{author}</span>
+          {sourceWork && (
+            <span class="source-work-citation text-white/45 text-sm sm:text-base not-italic font-sans font-light tracking-normal">
+              , <em class="italic text-white/65">{sourceWork}</em>
+            </span>
+          )}
         </a>
+
+        {story && (
+          <button
+            type="button"
+            class="story-pill-btn pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 hover:border-amber-400/40 text-xs sm:text-[13px] text-amber-200/90 hover:text-amber-100 font-sans tracking-wide transition-all duration-200 active:scale-95 shadow-md group cursor-pointer backdrop-blur-md"
+            data-quote-id={id}
+            title="Read the story and historical context behind this quote"
+          >
+            <span class="text-amber-300 text-xs group-hover:scale-110 transition-transform">✦</span>
+            <span class="font-medium">The Story Behind the Words</span>
+            <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        )}
       </div>
     </div>
   </div>

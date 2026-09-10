@@ -12,5 +12,8 @@
     "stoicism"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Meditations, Book III",
+  "story": "Marcus Aurelius recorded these lines in imperial army encampments along the frigid Danubian frontier during the grueling Marcomannic Wars (170–180 CE). Confronting the Antonine Plague that decimated Rome, the treason of his trusted general Avidius Cassius, and chronic physical pain, Marcus had no illusions about external control. He reminded himself daily that events possess no intrinsic moral power to harm; only the interpretations and judgments manufactured by the mind determine whether we experience tranquility or torment.",
+  "reflectionPrompt": "Identify a source of friction in your life today. How much of the suffering comes from the event itself, and how much is created by your running narrative about it?"
 }

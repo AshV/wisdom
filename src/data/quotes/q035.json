@@ -13,5 +13,8 @@
     "fear"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Epistulae Morales ad Lucilium (Letters to Lucilius), Letter 13",
+  "story": "Writing to his younger friend Lucilius, who was tormented by the dread of an impending legal dispute and political peril in Rome, Seneca urged him not to suffer in advance. He cataloged how the human imagination magnifies catastrophic possibilities, tormenting us with disasters that either never materialize or arrive in manageable forms. Seneca commanded: 'Do not run to meet troubles; wait until they actually happen.'",
+  "reflectionPrompt": "What worst-case scenario is currently renting space in your mind, and how much evidence is there that it is actually happening right now?"
 }

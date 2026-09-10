@@ -12,5 +12,8 @@
     "stoicism"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "De Brevitate Vitae (On the Shortness of Life, 49 CE)",
+  "story": "Seneca addressed this philosophical treatise to his father-in-law Paulinus, a high Roman official consumed by bureaucratic duties. Seneca observed that humans constantly complain about the fleeting nature of life, yet squander their hours on vanity, trivial social obligations, and building fortunes they never enjoy. Life is long enough if you know how to invest it; we only find it short because we treat our time as if it were infinite and expendable.",
+  "reflectionPrompt": "If you looked honestly at how you spent your last 48 hours, how much of that precious, non-renewable time was wasted on things that hold zero lasting value?"
 }

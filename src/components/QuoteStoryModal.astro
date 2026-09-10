@@ -1,0 +1,423 @@
+---
+/**
+ * QuoteStoryModal — Deep Context & Storytelling Modal.
+ *
+ * Unveils the historical crucible, real-life struggle, and philosophical background
+ * that gave birth to the quote, accompanied by a contemplation reflection prompt.
+ */
+const BASE = '/wisdom';
+---
+
+<!-- Accessible Quote Story & Context Modal -->
+<div
+  id="quote-story-modal"
+  class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="story-modal-title"
+  style="display: none;"
+>
+  <!-- Modal Card -->
+  <div
+    class="story-card relative flex flex-col overflow-hidden text-white my-auto outline-none"
+    style="background-color: #0c0a15;"
+  >
+    <!-- Top Sticky Header -->
+    <header class="story-header relative z-20 shrink-0 flex items-center justify-between select-none shadow-md">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-amber-400/25 via-rose-500/20 to-purple-500/25 border border-amber-300/40 flex items-center justify-center text-amber-300 text-xs sm:text-sm font-serif font-bold shrink-0 shadow-sm select-none">
+          ✦
+        </div>
+        <div class="min-w-0">
+          <span class="text-[10px] sm:text-[11px] uppercase font-mono tracking-[0.2em] text-amber-400/90 font-semibold block truncate">
+            Historical Context & Origin
+          </span>
+          <h2 id="story-modal-title" class="text-sm sm:text-base md:text-lg font-serif font-bold text-white tracking-wide truncate">
+            The Story Behind the Words
+          </h2>
+        </div>
+      </div>
+
+      <button
+        id="quote-story-close"
+        type="button"
+        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-amber-400/20 border border-white/10 hover:border-amber-300/40 text-white/70 hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer group active:scale-95 shadow-sm shrink-0"
+        aria-label="Close story modal (Esc)"
+        title="Close (Esc)"
+      >
+        <svg class="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Scrollable Body with Clean Breathing Room -->
+    <div class="story-body flex-1 overflow-y-auto story-modal-scroll space-y-5 sm:space-y-6 outline-none">
+      <!-- Quote Excerpt Card -->
+      <div class="story-quote-card shadow-lg relative overflow-hidden space-y-2.5">
+        <div class="text-2xl sm:text-3xl text-amber-400/50 font-serif leading-none select-none">“</div>
+        <p id="story-quote-content" class="text-base sm:text-lg md:text-xl font-serif italic text-white/95 leading-relaxed tracking-wide">
+          Quote loading...
+        </p>
+        <div class="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
+          <span id="story-quote-author" class="font-semibold text-amber-300 font-sans tracking-wide">
+            — Author Name
+          </span>
+          <span id="story-quote-source" class="font-serif italic text-white/60"></span>
+        </div>
+      </div>
+
+      <!-- Narrative Section: The Crucible -->
+      <section class="space-y-2.5 pt-0.5">
+        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-mono uppercase tracking-[0.16em] text-amber-300 font-semibold">
+          <span class="text-amber-400">📜</span>
+          <span>The Historical Crucible & Insight</span>
+        </div>
+        <div
+          id="story-narrative-text"
+          class="story-narrative-card font-sans shadow-sm"
+        >
+          Story narrative loading...
+        </div>
+      </section>
+
+      <!-- Contemplation Prompt Box -->
+      <div id="story-prompt-box" class="story-prompt-card shadow-md space-y-2">
+        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-mono uppercase tracking-wider text-amber-300 font-semibold">
+          <span>💡</span>
+          <span>Daily Contemplation Prompt</span>
+        </div>
+        <p id="story-prompt-text" class="text-sm sm:text-base text-white/95 leading-relaxed italic font-serif tracking-wide">
+          Contemplation prompt loading...
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-4 pb-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 border-t border-white/10 text-xs sm:text-sm">
+        <button
+          id="story-open-author-btn"
+          type="button"
+          class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium transition-all active:scale-95 cursor-pointer shadow-sm text-center"
+        >
+          <span>✍️</span>
+          <span>Explore Author Dossier</span>
+        </button>
+
+        <button
+          id="story-open-share-btn"
+          type="button"
+          class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/30 text-amber-200 font-medium transition-all active:scale-95 cursor-pointer shadow-sm text-center"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <polyline points="16 6 12 2 8 6" />
+            <line x1="12" y1="2" x2="12" y2="15" />
+          </svg>
+          <span>Share Quote Card</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #quote-story-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 9999 !important;
+    padding: 1.25rem 1rem !important;
+    background-color: rgba(4, 3, 10, 0.94) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+  }
+  @media (min-width: 640px) {
+    #quote-story-modal {
+      padding: 2rem 1.5rem !important;
+    }
+  }
+
+  .story-card {
+    background-color: #0c0a15 !important;
+    border: 1px solid rgba(251, 191, 36, 0.3) !important;
+    box-shadow: 0 25px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(251, 191, 36, 0.08) !important;
+    width: 100% !important;
+    max-width: 44rem !important;
+    max-height: 86dvh !important;
+    border-radius: 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-card {
+      border-radius: 1.5rem !important;
+      max-height: 82dvh !important;
+    }
+  }
+
+  .story-header {
+    background-color: #120d24 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 1rem 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-header {
+      padding: 1.25rem 1.75rem !important;
+    }
+  }
+
+  .story-body {
+    padding: 1.25rem 1.25rem 2rem 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-body {
+      padding: 1.75rem 2rem 2.5rem 2rem !important;
+    }
+  }
+
+  .story-quote-card {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.09), rgba(255, 255, 255, 0.03)) !important;
+    border: 1px solid rgba(251, 191, 36, 0.25) !important;
+    border-radius: 1rem !important;
+    padding: 1.25rem 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-quote-card {
+      border-radius: 1.25rem !important;
+      padding: 1.5rem !important;
+    }
+  }
+
+  .story-narrative-card {
+    background-color: rgba(255, 255, 255, 0.035) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 1rem !important;
+    padding: 1.25rem 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-narrative-card {
+      border-radius: 1.25rem !important;
+      padding: 1.5rem !important;
+    }
+  }
+
+  :global(#story-narrative-text p) {
+    margin-bottom: 0.85rem !important;
+    line-height: 1.8 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  :global(#story-narrative-text p:last-child) {
+    margin-bottom: 0 !important;
+  }
+
+  .story-prompt-card {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(244, 63, 94, 0.09), rgba(88, 28, 135, 0.18)) !important;
+    border: 1px solid rgba(251, 191, 36, 0.3) !important;
+    border-radius: 1rem !important;
+    padding: 1.25rem 1.25rem !important;
+  }
+  @media (min-width: 640px) {
+    .story-prompt-card {
+      border-radius: 1.25rem !important;
+      padding: 1.5rem !important;
+    }
+  }
+
+  #quote-story-modal,
+  #quote-story-modal * {
+    outline: none !important;
+  }
+
+  .story-modal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(251, 191, 36, 0.3) transparent;
+  }
+  .story-modal-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .story-modal-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .story-modal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(251, 191, 36, 0.3);
+    border-radius: 9999px;
+  }
+</style>
+
+<script is:inline>
+  let activeStoryAuthorSlug = '';
+  let activeStoryQuoteId = '';
+
+  function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  window.openQuoteStoryModal = function(data) {
+    const modal = document.getElementById('quote-story-modal');
+    if (!modal) return;
+
+    let { content, author, authorSlug, sourceWork, story, reflectionPrompt, id } = data || {};
+
+    // If story is missing from passed data, fallback to active slide attributes
+    if (!story && !sourceWork) {
+      const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+      if (activeSlide) {
+        id = id || activeSlide.dataset.quoteId;
+        content = content || activeSlide.dataset.content || activeSlide.querySelector('.quote-text')?.textContent?.trim();
+        author = author || activeSlide.dataset.author;
+        authorSlug = authorSlug || activeSlide.dataset.authorSlug;
+        sourceWork = sourceWork || activeSlide.dataset.sourceWork;
+        story = story || activeSlide.dataset.story;
+        reflectionPrompt = reflectionPrompt || activeSlide.dataset.reflectionPrompt;
+      }
+    }
+
+    activeStoryAuthorSlug = authorSlug || '';
+    activeStoryQuoteId = id || '';
+
+    // Populate Quote Excerpt
+    const quoteEl = document.getElementById('story-quote-content');
+    if (quoteEl) quoteEl.textContent = content || '';
+
+    const authorEl = document.getElementById('story-quote-author');
+    if (authorEl) authorEl.textContent = `— ${author || 'Timeless Thinker'}`;
+
+    const sourceEl = document.getElementById('story-quote-source');
+    if (sourceEl) {
+      if (sourceWork) {
+        sourceEl.textContent = `From ${sourceWork}`;
+        sourceEl.style.display = '';
+      } else {
+        sourceEl.style.display = 'none';
+      }
+    }
+
+    // Populate Narrative with clean paragraph separation
+    const narrativeEl = document.getElementById('story-narrative-text');
+    if (narrativeEl) {
+      if (story) {
+        let paragraphs = story.split(/\n\s*\n/).filter(Boolean);
+        if (paragraphs.length === 1 && story.length > 220) {
+          // Break into 2 paragraphs at the midpoint sentence boundary for readability
+          const sentences = story.match(/[^.!?]+[.!?]+(\s+|$)/g) || [story];
+          if (sentences.length >= 3) {
+            const mid = Math.ceil(sentences.length / 2);
+            const p1 = sentences.slice(0, mid).join('').trim();
+            const p2 = sentences.slice(mid).join('').trim();
+            paragraphs = [p1, p2];
+          }
+        }
+        narrativeEl.innerHTML = paragraphs
+          .map(p => `<p class="leading-[1.8] sm:leading-[1.85] text-white/90">${escapeHtml(p)}</p>`)
+          .join('');
+      } else {
+        narrativeEl.innerHTML = `<p class="italic text-white/50 leading-[1.8]">This reflection has been preserved across generations as part of ${escapeHtml(author || 'the author')}'s timeless legacy. Reflect on its application in your daily experience.</p>`;
+      }
+    }
+
+    // Populate Contemplation Prompt
+    const promptBox = document.getElementById('story-prompt-box');
+    const promptEl = document.getElementById('story-prompt-text');
+    if (promptBox && promptEl) {
+      if (reflectionPrompt) {
+        promptEl.textContent = reflectionPrompt;
+        promptBox.style.display = '';
+      } else {
+        promptEl.textContent = `How can you integrate the essence of this wisdom into one specific decision or encounter today?`;
+        promptBox.style.display = '';
+      }
+    }
+
+    // Open Modal with smooth animation
+    modal.style.display = 'flex';
+    requestAnimationFrame(() => {
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+    });
+  };
+
+
+  function closeStoryModal() {
+    const modal = document.getElementById('quote-story-modal');
+    if (!modal) return;
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300);
+  }
+
+  function setupStoryModalEvents() {
+    const modal = document.getElementById('quote-story-modal');
+    const closeBtn = document.getElementById('quote-story-close');
+    const authorBtn = document.getElementById('story-open-author-btn');
+    const shareBtn = document.getElementById('story-open-share-btn');
+
+    if (closeBtn) closeBtn.onclick = closeStoryModal;
+
+    if (modal) {
+      modal.onclick = (e) => {
+        if (e.target === modal) closeStoryModal();
+      };
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeStoryModal();
+    });
+
+    if (authorBtn) {
+      authorBtn.onclick = () => {
+        closeStoryModal();
+        if (window.openAuthorDossierModal && activeStoryAuthorSlug) {
+          setTimeout(() => {
+            window.openAuthorDossierModal(activeStoryAuthorSlug);
+          }, 150);
+        }
+      };
+    }
+
+    if (shareBtn) {
+      shareBtn.onclick = () => {
+        closeStoryModal();
+        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+        const shareModal = document.getElementById('share-modal');
+        if (shareModal) {
+          setTimeout(() => {
+            shareModal.classList.remove('hidden');
+            shareModal.style.display = 'flex';
+            if (window.updateShareContext && activeSlide) {
+              window.updateShareContext(activeSlide, true);
+            }
+          }, 150);
+        }
+      };
+    }
+
+    // Attach click listeners to all on-slide story pill buttons
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.story-pill-btn');
+      if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const slide = btn.closest('.reel-slide');
+        if (slide) {
+          window.openQuoteStoryModal({
+            id: slide.dataset.quoteId,
+            content: slide.dataset.content || slide.querySelector('.quote-text')?.textContent?.trim(),
+            author: slide.dataset.author,
+            authorSlug: slide.dataset.authorSlug,
+            sourceWork: slide.dataset.sourceWork,
+            story: slide.dataset.story,
+            reflectionPrompt: slide.dataset.reflectionPrompt,
+          });
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupStoryModalEvents);
+  } else {
+    setupStoryModalEvents();
+  }
+  document.addEventListener('astro:page-load', setupStoryModalEvents);
+</script>

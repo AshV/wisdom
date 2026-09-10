@@ -341,7 +341,7 @@ When adding a new batch of 100 quotes for an author:
 - Avoid duplicating any quotes already present in `src/data/quotes/`.
 
 ### 3. Ensure Schema Compliance
-Each quote file (`qXXXX.json`) must strictly match:
+Each quote file (`qXXXX.json`) must strictly match the collection schema, with optional rich narrative fields:
 ```json
 {
   "id": "q1001",
@@ -353,9 +353,17 @@ Each quote file (`qXXXX.json`) must strictly match:
   "mood": "reflective",
   "tags": ["control", "acceptance", "stoicism", "resilience"],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Discourses, Book I, Chapter 1",
+  "story": "Epictetus, born into slavery in Hierapolis and later crippled by a violent master...",
+  "reflectionPrompt": "What external event are you stressing over today that is completely outside your power to alter?"
 }
 ```
+
+Optional Rich Story Fields:
+- `sourceWork` (string): Exact primary work (e.g. *Meditations*, *Maximes*, *The Masnavi*).
+- `story` (string): The Historical Crucible & Insight — real life crisis, exile, camp, or philosophical breakthrough that birthed the quote.
+- `reflectionPrompt` (string): Daily contemplation question prompting introspective journaling.
 
 Allowed `mood` values:
 - `reflective`, `motivational`, `serene`, `bold`, `melancholic`, `joyful`, `philosophical`, `romantic`

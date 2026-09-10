@@ -14,6 +14,7 @@ import RightActionRail from './RightActionRail.astro';
 import ExploreDrawer from './ExploreDrawer.astro';
 import ShareModal from './ShareModal.astro';
 import AuthorDossierModal from './AuthorDossierModal.astro';
+import QuoteStoryModal from './QuoteStoryModal.astro';
 import { moodMeta } from '../data/mediaRegistry';
 
 interface QuoteData {
@@ -25,6 +26,9 @@ interface QuoteData {
   categorySlug: string;
   mood: 'reflective' | 'motivational' | 'serene' | 'bold' | 'melancholic' | 'joyful' | 'philosophical' | 'romantic';
   tags: string[];
+  sourceWork?: string;
+  story?: string;
+  reflectionPrompt?: string;
 }
 
 interface Props {
@@ -119,6 +123,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       index={i}
       isStreamContinuation={Boolean(effectiveMatchedCount && i === effectiveMatchedCount)}
       isTopicMatch={Boolean(effectiveMatchedCount ? i < effectiveMatchedCount : true)}
+      sourceWork={q.sourceWork}
+      story={q.story}
+      reflectionPrompt={q.reflectionPrompt}
     />
   ))}
 
@@ -228,6 +235,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 <!-- Author Dossier Modal -->
 <AuthorDossierModal />
 
+<!-- Quote Story & Context Modal -->
+<QuoteStoryModal />
+
 <script is:inline>
   function setupReelFeed() {
     const container = document.getElementById('reel-container');
@@ -326,6 +336,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       clone.dataset.tags = JSON.stringify(quote.tags || []);
       clone.dataset.audioSrc = media.audio;
       clone.dataset.topicMatch = 'true';
+      clone.dataset.sourceWork = quote.sourceWork || '';
+      clone.dataset.story = quote.story || '';
+      clone.dataset.reflectionPrompt = quote.reflectionPrompt || '';
 
       const srMeta = clone.querySelector('.sr-only');
       if (srMeta) {
@@ -359,13 +372,51 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         quoteP.style.cssText = `${quoteSizeStyle} font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;`;
       }
 
-      // Author attribution
+      // Author attribution & Source Work citation
       const authorLink = clone.querySelector('a[href*="/author/"]');
       if (authorLink) {
         authorLink.href = `${base}/author/${quote.authorSlug}/`;
         authorLink.title = `More quotes by ${quote.author}`;
         const authorSpan = authorLink.querySelector('.author-name-text') || authorLink;
         authorSpan.textContent = quote.author;
+
+        let citationSpan = authorLink.querySelector('.source-work-citation');
+        if (quote.sourceWork) {
+          if (!citationSpan) {
+            citationSpan = document.createElement('span');
+            citationSpan.className = 'source-work-citation text-white/45 text-sm sm:text-base not-italic font-sans font-light tracking-normal';
+            authorLink.appendChild(citationSpan);
+          }
+          citationSpan.innerHTML = `, <em class="italic text-white/65">${escapeHtml(quote.sourceWork)}</em>`;
+        } else if (citationSpan) {
+          citationSpan.remove();
+        }
+      }
+
+      // Story Pill Button
+      let storyBtn = clone.querySelector('.story-pill-btn');
+      if (quote.story) {
+        if (!storyBtn) {
+          const authorCol = authorLink ? authorLink.closest('.select-none.flex.flex-col') : null;
+          if (authorCol) {
+            storyBtn = document.createElement('button');
+            storyBtn.type = 'button';
+            storyBtn.className = 'story-pill-btn pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 hover:border-amber-400/40 text-xs sm:text-[13px] text-amber-200/90 hover:text-amber-100 font-sans tracking-wide transition-all duration-200 active:scale-95 shadow-md group cursor-pointer backdrop-blur-md';
+            storyBtn.innerHTML = `
+              <span class="text-amber-300 text-xs group-hover:scale-110 transition-transform">✦</span>
+              <span class="font-medium">The Story Behind the Words</span>
+              <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            `;
+            authorCol.appendChild(storyBtn);
+          }
+        }
+        if (storyBtn) {
+          storyBtn.dataset.quoteId = quote.id;
+        }
+      } else if (storyBtn) {
+        storyBtn.remove();
       }
 
       // Category pill

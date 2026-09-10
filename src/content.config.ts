@@ -23,6 +23,9 @@ const quotes = defineCollection({
     tags: z.array(z.string()),
     theme: z.enum(['dark', 'light']).default('dark'),
     duration: z.number().default(8),
+    sourceWork: z.string().optional(),
+    story: z.string().optional(),
+    reflectionPrompt: z.string().optional(),
   }),
 });
 

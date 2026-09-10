@@ -13,5 +13,8 @@
     "human-nature"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Maximes et Réflexions Morales (1665), Maxim 3",
+  "story": "In seventeenth-century Europe, the age of global oceanic exploration was mapping new continents, yet La Rochefoucauld recognized that the human psyche remained far more mysterious than the Americas. Despite centuries of moral philosophy, the subterranean labyrinths of subconscious vanity, defensiveness, and self-justification remain largely unexplored by the very people they govern.",
+  "reflectionPrompt": "What part of your own motives or hidden desires remains 'uncharted territory' that you have been reluctant to examine?"
 }

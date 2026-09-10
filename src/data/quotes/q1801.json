@@ -13,5 +13,8 @@
     "psychology"
   ],
   "theme": "dark",
-  "duration": 10
+  "duration": 10,
+  "sourceWork": "The Principles of Psychology (1890), Chapter IV: Habit",
+  "story": "In the 1870s, young William James fell into a suicidal depression, crippled by mechanistic determinism—the conviction that biological physics rendered human volition an illusion. He broke through his paralysis by deciding: 'My first act of free will shall be to believe in free will.' Two decades later at Harvard, uniting physiology and philosophy, he wrote the seminal chapter on Habit, proving that repeated choices carve literal neural pathways in biological tissue. We are continually building the physiological cage that will govern our future.",
+  "reflectionPrompt": "What minor habit are you practicing daily that is quietly etching the neurological blueprint of who you will be five years from now?"
 }

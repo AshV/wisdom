@@ -12,5 +12,8 @@
     "growth"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "The Psychopathology of Everyday Life / Clinical Letters",
+  "story": "Pioneering psychoanalysis at Berggasse 19 in Vienna, Sigmund Freud noticed that his patients spent immense energy attempting to conceal their neuroses, fears, and perceived defects. In clinical breakthrough after breakthrough, Freud showed that attempting to bury vulnerability only breeds pathology; acknowledging and integrating one's deepest wounds is the single royal road to psychological resilience.",
+  "reflectionPrompt": "What vulnerability or past struggle do you often try to hide from others, and how has navigating it actually strengthened your character?"
 }

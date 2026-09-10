@@ -12,5 +12,8 @@
     "stoicism"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "Meditations, Book X, 16",
+  "story": "Rome was crowded with philosophical factions—Stoics, Epicureans, Cynics, and Academics—endlessly debating moral definitions and dialectical theories while society fractured under crisis. Marcus, carrying the immense weight of the empire on his shoulders, ran out of patience for academic theater. In his private journal, he gave himself this stern command: stop theorizing about virtue and enact it through immediate courage, honesty, and justice.",
+  "reflectionPrompt": "Where in your work or relationships are you overthinking the 'ideal approach' instead of taking the simple, honorable action right in front of you?"
 }

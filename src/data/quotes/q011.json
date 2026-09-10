@@ -12,5 +12,8 @@
     "acceptance"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "The Hours / Personal Diaries (1920s)",
+  "story": "Throughout her adult life, Virginia Woolf navigated devastating bouts of bipolar depression alongside prolific creative production. During a period of convalescence in quiet suburban Richmond, her husband Leonard sought to shield her from the stimulating chaos of London. Yet Woolf recognized that retreating entirely from the frictions, dangers, and vivid encounters of the world did not bring true peace—it brought emotional suffocation. Real peace must be claimed in the active arena of life, not in withdrawal.",
+  "reflectionPrompt": "What uncomfortable conversation, challenge, or opportunity are you avoiding under the guise of 'protecting your peace'?"
 }

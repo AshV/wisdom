@@ -12,5 +12,8 @@
     "flow"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "Tao Te Ching (Dao De Jing)",
+  "story": "Rooted in the foundational Taoist principle of 'Wu Wei' (natural, effortless action), Lao Tzu contemplated the effortless rhythms of forests, rivers, and seasons. An oak tree does not strain to grow; winter does not battle spring to hasten blossoms. By aligning with nature's timing rather than forcing outcomes through anxiety and control, life achieves harmony with far greater stamina.",
+  "reflectionPrompt": "Where are you creating unnecessary anxiety by trying to force an outcome before its natural time, and what would happen if you relaxed into steady patience?"
 }

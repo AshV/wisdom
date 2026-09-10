@@ -13,5 +13,8 @@
     "harmony"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Plato's Gorgias",
+  "story": "Walking barefoot through the bustling marketplace of democratic Athens, Socrates relentlessly probed statesmen, sophists, and artisans, exposing unexamined hypocrisy. In 399 BC, facing trumped-up charges of impiety and corrupting youth, he calmly drank hemlock rather than recant his mission, asserting that the unexamined life is unlivable for a thinking human.\n\nThis insight points directly back to the quiet center of being. Socrates observed that while the mind perpetually scatters itself into past regrets and future anxieties, peace is only ever discovered by anchoring attention in the immediate truth of this moment.",
+  "reflectionPrompt": "What quiet yearning in your heart is asking for your attention and honest devotion?"
 }

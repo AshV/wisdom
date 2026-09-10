@@ -13,5 +13,8 @@
     "truth"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Discourses of Epictetus, Book II",
+  "story": "Born into slavery in Hierapolis and physically crippled by a brutal master in imperial Rome, Epictetus acquired his freedom after Nero's death and founded a renowned philosophical academy in Nicopolis. Having experienced genuine subjugation, he founded his philosophy on the inviolable inner freedom of the human will: chains may bind the body, but no tyrant can conquer the faculty of choice.\n\nThis insight points directly back to the quiet center of being. Epictetus observed that while the mind perpetually scatters itself into past regrets and future anxieties, peace is only ever discovered by anchoring attention in the immediate truth of this moment.",
+  "reflectionPrompt": "How can you create a moment of stillness today to reconnect with your deeper sense of purpose?"
 }

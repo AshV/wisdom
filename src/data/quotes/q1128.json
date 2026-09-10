@@ -13,5 +13,8 @@
     "peace"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Tao Te Ching, Book of Virtue",
+  "story": "Serving as royal archivist during the moral disintegration of the Eastern Zhou Dynasty, Lao Tzu grew disillusioned with political intrigue and artificial societal rituals. Legend tells that before vanishing into the western wilderness atop a water buffalo, the border guard Yinxi persuaded him to record the timeless paradoxes of nature, effortless action (Wu Wei), and yielding strength.\n\nIn formulating this reflection, Lao Tzu stripped away superficial conventions to address the core anatomy of grounded. For Lao Tzu, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

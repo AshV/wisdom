@@ -13,5 +13,8 @@
     "balance"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "De Tranquillitate Animi (On Tranquility of Mind)",
+  "story": "Having survived eight years of political exile on the barren island of Corsica and the volatile, lethal court of Emperor Nero, Seneca understood the fragility of fortune and the necessity of philosophical armor. Writing to his companion Lucilius, he urged immediate, courageous living over anxious anticipation of future disasters.\n\nIn formulating this reflection, Seneca stripped away superficial conventions to address the core anatomy of moderation. For Seneca, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "What would change in your daily outlook if you truly lived by this perspective?"
 }

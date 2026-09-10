@@ -13,5 +13,8 @@
     "meaning"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Nicomachean Ethics",
+  "story": "Studying for two decades in Plato's Academy before tutoring Alexander the Great and founding the Lyceum in Athens, Aristotle systematically mapped human knowledge. Observing nature and human societies, he concluded that human happiness (Eudaimonia) is not a passive state or fleeting pleasure, but an active, lifelong practice of excellence and virtue balanced along the golden mean.\n\nIn formulating this reflection, Aristotle stripped away superficial conventions to address the core anatomy of happiness. For Aristotle, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "In what area of your life are you overthinking the ideal approach instead of taking the simple, honorable action?"
 }

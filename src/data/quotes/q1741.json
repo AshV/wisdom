@@ -13,5 +13,8 @@
     "encounter"
   ],
   "theme": "dark",
-  "duration": 9
+  "duration": 9,
+  "sourceWork": "Yes to Life: In Spite of Everything (1946)",
+  "story": "Between 1942 and 1945, Viennese neurologist and psychiatrist Viktor Frankl survived the unspeakable horrors of Theresienstadt, Auschwitz, Kaufering, and Türkheim, losing his pregnant wife, parents, and brother. Amidst ultimate dehumanization, Frankl discovered the final human freedom: the ability to choose one's attitude in any given circumstance and to find unconditional meaning through purpose, love, and courage.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Viktor Frankl understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "How can acknowledging your vulnerability help you build deeper self-trust and inner peace?"
 }

@@ -13,5 +13,8 @@
     "purpose"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Xenophon's Memorabilia",
+  "story": "Walking barefoot through the bustling marketplace of democratic Athens, Socrates relentlessly probed statesmen, sophists, and artisans, exposing unexamined hypocrisy. In 399 BC, facing trumped-up charges of impiety and corrupting youth, he calmly drank hemlock rather than recant his mission, asserting that the unexamined life is unlivable for a thinking human.\n\nIn formulating this reflection, Socrates stripped away superficial conventions to address the core anatomy of soul. For Socrates, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "In what area of your life are you overthinking the ideal approach instead of taking the simple, honorable action?"
 }

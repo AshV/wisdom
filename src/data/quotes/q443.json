@@ -13,5 +13,8 @@
     "goodness"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "Anne Frank's Essays & Philosophical Writings",
+  "story": "Preserved as part of Anne Frank's enduring intellectual legacy, this reflection addresses the fundamental nature of hope and courage. Across his life and work, Anne Frank returned repeatedly to the conviction that personal integrity, honest observation, and clarity of purpose are the foundational pillars of a life well-lived.\n\nContemplating this truth invites us to step back from the frantic rush of daily demands. By examining our assumptions with fresh eyes, we discover the inner grounding necessary to act with wisdom and quiet conviction.",
+  "reflectionPrompt": "What bold or necessary step have you been putting off out of fear of judgment or failure?"
 }

@@ -13,5 +13,8 @@
     "hope"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Notes from Underground (1864)",
+  "story": "Standing before a firing squad in Semyonov Square in 1849 before a last-second reprieve commuted his sentence to four years of hard labor in Siberia, Dostoevsky stared directly into death. Enduring epilepsy, grief, and grinding poverty, he descended into the darkest labyrinths of the human soul, discovering that redemption and faith are only forged through deep suffering.\n\nIn formulating this reflection, Fyodor Dostoevsky stripped away superficial conventions to address the core anatomy of beauty. For Fyodor Dostoevsky, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "How does adopting this philosophical view alter the way you handle current friction?"
 }

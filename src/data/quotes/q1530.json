@@ -13,5 +13,8 @@
     "honor"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Xenophon's Memorabilia",
+  "story": "Walking barefoot through the bustling marketplace of democratic Athens, Socrates relentlessly probed statesmen, sophists, and artisans, exposing unexamined hypocrisy. In 399 BC, facing trumped-up charges of impiety and corrupting youth, he calmly drank hemlock rather than recant his mission, asserting that the unexamined life is unlivable for a thinking human.\n\nConfronting the trials of his era, Socrates recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

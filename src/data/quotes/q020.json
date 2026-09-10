@@ -12,5 +12,8 @@
     "perspective"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Out of My Later Years (1950)",
+  "story": "Working as a third-class clerk in the Swiss patent office in Bern, isolated from the academic establishment, Einstein conducted revolutionary 'thought experiments' that upended centuries of Newtonian physics. Fleeing Nazi Germany in the 1930s to settle in Princeton, he consistently urged humanity to cultivate cosmic humility, moral conscience, and wonder above dogmatic certainty.\n\nConfronting the trials of his era, Albert Einstein recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "What would happen if you met today's stress with steady acceptance rather than resistance?"
 }

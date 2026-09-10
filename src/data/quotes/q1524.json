@@ -13,5 +13,8 @@
     "living"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Plato's Gorgias",
+  "story": "Walking barefoot through the bustling marketplace of democratic Athens, Socrates relentlessly probed statesmen, sophists, and artisans, exposing unexamined hypocrisy. In 399 BC, facing trumped-up charges of impiety and corrupting youth, he calmly drank hemlock rather than recant his mission, asserting that the unexamined life is unlivable for a thinking human.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Socrates understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

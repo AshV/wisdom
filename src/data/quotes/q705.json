@@ -13,5 +13,8 @@
     "solitude"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Meditations, Book VII",
+  "story": "Written in military campaign tents along the freezing Danube River during the Marcomannic Wars (170–180 CE), Marcus wrestled with the Antonine Plague, the betrayal of General Avidius Cassius, and the crushing responsibilities of the Roman Empire. In his private journal, he strictly commanded himself to master his judgments, embrace cosmic duty, and remain uncorrupted by imperial power.\n\nThis insight points directly back to the quiet center of being. Marcus Aurelius observed that while the mind perpetually scatters itself into past regrets and future anxieties, peace is only ever discovered by anchoring attention in the immediate truth of this moment.",
+  "reflectionPrompt": "What quiet yearning in your heart is asking for your attention and honest devotion?"
 }

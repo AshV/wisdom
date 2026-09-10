@@ -13,5 +13,8 @@
     "power"
   ],
   "theme": "dark",
-  "duration": 7
+  "duration": 7,
+  "sourceWork": "Tao Te Ching (Dao De Jing), Book of the Way",
+  "story": "Serving as royal archivist during the moral disintegration of the Eastern Zhou Dynasty, Lao Tzu grew disillusioned with political intrigue and artificial societal rituals. Legend tells that before vanishing into the western wilderness atop a water buffalo, the border guard Yinxi persuaded him to record the timeless paradoxes of nature, effortless action (Wu Wei), and yielding strength.\n\nIn formulating this reflection, Lao Tzu stripped away superficial conventions to address the core anatomy of self mastery. For Lao Tzu, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "How can you integrate the essence of this wisdom into one specific decision or encounter today?"
 }

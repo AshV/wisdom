@@ -13,5 +13,8 @@
     "existentialism"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Jean-Paul Sartre's Essays & Philosophical Writings",
+  "story": "Preserved as part of Jean-Paul Sartre's enduring intellectual legacy, this reflection addresses the fundamental nature of freedom and philosophy. Across his life and work, Jean-Paul Sartre returned repeatedly to the conviction that personal integrity, honest observation, and clarity of purpose are the foundational pillars of a life well-lived.\n\nContemplating this truth invites us to step back from the frantic rush of daily demands. By examining our assumptions with fresh eyes, we discover the inner grounding necessary to act with wisdom and quiet conviction.",
+  "reflectionPrompt": "In what area of your life are you overthinking the ideal approach instead of taking the simple, honorable action?"
 }

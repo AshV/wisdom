@@ -13,5 +13,8 @@
     "growth"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Tao of Jeet Kune Do (1975)",
+  "story": "Overcoming racial prejudice in Hollywood, a catastrophic back injury in 1970 that doctors said would leave him unable to walk, and rigid martial arts dogmas, Bruce Lee formulated Jeet Kune Do. Blending Taoist philosophy with physical mastery, he taught that true martial artistry is honest self-expression and adapting like water to whatever vessel life provides.\n\nConfronting the trials of his era, Bruce Lee recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "What bold or necessary step have you been putting off out of fear of judgment or failure?"
 }

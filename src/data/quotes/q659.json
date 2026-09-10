@@ -13,5 +13,8 @@
     "triumph"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "The Republic",
+  "story": "Deeply traumatized by the Athenian democracy's unjust execution of his beloved teacher Socrates, Plato abandoned political ambitions to establish the Academy, the Western world's first institution of higher learning. Through immortal dramatic dialogues, he pointed humanity beyond the shadows of subjective opinion toward transcendent objective truth, justice, and beauty.\n\nConfronting the trials of his era, Plato recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

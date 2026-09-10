@@ -13,5 +13,8 @@
     "vision"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "The Gay Science",
+  "story": "Living in austere solitude across Alpine villages like Sils Maria and battling near-blindness and debilitating migraines, Nietzsche renounced conventional academia to diagnose the spiritual crisis of modern Europe. In heroic defiance of nihilism, he championed the affirmation of all existence—including pain—through the doctrine of Amor Fati (love of fate).\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Friedrich Nietzsche understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

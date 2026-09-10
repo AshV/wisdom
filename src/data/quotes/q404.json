@@ -13,5 +13,8 @@
     "will"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Maxims and Reflections",
+  "story": "From the court of Weimar through the storm of the French Revolution, Goethe lived as poet, scientist, and statesman, embodying universal curiosity. Across sixty years refining Faust, he explored the tension between restless ambition and spiritual peace, insisting that humanity's salvation lies in unceasing striving and reverence for nature's organic wholeness.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Johann Wolfgang von Goethe understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

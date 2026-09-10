@@ -13,5 +13,8 @@
     "mindfulness"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Thich Nhat Hanh's Essays & Philosophical Writings",
+  "story": "Preserved as part of Thich Nhat Hanh's enduring intellectual legacy, this reflection addresses the fundamental nature of now and mindfulness. Across his life and work, Thich Nhat Hanh returned repeatedly to the conviction that personal integrity, honest observation, and clarity of purpose are the foundational pillars of a life well-lived.\n\nContemplating this truth invites us to step back from the frantic rush of daily demands. By examining our assumptions with fresh eyes, we discover the inner grounding necessary to act with wisdom and quiet conviction.",
+  "reflectionPrompt": "Take a conscious breath right now: how much of your current stress exists only in your anticipation of tomorrow?"
 }

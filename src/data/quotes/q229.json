@@ -13,5 +13,8 @@
     "solitude"
   ],
   "theme": "dark",
-  "duration": 11
+  "duration": 11,
+  "sourceWork": "John Muir's Essays & Philosophical Writings",
+  "story": "Preserved as part of John Muir's enduring intellectual legacy, this reflection addresses the fundamental nature of renewal and nature. Across his life and work, John Muir returned repeatedly to the conviction that personal integrity, honest observation, and clarity of purpose are the foundational pillars of a life well-lived.\n\nContemplating this truth invites us to step back from the frantic rush of daily demands. By examining our assumptions with fresh eyes, we discover the inner grounding necessary to act with wisdom and quiet conviction.",
+  "reflectionPrompt": "How can aligning with nature's patient, unhurried timing bring calm to your current situation?"
 }

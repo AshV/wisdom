@@ -13,5 +13,8 @@
     "growth"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Anna Karenina",
+  "story": "Despite global literary fame and vast aristocratic estates at Yasnaya Polyana, Tolstoy suffered a devastating midlife existential crisis in the 1870s that brought him to the brink of suicide. Renouncing his wealth and copyrights, he adopted peasant garb to live out the radical Sermon on the Mount, pioneering the philosophy of nonviolent resistance that later inspired Gandhi.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Leo Tolstoy understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

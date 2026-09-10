@@ -13,5 +13,8 @@
     "contentment"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Enchiridion (The Manual of Living)",
+  "story": "Born into slavery in Hierapolis and physically crippled by a brutal master in imperial Rome, Epictetus acquired his freedom after Nero's death and founded a renowned philosophical academy in Nicopolis. Having experienced genuine subjugation, he founded his philosophy on the inviolable inner freedom of the human will: chains may bind the body, but no tyrant can conquer the faculty of choice.\n\nIn formulating this reflection, Epictetus stripped away superficial conventions to address the core anatomy of freedom. For Epictetus, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "What would change in your daily outlook if you truly lived by this perspective?"
 }

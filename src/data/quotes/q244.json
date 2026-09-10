@@ -13,5 +13,8 @@
     "awareness"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Sutta Nipata",
+  "story": "Renouncing princely luxury and hereditary power in Kapilavastu, Siddhartha Gautama spent six years wandering northern India, exploring extreme asceticism before discovering the Middle Way. Sitting in profound meditation beneath the Bodhi tree at Bodh Gaya, he conquered the illusions of craving and aversion, unlocking the Four Noble Truths and the path to liberation from suffering (Nirvana).\n\nThis insight points directly back to the quiet center of being. Gautama Buddha observed that while the mind perpetually scatters itself into past regrets and future anxieties, peace is only ever discovered by anchoring attention in the immediate truth of this moment.",
+  "reflectionPrompt": "What would it feel like to release the need to control the outcome of the next hour?"
 }

@@ -13,5 +13,8 @@
     "art"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Rhetoric",
+  "story": "Studying for two decades in Plato's Academy before tutoring Alexander the Great and founding the Lyceum in Athens, Aristotle systematically mapped human knowledge. Observing nature and human societies, he concluded that human happiness (Eudaimonia) is not a passive state or fleeting pleasure, but an active, lifelong practice of excellence and virtue balanced along the golden mean.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. Aristotle understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "What creative idea or authentic voice have you held inside, and what small step can you take to express it?"
 }

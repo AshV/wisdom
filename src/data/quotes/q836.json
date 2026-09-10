@@ -13,5 +13,8 @@
     "storms"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "De Ira (On Anger)",
+  "story": "Having survived eight years of political exile on the barren island of Corsica and the volatile, lethal court of Emperor Nero, Seneca understood the fragility of fortune and the necessity of philosophical armor. Writing to his companion Lucilius, he urged immediate, courageous living over anxious anticipation of future disasters.\n\nConfronting the trials of his era, Seneca recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

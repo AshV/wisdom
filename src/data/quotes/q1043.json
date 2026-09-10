@@ -13,5 +13,8 @@
     "stoicism"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Enchiridion (The Manual of Living)",
+  "story": "Born into slavery in Hierapolis and physically crippled by a brutal master in imperial Rome, Epictetus acquired his freedom after Nero's death and founded a renowned philosophical academy in Nicopolis. Having experienced genuine subjugation, he founded his philosophy on the inviolable inner freedom of the human will: chains may bind the body, but no tyrant can conquer the faculty of choice.\n\nConfronting the trials of his era, Epictetus recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

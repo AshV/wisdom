@@ -13,5 +13,8 @@
     "values"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Nicomachean Ethics",
+  "story": "Studying for two decades in Plato's Academy before tutoring Alexander the Great and founding the Lyceum in Athens, Aristotle systematically mapped human knowledge. Observing nature and human societies, he concluded that human happiness (Eudaimonia) is not a passive state or fleeting pleasure, but an active, lifelong practice of excellence and virtue balanced along the golden mean.\n\nConfronting the trials of his era, Aristotle recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "What would happen if you met today's stress with steady acceptance rather than resistance?"
 }

@@ -13,5 +13,8 @@
     "purpose"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Meditations, Book VII",
+  "story": "Written in military campaign tents along the freezing Danube River during the Marcomannic Wars (170–180 CE), Marcus wrestled with the Antonine Plague, the betrayal of General Avidius Cassius, and the crushing responsibilities of the Roman Empire. In his private journal, he strictly commanded himself to master his judgments, embrace cosmic duty, and remain uncorrupted by imperial power.\n\nIn formulating this reflection, Marcus Aurelius stripped away superficial conventions to address the core anatomy of memento mori. For Marcus Aurelius, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "In what area of your life are you overthinking the ideal approach instead of taking the simple, honorable action?"
 }

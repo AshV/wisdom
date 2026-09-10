@@ -13,5 +13,8 @@
     "vanity"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Moral Maxims and Reflections (Maximes, 1665)",
+  "story": "A high French aristocrat and military officer wounded in the civil wars of the Fronde, La Rochefoucauld retired from treacherous court intrigue into the brilliant Parisian literary salons of Madame de Sablé. Sharpening his observations into ruthless epigrams, he dissected the flattering illusions of human morality, exposing how self-love (amour-propre) and vanity subtly disguise our most celebrated virtues.\n\nThis timeless reminder speaks to the universal struggle to balance inner truth with outer demands. François de La Rochefoucauld understood that the measure of a meaningful life is not external approval, but the quiet integrity with which we meet each day's encounters.",
+  "reflectionPrompt": "How can acknowledging your vulnerability help you build deeper self-trust and inner peace?"
 }

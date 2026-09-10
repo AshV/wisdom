@@ -13,5 +13,8 @@
     "character"
   ],
   "theme": "dark",
-  "duration": 12
+  "duration": 12,
+  "sourceWork": "Booker T. Washington's Essays & Philosophical Writings",
+  "story": "Preserved as part of Booker T. Washington's enduring intellectual legacy, this reflection addresses the fundamental nature of success and resilience. Across his life and work, Booker T. Washington returned repeatedly to the conviction that personal integrity, honest observation, and clarity of purpose are the foundational pillars of a life well-lived.\n\nContemplating this truth invites us to step back from the frantic rush of daily demands. By examining our assumptions with fresh eyes, we discover the inner grounding necessary to act with wisdom and quiet conviction.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

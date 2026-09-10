@@ -13,5 +13,8 @@
     "intelligence"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "The Brothers Karamazov (1880)",
+  "story": "Standing before a firing squad in Semyonov Square in 1849 before a last-second reprieve commuted his sentence to four years of hard labor in Siberia, Dostoevsky stared directly into death. Enduring epilepsy, grief, and grinding poverty, he descended into the darkest labyrinths of the human soul, discovering that redemption and faith are only forged through deep suffering.\n\nIn formulating this reflection, Fyodor Dostoevsky stripped away superficial conventions to address the core anatomy of wisdom. For Fyodor Dostoevsky, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "What long-held assumption about your life or abilities is challenged by this insight?"
 }

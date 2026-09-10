@@ -13,5 +13,8 @@
     "purpose"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "The Rubaiyat of Rumi",
+  "story": "Following the sudden disappearance of his beloved spiritual mentor Shams-i-Tabrizi in 1247, Rumi was plunged into inconsolable grief. Refusing despair, he turned his heartbreak into devotional verse and ecstatic whirling prayer in Konya, discovering that human sorrow breaks open the ego so divine illumination can flood the soul.\n\nConfronting the trials of his era, Rumi recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "When you look back on past hardships, how did navigating them expand your capacity for strength?"
 }

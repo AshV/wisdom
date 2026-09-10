@@ -13,5 +13,8 @@
     "mastery"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "The Art of War (Sunzi Bingfa)",
+  "story": "Serving as general to King Helü of Wu during the brutal Spring and Autumn period, Sun Tzu realized that military slaughter was the mark of failed strategy. His timeless treatise argued that the supreme art of war is to subdue the enemy without fighting, through psychology, discipline, foresight, and adaptability.\n\nIn formulating this reflection, Sun Tzu stripped away superficial conventions to address the core anatomy of strategy. For Sun Tzu, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "How can you integrate the essence of this wisdom into one specific decision or encounter today?"
 }

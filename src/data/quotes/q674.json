@@ -13,5 +13,8 @@
     "beauty"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Phaedo",
+  "story": "Deeply traumatized by the Athenian democracy's unjust execution of his beloved teacher Socrates, Plato abandoned political ambitions to establish the Academy, the Western world's first institution of higher learning. Through immortal dramatic dialogues, he pointed humanity beyond the shadows of subjective opinion toward transcendent objective truth, justice, and beauty.\n\nThis insight points directly back to the quiet center of being. Plato observed that while the mind perpetually scatters itself into past regrets and future anxieties, peace is only ever discovered by anchoring attention in the immediate truth of this moment.",
+  "reflectionPrompt": "What quiet yearning in your heart is asking for your attention and honest devotion?"
 }

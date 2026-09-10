@@ -13,5 +13,8 @@
     "soul"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "The Red Book (Liber Novus)",
+  "story": "Following his bitter break with Sigmund Freud in 1913, Swiss psychiatrist Carl Jung entered a prolonged confrontation with his own unconscious at his lakeside sanctuary in Küsnacht. Recording his visions in the famed Red Book, Jung mapped the universal archetypes, shadow instincts, and the individuation journey required to integrate one's hidden depths into psychological wholeness.\n\nIn formulating this reflection, Carl Jung stripped away superficial conventions to address the core anatomy of patience. For Carl Jung, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "Where in your current routine are you choosing convenient illusion over uncomfortable truth?"
 }

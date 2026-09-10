@@ -13,5 +13,8 @@
     "resilience"
   ],
   "theme": "dark",
-  "duration": 8
+  "duration": 8,
+  "sourceWork": "Meditations, Book IV",
+  "story": "Written in military campaign tents along the freezing Danube River during the Marcomannic Wars (170–180 CE), Marcus wrestled with the Antonine Plague, the betrayal of General Avidius Cassius, and the crushing responsibilities of the Roman Empire. In his private journal, he strictly commanded himself to master his judgments, embrace cosmic duty, and remain uncorrupted by imperial power.\n\nConfronting the trials of his era, Marcus Aurelius recognized that adversity is the ultimate crucible of the human spirit. Rather than seeking an easy path free from friction, he urged seekers to welcome the struggle as the very forge that tempers courage and character.",
+  "reflectionPrompt": "What current difficulty or obstacle are you facing that could become your greatest training ground?"
 }

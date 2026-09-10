@@ -13,5 +13,8 @@
     "character"
   ],
   "theme": "dark",
-  "duration": 6
+  "duration": 6,
+  "sourceWork": "Lectures and Sayings of Musonius Rufus",
+  "story": "Exiled three times from Rome by emperors Nero and Vespasian to the desolate volcanic island of Gyaros, Musonius Rufus was revered as the 'Roman Socrates'. Teaching that philosophy is nothing unless practiced in daily labor and vegetarian simplicity, he mentored Epictetus and demonstrated that true nobility consists in moral character, not aristocratic birth.\n\nIn formulating this reflection, Musonius Rufus stripped away superficial conventions to address the core anatomy of self respect. For Musonius Rufus, true wisdom is never an abstract luxury, but an urgent practical discipline required to navigate life with clarity and unshakeable dignity.",
+  "reflectionPrompt": "In what area of your life are you overthinking the ideal approach instead of taking the simple, honorable action?"
 }

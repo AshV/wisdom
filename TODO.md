@@ -17,8 +17,8 @@
 
 ## 📊 Catalog Milestones & Current Progress
 
-- **Total Quotes in Catalog**: **1,700 quotes** (`q001.json` – `q1700.json`)
-- **Total Static Pages**: **4,600+ pages**
+- **Total Quotes in Catalog**: **2,000 quotes** (`q001.json` – `q2000.json`)
+- **Total Static Pages**: **5,500+ pages**
 - **Authors with 100+ Verified Quotes**:
   - ✅ **Aristotle** (107 quotes) — *Nicomachean Ethics*, *Politics*, *Poetics*, *Metaphysics*, *Rhetoric*
   - ✅ **Socrates** (107 quotes) — *Apology*, *Crito*, *Phaedo*, *Gorgias*, *Theaetetus*, *Memorabilia*
@@ -32,6 +32,9 @@
   - ✅ **Carl Jung** (104 quotes) — *Memories, Dreams, Reflections*, *Archetypes*, *The Red Book*
   - ✅ **Rumi** (115 quotes) — *Masnavi*, *Divan-i Shams-i Tabrizi*, *Fihi Ma Fihi*
   - ✅ **Osho** (100 quotes) — *The Book of Secrets*, *Courage*, *Awareness*
+  - ✅ **Viktor Frankl** (105 quotes) — *Man's Search for Meaning*, *The Doctor and the Soul*, *The Will to Meaning*, *Psychotherapy and Existentialism*
+  - ✅ **William James** (100 quotes) — *The Principles of Psychology*, *The Varieties of Religious Experience*, *Habit*, *The Will to Believe*
+  - ✅ **François de La Rochefoucauld** (100 quotes) — *Moral Maxims and Reflections (Maximes)*, *Réflexions diverses*
 
 ---
 
@@ -147,6 +150,11 @@
     - **Themes**: Interbeing, conscious breathing, walking meditation, transforming suffering into compassion, sacredness of the present moment.
     - **Current Count**: 4 quotes.
 
+21. [ ] **Patanjali** (c. 2nd Century BC – 4th Century AD) — *Classical Yoga Psychology of Mind*
+    - **Sources**: *Yoga Sutras*.
+    - **Themes**: Stillness of mental fluctuations (*chitta vritti nirodha*), five afflictions of the mind (*kleshas*), subconscious habit patterns (*samskaras*), concentration and inner freedom.
+    - **Current Count**: 0 quotes.
+
 ---
 
 ### 🌿 Tier 4: Transcendentalism, Nature & The Solitary Spirit
@@ -173,34 +181,59 @@
 
 ---
 
-### 🌌 Tier 5: Existentialism, Meaning & The Human Condition
+### 🌌 Tier 5: Existentialism, Psychology & The Human Condition
 
-25. [ ] **Viktor Frankl** (1905 – 1997) — *Logotherapy & Meaning*
-    - **Sources**: *Man's Search for Meaning*, *The Doctor and the Soul*, *The Will to Meaning*.
-    - **Themes**: Finding meaning in unavoidable suffering, the last human freedom (choosing one's attitude), responsibility, dignity in extremity.
-    - **Current Count**: 5 quotes.
+25. [x] **Viktor Frankl** (1905 – 1997) — *Logotherapy & Existential Psychology* — **COMPLETED** (105 quotes)
+    - **Sources**: *Man's Search for Meaning*, *The Doctor and the Soul*, *The Will to Meaning*, *Psychotherapy and Existentialism*, *The Unheard Cry for Meaning*.
+    - **Themes**: The will to meaning, the last human freedom (choosing one's attitude), tragic optimism, self-transcendence, humor as self-preservation, responsibility.
+    - **Current Count**: 105 quotes (`q156`–`q160`, `q1701`–`q1800`).
 
-26. [ ] **Arthur Schopenhauer** (1788 – 1860) — *Philosophical Pessimism & Solitude*
+26. [x] **William James** (1842 – 1910) — *Functional Psychology & Pragmatism* — **COMPLETED** (100 quotes)
+    - **Sources**: *The Principles of Psychology*, *The Varieties of Religious Experience*, *Habit*, *The Will to Believe*, *Talks to Teachers on Psychology*.
+    - **Themes**: Plasticity of neural habits, stream of consciousness, voluntary attention as the essence of will, power of chosen attitudes, pragmatic truth.
+    - **Current Count**: 100 quotes (`q1801`–`q1900`).
+
+27. [ ] **Alfred Adler** (1870 – 1937) — *Individual Psychology & Human Motivation*
+    - **Sources**: *Understanding Human Nature*, *What Life Could Mean to You*, *The Practice and Theory of Individual Psychology*.
+    - **Themes**: Inferiority feeling and striving for superiority, social feeling (*Gemeinschaftsgefühl*), courage to be imperfect, goal-directed behavior.
+    - **Current Count**: 0 quotes.
+
+28. [ ] **Abraham Maslow** (1908 – 1970) — *Humanistic Psychology & Self-Actualization*
+    - **Sources**: *Toward a Psychology of Being*, *Motivation and Personality*, *The Farther Reaches of Human Nature*.
+    - **Themes**: Hierarchy of human needs, peak experiences, self-actualization, Being-cognition vs deficiency-cognition, human potential.
+    - **Current Count**: 0 quotes.
+
+29. [x] **François de La Rochefoucauld** (1613 – 1680) — *French Moralism & Behavioral Aphorisms* — **COMPLETED** (100 quotes)
+    - **Sources**: *Moral Maxims and Reflections* (*Maximes*).
+    - **Themes**: Unmasking self-love (*amour-propre*), hidden vanity, pride, jealousy, rationalization, the self-deceptions of social behavior.
+    - **Current Count**: 100 quotes (`q1901`–`q2000`).
+
+30. [ ] **Baruch Spinoza** (1632 – 1677) — *Ethics & The Psychology of Emotions*
+    - **Sources**: *Ethics* (Part III: *On the Origin and Nature of the Emotions*, Part IV: *On Human Bondage*).
+    - **Themes**: The mechanics of human passions (affects), emotional bondage, freedom through rational understanding (*"Not to laugh, not to lament, not to detest, but to understand"*).
+    - **Current Count**: 0 quotes.
+
+31. [ ] **Arthur Schopenhauer** (1788 – 1860) — *Philosophical Pessimism & Solitude*
     - **Sources**: *The World as Will and Representation*, *Essays and Aphorisms*, *The Wisdom of Life*.
     - **Themes**: Striving of the Will, art and music as release, compassion as the sole foundation of morals, sovereignty of intellectual solitude.
     - **Current Count**: 4 quotes.
 
-27. [ ] **Søren Kierkegaard** (1813 – 1855) — *Christian Existentialism*
+32. [ ] **Søren Kierkegaard** (1813 – 1855) — *Christian Existentialism*
     - **Sources**: *Fear and Trembling*, *The Sickness Unto Death*, *Either/Or*.
     - **Themes**: Anxiety as freedom's possibility, the courage of the solitary individual, authentic commitment, passionate faith.
     - **Current Count**: 3 quotes.
 
-28. [ ] **Albert Camus** (1913 – 1960) — *Absurdism & Revolt*
+33. [ ] **Albert Camus** (1913 – 1960) — *Absurdism & Revolt*
     - **Sources**: *The Myth of Sisyphus*, *The Rebel*, *The Stranger*, *Summer in Algiers*.
     - **Themes**: The absurd and noble defiance, the invincible summer within the soul, lucid love for life without supernatural illusion.
     - **Current Count**: 6 quotes.
 
-29. [ ] **Michel de Montaigne** (1533 – 1592) — *The Art of Being Human*
+34. [ ] **Michel de Montaigne** (1533 – 1592) — *The Art of Being Human*
     - **Sources**: *The Complete Essays* (*Essais*).
     - **Themes**: *Que sais-je?* (What do I know?), studying oneself, radical honesty, moderation, accepting human fragility.
     - **Current Count**: 4 quotes.
 
-30. [ ] **Erich Fromm** (1900 – 1980) — *Humanistic Psychoanalysis*
+35. [ ] **Erich Fromm** (1900 – 1980) — *Humanistic Psychoanalysis*
     - **Sources**: *The Art of Loving*, *Escape from Freedom*, *To Have or to Be?*.
     - **Themes**: Love as an active capacity and skill, overcoming alienation, spontaneous relationship to humans and nature.
     - **Current Count**: 4 quotes.

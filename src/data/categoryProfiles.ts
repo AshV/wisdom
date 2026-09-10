@@ -104,6 +104,20 @@ export const categoryProfiles: Record<string, CategoryProfile> = {
     summary: 'Eudaimonia, tranquility of spirit, inner joy, and living in accordance with virtue.',
     essay: 'True happiness (eudaimonia) is not hedonistic pleasure or temporary euphoria; it is the deep, steady flourishing that arises from living in accordance with reason, virtue, and purpose. Unlike external fortune which can be stolen overnight, genuine inner joy belongs to the sovereign soul that needs little and loves deeply.',
     themes: ['Eudaimonia (Flourishing)', 'Tranquility (Ataraxia)', 'Inner Joy', 'Freedom from Want', 'Gratitude']
+  },
+  psychology: {
+    slug: 'psychology',
+    name: 'Psychology & Human Behavior',
+    summary: 'The science and philosophy of mind, exploring unconscious drives, cognitive habits, emotional mastery, the shadow, and the will to meaning.',
+    essay: 'Psychology—from the Greek psyche, "soul or breath of life"—is humanity\'s relentless effort to understand the inner mechanics of consciousness, motive, and behavior. Long before the advent of clinical laboratories, ancient moralists, Stoic thinkers, and Renaissance essayists engaged in rigorous self-observation, dissecting vanity, fear, rationalization, and the illusions of the ego. In the modern era, depth psychology and existential analysis revealed that human beings are propelled not merely by biological instincts, but by a profound, inescapable hunger for meaning and self-transcendence. To study human behavior is to examine the shadow within, to master the plasticity of habit, and to claim the sovereign freedom of choosing our attitude in any circumstance.',
+    themes: [
+      'Depth Psychology & The Shadow',
+      'The Will to Meaning',
+      'Habit Formation & Plasticity',
+      'Emotional Mastery & Affects',
+      'Self-Deception & Character',
+      'Voluntary Attention & Focus'
+    ]
   }
 };
 

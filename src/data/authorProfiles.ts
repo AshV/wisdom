@@ -291,6 +291,81 @@ export const authorProfiles: Record<string, AuthorProfile> = {
       { concept: 'Meditation in Action', description: 'Meditation is not sitting under a tree; it is an awareness carried into drinking tea, speaking, and walking.' }
     ],
     whyTimeless: 'Osho’s teachings deconstruct psychological conditioning and societal guilt, directing the seeker back to personal freedom, humor, and radical self-honesty.'
+  },
+
+  'viktor-frankl': {
+    slug: 'viktor-frankl',
+    name: 'Viktor Frankl',
+    longName: 'Viktor Emil Frankl',
+    era: '1905 – 1997',
+    tradition: 'Logotherapy & Existential Psychology',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Viktor_Frankl',
+    summary: 'Austrian neurologist, psychiatrist, Holocaust survivor, and founder of logotherapy, who proved that humanity’s primary drive is the will to meaning.',
+    bio: 'Viktor Emil Frankl was an Austrian neurologist, psychiatrist, and philosopher who founded Logotherapy—often recognized as the "Third Viennese School of Psychotherapy" following Sigmund Freud\'s psychoanalysis and Alfred Adler\'s individual psychology. Born in Vienna, Frankl demonstrated an early brilliance in psychiatry, corresponding with Freud as a teenager and later treating thousands of suicidal women and youths during the Great Depression. In 1942, Frankl, his young pregnant wife Tilly, and his parents were deported by the Nazi regime. Surviving three years of unimaginable brutality across four concentration camps—Theresienstadt, Auschwitz, Kaufering, and Türkheim (a subcamp of Dachau)—Frankl observed firsthand that prisoners who maintained a connection to a transcendent purpose, an unfinished life task, or love for another person possessed far greater psychological resilience against despair and death. Following liberation, he returned to Vienna, served as head of the Department of Neurology at the Vienna Polyclinic Hospital for 25 years, and authored over 30 books, teaching millions that no outer circumstance can strip a human being of the ultimate freedom to choose their attitude and find meaning in existence.',
+    keyWorks: [
+      { title: "Man's Search for Meaning (...trotzdem Ja zum Leben sagen)", description: "Frankl's seminal masterpiece documenting his experiences in the concentration camps and outlining the foundational principles of logotherapy." },
+      { title: "The Doctor and the Soul (Ärztliche Seelsorge)", description: "The definitive clinical treatise examining existential analysis, attitudinal values, and the spiritual dimension of psychiatric healing." },
+      { title: "The Will to Meaning: Foundations and Applications of Logotherapy", description: "Lectures clarifying the human yearning for purpose, self-transcendence, and the critique of reductionist psychological determinism." },
+      { title: "Psychotherapy and Existentialism", description: "Selected clinical papers demonstrating the integration of existential philosophy with therapeutic technique in treating the existential vacuum." },
+      { title: "The Unheard Cry for Meaning", description: "A passionate exploration of modern youth alienation, neuroses born of meaninglessness, and human dignity." }
+    ],
+    pillars: [
+      { concept: 'The Will to Meaning', description: 'The primary motivational force in human beings is not the pleasure principle (Freud) or the strive for superiority (Adler), but the discovery and fulfillment of personal meaning.' },
+      { concept: 'The Last of Human Freedoms', description: 'Everything can be taken from a person but one thing: the freedom to choose one\'s attitude in any given set of circumstances, to choose one\'s own way.' },
+      { concept: 'Tragic Optimism', description: 'The courageous capacity to say "yes" to life in spite of everything—turning suffering into human achievement, guilt into moral growth, and mortality into responsible urgency.' },
+      { concept: 'Self-Transcendence', description: 'Being human always points beyond oneself toward something or someone other than oneself—a goal to fulfill or another human being to encounter with love.' },
+      { concept: 'The Three Avenues to Meaning', description: 'Meaning is discovered through what we create (work/deeds), what we experience (nature, art, love), and the attitude we take toward unavoidable suffering.' }
+    ],
+    whyTimeless: 'Having tested his philosophy in the most harrowing crucible of the twentieth century, Frankl provides an invincible psychological beacon, proving that dignity, responsibility, and meaning reside entirely within the sovereign human soul.'
+  },
+
+  'william-james': {
+    slug: 'william-james',
+    name: 'William James',
+    longName: 'William James',
+    era: '1842 – 1910',
+    tradition: 'Functional Psychology & Pragmatism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/William_James',
+    summary: 'Pioneering Harvard polymath and "Father of American Psychology" who mapped the stream of consciousness, neural habit plasticity, and pragmatic belief.',
+    bio: 'William James was an American philosopher, psychologist, and physician widely celebrated as the father of American psychology and one of the most influential thinkers of the late 19th and early 20th centuries. The elder brother of novelist Henry James, William earned an M.D. from Harvard and established the first psychological laboratory in the United States. His monumental 1890 work, The Principles of Psychology, revolutionized the scientific study of the mind by introducing the concept of the "stream of thought" and emphasizing the biological and neurological role of habits in conserving conscious energy. Overcoming severe bouts of debilitating depression in his youth through a deliberate commitment to free will, James went on to co-found Pragmatism and Radical Empiricism. His philosophy insists that the ultimate test of any idea, emotion, or belief is not abstract dogma, but its tangible "cash-value" in the living, experiential conduct of life.',
+    keyWorks: [
+      { title: "The Principles of Psychology (Vols. 1 & 2)", description: "The foundational 1,200-page masterwork that systematized modern psychology, exploring stream of thought, attention, habit, emotion, and the self." },
+      { title: "The Varieties of Religious Experience", description: "The Gifford Lectures in Edinburgh, pioneering the psychological study of conversion, saintliness, mysticism, and spiritual consciousness." },
+      { title: "Pragmatism: A New Name for Some Old Ways of Thinking", description: "The philosophical landmark arguing that truth is not a static property of an idea, but a process of verification through practical human experience." },
+      { title: "The Will to Believe and Other Essays", description: "A spirited defense of our right to adopt passionate beliefs and act on faith where theoretical proof is incomplete." },
+      { title: "Habit", description: "A concentrated, brilliant essay demonstrating how the nervous system physically records repeated actions, shaping character and destiny." }
+    ],
+    pillars: [
+      { concept: 'The Plasticity of Habit', description: 'We are walking bundles of habits; our nervous system preserves every moral choice and physical act. Character is forged by conscious, repeated discipline.' },
+      { concept: 'The Stream of Consciousness', description: 'Consciousness does not appear chopped up into bits, but flows like a continuous river, unique to each individual and constantly changing.' },
+      { concept: 'Voluntary Attention as the Essence of Will', description: 'The greatest effort of the human will is the effort of attention—holding a difficult thought in the center of the mind against the clamor of distracting impulses.' },
+      { concept: 'The Pragmatic Method', description: 'Evaluating the truth and validity of philosophies, beliefs, and behaviors by their practical consequences for lived human flourishing.' },
+      { concept: 'The Power of Chosen Attitude', description: 'The greatest discovery of my generation is that human beings can alter their lives by altering their attitudes of mind.' }
+    ],
+    whyTimeless: 'William James unified rigorous empirical observation with radiant humanism, giving humanity actionable, psychologically profound tools to overcome mental paralysis and craft an intentional life.'
+  },
+
+  'francois-de-la-rochefoucauld': {
+    slug: 'francois-de-la-rochefoucauld',
+    name: 'François de La Rochefoucauld',
+    longName: 'François VI, Duc de La Rochefoucauld, Prince de Marcillac',
+    era: '1613 – 1680',
+    tradition: 'French Moralism & Behavioral Aphorisms',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Fran%C3%A7ois_de_La_Rochefoucauld_(writer)',
+    summary: 'Master French moralist and aphorist whose forensic dissection of human motives unmasked the pervasive role of self-love, vanity, and self-deception in human conduct.',
+    bio: 'François VI, Duc de La Rochefoucauld, was a French nobleman, military officer, and moral philosopher whose sparkling, mercilessly insightful maxims transformed the psychological observation of human behavior. Born into the highest ranks of French aristocracy, La Rochefoucauld engaged in court intrigues, fought valiantly in the civil wars of the Fronde, and was severely wounded in the battle of the Faubourg Saint-Antoine in Paris. Retiring from political turmoil, he immersed himself in the brilliant Parisian salon of Madame de Sablé and Madame de La Fayette, honing his observations into razor-sharp aphorisms. Published in 1665 as the Maximes (Réflexions ou Sentences et Maximes morales), his work exposed the hidden mechanics of human motivation, arguing that our most celebrated virtues—courage, generosity, humility, and sincerity—are frequently disguised expressions of self-love (amour-propre) and the pursuit of social esteem.',
+    keyWorks: [
+      { title: "Moral Maxims and Reflections (Maximes)", description: "The landmark collection of 500+ aphorisms stripping away the flattering illusions of human morality to expose the psychological engine of self-interest." },
+      { title: "Reflections on Diverse Subjects (Réflexions diverses)", description: "Essays exploring social conduct, the art of conversation, friendship, aging, and the acceptance of mortality." },
+      { title: "Memoirs of the Regency of Anne of Austria", description: "Firsthand historical recollections of court intrigues, political ambition, and the psychology of power during the Fronde." }
+    ],
+    pillars: [
+      { concept: 'The Omnipresence of Self-Love (Amour-Propre)', description: 'Self-love is the greatest of all flatterers; it speaks all languages and plays all roles, subtly motivating our actions even when we believe we are acting selflessly.' },
+      { concept: 'The Mask of Virtue', description: 'What we take for virtue is frequently only an assemblage of different acts and interests arranged by fortune or vanity to earn the good opinion of others.' },
+      { concept: 'The Tyranny of the Passions', description: 'The head is always the dupe of the heart; reason rationalizes and justifies what our emotional impulses, desires, and fears have already chosen.' },
+      { concept: 'Hypocrisy as Homage', description: 'Hypocrisy is the homage that vice pays to virtue; social morality survives because humans are desperate to appear good even when failing to be good.' }
+    ],
+    whyTimeless: 'La Rochefoucauld remains the supreme anatomist of the human ego, whose psychological penetrating insight anticipated Nietzsche, Freud, and modern cognitive psychology by two centuries.'
   }
 };
 

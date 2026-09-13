@@ -75,6 +75,7 @@ export async function sendReflectionNotification(
       quoteSlug: quote.slug,
       quoteId: quote.id,
       author: quote.author,
+      quote: quote,
     },
   };
 

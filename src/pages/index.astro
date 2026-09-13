@@ -5,13 +5,38 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReelFeed from '../components/ReelFeed.astro';
 import { getCollection } from 'astro:content';
+import { getDayOfYear } from '../utils/dailyQuote';
+import dailyQuotesData from '../../public/daily-quotes.json';
 
 const allQuotes = await getCollection('quotes');
-const parseQuoteNum = (id: string) => parseInt(id.replace(/\D/g, ''), 10) || 0;
-const quotes = allQuotes
-  .map((q) => q.data)
-  .sort((a, b) => parseQuoteNum(b.id) - parseQuoteNum(a.id))
-  .slice(0, 50);
+const dayOfYear = getDayOfYear(new Date());
+
+// Find today's daily reflection quote from curated daily-quotes
+const todayDailyEntry =
+  dailyQuotesData.find((dq) => dq.day === dayOfYear) ||
+  dailyQuotesData[dayOfYear % dailyQuotesData.length] ||
+  dailyQuotesData[0];
+
+const todayQuote =
+  allQuotes.find((q) => q.data.id === todayDailyEntry.id || q.id === todayDailyEntry.id)?.data ||
+  allQuotes[dayOfYear % allQuotes.length]?.data;
+
+// Filter out today's quote from the remaining pool
+const otherQuotes = allQuotes
+  .filter((q) => !todayQuote || (q.data.id !== todayQuote.id && q.id !== todayQuote.id))
+  .map((q) => q.data);
+
+// Rotate remaining pool deterministically by day of year for a fresh, diverse mix
+const startIndex = (dayOfYear * 17) % (otherQuotes.length || 1);
+const rotatedQuotes = [
+  ...otherQuotes.slice(startIndex),
+  ...otherQuotes.slice(0, startIndex),
+];
+
+// Today's Daily Quote first, followed by rotated pool (50 total in initial HTML bundle)
+const quotes = todayQuote
+  ? [todayQuote, ...rotatedQuotes.slice(0, 49)]
+  : rotatedQuotes.slice(0, 50);
 ---
 <BaseLayout title="Wisdom — Timeless Quotes, Reimagined">
   <ReelFeed

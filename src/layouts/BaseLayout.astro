@@ -531,10 +531,10 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
       };
 
-      // ── Recent Viewed Quotes Store (Up to 1000 Quotes FIFO Queue) ──
+      // ── Recent Viewed Quotes Store (Up to 500 Quotes FIFO Queue) ──
       window.recentQuotes = {
         _key: 'wisdom_recent_quotes',
-        _max: 1000,
+        _max: 500,
         getAll() {
           try {
             const data = JSON.parse(localStorage.getItem(this._key) || '[]');

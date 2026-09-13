@@ -127,6 +127,7 @@ self.addEventListener('notificationclick', (event) => {
   const absoluteUrl = new URL(rawUrl, self.location.origin).href;
   const quoteSlug = (event.notification.data && (event.notification.data.quoteSlug || event.notification.data.slug)) || '';
   const quoteId = (event.notification.data && event.notification.data.quoteId) || '';
+  const quoteObj = (event.notification.data && event.notification.data.quote) || null;
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
@@ -137,7 +138,8 @@ self.addEventListener('notificationclick', (event) => {
             type: 'WISDOM_NAVIGATE_QUOTE',
             url: absoluteUrl,
             quoteSlug: quoteSlug,
-            quoteId: quoteId
+            quoteId: quoteId,
+            quote: quoteObj
           });
           if ('navigate' in client) {
             client.navigate(absoluteUrl);
@@ -210,7 +212,8 @@ self.addEventListener('periodicsync', (event) => {
             data: {
               url: `/wisdom/#${quote.slug}`,
               quoteSlug: quote.slug,
-              quoteId: quote.id
+              quoteId: quote.id,
+              quote: quote
             },
           });
         })

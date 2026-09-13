@@ -463,59 +463,131 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       return clone;
     }
 
+    // ── Helper: Enforces at most maxStreak consecutive quotes from the same author in a row ──
+    function enforceMaxAuthorStreak(items, maxStreak = 5, prevAuthor = null, prevStreak = 0) {
+      if (!items || items.length === 0) return [];
+      const result = [];
+      const pool = [...items];
+      let currentAuthor = prevAuthor;
+      let streak = prevStreak;
+
+      const getAuthor = (item) => {
+        if (!item) return '';
+        if (item.dataset) return item.dataset.authorSlug || item.dataset.author || '';
+        return item.authorSlug || item.author || '';
+      };
+
+      while (pool.length > 0) {
+        let candidateIdx = 0;
+        if (streak >= maxStreak && currentAuthor) {
+          // Find first quote in pool with a different author
+          const diffIdx = pool.findIndex(item => {
+            const auth = getAuthor(item);
+            return auth && auth !== currentAuthor;
+          });
+          if (diffIdx !== -1) {
+            candidateIdx = diffIdx;
+          }
+        }
+
+        const [item] = pool.splice(candidateIdx, 1);
+        const author = getAuthor(item);
+        if (author && author === currentAuthor) {
+          streak++;
+        } else {
+          currentAuthor = author;
+          streak = 1;
+        }
+        result.push(item);
+      }
+      return result;
+    }
+
+    // ── Helper: Find quote across loaded list, daily-quotes or chunk APIs ──
+    async function findQuoteBySlugOrId(target) {
+      if (!target) return null;
+      const clean = decodeURIComponent(target).replace(/^#/, '').toLowerCase().trim();
+
+      // 1. Check in loadedQuoteList
+      let found = loadedQuoteList.find(q =>
+        (q.id && q.id.toLowerCase() === clean) ||
+        (q.slug && q.slug.toLowerCase() === clean)
+      );
+      if (found) return found;
+
+      // 2. Check in window.__wisdomQuoteMap
+      if (window.__wisdomQuoteMap) {
+        const quotes = Object.values(window.__wisdomQuoteMap);
+        found = quotes.find(q =>
+          (q.id && q.id.toLowerCase() === clean) ||
+          (q.slug && q.slug.toLowerCase() === clean)
+        );
+        if (found) return found;
+      }
+
+      // 3. Check /wisdom/daily-quotes.json
+      try {
+        const base = window.__wisdomBaseUrl || '/wisdom';
+        const res = await fetch(`${base}/daily-quotes.json`);
+        if (res.ok) {
+          const dailyQuotes = await res.json();
+          if (Array.isArray(dailyQuotes)) {
+            found = dailyQuotes.find(q =>
+              (q.id && q.id.toLowerCase() === clean) ||
+              (q.slug && q.slug.toLowerCase() === clean)
+            );
+            if (found) return found;
+          }
+        }
+      } catch {}
+
+      // 4. Fetch chunks if still needed
+      try {
+        const base = window.__wisdomBaseUrl || '/wisdom';
+        for (let p = 1; p <= 18; p++) {
+          const res = await fetch(`${base}/api/quotes/chunk-${p}.json`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.quotes) {
+              loadedQuoteList.push(...data.quotes);
+              found = data.quotes.find(q =>
+                (q.id && q.id.toLowerCase() === clean) ||
+                (q.slug && q.slug.toLowerCase() === clean)
+              );
+              if (found) return found;
+            }
+          }
+        }
+      } catch {}
+
+      return null;
+    }
+
     // ── Check for deep-link hash and feed configuration ──
     const rawHash = window.location.hash ? window.location.hash.slice(1) : null;
     let targetHash = rawHash ? decodeURIComponent(rawHash) : null;
     const feedType = container.dataset.feedType || 'master';
     const matchedCount = parseInt(container.dataset.matchedCount, 10) || 0;
 
-    // Retrieve user's recently viewed quote IDs (up to 1000 seen quotes)
+    // Retrieve user's recently viewed quote IDs (up to 500 seen quotes)
     const recentSeenList = (window.recentQuotes && typeof window.recentQuotes.getAll === 'function')
       ? window.recentQuotes.getAll()
       : [];
     const recentSeenSet = new Set(recentSeenList);
 
-    // If master feed and targetHash represents a quote the user ALREADY visited,
-    // it is a residual hash from an earlier session. Clear it so the user sees a fresh quote!
-    if (feedType === 'master' && targetHash) {
-      let isAlreadySeen = recentSeenSet.has(targetHash);
-      if (!isAlreadySeen && window.__wisdomQuoteMap) {
-        const matchingQuote = Object.values(window.__wisdomQuoteMap).find(q =>
-          q.slug === targetHash || q.id === targetHash
-        );
-        if (matchingQuote && recentSeenSet.has(matchingQuote.id)) {
-          isAlreadySeen = true;
-        }
-      }
-      if (isAlreadySeen) {
-        targetHash = null;
-        try {
-          history.replaceState(null, '', window.location.pathname);
-        } catch {}
-      }
-    }
-
-    // ── Intelligent Reordering & Shuffling with Visited Deduplication ──
+    // ── Intelligent Reordering & Shuffling with Visited Deduplication & Max Author Streak ──
     if (targetHash) {
       // Intentional deep link or notification target: find or create target slide
       let targetIdx = initialSlides.findIndex(s =>
         s.dataset.quoteSlug === targetHash ||
         s.id === `slide-${targetHash}` ||
-        s.dataset.quoteId === targetHash
+        s.dataset.quoteId === targetHash ||
+        (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === targetHash.toLowerCase()) ||
+        (s.dataset.quoteSlug && s.dataset.quoteSlug.toLowerCase() === targetHash.toLowerCase())
       );
       let targetSlide = null;
       if (targetIdx !== -1) {
         [targetSlide] = initialSlides.splice(targetIdx, 1);
-      } else if (window.__wisdomQuoteMap) {
-        const allQuotes = Object.values(window.__wisdomQuoteMap);
-        const targetQuote = allQuotes.find(q =>
-          q.slug === targetHash ||
-          q.id === targetHash ||
-          q.id.toLowerCase() === targetHash.toLowerCase()
-        );
-        if (targetQuote) {
-          targetSlide = createSlideFromQuote(targetQuote, templateSlide, 'deep');
-        }
       }
 
       if (targetSlide) {
@@ -523,10 +595,29 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         const seenRemaining = initialSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
         shuffleArray(unseenRemaining);
         seenRemaining.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-        initialSlides = [targetSlide, ...unseenRemaining, ...seenRemaining];
+        const rest = enforceMaxAuthorStreak([...unseenRemaining, ...seenRemaining], 5, targetSlide.dataset.authorSlug, 1);
+        initialSlides = [targetSlide, ...rest];
       } else {
-        // Target hash not found; treat as master feed
-        targetHash = null;
+        // Target hash not among initial slides: fetch on-demand and prepend
+        findQuoteBySlugOrId(targetHash).then((targetQuote) => {
+          if (targetQuote) {
+            const newSlide = createSlideFromQuote(targetQuote, templateSlide, 'deep');
+            container.insertBefore(newSlide, container.firstChild);
+            observer.observe(newSlide);
+            newSlide.scrollIntoView({ behavior: 'auto', block: 'start' });
+            const updatedSlides = Array.from(container.querySelectorAll('.reel-slide'));
+            updatedSlides.forEach(s => s.classList.remove('is-active'));
+            newSlide.classList.add('is-active');
+            recordQuoteSeen(newSlide.dataset.quoteId);
+            updateDockPills(newSlide, true);
+            if (window.setBackground) {
+              window.setBackground(newSlide.dataset.videoSrc, newSlide.dataset.gradientClass, newSlide.dataset.mood, newSlide.dataset.quoteId);
+            }
+            if (window.wisdomAudio && newSlide.dataset.mood) {
+              window.wisdomAudio.playOnce(newSlide.dataset.mood);
+            }
+          }
+        });
       }
     }
 
@@ -539,7 +630,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         const seenRest = rest.filter(s => recentSeenSet.has(s.dataset.quoteId));
         shuffleArray(unseenRest);
         seenRest.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-        initialSlides = [primary, ...unseenRest, ...seenRest];
+        const structuredRest = enforceMaxAuthorStreak([...unseenRest, ...seenRest], 5, primary?.dataset?.authorSlug, 1);
+        initialSlides = [primary, ...structuredRest];
       } else if (matchedCount > 0 && matchedCount < initialSlides.length) {
         // In filtered feeds (author, category, mood, tag)
         const matched = initialSlides.slice(0, matchedCount);
@@ -549,13 +641,24 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         const seenMatched = matched.filter(s => recentSeenSet.has(s.dataset.quoteId));
         shuffleArray(unseenMatched);
         seenMatched.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
+        const structuredMatched = feedType === 'author'
+          ? [...unseenMatched, ...seenMatched]
+          : enforceMaxAuthorStreak([...unseenMatched, ...seenMatched], 5);
+
+        const lastMatchedAuthor = structuredMatched[structuredMatched.length - 1]?.dataset?.authorSlug || null;
+        let lastMatchedStreak = 0;
+        for (let i = structuredMatched.length - 1; i >= 0; i--) {
+          if (structuredMatched[i]?.dataset?.authorSlug === lastMatchedAuthor) lastMatchedStreak++;
+          else break;
+        }
 
         const unseenCont = continuation.filter(s => !recentSeenSet.has(s.dataset.quoteId));
         const seenCont = continuation.filter(s => recentSeenSet.has(s.dataset.quoteId));
         shuffleArray(unseenCont);
         seenCont.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
+        const structuredCont = enforceMaxAuthorStreak([...unseenCont, ...seenCont], 5, lastMatchedAuthor, lastMatchedStreak);
 
-        initialSlides = [...unseenMatched, ...seenMatched, ...unseenCont, ...seenCont];
+        initialSlides = [...structuredMatched, ...structuredCont];
 
         // Keep continuation banner precisely positioned on the first continuation slide
         initialSlides.forEach(s => {
@@ -571,9 +674,13 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         }
       } else {
         // General master feed:
-        // Separate into unseen and seen slides
-        let unseen = initialSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
-        const seen = initialSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
+        // Keep the Daily Quote (initialSlides[0]) as the opening anchor
+        const dailySlide = initialSlides[0];
+        const restSlides = initialSlides.slice(1);
+
+        // Separate remaining into unseen and seen slides
+        let unseen = restSlides.filter(s => !recentSeenSet.has(s.dataset.quoteId));
+        const seen = restSlides.filter(s => recentSeenSet.has(s.dataset.quoteId));
 
         // Rely on visited quotes: always guarantee fresh unseen quotes at top
         if (window.__wisdomQuoteMap) {
@@ -594,7 +701,10 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         shuffleArray(unseen);
         // Sort seen slides by oldest seen first
         seen.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-        initialSlides = [...unseen, ...seen];
+        
+        const dailyAuthor = dailySlide?.dataset?.authorSlug || null;
+        const restOrdered = enforceMaxAuthorStreak([...unseen, ...seen], 5, dailyAuthor, 1);
+        initialSlides = dailySlide ? [dailySlide, ...restOrdered] : restOrdered;
       }
     }
 
@@ -640,7 +750,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       }
     }
 
-    // ── Infinite Scroll Appender: Appends fresh unseen quotes avoiding the last 50 seen ──
+    // ── Infinite Scroll Appender: Appends fresh unseen quotes avoiding the last 500 seen & capping author streaks ──
     async function appendNextBatch() {
       const batchFragment = document.createDocumentFragment();
       const appendedSlides = [];
@@ -665,7 +775,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       if (allQuoteList.length === 0) return;
 
       // Candidate quotes from loaded catalog:
-      // 1. Must NOT be in the last 50 seen quotes (currentSeenSet)
+      // 1. Must NOT be in the last 500 seen quotes (currentSeenSet)
       // 2. Must NOT be currently in the DOM (domQuoteIds)
       let freshCandidates = allQuoteList.filter(q =>
         !currentSeenSet.has(q.id) && !domQuoteIds.has(q.id)
@@ -693,9 +803,28 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         }
       }
 
+      // Check trailing author and streak from current DOM slides
+      const currentDomSlides = Array.from(container.querySelectorAll('.reel-slide'));
+      let trailingAuthor = null;
+      let trailingStreak = 0;
+      for (let i = currentDomSlides.length - 1; i >= 0; i--) {
+        const auth = currentDomSlides[i]?.dataset?.authorSlug || currentDomSlides[i]?.dataset?.author || null;
+        if (!trailingAuthor) {
+          trailingAuthor = auth;
+          trailingStreak = 1;
+        } else if (auth === trailingAuthor) {
+          trailingStreak++;
+        } else {
+          break;
+        }
+      }
+
       if (freshCandidates.length > 0) {
         shuffleArray(freshCandidates);
-        const batch = freshCandidates.slice(0, 15);
+        const structuredCandidates = (feedType === 'author' && freshCandidates.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug))
+          ? freshCandidates
+          : enforceMaxAuthorStreak(freshCandidates, 5, trailingAuthor, trailingStreak);
+        const batch = structuredCandidates.slice(0, 15);
         batch.forEach(quote => {
           const slide = createSlideFromQuote(quote, templateSlide, `b${batchNumber}`);
           batchFragment.appendChild(slide);
@@ -703,10 +832,10 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         });
       } else {
         // Fallback when all catalog quotes were viewed:
-        // Pick quotes from catalog that are NOT currently in the last 50 seen quotes
+        // Pick quotes from catalog that are NOT currently in the last 500 seen quotes
         let eligible = allQuoteList.filter(q => !currentSeenSet.has(q.id));
         if (eligible.length === 0) {
-          // If total catalog <= 50, select quotes whose last view was oldest in history
+          // If total catalog <= 500, select quotes whose last view was oldest in history
           eligible = allQuoteList.slice().sort((a, b) => {
             const idxA = currentSeenList.indexOf(a.id);
             const idxB = currentSeenList.indexOf(b.id);
@@ -714,7 +843,10 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           });
         }
         shuffleArray(eligible);
-        const batch = eligible.slice(0, 15);
+        const structuredEligible = (feedType === 'author' && eligible.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug))
+          ? eligible
+          : enforceMaxAuthorStreak(eligible, 5, trailingAuthor, trailingStreak);
+        const batch = structuredEligible.slice(0, 15);
         batch.forEach(quote => {
           const slide = createSlideFromQuote(quote, templateSlide, `b${batchNumber}`);
           batchFragment.appendChild(slide);
@@ -812,7 +944,6 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         if (catPill) {
           catPill.textContent = category;
           catPill.href = `${base}/category/${categorySlug}/`;
-          catPill.className = 'pointer-events-auto glass rounded-full px-4.5 py-2 text-xs font-medium text-white/90 hover:text-white hover:bg-white/20 transition-all duration-200 shadow-sm whitespace-nowrap inline-flex items-center leading-normal dock-pill';
         }
         if (moodPill) {
           moodPill.href = `${base}/mood/${mood}/`;
@@ -1058,34 +1189,39 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     }
 
     // ── Deep-Link & Notification Navigation Engine ──
-    function navigateToQuote(slugOrId) {
-      if (!slugOrId) return false;
-      const cleanTarget = decodeURIComponent(slugOrId).replace(/^#/, '');
+    async function navigateToQuote(slugOrId, quotePayload = null) {
+      if (!slugOrId && !quotePayload) return false;
+      const cleanTarget = slugOrId ? decodeURIComponent(slugOrId).replace(/^#/, '').trim() : '';
 
       // 1. Check if matching slide is already rendered in container
       const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
       let match = currentSlides.find(s =>
-        s.dataset.quoteSlug === cleanTarget ||
-        s.dataset.quoteId === cleanTarget ||
-        s.id === `slide-${cleanTarget}` ||
-        (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === cleanTarget.toLowerCase())
+        (cleanTarget && (
+          s.dataset.quoteSlug === cleanTarget ||
+          s.dataset.quoteId === cleanTarget ||
+          s.id === `slide-${cleanTarget}` ||
+          (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === cleanTarget.toLowerCase()) ||
+          (s.dataset.quoteSlug && s.dataset.quoteSlug.toLowerCase() === cleanTarget.toLowerCase())
+        )) ||
+        (quotePayload && (
+          s.dataset.quoteId === quotePayload.id ||
+          s.dataset.quoteSlug === quotePayload.slug
+        ))
       );
 
-      // 2. If not found in DOM, look up in catalog and instantiate slide dynamically
-      if (!match && window.__wisdomQuoteMap) {
-        const allQuotes = Object.values(window.__wisdomQuoteMap);
-        const quoteObj = allQuotes.find(q =>
-          q.slug === cleanTarget ||
-          q.id === cleanTarget ||
-          q.id.toLowerCase() === cleanTarget.toLowerCase()
-        );
-        if (quoteObj) {
-          match = createSlideFromQuote(quoteObj, templateSlide, 'nav');
-          const activeSlide = container.querySelector('.reel-slide.is-active');
+      // 2. If not found in DOM, instantiate slide dynamically from payload, catalog or daily-quotes
+      if (!match) {
+        let targetQuote = quotePayload;
+        if (!targetQuote && cleanTarget) {
+          targetQuote = await findQuoteBySlugOrId(cleanTarget);
+        }
+        if (targetQuote) {
+          match = createSlideFromQuote(targetQuote, templateSlide, 'nav');
+          const activeSlide = container.querySelector('.reel-slide.is-active') || container.firstChild;
           if (activeSlide) {
             container.insertBefore(match, activeSlide);
           } else {
-            container.insertBefore(match, container.firstChild);
+            container.appendChild(match);
           }
           observer.observe(match);
         }
@@ -1093,12 +1229,12 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
       // 3. Scroll to and activate match
       if (match) {
-        match.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        match.scrollIntoView({ behavior: 'auto', block: 'start' });
         const updatedSlides = Array.from(container.querySelectorAll('.reel-slide'));
         updatedSlides.forEach(s => s.classList.remove('is-active'));
         match.classList.add('is-active');
         recordQuoteSeen(match.dataset.quoteId);
-        updateDockPills(match, false);
+        updateDockPills(match, true);
         if (window.setBackground) {
           window.setBackground(match.dataset.videoSrc, match.dataset.gradientClass, match.dataset.mood, match.dataset.quoteId);
         }
@@ -1130,8 +1266,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'WISDOM_NAVIGATE_QUOTE') {
           const target = event.data.quoteSlug || event.data.quoteId || (event.data.url && event.data.url.split('#')[1]);
-          if (target) {
-            navigateToQuote(target);
+          const quoteObj = event.data.quote || null;
+          if (target || quoteObj) {
+            navigateToQuote(target, quoteObj);
           }
         }
       });

@@ -2,15 +2,21 @@
 /**
  * ExploreDrawer — High-end slide-up discovery sheet.
  *
+ * Universal Multi-Domain Search:
+ * Typing in the search bar instantly searches across ALL domains (Authors, Moods, Categories, Tags, Liked Quotes)
+ * simultaneously without forcing tab switching. Matching sections are displayed with clear visual hierarchy.
+ *
  * Tabs:
  * 1. Liked (Saved quotes from localStorage with instant unlike & jump-to)
  * 2. Moods (Visual mood cards)
  * 3. Categories (Categorized wisdom)
  * 4. Authors (Directory of timeless thinkers)
  * 5. Tags (Topic tag cloud)
+ * 6. Rituals (Contemplation schedules)
  */
 import { getCollection } from 'astro:content';
 import { moodMeta, allMoods } from '../data/mediaRegistry';
+import { authorProfiles } from '../data/authorProfiles';
 import { slugifyQuote } from '../utils/slug';
 
 const allQuotes = await getCollection('quotes');
@@ -41,8 +47,8 @@ allQuotes.forEach((q) => {
 const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
 const totalAuthorsCount = Object.keys(authorCounts).length;
 const totalTagsCount = Object.keys(tagCounts).length;
-const popularAuthors = Object.values(authorCounts).sort((a, b) => b.count - a.count).slice(0, 24);
-const popularTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 48);
+const allAuthors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
+const popularTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 160);
 
 const categoryIcons: Record<string, string> = {
   philosophy: '🏛️',
@@ -55,6 +61,18 @@ const categoryIcons: Record<string, string> = {
   spirituality: '🕊️',
   humor: '😄',
   leadership: '👑',
+};
+
+// Rich semantic keywords for mood matching
+const moodKeywords: Record<string, string> = {
+  reflective: 'reflective reflection introspective contemplation thought thinking deep inner mind soul quiet solitary',
+  motivational: 'motivational motivation inspire inspiration ambitious drive purpose courage energy strength action strive grit',
+  serene: 'serene serenity peace calm stillness tranquil tranquility nature zen quiet sanctuary rest peace of mind',
+  bold: 'bold courage bravery fearless strength warrior confidence power resilience grit daring bold resolve',
+  melancholic: 'melancholic melancholy sorrow grief sadness longing darkness poignant depth solace redemptive pain',
+  joyful: 'joyful joy happiness bliss cheer celebration delight ecstasy light grateful gratitude smile wonder laughter',
+  philosophical: 'philosophical philosophy wisdom truth intellect reason knowledge thinker logic insight inquiry ethics',
+  romantic: 'romantic romance love devotion heart passion affection beauty beloved tenderness kindred romance soulful',
 };
 ---
 
@@ -130,7 +148,7 @@ const categoryIcons: Record<string, string> = {
       </div>
     </div>
 
-    <!-- Search Input -->
+    <!-- Search Input (Universal Multi-Domain Search) -->
     <div style="padding-left: clamp(1.5rem, 4vw, 3rem); padding-right: clamp(1.5rem, 4vw, 3rem); padding-top: 1rem; padding-bottom: 0.75rem;">
       <div class="relative flex items-center">
         <svg
@@ -148,7 +166,7 @@ const categoryIcons: Record<string, string> = {
         <input
           id="explore-search"
           type="text"
-          placeholder="Search quotes, authors, topics, or keywords..."
+          placeholder="Search authors, moods, categories, or keywords..."
           style="padding-left: 52px; padding-right: 48px;"
           class="w-full py-3 sm:py-3.5 rounded-2xl bg-white/[0.05] hover:bg-white/[0.08] focus:bg-white/[0.1] border border-white/[0.1] focus:border-amber-400/50 text-sm sm:text-base text-white placeholder:text-white/35 focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all leading-normal shadow-inner"
           autocomplete="off"
@@ -184,6 +202,15 @@ const categoryIcons: Record<string, string> = {
 
       <button
         class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
+        data-tab="authors"
+      >
+        <span>✍️</span>
+        <span>Authors</span>
+        <span class="text-[11px] text-white/40 font-normal">({totalAuthorsCount})</span>
+      </button>
+
+      <button
+        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
         data-tab="moods"
       >
         <span>✨</span>
@@ -198,15 +225,6 @@ const categoryIcons: Record<string, string> = {
         <span>📂</span>
         <span>Categories</span>
         <span class="text-[11px] text-white/40 font-normal">({categories.length})</span>
-      </button>
-
-      <button
-        class="explore-tab flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer transition-all duration-200 border border-transparent text-white/55 hover:text-white hover:bg-white/8"
-        data-tab="authors"
-      >
-        <span>✍️</span>
-        <span>Authors</span>
-        <span class="text-[11px] text-white/40 font-normal">({totalAuthorsCount})</span>
       </button>
 
       <button
@@ -236,6 +254,15 @@ const categoryIcons: Record<string, string> = {
       
       <!-- 1. Liked Tab -->
       <div id="tab-liked" class="explore-tab-content">
+        <!-- Search Mode Header -->
+        <div class="search-section-header hidden items-center justify-between mb-4 pb-2 border-b border-rose-500/25 text-rose-300">
+          <div class="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <span>❤️</span>
+            <span>Matching Liked Quotes</span>
+          </div>
+          <span class="search-section-badge text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 font-semibold text-rose-300"></span>
+        </div>
+
         <!-- Liked items populated dynamically via JS in 2-column responsive grid -->
         <div id="liked-items-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
@@ -254,66 +281,25 @@ const categoryIcons: Record<string, string> = {
             id="liked-browse-btn"
             class="px-6 py-3 rounded-full bg-white/12 hover:bg-white/20 active:scale-95 text-sm font-semibold text-white border border-white/15 transition-all cursor-pointer shadow-lg hover:shadow-white/5"
           >
-            Explore Moods &amp; Inspirations
+            Explore Authors &amp; Moods
           </button>
         </div>
       </div>
 
-      <!-- 2. Moods Tab -->
-      <div id="tab-moods" class="explore-tab-content hidden grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
-        {allMoods.map((mood) => (
-          <a
-            href={`${BASE}/mood/${mood}/`}
-            class={`explore-item mood-pill-${mood} rounded-2xl sm:rounded-3xl flex flex-col justify-between min-h-[190px] sm:min-h-[200px] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-xl group border border-white/15 hover:border-white/30 relative overflow-hidden`}
-            style="padding: 1.5rem 1.5rem 2.25rem 1.5rem;"
-            data-search-text={`${moodMeta[mood].label} ${mood}`}
-          >
-            <div class="flex items-center justify-between z-10">
-              <span class="text-4xl sm:text-5xl group-hover:scale-110 transition-transform duration-300 select-none">{moodMeta[mood].emoji}</span>
-              <span class="text-xs font-bold text-white/95 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/15 min-w-[32px] text-center inline-flex items-center justify-center leading-none">
-                {moodCounts[mood] || 0}
-              </span>
-            </div>
-            <div class="z-10 mt-auto pt-4">
-              <span class="text-base sm:text-lg font-bold text-white block capitalize tracking-tight leading-tight mb-1">{moodMeta[mood].label}</span>
-              <span class="text-xs text-white/80 group-hover:text-white font-medium flex items-center gap-1 transition-colors">
-                Explore stream <span class="group-hover:translate-x-1 transition-transform">→</span>
-              </span>
-            </div>
-            <!-- Subtle bottom contrast vignette -->
-            <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 via-black/20 to-transparent pointer-events-none"></div>
-          </a>
-        ))}
-      </div>
-
-      <!-- 3. Categories Tab -->
-      <div id="tab-categories" class="explore-tab-content hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-        {categories.map((cat) => (
-          <a
-            href={`${BASE}/category/${cat.slug}/`}
-            class="explore-item glass rounded-2xl px-5 py-4 sm:py-4.5 flex items-center justify-between hover:bg-white/[0.09] active:scale-[0.98] border border-white/8 hover:border-white/20 transition-all duration-200 group"
-            data-search-text={cat.name}
-          >
-            <div class="flex items-center gap-4">
-              <span class="w-12 h-12 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform select-none">
-                {categoryIcons[cat.slug.toLowerCase()] || '📂'}
-              </span>
-              <div>
-                <span class="text-sm sm:text-base font-bold text-white group-hover:text-amber-200 transition-colors block mb-0.5">{cat.name}</span>
-                <span class="text-xs text-white/50">{cat.count} curated quotes</span>
-              </div>
-            </div>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </a>
-        ))}
-      </div>
-
-      <!-- 4. Authors Tab -->
+      <!-- 2. Authors Tab (All Timeless Thinkers in Catalog) -->
       <div id="tab-authors" class="explore-tab-content hidden space-y-4">
-        <!-- Author Roadmap / ToDo Banner -->
+        <!-- Search Mode Header -->
+        <div class="search-section-header hidden items-center justify-between pb-2 border-b border-amber-500/25 text-amber-300">
+          <div class="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <span>✍️</span>
+            <span>Matching Authors</span>
+          </div>
+          <span class="search-section-badge text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 font-semibold text-amber-300"></span>
+        </div>
+
+        <!-- Author Roadmap / ToDo Banner (shown in normal tab mode, hidden during search) -->
         <a
+          id="author-roadmap-banner"
           href={`${BASE}/todo/`}
           class="rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex items-center justify-between gap-4 bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-purple-950/60 border border-purple-400/30 hover:border-purple-400/50 hover:scale-[1.005] active:scale-[0.99] transition-all group shadow-xl"
         >
@@ -332,15 +318,17 @@ const categoryIcons: Record<string, string> = {
           </span>
         </a>
 
-        <!-- Authors Grid (Curated Primary Thinkers) -->
+        <!-- Authors Grid (All Thinkers in Catalog) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {popularAuthors.map((auth, i) => {
+          {allAuthors.map((auth, i) => {
             const hue = (i * 137.5) % 360;
+            const prof = authorProfiles[auth.slug];
+            const searchTokens = `${auth.name} ${auth.slug} ${prof?.tradition || ''} ${prof?.whyTimeless || ''} author thinker`.toLowerCase();
             return (
               <a
                 href={`${BASE}/author/${auth.slug}/`}
                 class="explore-item glass rounded-2xl p-4 flex items-center gap-3.5 hover:bg-white/[0.09] active:scale-[0.98] border border-white/8 hover:border-white/20 transition-all duration-200 group"
-                data-search-text={auth.name}
+                data-search-text={searchTokens}
               >
                 <span
                   class="w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md flex-shrink-0 select-none"
@@ -361,8 +349,90 @@ const categoryIcons: Record<string, string> = {
         </div>
       </div>
 
+      <!-- 3. Moods Tab -->
+      <div id="tab-moods" class="explore-tab-content hidden space-y-4">
+        <!-- Search Mode Header -->
+        <div class="search-section-header hidden items-center justify-between pb-2 border-b border-purple-500/25 text-purple-300">
+          <div class="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <span>✨</span>
+            <span>Matching Moods</span>
+          </div>
+          <span class="search-section-badge text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 font-semibold text-purple-300"></span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
+          {allMoods.map((mood) => (
+            <a
+              href={`${BASE}/mood/${mood}/`}
+              class={`explore-item mood-pill-${mood} rounded-2xl sm:rounded-3xl flex flex-col justify-between min-h-[190px] sm:min-h-[200px] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-xl group border border-white/15 hover:border-white/30 relative overflow-hidden`}
+              style="padding: 1.5rem 1.5rem 2.25rem 1.5rem;"
+              data-search-text={`${moodMeta[mood].label} ${mood} mood ${moodKeywords[mood] || ''}`}
+            >
+              <div class="flex items-center justify-between z-10">
+                <span class="text-4xl sm:text-5xl group-hover:scale-110 transition-transform duration-300 select-none">{moodMeta[mood].emoji}</span>
+                <span class="text-xs font-bold text-white/95 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/15 min-w-[32px] text-center inline-flex items-center justify-center leading-none">
+                  {moodCounts[mood] || 0}
+                </span>
+              </div>
+              <div class="z-10 mt-auto pt-4">
+                <span class="text-base sm:text-lg font-bold text-white block capitalize tracking-tight leading-tight mb-1">{moodMeta[mood].label}</span>
+                <span class="text-xs text-white/80 group-hover:text-white font-medium flex items-center gap-1 transition-colors">
+                  Explore stream <span class="group-hover:translate-x-1 transition-transform">→</span>
+                </span>
+              </div>
+              <!-- Subtle bottom contrast vignette -->
+              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/50 via-black/20 to-transparent pointer-events-none"></div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- 4. Categories Tab -->
+      <div id="tab-categories" class="explore-tab-content hidden space-y-4">
+        <!-- Search Mode Header -->
+        <div class="search-section-header hidden items-center justify-between pb-2 border-b border-sky-500/25 text-sky-300">
+          <div class="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <span>📂</span>
+            <span>Matching Categories</span>
+          </div>
+          <span class="search-section-badge text-xs px-2.5 py-0.5 rounded-full bg-sky-500/20 font-semibold text-sky-300"></span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+          {categories.map((cat) => (
+            <a
+              href={`${BASE}/category/${cat.slug}/`}
+              class="explore-item glass rounded-2xl px-5 py-4 sm:py-4.5 flex items-center justify-between hover:bg-white/[0.09] active:scale-[0.98] border border-white/8 hover:border-white/20 transition-all duration-200 group"
+              data-search-text={`${cat.name} ${cat.slug} category wisdom`}
+            >
+              <div class="flex items-center gap-4">
+                <span class="w-12 h-12 rounded-xl bg-white/8 border border-white/10 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition-transform select-none">
+                  {categoryIcons[cat.slug.toLowerCase()] || '📂'}
+                </span>
+                <div>
+                  <span class="text-sm sm:text-base font-bold text-white group-hover:text-amber-200 transition-colors block mb-0.5">{cat.name}</span>
+                  <span class="text-xs text-white/50">{cat.count} curated quotes</span>
+                </div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </div>
+
       <!-- 5. Tags Tab (Popular & Trending Themes) -->
-      <div id="tab-tags" class="explore-tab-content hidden">
+      <div id="tab-tags" class="explore-tab-content hidden space-y-4">
+        <!-- Search Mode Header -->
+        <div class="search-section-header hidden items-center justify-between pb-2 border-b border-emerald-500/25 text-emerald-300">
+          <div class="flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider">
+            <span>🏷️</span>
+            <span>Matching Tags &amp; Topics</span>
+          </div>
+          <span class="search-section-badge text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 font-semibold text-emerald-300"></span>
+        </div>
+
         <div class="flex flex-wrap gap-2.5 sm:gap-3 pt-1">
           {popularTags.map(([tag, count]) => {
             const isHighCount = count >= 3;
@@ -374,7 +444,7 @@ const categoryIcons: Record<string, string> = {
                     ? 'bg-white/12 hover:bg-white/22 text-white border-white/20 shadow-sm'
                     : 'bg-white/6 hover:bg-white/14 text-white/80 border-white/8'
                 }`}
-                data-search-text={tag}
+                data-search-text={`${tag} tag topic theme`}
               >
                 <span>#{tag}</span>
                 <span class="text-[10px] text-white/70 font-bold bg-black/35 rounded-full px-2.5 py-1 min-w-[20px] text-center inline-flex items-center justify-center leading-none">
@@ -510,7 +580,7 @@ const categoryIcons: Record<string, string> = {
           <path d="m21 21-4.35-4.35" />
         </svg>
         <p class="text-base font-semibold text-white/70 mb-1">No matches found</p>
-        <p class="text-xs text-white/40 mt-1">Try a different author, mood, or keyword</p>
+        <p class="text-xs text-white/40 mt-1 max-w-sm">Try searching by author (e.g. Rumi, Emerson, Seneca), mood (e.g. Serene, Bold), category (e.g. Nature, Wisdom), or topic.</p>
         <button
           id="explore-reset-search-btn"
           class="mt-5 px-5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white/80 hover:text-white font-medium cursor-pointer transition-colors border border-white/12"
@@ -587,7 +657,7 @@ const categoryIcons: Record<string, string> = {
         card.className =
           'explore-item rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 transition-all duration-200 group relative flex flex-col justify-between gap-4 shadow-sm';
         card.style.cssText = 'padding: clamp(1.25rem, 2.5vw, 1.75rem);';
-        card.dataset.searchText = `${quote.content} ${quote.author} ${quote.category}`;
+        card.dataset.searchText = `${quote.content} ${quote.author} ${quote.category} ${quote.mood || ''} liked`;
 
         // Quote text & Author
         const contentBlock = document.createElement('div');
@@ -602,7 +672,7 @@ const categoryIcons: Record<string, string> = {
           <div class="mt-3 flex items-center justify-between">
             <span class="text-xs font-semibold text-white/75 tracking-wide">— ${escapeHtml(quote.author)}</span>
             <span class="text-[10px] font-semibold text-white/60 bg-white/10 px-3 py-1 rounded-full border border-white/10 uppercase tracking-wider leading-normal">
-              ${escapeHtml(quote.category)}
+              ${escapeHtml(quote.category || 'Wisdom')}
             </span>
           </div>
         `;
@@ -614,7 +684,7 @@ const categoryIcons: Record<string, string> = {
         // Navigate button
         const jumpBtn = document.createElement('button');
         jumpBtn.className =
-          'inline-flex items-center gap-1.5 text-xs font-medium text-accent-start hover:text-white transition-colors cursor-pointer';
+          'inline-flex items-center gap-1.5 text-xs font-medium text-amber-300 hover:text-white transition-colors cursor-pointer';
         jumpBtn.innerHTML = `
           <span>Open Quote</span>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -711,7 +781,6 @@ const categoryIcons: Record<string, string> = {
         if (isSelected) {
           tab.classList.add('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
           tab.classList.remove('border-transparent', 'text-white/55');
-          // Ensure active tab is scrolled into view in horizontal bar
           tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         } else {
           tab.classList.remove('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
@@ -731,33 +800,37 @@ const categoryIcons: Record<string, string> = {
         refreshLikedQuotes();
       }
 
-      // Re-apply active search filter
-      if (searchInput && searchInput.value.trim()) {
-        filterItems(searchInput.value);
-      } else {
-        resetFilterVisibility();
-      }
-
       // Reset scroll position
       const scrollArea = document.getElementById('explore-scroll-area');
       if (scrollArea) scrollArea.scrollTop = 0;
     }
 
     tabs.forEach((tab) => {
-      tab.onclick = () => activateTab(tab.dataset.tab);
+      tab.onclick = () => {
+        // If user was searching, clicking a tab clears search to view that tab cleanly
+        if (searchInput && searchInput.value.trim()) {
+          searchInput.value = '';
+          if (searchClear) {
+            searchClear.classList.add('hidden');
+            searchClear.classList.remove('flex');
+          }
+          resetFilterVisibility();
+        }
+        activateTab(tab.dataset.tab);
+      };
     });
 
     if (likedBrowseBtn) {
-      likedBrowseBtn.onclick = () => activateTab('moods');
+      likedBrowseBtn.onclick = () => activateTab('authors');
     }
 
-    // ── Search & Filter ──
+    // ── Search & Filter Across ALL Domains Simultaneously ──
     function filterItems(query) {
       const q = query.toLowerCase().trim();
-      let visibleCount = 0;
+      const isSearching = q.length > 0;
 
       if (searchClear) {
-        if (q.length > 0) {
+        if (isSearching) {
           searchClear.classList.remove('hidden');
           searchClear.classList.add('flex');
         } else {
@@ -766,21 +839,86 @@ const categoryIcons: Record<string, string> = {
         }
       }
 
-      tabContents.forEach((tc) => {
-        if (tc.classList.contains('hidden')) return;
-        const items = tc.querySelectorAll('.explore-item');
+      if (!isSearching) {
+        resetFilterVisibility();
+        return;
+      }
+
+      // Refresh liked quotes in case likes were toggled
+      refreshLikedQuotes();
+
+      let totalMatches = 0;
+      const tabMatchCounts = {};
+      const searchableTabIds = ['tab-authors', 'tab-moods', 'tab-categories', 'tab-tags', 'tab-liked'];
+
+      searchableTabIds.forEach((tabId) => {
+        const tabEl = document.getElementById(tabId);
+        if (!tabEl) return;
+
+        const items = tabEl.querySelectorAll('.explore-item');
+        let tabMatchCount = 0;
+
         items.forEach((item) => {
           const text = (item.dataset.searchText || item.textContent || '').toLowerCase();
-          const match = !q || text.includes(q);
+          const match = text.includes(q);
           item.style.display = match ? '' : 'none';
-          if (match) visibleCount++;
+          if (match) tabMatchCount++;
         });
+
+        tabMatchCounts[tabId] = tabMatchCount;
+        totalMatches += tabMatchCount;
+
+        const header = tabEl.querySelector('.search-section-header');
+        const badge = header ? header.querySelector('.search-section-badge') : null;
+        const banner = tabEl.querySelector('#author-roadmap-banner');
+        const emptyState = tabEl.querySelector('#liked-empty-state');
+
+        if (tabMatchCount > 0) {
+          tabEl.classList.remove('hidden');
+          tabEl.classList.add('mb-8');
+          if (header) {
+            header.classList.remove('hidden');
+            header.classList.add('flex');
+            if (badge) badge.textContent = `${tabMatchCount} ${tabMatchCount === 1 ? 'match' : 'matches'}`;
+          }
+          if (banner) banner.classList.add('hidden');
+          if (emptyState) emptyState.classList.add('hidden');
+        } else {
+          tabEl.classList.add('hidden');
+          tabEl.classList.remove('mb-8');
+          if (header) {
+            header.classList.add('hidden');
+            header.classList.remove('flex');
+          }
+        }
       });
 
+      // Rituals tab is hidden during search mode
+      const ritualsTab = document.getElementById('tab-rituals');
+      if (ritualsTab) ritualsTab.classList.add('hidden');
+
+      // Update tab button visual cues with match indicators
+      tabs.forEach((tab) => {
+        const tabKey = tab.dataset.tab;
+        const tabContentId = `tab-${tabKey}`;
+        const count = tabMatchCounts[tabContentId] || 0;
+
+        if (count > 0) {
+          tab.style.opacity = '1';
+          tab.classList.add('ring-1', 'ring-amber-400/50');
+        } else {
+          tab.style.opacity = '0.45';
+          tab.classList.remove('ring-1', 'ring-amber-400/50');
+        }
+      });
+
+      // Handle Empty Search Results
       if (searchEmpty) {
-        if (q && visibleCount === 0) {
+        if (totalMatches === 0) {
           searchEmpty.classList.remove('hidden');
           searchEmpty.classList.add('flex');
+          const emptyText = searchEmpty.querySelector('p');
+          if (emptyText) emptyText.textContent = `No matches found for "${query}"`;
         } else {
           searchEmpty.classList.add('hidden');
           searchEmpty.classList.remove('flex');
@@ -789,15 +927,47 @@ const categoryIcons: Record<string, string> = {
     }
 
     function resetFilterVisibility() {
+      // Restore currently active tab visibility
       tabContents.forEach((tc) => {
+        tc.classList.remove('mb-8');
+        const isCurrent = tc.id === `tab-${currentActiveTab}`;
+        if (isCurrent) {
+          tc.classList.remove('hidden');
+        } else {
+          tc.classList.add('hidden');
+        }
+
+        // Reset all item displays to default
         const items = tc.querySelectorAll('.explore-item');
         items.forEach((item) => {
           item.style.display = '';
         });
+
+        // Hide search headers
+        const header = tc.querySelector('.search-section-header');
+        if (header) {
+          header.classList.add('hidden');
+          header.classList.remove('flex');
+        }
+
+        // Restore banner if on authors tab
+        const banner = tc.querySelector('#author-roadmap-banner');
+        if (banner) banner.classList.remove('hidden');
       });
+
+      // Reset tab button opacities and ring indicators
+      tabs.forEach((tab) => {
+        tab.style.opacity = '';
+        tab.classList.remove('ring-1', 'ring-amber-400/50');
+      });
+
       if (searchEmpty) {
         searchEmpty.classList.add('hidden');
         searchEmpty.classList.remove('flex');
+      }
+
+      if (currentActiveTab === 'liked') {
+        refreshLikedQuotes();
       }
     }
 
@@ -828,14 +998,14 @@ const categoryIcons: Record<string, string> = {
     function openDrawer(tabToOpen = 'liked') {
       if (!drawer) return;
       drawer.classList.remove('hidden');
-      drawer.style.display = 'flex'; // Uses flexbox to perfectly center sheet on all viewports
+      drawer.style.display = 'flex';
 
-      // Always update likes whenever opening
+      // Refresh likes
       refreshLikedQuotes();
 
-      // If user has > 0 likes, default to Liked tab; otherwise default to Moods tab
+      // If user has > 0 likes, default to Liked tab; otherwise default to Authors tab
       const hasLikes = window.likedQuotes && window.likedQuotes.getAll().length > 0;
-      activateTab(hasLikes ? tabToOpen : 'moods');
+      activateTab(hasLikes ? tabToOpen : 'authors');
 
       if (searchInput) {
         searchInput.value = '';
@@ -1071,7 +1241,7 @@ const categoryIcons: Record<string, string> = {
 
     initRitualsUI();
 
-    // Global hook so RightActionRail or other triggers can open drawer directly to any tab
+    // Global hooks
     window.openExploreDrawer = openDrawer;
     window.refreshExploreLikes = refreshLikedQuotes;
   }

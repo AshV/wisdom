@@ -722,6 +722,165 @@ export const authorProfiles: Record<string, AuthorProfile> = {
       { concept: 'Endless Evolution & Circles', description: 'The life of man is a self-evolving circle, which, from a ring imperceptibly small, rushes on all sides outwards to new and larger circles, without end.' }
     ],
     whyTimeless: 'Emerson remains the ultimate champion of inner sovereignty, teaching humanity to shed cowardly conformity, awaken the divine within, and live with fearless authenticity.'
+  },
+
+  'confucius': {
+    slug: 'confucius',
+    name: 'Confucius',
+    longName: 'Kong Fuzi (Confucius)',
+    era: '551 – 479 BC',
+    tradition: 'Classical Confucianism & Moral Ethics',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Confucius',
+    summary: 'Ancient Chinese philosopher and educator whose ethical teachings on benevolence, ritual propriety, and moral leadership shaped East Asian civilization.',
+    bio: 'Confucius (Kong Fuzi) was a Chinese philosopher, teacher, and political figure whose aphorisms and dialogues, compiled in The Analects, laid the foundational moral philosophy of East Asia. Living during the turbulent Spring and Autumn period, Confucius advocated for the restoration of social harmony through moral self-cultivation (Xiushen), filial reverence (Xiao), ritual propriety (Li), and universal human-heartedness (Ren). He championed the ideal of the Junzi (noble person)—one whose moral authority derives not from aristocratic birth, but from unshakeable integrity, lifelong learning, and selfless devotion to the common good.',
+    keyWorks: [
+      { title: "The Analects (Lunyu)", description: "The definitive record of dialogues and aphorisms capturing Confucius's teachings on virtue, governance, friendship, and character." },
+      { title: "The Great Learning (Daxue)", description: "A classic treatise outlining the systematic progression from personal self-cultivation to family harmony, good governance, and world peace." },
+      { title: "The Doctrine of the Mean (Zhongyong)", description: "A profound philosophical work on maintaining cosmic balance, moral equilibrium, and wholehearted sincerity in all conduct." }
+    ],
+    pillars: [
+      { concept: 'Human-Heartedness (Ren)', description: 'Benevolence, empathy, and reverence for human dignity: do not impose on others what you yourself do not desire.' },
+      { concept: 'Ritual Propriety & Reverence (Li)', description: 'Conducting everyday interactions with mindful grace, mutual respect, and ethical intentionality.' },
+      { concept: 'The Noble Person (Junzi)', description: 'True nobility is measured not by wealth or status, but by quiet integrity, modesty in speech, and excellence in deed.' },
+      { concept: 'Lifelong Self-Cultivation', description: 'Real learning is the relentless polishing of the soul through reflection, honest self-examination, and practice.' }
+    ],
+    whyTimeless: 'Confucius formulated an enduring humanistic ethic that anchors civilization, proving that world peace begins with the quiet integrity of the individual heart.'
+  },
+
+  'zhuangzi': {
+    slug: 'zhuangzi',
+    name: 'Zhuangzi',
+    longName: 'Zhuangzi (Chuang Tzu)',
+    era: 'c. 4th Century BC',
+    tradition: 'Classical Daoist Mysticism & Philosophy of Freedom',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Zhuangzi_(book)',
+    summary: 'Iconoclastic Daoist mystic and literary genius whose parables celebrate radical freedom, spontaneity, and harmony with the natural cosmic flow.',
+    bio: 'Zhuangzi (Master Zhuang) was a Chinese philosopher and mystic who, along with Lao Tzu, established the foundational literature of Daoism. Renowned for his biting wit, playful paradoxes, and fantastical allegories, Zhuangzi challenged the rigid conventions, moral pedantry, and artificial social hierarchies of his era. Through parables like the Butterfly Dream, Cook Ding carving an ox with effortless grace, and the gnarled tree whose uselessness protects its life, Zhuangzi taught that true liberation comes from dissolving egoic control and wandering carefree in unity with the infinite Dao.',
+    keyWorks: [
+      { title: "The Book of Zhuangzi (Inner Chapters)", description: "Seven seminal masterworks including 'Carefree Wandering', 'On the Equality of Things', and 'The Secret of Caring for Life'." },
+      { title: "The Butterfly Dream (Parables)", description: "Celebrated allegorical inquiries shattering rigid distinctions between waking reality, subjective consciousness, and dreaming." }
+    ],
+    pillars: [
+      { concept: 'Carefree Wandering (Xiaoyaoyou)', description: 'Spiritual liberation from social cages and mental calcification, being utterly at home wherever your feet touch the ground.' },
+      { concept: 'The Equality of All Things (Qiwulun)', description: 'Releasing petty dualisms of right and wrong, success and failure, viewing all transformations as the natural dance of the cosmos.' },
+      { concept: 'The Utility of the Useless', description: 'Protecting your inner spirit from worldly exploitation by refusing to reduce your soul to a mere productive instrument.' },
+      { concept: 'Fasting of the Heart (Xinzhai)', description: 'Stilling mental chatter and conceptual calculation to become an open, empty mirror through which cosmic presence flows.' }
+    ],
+    whyTimeless: 'Zhuangzi remains humanity\'s most liberating and playful philosopher, puncturing self-important human rigidity with cosmic humor and boundless spiritual freedom.'
+  },
+
+  'kahlil-gibran': {
+    slug: 'kahlil-gibran',
+    name: 'Kahlil Gibran',
+    longName: 'Kahlil Gibran',
+    era: '1883 – 1931',
+    tradition: 'Lebanese-American Mystical Poetry & Humanism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Kahlil_Gibran',
+    summary: 'Visionary Lebanese-American poet, painter, and mystic whose timeless parables on love, marriage, work, and sorrow have touched millions across the globe.',
+    bio: 'Kahlil Gibran was a Lebanese-American essayist, poet, and visual artist whose 1923 masterpiece, The Prophet, became one of the most widely read and translated spiritual books in modern history. Blending the mystical heritage of Eastern Christianity and Sufism with Western romanticism, Gibran articulated a universal gospel of compassion, inner sovereignty, and reverent living. His writings explore the sacred rhythms of everyday human experience—teaching that love is sufficient unto love, that work is love made visible, and that suffering is the breaking of the shell that encloses understanding.',
+    keyWorks: [
+      { title: "The Prophet", description: "Twenty-six poetic discourses on love, marriage, children, giving, work, joy, sorrow, freedom, pain, and death delivered by the sage Almustafa." },
+      { title: "Sand and Foam", description: "A collection of profound spiritual aphorisms and parables illuminating human nature, friendship, and truth." },
+      { title: "The Broken Wings", description: "A poetic novella meditating on love, spiritual purity, social injustice, and the bittersweet transience of earthly beauty." },
+      { title: "The Madman", description: "A collection of allegorical parables on casting away false social masks and discovering the naked freedom of the soul." }
+    ],
+    pillars: [
+      { concept: 'Sacred, Non-Possessive Love', description: 'Love gives naught but itself and takes naught but from itself; true intimacy preserves spaces for the winds of heaven to dance.' },
+      { concept: 'Work as Love Made Visible', description: 'Labor is not an economic penalty, but the joyous weaving of the spirit\'s devotion into the physical fabric of the world.' },
+      { concept: 'Pain as the Crucible of Understanding', description: 'The deeper sorrow carves into your being, the more joy and boundless empathy your soul can contain.' },
+      { concept: 'The Immensity of the Soul', description: 'You are far greater than your knowledge, and more immense than your dreams; time and space are undivided within love.' }
+    ],
+    whyTimeless: 'Gibran elevated the ordinary milestones of human existence into sacred mysteries, speaking to the universal longing of the heart across every culture.'
+  },
+
+  'hafez': {
+    slug: 'hafez',
+    name: 'Hafez',
+    longName: 'Khwaja Shams-ud-Din Muhammad Hafez-e Shirazi',
+    era: 'c. 1315 – 1390',
+    tradition: 'Persian Sufi Mysticism & Ecstatic Poetry',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Hafez',
+    summary: 'Legendary Persian Sufi master and poet whose ecstatic verses celebrate divine intoxication, the garden of the soul, and liberation from religious hypocrisy.',
+    bio: 'Hafez of Shiraz is universally revered as the supreme master of Persian lyric poetry (ghazal). His Divan is cherished throughout the East as an oracle of divine illumination and mystical joy. Writing in the golden age of Persian literature, Hafez used the allegories of wine, taverns, nightingales, and roses to express the soul\'s burning longing for the Divine Beloved. Fiercely critical of empty dogmatic piety and moral posturing, Hafez championed the "Rend"—the ecstatic lover who discards social pretense to live in direct, radiant communion with truth and joy.',
+    keyWorks: [
+      { title: "The Divan of Hafez", description: "The definitive collection of hundreds of ecstatic Sufi ghazals exploring divine love, spiritual alchemy, and cosmic joy." },
+      { title: "The Gift & I Heard God Laughing (Scholarly Renderings)", description: "Celebrated translations bringing Hafez's vibrant spiritual humor, tenderness, and wisdom to modern readers." }
+    ],
+    pillars: [
+      { concept: 'Divine Joy as Sacred Devotion', description: 'Joy and laughter are not frivolous distractions, but the purest, most elevated form of prayer to the Creator.' },
+      { concept: 'Tearing the Veil of Hypocrisy', description: 'True spirituality belongs not to solemn ascetics in temples, but to humble, authentic hearts drinking of divine grace.' },
+      { concept: 'The Generosity of the Sun', description: 'Cosmic love radiates unconditionally without keeping debts or demanding repayment, illuminating the whole universe.' },
+      { concept: 'The Garden Within the Heart', description: 'The Beloved is never absent; every trial and tear is transformed into pearls of wisdom in the tavern of the soul.' }
+    ],
+    whyTimeless: 'Hafez transmutes human grief into golden ecstasy, reminding every seeker that love is the sole reason and supreme joy of our existence.'
+  },
+
+  'thich-nhat-hanh': {
+    slug: 'thich-nhat-hanh',
+    name: 'Thich Nhat Hanh',
+    longName: 'Zen Master Thich Nhat Hanh',
+    era: '1926 – 2022',
+    tradition: 'Applied Mindfulness & Engaged Buddhism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Th%C3%ADch_Nh%E1%BA%A5t_H%E1%BA%A1nh',
+    summary: 'Global peace activist, Zen master, and author who pioneered Engaged Buddhism, conscious breathing, and the transformative power of mindfulness.',
+    bio: 'Thich Nhat Hanh was a Vietnamese Zen Buddhist monk, author, and peace activist who founded the Plum Village tradition. Nominated for the Nobel Peace Prize by Dr. Martin Luther King Jr. in 1967, Thich Nhat Hanh dedicated his life to translating the contemplative depth of Buddhist psychology into accessible daily practices for modern humanity. He pioneered the concept of "Interbeing"—the radical realization that no phenomenon exists in isolation, but inter-is with the entire cosmos. His gentle teachings on conscious breathing, walking meditation, and compassionate listening have transformed millions of lives worldwide.',
+    keyWorks: [
+      { title: "Peace Is Every Step", description: "Practical mindfulness guidance for transforming daily stress, traffic, and routine into moments of deep peace and awakening." },
+      { title: "The Miracle of Mindfulness", description: "The foundational handbook on conscious breathing, washing dishes with presence, and living fully in the here and now." },
+      { title: "No Mud, No Lotus", description: "An extraordinary guide to the art of transforming suffering into compassion, understanding, and unshakeable happiness." },
+      { title: "Being Peace", description: "Core discourses on cultivating personal serenity as the indispensable foundation for global harmony and social justice." }
+    ],
+    pillars: [
+      { concept: 'The Art of Interbeing (Tiep Hien)', description: 'Nothing exists by itself alone; we are interconnected with the trees, clouds, rivers, and every sentient being.' },
+      { concept: 'Conscious Breath as Living Sanctuary', description: 'Breathing in, I calm my body; breathing out, I smile. The present moment is the only moment where life is available.' },
+      { concept: 'No Mud, No Lotus', description: 'Compassion and wisdom are born directly from embracing our suffering, just as the lotus blossoms from the bottom mud.' },
+      { concept: 'Deep Listening & Loving Presence', description: 'The most precious gift we can offer another is our undivided, attentive presence: "Darling, I am truly here for you."' }
+    ],
+    whyTimeless: 'Thich Nhat Hanh proved that peace is not an abstract theory, but a lived, accessible reality available in every single mindful breath and step.'
+  },
+
+  'kabir': {
+    slug: 'kabir',
+    name: 'Kabir',
+    longName: 'Sant Kabir Das',
+    era: 'c. 15th Century',
+    tradition: 'Bhakti-Sufi Syncretic Mysticism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Kabir',
+    summary: 'Revered mystic poet of northern India whose direct, unsparing verses cut through religious dogma to reveal the divine residing within the human heart.',
+    bio: 'Sant Kabir was an Indian mystic poet and saint whose writings influenced the Bhakti movement and are revered across Hinduism, Sufism, and Sikhism (with hundreds of his hymns included in the Guru Granth Sahib). A humble weaver by trade, Kabir rejected sectarian divisions, caste prejudices, and empty temple rituals, declaring that the Supreme Reality is neither in the mosque nor the temple, but is the breath within all breathing. His dohas (couplets) remain celebrated for their piercing directness, lyrical beauty, and uncompromising demand for spiritual authenticity.',
+    keyWorks: [
+      { title: "Bijak of Kabir", description: "The core compilation of Kabir's sayings, couplets (sakhi), and mystical songs unmasking religious hypocrisy." },
+      { title: "Kabir Granthavali & Dohas", description: "Timeless rhymed couplets on moral living, the illusion of maya, the inner guru, and direct communion with the divine." }
+    ],
+    pillars: [
+      { concept: 'The Divine Within the Heart', description: 'God is not found in distant pilgrimages or stone idols; look within your own chest where the inner light burns continuously.' },
+      { concept: 'Rejection of Empty Ritualism', description: 'Shed sectarian dogmas, caste pride, and hypocritical pieties; genuine devotion requires pure, unadorned love.' },
+      { concept: 'The Natural State (Sahaja)', description: 'Spiritual liberation is living in simple, spontaneous remembrance of truth amid everyday household duties.' },
+      { concept: 'Discrimination of the Real (Viveka)', description: 'This world is a fleeting marketplace; do not trade the immortal jewel of the soul for counterfeit dust.' }
+    ],
+    whyTimeless: 'Kabir stripped away all sectarian pretense with devastating clarity, reminding humanity that God is as intimate and immediate as our own breath.'
+  },
+
+  'patanjali': {
+    slug: 'patanjali',
+    name: 'Patanjali',
+    longName: 'Maharishi Patanjali',
+    era: 'c. 2nd Century BC – 4th Century AD',
+    tradition: 'Classical Yoga Psychology & Philosophy of Consciousness',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Patanjali',
+    summary: 'Ancient sage and compiler of the Yoga Sutras who established the foundational psychological science of meditation and mental mastery.',
+    bio: 'Maharishi Patanjali was the ancient Indian sage who systematically mapped the architecture of the human psyche in the Yoga Sutras. Rather than treating yoga as mere physical posture, Patanjali defined it as "Chitta Vritti Nirodha"—the stilling of the fluctuations of the mind. Across 196 terse aphorisms, he articulated the Eightfold Path (Ashtanga Yoga), detailing the psychological mechanisms of habit loops (samskaras), mental afflictions (kleshas), concentration (dharana), and meditative absorption (samadhi) that lead to radical liberation (kaivalya).',
+    keyWorks: [
+      { title: "The Yoga Sutras of Patanjali", description: "The foundational 4-chapter masterwork mapping the psychology of consciousness, practice, supernatural powers, and spiritual liberation." },
+      { title: "Mahabhasya", description: "Classical Sanskrit commentary on Panini's grammar exploring the philosophy of language and sound." }
+    ],
+    pillars: [
+      { concept: 'Stilling Mental Fluctuations (Chitta Vritti Nirodha)', description: 'When the turbulent waves of the mind settle into stillness, the Seer rests in its true, immortal nature.' },
+      { concept: 'The Eightfold Path (Ashtanga)', description: 'A systematic progression from moral restraint (Yama) and discipline (Niyama) to posture, breath, inward focus, and absorption.' },
+      { concept: 'Overcoming the Kleshas (Afflictions)', description: 'Uprooting ignorance, egoism, craving, aversion, and clinging to transient life through dedicated practice and detachment.' },
+      { concept: 'Continuous Practice & Non-Attachment (Abhyasa & Vairagya)', description: 'Mastery is secured when practice is cultivated without interruption for a long time with wholehearted devotion.' }
+    ],
+    whyTimeless: 'Patanjali created the world\'s definitive map of mental discipline, providing humanity with a timeless, empirical roadmap for inner stillness and psychological freedom.'
   }
 };
 
@@ -740,6 +899,11 @@ export function getAuthorProfile(slug: string, fallbackName?: string): AuthorPro
   if (normalizedSlug === 'krishnamurti') normalizedSlug = 'jiddu-krishnamurti';
   if (normalizedSlug === 'aurobindo') normalizedSlug = 'sri-aurobindo';
   if (normalizedSlug === 'emerson') normalizedSlug = 'ralph-waldo-emerson';
+  if (normalizedSlug === 'gibran' || normalizedSlug === 'khalil-gibran') normalizedSlug = 'kahlil-gibran';
+  if (normalizedSlug === 'hafiz') normalizedSlug = 'hafez';
+  if (normalizedSlug === 'thichnhathanh' || normalizedSlug === 'thich-nhat') normalizedSlug = 'thich-nhat-hanh';
+  if (normalizedSlug === 'kongfuzi') normalizedSlug = 'confucius';
+  if (normalizedSlug === 'chuangtzu' || normalizedSlug === 'chuang-tzu') normalizedSlug = 'zhuangzi';
 
   if (authorProfiles[normalizedSlug]) {
     const prof = authorProfiles[normalizedSlug];

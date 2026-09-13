@@ -1,0 +1,22 @@
+{
+  "id": "q3482",
+  "content": "Learning without thought is labor lost; thought without learning is perilous.",
+  "author": "Confucius",
+  "authorSlug": "confucius",
+  "category": "Wisdom & Self-Knowledge",
+  "categorySlug": "wisdom-self-knowledge",
+  "mood": "philosophical",
+  "tags": [
+    "confucius",
+    "learning",
+    "thinking",
+    "critical-thought",
+    "education"
+  ],
+  "theme": "dark",
+  "duration": 8,
+  "sourceWork": "The Analects, Book II, Chapter 15",
+  "explanation": "Accumulating facts without critical reflection creates mental clutter, but spinning pure speculation without studying history or empirical reality breeds dangerous fanaticism. Balance is essential.",
+  "practicalInsight": "Whenever you read a book or article, take five minutes to digest and interrogate how it challenges your existing worldview.",
+  "reflectionPrompt": "Do you tend more toward passive consumption of information or toward ungrounded theorizing, and how can you balance them?"
+}

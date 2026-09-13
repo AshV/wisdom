@@ -366,15 +366,383 @@ export const authorProfiles: Record<string, AuthorProfile> = {
       { concept: 'Hypocrisy as Homage', description: 'Hypocrisy is the homage that vice pays to virtue; social morality survives because humans are desperate to appear good even when failing to be good.' }
     ],
     whyTimeless: 'La Rochefoucauld remains the supreme anatomist of the human ego, whose psychological penetrating insight anticipated Nietzsche, Freud, and modern cognitive psychology by two centuries.'
+  },
+
+  'swami-vivekananda': {
+    slug: 'swami-vivekananda',
+    name: 'Swami Vivekananda',
+    longName: 'Swami Vivekananda (Narendranath Datta)',
+    era: '1863 – 1902',
+    tradition: 'Advaita Vedanta & Practical Spirituality',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Swami_Vivekananda',
+    summary: 'Monk, philosopher, and orator who introduced Vedanta and Yoga to the Western world at the 1893 Parliament of Religions and revolutionized practical spirituality.',
+    bio: 'Swami Vivekananda, born Narendranath Datta in Calcutta, was the chief disciple of the 19th-century mystic Ramakrishna Paramahamsa. Endowed with a razor-sharp intellect, deep mastery of Western and Eastern philosophy, and an incandescent moral presence, Vivekananda represented India and Hinduism at the 1893 Parliament of the World\'s Religions in Chicago, opening with his iconic address "Sisters and brothers of America!" He founded the Ramakrishna Math and Ramakrishna Mission, championing "Practical Vedanta"—the conviction that the highest spiritual realization must express itself in tangible, selfless service to suffering humanity. Emphasizing fearlessness (abhaya), self-reliance, and the inherent divinity in every human soul, his teachings bridged ancient metaphysical wisdom with urgent social action.',
+    keyWorks: [
+      { title: "Raja Yoga (Conquering the Internal Nature)", description: "The seminal modern commentary on Patanjali's Yoga Sutras, presenting meditation and mind control as an exact empirical science." },
+      { title: "Karma Yoga (The Yoga of Action)", description: "A masterclass on non-attached action, teaching how to work without desire for praise or fear of blame as a direct path to spiritual freedom." },
+      { title: "Jnana Yoga (The Yoga of Knowledge)", description: "Lectures exploring the metaphysics of Advaita Vedanta, the nature of consciousness (Atman-Brahman), and the illusion of separateness." },
+      { title: "Bhakti Yoga (The Yoga of Devotion)", description: "An examination of divine love, transforming emotional longing into universal compassion." },
+      { title: "Lectures from Colombo to Almora", description: "Inspirational addresses rallying the youth toward moral strength, education, fearlessness, and social uplift." }
+    ],
+    pillars: [
+      { concept: 'Inherent Divinity of the Soul', description: 'Every human being is essentially divine; religion is the manifestation of the divinity already in man.' },
+      { concept: 'Radical Fearlessness (Abhaya)', description: 'The greatest sin is fear; you have within you the infinite power of the universe if you stand up and manifest your strength.' },
+      { concept: 'Service as Worship (Seva)', description: 'Serving the living human being—especially the downtrodden—is the highest form of worship of the Divine (Jiva is Shiva).' },
+      { concept: 'Harmony of All Faiths', description: 'Different religions are not contradictory truths, but different paths climbing the same mountain to the identical summit.' }
+    ],
+    whyTimeless: 'Vivekananda’s electrifying call to courage, inner strength, and selfless service cuts through fatalism, inspiring individuals across cultures to awaken their latent potential.'
+  },
+
+  'mahatma-gandhi': {
+    slug: 'mahatma-gandhi',
+    name: 'Mahatma Gandhi',
+    longName: 'Mohandas Karamchand Gandhi',
+    era: '1869 – 1948',
+    tradition: 'Satyagraha & Moral Philosophy',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Mahatma_Gandhi',
+    summary: 'Leader of India’s independence movement whose doctrine of Satyagraha (truth-force) and Ahimsa (nonviolence) inspired global civil rights movements.',
+    bio: 'Mohandas Karamchand Gandhi was an Indian lawyer, anti-colonial nationalist, and political ethicist whose philosophy of Satyagraha (insistence on Truth through nonviolent soul-force) liberated India from British colonial rule and revolutionized 20th-century social change. Developing his methods while fighting racial discrimination in South Africa for twenty years, Gandhi returned to India to lead nationwide nonviolent campaigns, including the Non-Cooperation Movement, the Salt March to Dandi, and the Quit India Movement. Living with radical simplicity in ashrams, spinning his own khadi cloth, and eating a minimalist diet, Gandhi demonstrated that political victory is meaningless without internal moral self-rule (Swaraj) and universal compassion.',
+    keyWorks: [
+      { title: "The Story of My Experiments with Truth", description: "Gandhi's candid autobiography chronicling his moral trials, dietetic experiments, spiritual search, and development of nonviolent resistance." },
+      { title: "Hind Swaraj (Indian Home Rule)", description: "His foundational 1909 manifesto diagnosing the spiritual poverty of aggressive industrialism and outlining moral self-governance." },
+      { title: "Non-Violence in Peace and War", description: "Collected essays and discourses detailing the philosophy, tactics, and personal discipline required for militant nonviolence." },
+      { title: "Key to Health", description: "Reflections on bodily discipline, fasting, mental calm, and living in harmony with nature." }
+    ],
+    pillars: [
+      { concept: 'Satyagraha (Truth-Force)', description: 'Holding relentlessly to Truth not through violence or coercion, but through self-suffering, moral persuasion, and unshakeable conviction.' },
+      { concept: 'Ahimsa (Universal Nonviolence)', description: 'Not merely passive non-injury, but active love and goodwill toward all living beings, including one\'s opponents.' },
+      { concept: 'Swaraj (Self-Mastery before Political Rule)', description: 'True freedom begins with mastering your own desires, fears, and ego; external liberation is a hollow shell without inner discipline.' },
+      { concept: 'Sarvodaya (Welfare of All)', description: 'An economic and moral vision measuring the health of a society by the flourishing and dignity of its poorest, most vulnerable members.' }
+    ],
+    whyTimeless: 'Gandhi proved to humanity that moral force and uncompromising nonviolence can conquer imperial armies, providing the enduring playbook for Martin Luther King Jr., Nelson Mandela, and peace movements worldwide.'
+  },
+
+  'rabindranath-tagore': {
+    slug: 'rabindranath-tagore',
+    name: 'Rabindranath Tagore',
+    longName: 'Rabindranath Tagore (Gurudev)',
+    era: '1861 – 1941',
+    tradition: 'Bengali Renaissance & Universal Humanism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Rabindranath_Tagore',
+    summary: 'First non-European Nobel laureate in Literature, poet, composer, educator, and philosopher of universal human consciousness and the harmony of nature.',
+    bio: 'Rabindranath Tagore was a polymath from Calcutta whose monumental body of poetry, songs, plays, novels, essays, and paintings reshaped modern Bengali and Indian culture. In 1913, he was awarded the Nobel Prize in Literature for his transcendent verse collection Gitanjali (Song Offerings), mesmerizing figures such as W. B. Yeats and Ezra Pound. Tagore founded Visva-Bharati University in Santiniketan, creating an open-air educational sanctuary where humanity and nature commune without the rigid constraints of colonial schooling. Rejecting narrow nationalist chauvinism, Tagore advocated for universal humanism—a spiritual vision recognizing the sacred kinship between human creativity, cosmic harmony, and freedom of thought.',
+    keyWorks: [
+      { title: "Gitanjali (Song Offerings)", description: "The Nobel Prize-winning collection of 103 luminous prose poems expressing devotional intimacy, cosmic wonder, and surrender to the divine." },
+      { title: "Sadhana: The Realization of Life", description: "Philosophical essays delivered at Harvard and Oxford exploring the Upanishadic worldview, the problem of evil, and the realization of unity." },
+      { title: "The Religion of Man (Hibbert Lectures)", description: "Tagore's spiritual philosophy defining the divine as the universal humanity dwelling within the human heart." },
+      { title: "Gora", description: "His epic novel exploring identity, caste, religious dogmatism, and the discovery of universal human fellowship." },
+      { title: "The Post Office & Red Oleanders", description: "Lyrical dramas addressing freedom of the soul, bureaucratic mechanization, and the longing for spiritual beauty." }
+    ],
+    pillars: [
+      { concept: 'Where the Mind is Without Fear', description: 'The ideal of a free society where knowledge is free, reason is not deadened by habit, and the mind is led into ever-widening thought.' },
+      { concept: 'Cosmic Kinship with Nature', description: 'Human beings are not conquerors of nature, but harmonious notes in the eternal symphony of the earth, seasons, and cosmos.' },
+      { concept: 'Divine Play (Lila) & Joy', description: 'Creation is not an act of grim necessity, but an overflowing expression of divine love, art, and joyous play.' },
+      { concept: 'Universal Humanism', description: 'Transcending narrow sectarian borders and nationalistic greed to celebrate the shared spiritual heritage of all humankind.' }
+    ],
+    whyTimeless: 'Tagore’s lyrical voice elevates the soul above petty tribalism into a radiant sanctuary of peace, artistic freedom, and spiritual wonder.'
+  },
+
+  'jiddu-krishnamurti': {
+    slug: 'jiddu-krishnamurti',
+    name: 'Jiddu Krishnamurti',
+    era: '1895 – 1986',
+    tradition: 'Inquiry into Consciousness & Radical Insight',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Jiddu_Krishnamurti',
+    summary: 'Revolutionary philosophical teacher who dissolved all spiritual organizations, declaring that "Truth is a pathless land" accessible only through direct, choiceless awareness.',
+    bio: 'Jiddu Krishnamurti was born in Madanapalle, India, and groomed from youth by the Theosophical Society under Annie Besant and C. W. Leadbeater to be the messianic "World Teacher." In 1929, in a historic act of moral integrity, Krishnamurti dissolved the wealthy Order of the Star, declaring that truth cannot be approached through any religion, guru, ritual, or dogma. For the remaining six decades of his life, he traveled the world holding dialogues and giving discourses, urging listeners not to follow him as a disciple, but to examine their own minds with razor-sharp, non-judgmental observation. He investigated the nature of fear, sorrow, time, psychological conditioning, and the beauty of a mind that has stepped completely out of the prison of the ego.',
+    keyWorks: [
+      { title: "Freedom from the Known", description: "A distilled, urgent manifesto on stripping away psychological conditioning, fear, and authority to discover authentic freedom." },
+      { title: "The First and Last Freedom", description: "Comprehensive dialogues on self-knowledge, the observer and the observed, love, and the ending of sorrow." },
+      { title: "Commentaries on Living (Series 1 – 3)", description: "Intimate reflections on nature, encounters with everyday seekers, and direct psychological diagnoses of human suffering." },
+      { title: "The Awakening of Intelligence", description: "Dialogues with quantum physicist David Bohm and other thinkers exploring thought, time, and the transformation of human consciousness." },
+      { title: "Think on These Things", description: "Lectures to students on authentic education, fearlessness, ambition, and living with true creativity." }
+    ],
+    pillars: [
+      { concept: 'Truth is a Pathless Land', description: 'No guru, belief system, or technique can lead to truth; spiritual realization requires direct, unmediated personal observation.' },
+      { concept: 'Choiceless Awareness', description: 'Observing your thoughts, emotions, and reactions without judgment, comparison, condemnation, or justification.' },
+      { concept: 'The Observer is the Observed', description: 'The inner division between "I" (the thinker) and "my thought" is an illusion; when this separation ends, psychological conflict dissolves.' },
+      { concept: 'Freedom from Psychological Time', description: 'Suffering and anxiety are born when the mind projects psychological memories into future fears; real transformation happens only in the absolute now.' }
+    ],
+    whyTimeless: 'Krishnamurti strips spirituality of all superstitious comfort, challenging every individual to take complete responsibility for their own mind and live with clarity.'
+  },
+
+  'gautama-buddha': {
+    slug: 'gautama-buddha',
+    name: 'Gautama Buddha',
+    longName: 'Siddhartha Gautama (The Buddha)',
+    era: 'c. 563 – 483 BC',
+    tradition: 'Early Buddhism & The Middle Way',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Gautama_Buddha',
+    summary: 'The Enlightened One whose Four Noble Truths and Eightfold Path established a practical psychological science for the cessation of suffering.',
+    bio: 'Siddhartha Gautama was born a prince of the Shakya clan in Kapilavastu. Confronted by the reality of aging, sickness, death, and asceticism (the Four Sights), he renounced his royal life at age 29 to seek an answer to universal human suffering. After six years of extreme mortification failed to bring insight, he realized the "Middle Way" between sensual indulgence and severe asceticism. Sitting in deep meditation under the Bodhi tree at Bodh Gaya, he attained Enlightenment (Bodhi). For the next 45 years, the Buddha walked across northern India teaching people of all castes, establishing the Sangha and teaching the Dhamma—a therapeutic, non-dogmatic path to mental liberation (Nibbana).',
+    keyWorks: [
+      { title: "Dhammapada", description: "423 pithy verses encapsulating the Buddha's ethical teachings, mindfulness, mastery of the mind, and the path of tranquility." },
+      { title: "Dhammacakkappavattana Sutta (Setting the Wheel in Motion)", description: "The first sermon at Sarnath setting forth the Four Noble Truths and the Noble Eightfold Path." },
+      { title: "Satipatthana Sutta (The Foundations of Mindfulness)", description: "The definitive manual on establishing mindfulness of the body, feelings, mind states, and mental phenomena." },
+      { title: "Kalama Sutta (Charter of Free Inquiry)", description: "The landmark discourse instructing seekers never to accept teachings on authority or tradition, but to test them in direct experience." }
+    ],
+    pillars: [
+      { concept: 'The Four Noble Truths', description: 'Understanding the reality of dissatisfaction (Dukkha), its origin in craving (Tanha), its cessation (Nirodha), and the Eightfold Path leading to its end (Magga).' },
+      { concept: 'The Middle Path (Majjhima Patipada)', description: 'Avoiding the extremes of sensual obsession and self-punishing austerity, cultivating balanced ethical and mental clarity.' },
+      { concept: 'Impermanence (Anicca) & Non-Self (Anatta)', description: 'All conditioned phenomena are in constant flux; clinging to an unchanging personal ego is the root of mental distress.' },
+      { concept: 'Mind Precedes All States', description: 'The mind is the forerunner of all actions; with a purified mind, joy follows like a shadow that never leaves.' }
+    ],
+    whyTimeless: 'The Buddha provided humanity with a timeless, empirical psychology of liberation, proving that serenity and freedom from suffering are accessible through conscious mental training.'
+  },
+
+  'ramana-maharshi': {
+    slug: 'ramana-maharshi',
+    name: 'Ramana Maharshi',
+    longName: 'Bhagavan Sri Ramana Maharshi',
+    era: '1879 – 1950',
+    tradition: 'Advaita Vedanta & Atma-Vichara (Self-Inquiry)',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Ramana_Maharshi',
+    summary: 'The silent sage of Arunachala who taught Self-Inquiry (Atma-Vichara) as the direct, effortless path to awakening and peace.',
+    bio: 'Ramana Maharshi was born Venkataraman Iyer in Madurai, South India. At age 16, he underwent a spontaneous, intense death experience where he simulated physical death and realized that while the body perishes, the underlying consciousness ("I AM") is eternal and deathless. Overwhelmed by this realization, he left home for the sacred hill of Arunachala in Tiruvannamalai, where he remained for the rest of his life. Living in caves before settling at Sri Ramanasramam, Maharshi welcomed visitors from around the world—including Paul Brunton, Somerset Maugham, and Carl Jung\'s associates. He rarely gave formal lectures; his primary teaching was the palpable, transformative power of silent presence (Mouna), supplemented by the practical method of Self-Inquiry: tracing every thought back to its origin by asking "Who am I?"',
+    keyWorks: [
+      { title: "Nan Yar? (Who Am I?)", description: "The distilled 28-question dialogue outlining the methodology of Self-Inquiry and the nature of the true Self." },
+      { title: "Ulladu Narpadu (Forty Verses on Reality)", description: "A profound poetic treatise on non-dual metaphysics, the illusion of the world-dream, and resting in pure Being." },
+      { title: "Upadesha Saram (Essence of Instruction)", description: "30 verses comparing action (Karma), devotion (Bhakti), breath control (Yoga), and wisdom (Jnana) in realizing the Self." },
+      { title: "Talks with Sri Ramana Maharshi", description: "Three volumes recording his intimate, razor-sharp answers to seekers, philosophers, and spiritual wanderers over decades." }
+    ],
+    pillars: [
+      { concept: 'Self-Inquiry (Atma-Vichara)', description: 'When any thought arises, do not follow it; immediately ask "To whom has this thought come?" and trace attention back to the source "I".' },
+      { concept: 'The Power of Silence (Mouna)', description: 'Silence is not the absence of sound, but the presence of pure awareness; it is the most potent form of spiritual instruction.' },
+      { concept: 'The Heart (Hridaya) as the Center', description: 'The true spiritual center is not a physical organ or conceptual chakra, but the seat of consciousness within where the ego subsides.' },
+      { concept: 'Effortless Being (Sahaja Samadhi)', description: 'True realization does not require escaping to a cave; it is remaining aware of your true nature while engaging naturally in daily life.' }
+    ],
+    whyTimeless: 'Ramana Maharshi distilled the most complex metaphysics of ancient India into an intensely practical, immediate question—Who am I?—restoring peace to restless modern seekers.'
+  },
+
+  'paramahansa-yogananda': {
+    slug: 'paramahansa-yogananda',
+    name: 'Paramahansa Yogananda',
+    longName: 'Paramahansa Yogananda (Mukunda Lal Ghosh)',
+    era: '1893 – 1952',
+    tradition: 'Kriya Yoga & Sanatana Dharma',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Paramahansa_Yogananda',
+    summary: 'Pioneer of yoga in the West and author of Autobiography of a Yogi, who bridged Eastern meditative science with Western spiritual longing.',
+    bio: 'Paramahansa Yogananda was an Indian monk and yogi who introduced millions of Westerners to meditation and Kriya Yoga through his masterwork Autobiography of a Yogi and the Self-Realization Fellowship (SRF). Initiated by his guru Swami Sri Yukteswar Giri in the sacred lineage of Lahiri Mahasaya and Mahavatar Babaji, Yogananda arrived in Boston in 1920 to address the International Congress of Religious Liberals. Across three decades of tireless lecturing, writing, and teaching in the United States, Yogananda presented yoga not as an esoteric cult, but as an empirical science of psycho-physical attunement and direct communion with the Infinite.',
+    keyWorks: [
+      { title: "Autobiography of a Yogi", description: "One of the most acclaimed spiritual autobiographies in modern history, introducing the science of Kriya Yoga, saints, and miracles." },
+      { title: "God Talks With Arjuna: The Bhagavad Gita", description: "A monumental two-volume spiritual commentary revealing the Gita as an allegory of the inner psychological and yogic battle for self-mastery." },
+      { title: "The Second Coming of Christ", description: "A detailed commentary on the Four Gospels demonstrating the unity between original Christianity and yogic consciousness." },
+      { title: "Man's Eternal Quest & The Divine Romance", description: "Collected talks and essays on purpose, meditation, willpower, and overcoming fear." }
+    ],
+    pillars: [
+      { concept: 'The Science of Kriya Yoga', description: 'A psycho-physiological technique that accelerates human spiritual evolution by neutralizing sensory restlessness and recharging the spine and brain.' },
+      { concept: 'Direct Experience over Dogma', description: 'Spiritual truth is not a matter of blind theological belief, but a verifiable state of consciousness attained through regular meditation.' },
+      { concept: 'The Unity of Eastern & Western Mysticism', description: 'The teachings of the Bhagavad Gita and the teachings of Jesus Christ point to the identical inner realization of God-consciousness.' },
+      { concept: 'Dynamic Willpower', description: 'Will is the switch that controls the flow of energy in the human body; where the mind focuses with intense resolution, energy follows.' }
+    ],
+    whyTimeless: 'Yogananda opened the treasure-house of Indian meditative science to the modern world, inspiring everyone from Steve Jobs to George Harrison with his radiant warmth and spiritual depth.'
+  },
+
+  'sri-aurobindo': {
+    slug: 'sri-aurobindo',
+    name: 'Sri Aurobindo',
+    longName: 'Sri Aurobindo (Aurobindo Ghose)',
+    era: '1872 – 1950',
+    tradition: 'Integral Yoga & Evolutionary Metaphysics',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Sri_Aurobindo',
+    summary: 'Philosopher, poet, and yogi who developed Integral Yoga, envisioning the evolutionary ascent of human consciousness to the Supermind.',
+    bio: 'Aurobindo Ghose was born in Calcutta and educated in England at St. Paul\'s School, London, and King\'s College, Cambridge. Returning to India, he became a fiery leader in the early Indian nationalist struggle for complete independence (Purna Swaraj). Imprisoned by the British in the Alipore Bomb Case in 1908, Aurobindo experienced profound spiritual awakenings in his prison cell. Retiring from political activism in 1910, he established an ashram in Pondicherry with his spiritual collaborator, Mirra Alfassa ("The Mother"). Over the next forty years, Sri Aurobindo composed masterworks of philosophy and visionary epic poetry, developing "Integral Yoga"—a spiritual path aimed not at escaping the material world for Nirvana, but at divinizing earthly life and accelerating the evolution of consciousness.',
+    keyWorks: [
+      { title: "The Life Divine", description: "His 1,000-page philosophical magnum opus explaining the evolution of matter, life, and mind toward the Supramental divine consciousness." },
+      { title: "Savitri: A Legend and a Symbol", description: "A monumental 24,000-line blank verse spiritual epic recounting the soul's conquest over death and fate." },
+      { title: "The Synthesis of Yoga", description: "A comprehensive manual harmonizing the classical paths of Karma, Bhakti, and Jnana Yoga into a unified life practice." },
+      { title: "The Human Cycle & The Ideal of Human Unity", description: "Studies in social and political philosophy exploring the psychological stages of human society toward universal solidarity." }
+    ],
+    pillars: [
+      { concept: 'All Life is Yoga', description: 'Spiritual practice is not confined to meditation retreats; every action, relationship, and thought is an opportunity for conscious growth.' },
+      { concept: 'Evolutionary Ascent to the Supermind', description: 'Man is a transitional being; just as life emerged from matter and mind from life, a higher Supramental consciousness is evolving in humanity.' },
+      { concept: 'Transformation, Not Renunciation', description: 'The aim of spirituality is not to abandon the world as an illusion, but to transform body, mind, and society with divine light.' },
+      { concept: 'The Psychic Being (Chaitya Purusha)', description: 'The divine spark in the deepest core of the heart that guides the soul\'s evolution through lifetimes.' }
+    ],
+    whyTimeless: 'Sri Aurobindo offers an audacious, evolutionary optimism for human destiny, inspiring thinkers, artists, and seekers to participate actively in the elevation of consciousness.'
+  },
+
+  chanakya: {
+    slug: 'chanakya',
+    name: 'Chanakya',
+    longName: 'Chanakya (Kautilya / Vishnugupta)',
+    era: 'c. 375 – 283 BC',
+    tradition: 'Ancient Indian Statecraft & Political Realism',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Chanakya',
+    summary: 'Master political strategist, economist, and royal advisor who united India under the Maurya Empire and authored the Arthashastra.',
+    bio: 'Chanakya, also known as Kautilya or Vishnugupta, was a professor of political science and economics at the ancient university of Takshashila (Taxila). Witnessing the fragmentation of Indian kingdoms in the face of Alexander the Great\'s invasion, Chanakya engineered the overthrow of the corrupt Nanda dynasty and installed Chandragupta Maurya as emperor, establishing the vast Mauryan Empire. His masterwork, the Arthashastra, is the ancient world\'s most comprehensive treatise on statecraft, economic policy, military strategy, espionage, and civic duty. His aphorisms in Chanakya Niti remain celebrated for their piercing psychological realism and uncompromising emphasis on strategic foresight and self-discipline.',
+    keyWorks: [
+      { title: "Arthashastra", description: "The definitive 15-book Sanskrit manual on political administration, economic governance, foreign policy, law, and national defense." },
+      { title: "Chanakya Niti (Maxims on Practical Life)", description: "A celebrated collection of aphorisms providing pragmatic counsel on leadership, ethics, human psychology, finance, and diplomacy." }
+    ],
+    pillars: [
+      { concept: 'Indriya-Jaya (Self-Mastery in Leadership)', description: 'A leader who cannot conquer his own six internal enemies (lust, anger, greed, vanity, arrogance, and jealousy) will inevitably destroy his kingdom.' },
+      { concept: 'Yogakshema (Welfare of the People)', description: 'In the happiness of his subjects lies the king\'s happiness; in their welfare his welfare. Whatever pleases himself he shall not consider as good, but whatever pleases his subjects he shall consider as good.' },
+      { concept: 'Strategic Realism & Foresight', description: 'Anticipating potential crises before they manifest; acting with calculated pragmatism rather than emotional naivety.' },
+      { concept: 'The Shield of Knowledge', description: 'Learning is like a friend in faraway lands; an educated mind possesses an armor that no enemy can breach.' }
+    ],
+    whyTimeless: 'Chanakya provided the ancient blueprint for effective governance and realpolitik, demonstrating that noble ideals require strategic discipline and realistic execution to survive.'
+  },
+
+  kabir: {
+    slug: 'kabir',
+    name: 'Kabir',
+    longName: 'Sant Kabir Das',
+    era: '15th Century (c. 1398 – 1518)',
+    tradition: 'Nirguna Bhakti & Mystical Poetry',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Kabir',
+    summary: 'Weaver, poet, and fearless mystic of Varanasi whose direct, piercing couplets (Dohas) rejected dogmatic sectarianism and celebrated inner divinity.',
+    bio: 'Kabir was a 15th-century Indian mystic poet and saint born in Varanasi into a family of Muslim weavers (Julahas). Associated with the Bhakti and Sufi movements, Kabir composed hundreds of incandescent poems and two-line couplets (Dohas) in vernacular Hindi (Saddukkari). Unapologetically critical of ritual hypocrisy among both Hindu and Muslim orthodoxies, Kabir mocked sacred threads, external bathing in rivers, formal pilgrimages, and sectarian pride. Instead, he taught that the divine (Ram / Allah) resides within the lotus of the human heart, accessible directly through sincere love, moral truth, and inner silence without need for priestly middlemen.',
+    keyWorks: [
+      { title: "Bijak", description: "The foundational holy compilation of Kabir's poems, songs (shabdas), and couplets (sakhis), preserved by the Kabir Panth." },
+      { title: "The Dohas of Kabir", description: "Hundreds of razor-sharp two-line aphorisms distilling life lessons, spiritual discernment, and the vanity of the ego." },
+      { title: "Kabir Granthavali & Guru Granth Sahib verses", description: "Over 500 hymns included in the sacred Sikh scripture, celebrated for their pure monotheism and moral power." }
+    ],
+    pillars: [
+      { concept: 'The Divine Within the Heart', description: 'Just as the musk deer searches the forest for the fragrance that resides within its own navel, humans wander to temples while God dwells in the heart.' },
+      { concept: 'Piercing the Veil of Hypocrisy', description: 'Rejecting external rituals, caste prejudice, and religious posturing that serve only to flatter the ego.' },
+      { concept: 'The Transient Spark of Life', description: 'Life is like a bubble on the surface of water; do not waste your brief moment on petty arguments and endless accumulation.' },
+      { concept: 'Sahaj Samadhi (Natural Intimacy with Truth)', description: 'Spiritual liberation is living naturally, working sincerely as a weaver, and remaining quietly attuned to the divine breath (Soham).' }
+    ],
+    whyTimeless: 'Kabir’s fearless honesty and earthy wit puncture religious pretension, calling humanity back to what truly matters: love, humility, and inner purity.'
+  },
+
+  'adi-shankara': {
+    slug: 'adi-shankara',
+    name: 'Adi Shankara',
+    longName: 'Adi Shankaracharya',
+    era: 'c. 788 – 820 AD',
+    tradition: 'Advaita Vedanta (Non-Dualism)',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Adi_Shankara',
+    summary: 'Philosopher, master dialectician, and theologian who consolidated the doctrine of Advaita Vedanta (non-dual reality) across India.',
+    bio: 'Adi Shankara was born in Kalady, Kerala, and became a sanyasin at an early age under Govinda Bhagavatpada. In a brief life of 32 years, Shankara traveled barefoot across the length and breadth of the Indian subcontinent, engaging scholars of diverse traditions in philosophical debates and establishing four monastic centers (Mathas) at Sringeri, Puri, Dwaraka, and Joshimath. He wrote definitive commentaries (Bhashyas) on the Principal Upanishads, the Bhagavad Gita, and the Brahma Sutras (the Prasthanatrayi). Shankara’s philosophy posits that ultimate reality is non-dual consciousness (Brahman); the perceived universe of separate objects is an appearance produced by Maya, and the individual soul (Atman) is fundamentally identical with Brahman.',
+    keyWorks: [
+      { title: "Brahmasutra Bhashya", description: "The cornerstone commentary systematizing non-dual metaphysics and resolving apparent scriptural contradictions." },
+      { title: "Vivekachudamani (Crest-Jewel of Discrimination)", description: "A luminous poetic dialogue between teacher and student on cultivating discrimination between the Real and the Unreal." },
+      { title: "Atmabodha (Self-Knowledge)", description: "68 verses providing direct metaphors to awaken the intellect to its own non-dual nature." },
+      { title: "Bhaja Govindam (Moha Mudgara)", description: "A famous devotional hymn shattering the illusions of wealth, youth, and pedantic grammar in the face of inevitable mortality." }
+    ],
+    pillars: [
+      { concept: 'Brahman Satyam, Jagan Mithya', description: 'Brahman (pure consciousness) alone is real; the universe of changing forms is an appearance (Mithya); the individual Self is not different from Brahman.' },
+      { concept: 'Viveka (Spiritual Discrimination)', description: 'The sharp capacity of the intellect to distinguish between the eternal, unchanging Self and fleeting, perishable phenomena.' },
+      { concept: 'Vairagya (Dispassion)', description: 'Freedom from obsessive thirst for temporary sensory objects, clearing the mental mirror to reflect truth.' },
+      { concept: 'Liberation through Knowledge (Jnana)', description: 'Ignorance (Avidya) is the sole cause of bondage; only direct experiential knowledge of non-duality can dissolve the illusion of suffering.' }
+    ],
+    whyTimeless: 'Adi Shankara provided the ultimate summit of philosophical non-dualism, presenting a rigorous, luminous intellectual framework for spiritual unity that continues to captivate global philosophers.'
+  },
+
+  patanjali: {
+    slug: 'patanjali',
+    name: 'Patanjali',
+    longName: 'Maharshi Patanjali',
+    era: 'c. 2nd Century BC',
+    tradition: 'Classical Yoga Philosophy (Raja Yoga)',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Patanjali',
+    summary: 'Ancient sage and grammarian who systematized Classical Yoga philosophy into the 196 aphorisms of the Yoga Sutras.',
+    bio: 'Patanjali was an ancient Indian sage revered for compiling the Yoga Sutras, the foundational text of Classical Yoga philosophy (one of the six orthodox Darshanas of Indian thought). In 196 concise aphorisms (sutras), Patanjali mapped human psychology, the mechanics of mental distraction, and the systematic eight-limbed methodology (Ashtanga Yoga) to calm the turbulent lake of the mind. Treating consciousness with empirical precision, Patanjali articulated that the ultimate goal of yoga is not physical acrobatics, but Kaivalya—the absolute freedom and self-realization of the seer (Purusha) resting in its own pristine nature.',
+    keyWorks: [
+      { title: "Yoga Sutras of Patanjali", description: "The definitive 4-chapter manual (Samadhi, Sadhana, Vibhuti, Kaivalya) outlining the Eight Limbs of Yoga and the mastery of the mind." },
+      { title: "Mahabhashya", description: "The classical commentary on Panini's Sanskrit grammar, celebrated for its linguistic brilliance and philosophical rigor." }
+    ],
+    pillars: [
+      { concept: 'Yogas Chitta Vritti Nirodha', description: 'Yoga is the intentional stilling and mastery of the fluctuations and patterns of the mind.' },
+      { concept: 'Ashtanga Yoga (The Eight Limbs)', description: 'The comprehensive framework for living: Yama (ethics), Niyama (discipline), Asana (posture), Pranayama (breath), Pratyahara (sensory withdrawal), Dharana (concentration), Dhyana (meditation), and Samadhi (absorption).' },
+      { concept: 'Abhyasa & Vairagya', description: 'Progress is achieved through two complementary wings: persistent, dedicated practice (Abhyasa) and calm non-attachment to outcomes (Vairagya).' },
+      { concept: 'The Seer Rests in Its True Nature', description: 'When the mind becomes quiet, the consciousness that observes reality stops identifying with passing mental waves and rests in its own pristine state.' }
+    ],
+    whyTimeless: 'Patanjali created humanity\'s most enduring architecture for mental mastery and meditation, providing practical steps to turn mental chaos into profound inner stillness.'
+  },
+
+  thiruvalluvar: {
+    slug: 'thiruvalluvar',
+    name: 'Thiruvalluvar',
+    longName: 'Thiruvalluvar (Valluvar)',
+    era: 'c. 4th – 5th Century AD',
+    tradition: 'Classical Tamil Ethical Philosophy',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Thiruvalluvar',
+    summary: 'Ancient Tamil philosopher and poet whose masterwork, the Tirukkural, offers 1,330 couplets of universal secular ethics, statecraft, and human love.',
+    bio: 'Thiruvalluvar was an ancient Tamil poet and philosopher traditionally believed to have lived in Mylapore (modern Chennai). His masterwork, the Tirukkural (The Sacred Couplets), is revered as the Tamil Veda (Tamil Marai) and stands as one of the world\'s greatest ethical texts. Consisting of 1,330 couplets organized into 133 chapters across three universal realms—Aram (Virtue/Dharma), Porul (Wealth/Statecraft), and Inbam (Love/Kama)—the Kural is uniquely non-sectarian, free of dogma, and grounded in universal moral realism. Valluvar provides practical wisdom on speech, friendship, gratitude, righteous governance, agricultural labor, and domestic tenderness.',
+    keyWorks: [
+      { title: "Tirukkural (Book I: Virtue / Aram)", description: "Couplets on domestic virtue, ascetic discipline, truthfulness, compassion, gratitude, and hospitality." },
+      { title: "Tirukkural (Book II: Wealth & Statecraft / Porul)", description: "Discourses on good governance, citizenship, justice, diplomacy, friendship, and the nobility of honest work." },
+      { title: "Tirukkural (Book III: Love / Inbam)", description: "Subtle lyrical verses exploring courtship, mutual devotion, separation, and romantic intimacy." }
+    ],
+    pillars: [
+      { concept: 'Righteous Living as Supreme Duty (Aram)', description: 'Virtue is not an abstract religious formula; it is living without envy, greed, anger, and harsh words in everyday life.' },
+      { concept: 'The Golden Debt of Gratitude', description: 'Never forget the benefit received from another; help rendered in the hour of need, though small as a grain of millet, is larger than the ocean.' },
+      { concept: 'Impartial Justice & Kind Speech', description: 'True nobility is speaking sweet words with a smiling face and acting with equal fairness toward friends and strangers alike.' },
+      { concept: 'Dignity of Labor', description: 'Even if the gods do not grant success, honest physical effort will yield its own inevitable fruit.' }
+    ],
+    whyTimeless: 'Thiruvalluvar’s Tirukkural remains a lighthouse of practical, secular morality that applies universally to every culture, government, and individual seeking a life of integrity.'
+  },
+
+  'apj-abdul-kalam': {
+    slug: 'apj-abdul-kalam',
+    name: 'A. P. J. Abdul Kalam',
+    longName: 'Dr. Avul Pakir Jainulabdeen Abdul Kalam',
+    era: '1931 – 2015',
+    tradition: 'Modern Humanism, Science & Civic Vision',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/A._P._J._Abdul_Kalam',
+    summary: 'Aerospace scientist, author, and 11th President of India, celebrated as the "People\'s President" for his humility and lifelong dedication to youth empowerment.',
+    bio: 'Dr. A. P. J. Abdul Kalam was born into a humble Tamil Muslim boat-owner\'s family in Rameswaram, Tamil Nadu. Overcoming poverty through scholarship and relentless work ethic, he became India\'s leading aerospace scientist, directing India\'s civilian space program (SLV-III) and defense missile development. Serving as the 11th President of India from 2002 to 2007, Kalam transformed the presidency into an accessible beacon of hope, interacting personally with over 15 million young students. A practicing vegetarian who played the Veena and studied both the Quran and the Bhagavad Gita, Kalam championed scientific inquiry, national self-reliance, and ethical leadership with child-like innocence and profound wisdom.',
+    keyWorks: [
+      { title: "Wings of Fire", description: "His inspirational autobiography tracing his journey from the beaches of Rameswaram to leading India's space and technological milestones." },
+      { title: "Ignited Minds: Unleashing the Power Within India", description: "A call to action urging the youth to dream boldly and harness scientific and moral innovation." },
+      { title: "Guiding Souls: Dialogues on the Purpose of Life", description: "Philosophical reflections on spirituality, duty, consciousness, and the role of ethics in technology." },
+      { title: "India 2020: A Vision for the New Millennium", description: "A strategic roadmap for eliminating poverty and building a knowledge-based, self-sufficient society." }
+    ],
+    pillars: [
+      { concept: 'Dreams are not What You See in Sleep', description: 'Dreams are the thoughts and aspirations that refuse to let you sleep until you bring them into reality.' },
+      { concept: 'Learning Gives Creativity', description: 'Learning gives creativity, creativity leads to thinking, thinking provides knowledge, and knowledge makes you great.' },
+      { concept: 'Servant Leadership & Integrity', description: 'When there is righteousness in the heart, there is beauty in the character; when there is beauty in character, there is harmony in the nation.' },
+      { concept: 'Courage to Walk the Unexplored Path', description: 'True courage is discovering the impossible, combating problems with confidence, and succeeding with integrity.' }
+    ],
+    whyTimeless: 'Dr. Kalam proved that unshakeable humility, scientific mastery, and moral innocence can coexist at the pinnacle of power, inspiring generations to live with purposeful passion.'
+  },
+
+  'sarvepalli-radhakrishnan': {
+    slug: 'sarvepalli-radhakrishnan',
+    name: 'Sarvepalli Radhakrishnan',
+    longName: 'Dr. Sarvepalli Radhakrishnan',
+    era: '1888 – 1975',
+    tradition: 'Comparative Philosophy & Neo-Vedanta',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Sarvepalli_Radhakrishnan',
+    summary: 'Distinguished Oxford philosopher, statesman, and 2nd President of India who built intellectual bridges between Eastern mysticism and Western philosophy.',
+    bio: 'Dr. Sarvepalli Radhakrishnan was an Indian philosopher, scholar, and statesman who served as the first Vice President and second President of India. Educated at Madras Christian College, Radhakrishnan was appointed the Spalding Professor of Eastern Religions and Ethics at the University of Oxford in 1936, becoming one of the most prominent cultural ambassadors of Indian thought in the West. He was nominated sixteen times for the Nobel Prize in Literature and eleven times for the Nobel Peace Prize. Radhakrishnan demonstrated that Indian philosophy is not an archaic relic of asceticism, but a living, rational, and deeply experiential tradition capable of solving modern humanity\'s crisis of spiritual fragmentation.',
+    keyWorks: [
+      { title: "Indian Philosophy (Volumes 1 & 2)", description: "The definitive 2-volume masterwork that systematically mapped the Vedas, Upanishads, Buddhism, Jainism, and the six orthodox Darshanas." },
+      { title: "The Principal Upanishads", description: "A celebrated translation and extensive commentary illuminating the metaphysical core of Vedantic wisdom." },
+      { title: "Eastern Religions and Western Thought", description: "Lectures exploring the historical interactions and philosophical syntheses between European thought and Indian mysticism." },
+      { title: "An Idealist View of Life", description: "His Hibbert Lectures defending the necessity of intuitive spiritual knowledge in an age dominated by empirical skepticism." }
+    ],
+    pillars: [
+      { concept: 'Intuition as Higher Reason', description: 'Spiritual intuition is not the opposite of reason; it is reason in its most elevated, integrated, and direct realization of truth.' },
+      { concept: 'Philosophy as a Way of Life', description: 'Philosophy is not an abstract academic chess game; it is an active discipline of character transformation and moral striving.' },
+      { concept: 'Universal Fellowship of Faiths', description: 'The world\'s religions are different dialects of the single universal language of the human spirit seeking the infinite.' },
+      { concept: 'The Sacred Calling of Teaching', description: 'Teachers should be the best minds in the country; education must cultivate not merely technical intellect, but compassionate wisdom.' }
+    ],
+    whyTimeless: 'Radhakrishnan stood as a towering intellectual bridge between civilizations, proving that reason and spiritual intuition must unite for humanity to flourish.'
   }
 };
 
 /**
- * Helper to retrieve rich author profile with fallback
+ * Helper to retrieve rich author profile with fallback and alias resolution
  */
 export function getAuthorProfile(slug: string, fallbackName?: string): AuthorProfile {
-  if (authorProfiles[slug]) {
-    const prof = authorProfiles[slug];
+  // Common alias normalization
+  let normalizedSlug = slug.toLowerCase();
+  if (normalizedSlug === 'buddha') normalizedSlug = 'gautama-buddha';
+  if (normalizedSlug === 'shankara') normalizedSlug = 'adi-shankara';
+  if (normalizedSlug === 'a-p-j-abdul-kalam' || normalizedSlug === 'kalam') normalizedSlug = 'apj-abdul-kalam';
+  if (normalizedSlug === 'vivekananda') normalizedSlug = 'swami-vivekananda';
+  if (normalizedSlug === 'gandhi') normalizedSlug = 'mahatma-gandhi';
+  if (normalizedSlug === 'tagore') normalizedSlug = 'rabindranath-tagore';
+  if (normalizedSlug === 'krishnamurti') normalizedSlug = 'jiddu-krishnamurti';
+  if (normalizedSlug === 'aurobindo') normalizedSlug = 'sri-aurobindo';
+  if (normalizedSlug === 'radhakrishnan') normalizedSlug = 'sarvepalli-radhakrishnan';
+
+  if (authorProfiles[normalizedSlug]) {
+    const prof = authorProfiles[normalizedSlug];
     return {
       ...prof,
       name: fallbackName || prof.name,

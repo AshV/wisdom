@@ -14,41 +14,25 @@
  * 5. Tags (Topic tag cloud)
  * 6. Rituals (Contemplation schedules)
  */
-import { getCollection } from 'astro:content';
+import { getExploreCatalog } from '../data/exploreCatalog';
 import { moodMeta, allMoods } from '../data/mediaRegistry';
 import { authorProfiles } from '../data/authorProfiles';
 import { slugifyQuote } from '../utils/slug';
 
-const allQuotes = await getCollection('quotes');
 const BASE = '/wisdom';
 
-// Aggregate counts
-const moodCounts: Record<string, number> = {};
-const categoryCounts: Record<string, { name: string; slug: string; count: number }> = {};
-const authorCounts: Record<string, { name: string; slug: string; count: number }> = {};
-const tagCounts: Record<string, number> = {};
-
-allQuotes.forEach((q) => {
-  const d = q.data;
-  moodCounts[d.mood] = (moodCounts[d.mood] || 0) + 1;
-  if (!categoryCounts[d.categorySlug]) {
-    categoryCounts[d.categorySlug] = { name: d.category, slug: d.categorySlug, count: 0 };
-  }
-  categoryCounts[d.categorySlug].count++;
-  if (!authorCounts[d.authorSlug]) {
-    authorCounts[d.authorSlug] = { name: d.author, slug: d.authorSlug, count: 0 };
-  }
-  authorCounts[d.authorSlug].count++;
-  d.tags.forEach((t) => {
-    tagCounts[t] = (tagCounts[t] || 0) + 1;
-  });
-});
-
-const categories = Object.values(categoryCounts).sort((a, b) => b.count - a.count);
-const totalAuthorsCount = Object.keys(authorCounts).length;
-const totalTagsCount = Object.keys(tagCounts).length;
-const allAuthors = Object.values(authorCounts).sort((a, b) => b.count - a.count);
-const popularTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).slice(0, 160);
+const {
+  totalQuotesCount,
+  moodCounts,
+  categoryCounts,
+  authorCounts,
+  tagCounts,
+  categories,
+  totalAuthorsCount,
+  totalTagsCount,
+  allAuthors,
+  popularTags,
+} = await getExploreCatalog();
 
 const categoryIcons: Record<string, string> = {
   philosophy: '🏛️',
@@ -115,7 +99,7 @@ const moodKeywords: Record<string, string> = {
         <div>
           <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight">Explore Wisdom</h2>
           <div class="flex items-center gap-2 mt-0.5">
-            <span class="text-xs text-white/50">{allQuotes.length} Timeless Quotes</span>
+            <span class="text-xs text-white/50">{totalQuotesCount} Timeless Quotes</span>
             <span class="text-white/20">•</span>
             <span class="text-xs text-white/50">{totalAuthorsCount} Authors</span>
           </div>

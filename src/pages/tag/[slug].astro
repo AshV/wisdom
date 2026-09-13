@@ -11,21 +11,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const allQuotes = await getCollection('quotes');
   const quotesData = allQuotes.map((q) => q.data);
 
-  const tags = [...new Set(quotesData.flatMap((q) => q.tags))];
+  // Pre-index quotes by tag in a single O(N) pass
+  const quotesByTag: Record<string, any[]> = {};
+  for (const q of quotesData) {
+    for (const tag of (q.tags || [])) {
+      if (!quotesByTag[tag]) quotesByTag[tag] = [];
+      quotesByTag[tag].push(q);
+    }
+  }
 
-  // Only generate dedicated static landing pages for tags with >= 2 quotes
-  // Pruning single-use micro-tags eliminates 688 thin pages and improves Google crawl budget & SEO quality
-  const substantiveTags = tags.filter((tag) => {
-    return quotesData.filter((q) => q.tags.includes(tag)).length >= 2;
-  });
+  // Pre-render landing pages for substantive tags (>= 5 quotes)
+  // Pruning micro-tags eliminates thin pages and accelerates build
+  const substantiveTags = Object.keys(quotesByTag).filter((tag) => quotesByTag[tag].length >= 5);
 
   return substantiveTags.map((tag) => {
-    const matched = quotesData.filter((q) => q.tags.includes(tag));
-    const remaining = quotesData.filter((q) => !q.tags.includes(tag));
+    const matched = quotesByTag[tag];
     return {
       params: { slug: tag },
       props: {
-        quotes: [...matched, ...remaining.slice(0, 10)],
+        quotes: matched.slice(0, 30),
         matchedCount: matched.length,
         tagName: tag,
       },

@@ -1,21 +1,22 @@
 {
   "id": "q2913",
-  "content": "No one is high and no one is low by birth alone; he who realizes the Supreme Truth is truly noble.",
+  "content": "The swan separates milk from water; the wise human separates truth from falsehood in every experience.",
   "author": "Kabir",
   "authorSlug": "kabir",
-  "category": "Mysticism & Inner Truth",
-  "categorySlug": "mysticism-inner-truth",
+  "category": "Discernment (Viveka)",
+  "categorySlug": "discernment-viveka",
   "mood": "philosophical",
   "tags": [
     "kabir",
-    "equality",
-    "dharma",
-    "truth"
+    "discernment",
+    "viveka",
+    "wisdom",
+    "clarity"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Songs of Kabir",
-  "explanation": "Kabir's mystical realization cuts through dogma to reveal the eternal simplicity of direct inner awareness and love without pretense.",
-  "practicalInsight": "Observe your habitual reactions today. Discard rigid pretense and bring sincerity and warmth into your immediate duties.",
-  "reflectionPrompt": "How can I replace complex mental posturing with simple, open-hearted honesty right now?"
+  "sourceWork": "Kabir Granthavali",
+  "explanation": "In a noisy world saturated with mixed motives, half-truths, and sensationalism, the spiritual seeker must function like the mythic swan, effortlessly filtering the pure milk of wisdom from murky water.",
+  "practicalInsight": "When consuming news or social media today, consciously extract the timeless moral lesson and discard the sensational outrage.",
+  "reflectionPrompt": "Am I drinking murky gossip or extracting the pure milk of wisdom?"
 }

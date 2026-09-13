@@ -1,21 +1,22 @@
 {
   "id": "q2907",
-  "content": "Do not mock the poor or the weak, for the rudder of their ship is held directly in the Master's hands.",
+  "content": "A sword must be bought for its sharp blade, not for its ornate scabbard. Value essence above external appearances.",
   "author": "Kabir",
   "authorSlug": "kabir",
-  "category": "Mysticism & Inner Truth",
-  "categorySlug": "mysticism-inner-truth",
-  "mood": "reflective",
+  "category": "Essence Over Form",
+  "categorySlug": "essence-over-form",
+  "mood": "philosophical",
   "tags": [
     "kabir",
-    "compassion",
-    "equality",
-    "humility"
+    "discernment",
+    "authenticity",
+    "truth",
+    "values"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Kabir Sakhi",
-  "explanation": "Kabir's mystical realization cuts through dogma to reveal the eternal simplicity of direct inner awareness and love without pretense.",
-  "practicalInsight": "Observe your habitual reactions today. Discard rigid pretense and bring sincerity and warmth into your immediate duties.",
-  "reflectionPrompt": "How can I replace complex mental posturing with simple, open-hearted honesty right now?"
+  "sourceWork": "Kabir Dohe",
+  "explanation": "Do not be dazzled by superficial titles, expensive clothing, or polished rhetoric. Cultivate the sharp discernment to evaluate the genuine moral and spiritual substance of people and ideas.",
+  "practicalInsight": "Look past the flashy branding or outward status of a situation today and evaluate its core truth and integrity.",
+  "reflectionPrompt": "Where have I been seduced by ornate packaging while ignoring an inferior substance?"
 }

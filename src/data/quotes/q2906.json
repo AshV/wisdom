@@ -1,21 +1,22 @@
 {
   "id": "q2906",
-  "content": "The heart that burns with envy can never reflect the cool radiance of divine truth.",
+  "content": "Live in the world as the lotus lives on water: rooted in the mud yet untouched by the slime.",
   "author": "Kabir",
   "authorSlug": "kabir",
-  "category": "Mysticism & Inner Truth",
-  "categorySlug": "mysticism-inner-truth",
-  "mood": "reflective",
+  "category": "Spiritual Detachment",
+  "categorySlug": "spiritual-detachment",
+  "mood": "serene",
   "tags": [
     "kabir",
+    "detachment",
+    "lotus",
     "purity",
-    "peace",
-    "virtue"
+    "equanimity"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Kabir Dohe",
-  "explanation": "Kabir's mystical realization cuts through dogma to reveal the eternal simplicity of direct inner awareness and love without pretense.",
-  "practicalInsight": "Observe your habitual reactions today. Discard rigid pretense and bring sincerity and warmth into your immediate duties.",
-  "reflectionPrompt": "How can I replace complex mental posturing with simple, open-hearted honesty right now?"
+  "sourceWork": "Kabir Granthavali",
+  "explanation": "Spiritual life does not require escaping to an isolated cave. The highest mastery is engaging fully in family, society, and career while remaining internally unblemished by greed and petty drama.",
+  "practicalInsight": "Fulfill all your worldly obligations with excellence today, but keep your inner heart detached like water drops rolling off a lotus petal.",
+  "reflectionPrompt": "Am I letting worldly friction soil my inner sanctuary?"
 }

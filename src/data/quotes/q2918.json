@@ -1,21 +1,22 @@
 {
   "id": "q2918",
-  "content": "Read a thousand books, and you remain a scholar. Read two and a half letters of love (*Prem*), and you become truly wise. (Teaching 2)",
+  "content": "No one is high and no one is low by birth alone; he who realizes the Supreme Truth is truly noble.",
   "author": "Kabir",
   "authorSlug": "kabir",
-  "category": "Mysticism & Inner Truth",
-  "categorySlug": "mysticism-inner-truth",
-  "mood": "joyful",
+  "category": "Universal Equality",
+  "categorySlug": "universal-equality",
+  "mood": "philosophical",
   "tags": [
     "kabir",
-    "love",
-    "wisdom",
-    "bhakti"
+    "equality",
+    "dharma",
+    "truth",
+    "justice"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Kabir Dohe",
-  "explanation": "Kabir's mystical realization cuts through dogma to reveal the eternal simplicity of direct inner awareness and love without pretense.",
-  "practicalInsight": "Observe your habitual reactions today. Discard rigid pretense and bring sincerity and warmth into your immediate duties.",
-  "reflectionPrompt": "How can I replace complex mental posturing with simple, open-hearted honesty right now?"
+  "sourceWork": "Songs of Kabir",
+  "explanation": "Kabir revolted against hereditary caste hierarchies and religious elitism. True nobility is an achievement of conscious character, spiritual purity, and living truth.",
+  "practicalInsight": "Evaluate every individual today purely on their integrity and character, completely ignoring their pedigree, wealth, or labels.",
+  "reflectionPrompt": "In what subtle ways do I still categorize people based on superficial social pedigree?"
 }

@@ -1,21 +1,22 @@
 {
   "id": "q2932",
-  "content": "A sword must be bought for its sharp blade, not for its ornate scabbard. Value essence above external appearances. (Teaching 2)",
+  "content": "He who seeks truth in outward books alone is like one who reads the recipe and thinks his hunger is satisfied.",
   "author": "Kabir",
   "authorSlug": "kabir",
-  "category": "Mysticism & Inner Truth",
-  "categorySlug": "mysticism-inner-truth",
+  "category": "Direct Experience",
+  "categorySlug": "direct-experience",
   "mood": "philosophical",
   "tags": [
     "kabir",
-    "discernment",
-    "truth",
-    "authenticity"
+    "experience",
+    "books",
+    "practice",
+    "wisdom"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Kabir Dohe",
-  "explanation": "Kabir's mystical realization cuts through dogma to reveal the eternal simplicity of direct inner awareness and love without pretense.",
-  "practicalInsight": "Observe your habitual reactions today. Discard rigid pretense and bring sincerity and warmth into your immediate duties.",
-  "reflectionPrompt": "How can I replace complex mental posturing with simple, open-hearted honesty right now?"
+  "sourceWork": "Bijak of Kabir",
+  "explanation": "Theoretical knowledge of spirituality cannot nourish the soul any more than reading a menu can satisfy biological hunger. You must taste direct experiential realization.",
+  "practicalInsight": "Move from reading about wisdom to practicing it: forgive someone, sit in silent awareness, or serve someone in need today.",
+  "reflectionPrompt": "Am I satisfying myself with reading recipes rather than cooking the meal of living truth?"
 }

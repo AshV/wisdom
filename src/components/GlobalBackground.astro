@@ -41,10 +41,18 @@
 
 <script>
   (function() {
-    const canvas = document.getElementById('ambient-canvas') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    let canvas = document.getElementById('ambient-canvas') as HTMLCanvasElement | null;
+    let ctx = canvas ? canvas.getContext('2d') : null;
+
+    function getCanvasAndContext() {
+      if (!canvas || !canvas.isConnected) {
+        canvas = document.getElementById('ambient-canvas') as HTMLCanvasElement | null;
+        if (canvas) {
+          ctx = canvas.getContext('2d');
+        }
+      }
+      return { canvas, ctx };
+    }
 
     let width = 0;
     let height = 0;
@@ -53,7 +61,7 @@
     let isVisible = true;
     let time = 0;
 
-    // ── 18 Curated, Breathtaking Color Palettes ──
+    // ── 18 Curated, Breathtaking Color Palettes (Rich, Luminous, Ethereal) ──
     const PALETTES = [
       {
         name: 'Midnight Aurora',
@@ -96,14 +104,14 @@
         colors: [[6, 214, 160], [112, 224, 239], [17, 138, 178], [207, 250, 254]],
       },
       {
-        name: 'Golden Radiance',
-        bgTop: [28, 18, 6],
-        bgMid: [46, 30, 10],
-        bgBottom: [16, 10, 4],
-        glow1: 'rgba(245, 158, 11, 0.48)',  // Amber
-        glow2: 'rgba(234, 179, 8, 0.42)',   // Goldenrod
-        glowCenter: 'rgba(251, 191, 36, 0.28)',
-        colors: [[254, 240, 138], [251, 191, 36], [245, 158, 11], [251, 146, 60]],
+        name: 'Galactic Stardust',
+        bgTop: [8, 8, 30],
+        bgMid: [14, 18, 48],
+        bgBottom: [4, 6, 20],
+        glow1: 'rgba(147, 51, 234, 0.48)',  // Electric Violet
+        glow2: 'rgba(56, 189, 248, 0.44)',  // Neon Sky Blue
+        glowCenter: 'rgba(192, 132, 252, 0.28)',
+        colors: [[147, 51, 234], [56, 189, 248], [192, 132, 252], [45, 212, 191]],
       },
       {
         name: 'Ethereal Lavender Dream',
@@ -166,14 +174,14 @@
         colors: [[56, 189, 248], [251, 113, 133], [167, 243, 208], [244, 114, 182]],
       },
       {
-        name: 'Solar Flare',
-        bgTop: [36, 16, 6],
-        bgMid: [56, 26, 10],
-        bgBottom: [20, 8, 4],
-        glow1: 'rgba(249, 115, 22, 0.48)',  // Blazing Orange
-        glow2: 'rgba(234, 179, 8, 0.45)',   // Molten Gold
-        glowCenter: 'rgba(252, 211, 77, 0.28)',
-        colors: [[249, 115, 22], [234, 179, 8], [252, 211, 77], [251, 146, 60]],
+        name: 'Prismatic Starlight',
+        bgTop: [10, 10, 36],
+        bgMid: [16, 20, 56],
+        bgBottom: [6, 6, 22],
+        glow1: 'rgba(217, 70, 239, 0.48)',  // Vivid Orchid
+        glow2: 'rgba(14, 165, 233, 0.45)',  // Sky Azure
+        glowCenter: 'rgba(167, 139, 250, 0.28)',
+        colors: [[217, 70, 239], [14, 165, 233], [167, 139, 250], [186, 230, 253]],
       },
       {
         name: 'Mystic Amethyst',
@@ -206,14 +214,14 @@
         colors: [[244, 63, 94], [6, 182, 212], [234, 179, 8], [168, 85, 247]],
       },
       {
-        name: 'Sahara Sunset',
-        bgTop: [34, 14, 10],
-        bgMid: [52, 24, 16],
-        bgBottom: [18, 8, 6],
-        glow1: 'rgba(234, 88, 12, 0.48)',   // Terracotta Orange
-        glow2: 'rgba(217, 119, 6, 0.44)',   // Spiced Cinnamon
-        glowCenter: 'rgba(251, 146, 60, 0.28)',
-        colors: [[234, 88, 12], [217, 119, 6], [251, 146, 60], [253, 186, 116]],
+        name: 'Celestial Cyan Velvet',
+        bgTop: [4, 16, 32],
+        bgMid: [8, 28, 52],
+        bgBottom: [2, 10, 22],
+        glow1: 'rgba(6, 182, 212, 0.48)',   // Glowing Aquamarine
+        glow2: 'rgba(59, 130, 246, 0.44)',  // Royal Electric Sapphire
+        glowCenter: 'rgba(110, 231, 183, 0.28)',
+        colors: [[6, 182, 212], [59, 130, 246], [110, 231, 183], [147, 197, 253]],
       },
       {
         name: 'Oceanic Abyss',
@@ -226,18 +234,18 @@
         colors: [[20, 184, 166], [14, 165, 233], [45, 212, 191], [125, 211, 252]],
       },
       {
-        name: 'Malachite Imperial',
-        bgTop: [8, 24, 16],
-        bgMid: [14, 40, 26],
-        bgBottom: [5, 16, 10],
-        glow1: 'rgba(16, 185, 129, 0.48)',  // Malachite Green
-        glow2: 'rgba(202, 138, 4, 0.42)',   // Imperial Gold
-        glowCenter: 'rgba(52, 211, 153, 0.26)',
-        colors: [[16, 185, 129], [202, 138, 4], [52, 211, 153], [253, 224, 71]],
+        name: 'Electric Elysium',
+        bgTop: [6, 14, 30],
+        bgMid: [10, 26, 46],
+        bgBottom: [4, 8, 20],
+        glow1: 'rgba(52, 211, 153, 0.48)',  // Neon Lime-Aqua
+        glow2: 'rgba(139, 92, 246, 0.44)',  // Cyber Violet
+        glowCenter: 'rgba(56, 189, 248, 0.28)',
+        colors: [[52, 211, 153], [139, 92, 246], [56, 189, 248], [16, 185, 129]],
       }
     ];
 
-    // ── 12 Diverse, Elegant Line Art Animation Engines ──
+    // ── 16 Diverse, Elegant Line Art Animation Engines ──
     const ANIM_TYPES = [
       'sacred_mandala',
       'contour_waves',
@@ -250,7 +258,11 @@
       'sacred_lotus_rose',
       'hyperspace_tunnel',
       'undulating_terrain_grid',
-      'metatron_polygons'
+      'metatron_polygons',
+      'sacred_cymatics_harmonics',
+      'celestial_pendulum_wave',
+      'hyperbolic_poincare_disk',
+      'quantum_vortex_rings'
     ];
 
     function djb2(str: string) {
@@ -281,12 +293,15 @@
     let nodes: Node[] = [];
 
     function resize() {
+      const { canvas: currentCanvas, ctx: currentCtx } = getCanvasAndContext();
+      if (!currentCanvas || !currentCtx) return;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      ctx.scale(dpr, dpr);
+      width = window.innerWidth || document.documentElement.clientWidth || 390;
+      height = window.innerHeight || document.documentElement.clientHeight || 844;
+      if (width === 0 || height === 0) return;
+      currentCanvas.width = Math.floor(width * dpr);
+      currentCanvas.height = Math.floor(height * dpr);
+      currentCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       initNodes();
     }
 
@@ -875,6 +890,131 @@
       ctx.restore();
     }
 
+    // ── Engine 13: Sacred Cymatic Resonance Standing Waves ──
+    function drawSacredCymatics() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const maxR = Math.max(width * 0.46, Math.min(width, height) * 0.44);
+      ctx.lineWidth = 1.0;
+
+      const rings = 8;
+      for (let r = 1; r <= rings; r++) {
+        const progress = r / rings;
+        const radius = maxR * Math.pow(progress, 0.88);
+        const freq = 4 + (r % 3) * 2;
+        const phase = time * (0.12 + (r % 2) * 0.08) * (r % 2 === 0 ? 1 : -1);
+        const alpha = 0.13 + (1 - progress) * 0.08;
+
+        ctx.strokeStyle = createStrokeGradient(cx - radius, cy - radius, cx + radius, cy + radius, alpha);
+        ctx.beginPath();
+        const steps = 180;
+        let first = true;
+        for (let i = 0; i <= steps; i++) {
+          const theta = (Math.PI * 2 / steps) * i;
+          const mod = Math.sin(freq * theta + phase) * (radius * 0.08);
+          const currentR = radius + mod;
+          const px = cx + Math.cos(theta) * currentR;
+          const py = cy + Math.sin(theta) * (currentR * 0.86);
+          if (first) { ctx.moveTo(px, py); first = false; }
+          else { ctx.lineTo(px, py); }
+        }
+        ctx.closePath();
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // ── Engine 14: Celestial Harmonograph Pendulum Multi-Wave Ribbons ──
+    function drawCelestialPendulumWave() {
+      ctx.save();
+      ctx.lineWidth = 1.0;
+      const strandCount = 10;
+
+      for (let s = 0; s < strandCount; s++) {
+        const prog = s / (strandCount - 1);
+        const freq = 0.0028 + s * 0.00035;
+        const amp = 34 + Math.sin(time * 0.2 + s * 0.5) * 18;
+        const yBase = height * (0.18 + prog * 0.64);
+        const alpha = 0.11 + Math.sin(prog * Math.PI) * 0.11;
+
+        ctx.strokeStyle = createStrokeGradient(0, yBase, width, yBase, alpha);
+        ctx.beginPath();
+        const step = 20;
+        let first = true;
+        for (let x = 0; x <= width + step; x += step) {
+          const py = yBase + Math.sin(x * freq + time * 0.4 + s * 0.4) * amp + Math.cos(x * 0.0015 - time * 0.2) * 18;
+          if (first) { ctx.moveTo(x, py); first = false; }
+          else { ctx.lineTo(x, py); }
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // ── Engine 15: Sacred Hyperbolic Poincaré Geodesics ──
+    function drawHyperbolicPoincare() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const diskR = Math.max(width * 0.44, Math.min(width, height) * 0.42);
+
+      ctx.lineWidth = 1.0;
+      ctx.strokeStyle = createStrokeGradient(cx - diskR, cy, cx + diskR, cy, 0.18);
+
+      // Boundary conformal ellipse
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, diskR, diskR * 0.85, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Orthogonal geodesic circular arcs
+      const arcs = 12;
+      ctx.lineWidth = 0.85;
+      for (let a = 0; a < arcs; a++) {
+        const angle = (Math.PI * 2 / arcs) * a + time * 0.05;
+        const d = diskR * (0.46 + 0.14 * Math.sin(time * 0.2 + a));
+        const arcR = Math.sqrt(Math.max(10, diskR * diskR - d * d));
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(angle);
+        ctx.strokeStyle = createStrokeGradient(-diskR, 0, diskR, 0, 0.13);
+        ctx.beginPath();
+        ctx.ellipse(d, 0, arcR, arcR * 0.85, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    // ── Engine 16: Precessing Quantum Vortex Gyroscope Rings ──
+    function drawQuantumVortexRings() {
+      ctx.save();
+      const cx = width * 0.5;
+      const cy = height * 0.5;
+      const maxR = Math.max(width * 0.45, Math.min(width, height) * 0.42);
+      ctx.lineWidth = 1.0;
+
+      const rings = 9;
+      for (let r = 0; r < rings; r++) {
+        const theta = (Math.PI / rings) * r + time * 0.07;
+        const rotZ = time * 0.04 + r * 0.2;
+        const rx = maxR * (0.52 + 0.48 * Math.cos(r * 0.3));
+        const ry = maxR * (0.26 + 0.18 * Math.sin(r * 0.4));
+        const alpha = 0.12 + (r % 3) * 0.04;
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(rotZ);
+        ctx.strokeStyle = createStrokeGradient(-rx, -ry, rx, ry, alpha);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, rx, ry, theta, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
     // ── Living Liquid Gradient Mesh: Smooth Morphing Fluid Color Pools ──
     function drawLivingGradientMesh() {
       currentTop[0] = lerp(currentTop[0], currentPalette.bgTop[0], 0.03);
@@ -926,40 +1066,79 @@
 
     // ── Main Render Loop (60fps Hardware Accelerated) ──
     function draw() {
-      if (!isVisible) return;
+      if (!isVisible) {
+        animId = null;
+        return;
+      }
+      const { canvas: currentCanvas, ctx: currentCtx } = getCanvasAndContext();
+      if (!currentCanvas || !currentCtx) {
+        animId = null;
+        return;
+      }
+
       time += 0.016;
 
-      // 1. Render Living Liquid Gradient Mesh
-      drawLivingGradientMesh();
+      try {
+        // 1. Render Living Liquid Gradient Mesh
+        drawLivingGradientMesh();
 
-      // 2. Render Pure Elegant Line Art (12 engines)
-      if (currentAnim === 'sacred_mandala') {
-        drawSacredMandala();
-      } else if (currentAnim === 'contour_waves') {
-        drawContourWaves();
-      } else if (currentAnim === 'constellation_lattice') {
-        drawConstellationLattice();
-      } else if (currentAnim === 'lissajous_orbit') {
-        drawLissajousOrbit();
-      } else if (currentAnim === 'celestial_armillary') {
-        drawCelestialArmillary();
-      } else if (currentAnim === 'fibonacci_spiral') {
-        drawFibonacciSpiral();
-      } else if (currentAnim === 'aurora_ribbons') {
-        drawAuroraRibbons();
-      } else if (currentAnim === 'torus_wireframe') {
-        drawTorusWireframe();
-      } else if (currentAnim === 'sacred_lotus_rose') {
-        drawSacredLotusRose();
-      } else if (currentAnim === 'hyperspace_tunnel') {
-        drawHyperspaceTunnel();
-      } else if (currentAnim === 'undulating_terrain_grid') {
-        drawUndulatingTerrainGrid();
-      } else if (currentAnim === 'metatron_polygons') {
-        drawMetatronPolygons();
+        // 2. Render Pure Elegant Line Art (12 engines)
+        if (currentAnim === 'sacred_mandala') {
+          drawSacredMandala();
+        } else if (currentAnim === 'contour_waves') {
+          drawContourWaves();
+        } else if (currentAnim === 'constellation_lattice') {
+          drawConstellationLattice();
+        } else if (currentAnim === 'lissajous_orbit') {
+          drawLissajousOrbit();
+        } else if (currentAnim === 'celestial_armillary') {
+          drawCelestialArmillary();
+        } else if (currentAnim === 'fibonacci_spiral') {
+          drawFibonacciSpiral();
+        } else if (currentAnim === 'aurora_ribbons') {
+          drawAuroraRibbons();
+        } else if (currentAnim === 'torus_wireframe') {
+          drawTorusWireframe();
+        } else if (currentAnim === 'sacred_lotus_rose') {
+          drawSacredLotusRose();
+        } else if (currentAnim === 'hyperspace_tunnel') {
+          drawHyperspaceTunnel();
+        } else if (currentAnim === 'undulating_terrain_grid') {
+          drawUndulatingTerrainGrid();
+        } else if (currentAnim === 'metatron_polygons') {
+          drawMetatronPolygons();
+        } else if (currentAnim === 'sacred_cymatics_harmonics') {
+          drawSacredCymatics();
+        } else if (currentAnim === 'celestial_pendulum_wave') {
+          drawCelestialPendulumWave();
+        } else if (currentAnim === 'hyperbolic_poincare_disk') {
+          drawHyperbolicPoincare();
+        } else if (currentAnim === 'quantum_vortex_rings') {
+          drawQuantumVortexRings();
+        }
+      } catch (err) {
+        console.warn('[GlobalBackground] Render cycle recovered:', err);
       }
 
       animId = requestAnimationFrame(draw);
+    }
+
+    function startLoop() {
+      if (animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+      isVisible = !document.hidden;
+      if (isVisible) {
+        animId = requestAnimationFrame(draw);
+      }
+    }
+
+    function stopLoop() {
+      if (animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
     }
 
     // Public Controller: called on slide arrival
@@ -994,21 +1173,63 @@
       if (g1) g1.style.background = currentPalette.glow1;
       if (g2) g2.style.background = currentPalette.glow2;
       if (gc) gc.style.background = currentPalette.glowCenter;
+
+      // Always guarantee animation loop is alive and active
+      if (isVisible && animId === null) {
+        startLoop();
+      }
     };
 
     (window as any).wisdomBackground = {
       getCurrentPalette: () => currentPalette,
       getCurrentAnim: () => currentAnim,
       getCanvas: () => canvas,
+      start: () => { isVisible = true; startLoop(); },
+      stop: () => stopLoop(),
+      resize: () => resize(),
     };
 
     window.addEventListener('resize', resize, { passive: true });
     document.addEventListener('visibilitychange', () => {
       isVisible = !document.hidden;
-      if (isVisible && !animId) draw();
+      if (isVisible) {
+        resize();
+        startLoop();
+      } else {
+        stopLoop();
+      }
     });
 
+    window.addEventListener('pageshow', () => {
+      isVisible = !document.hidden;
+      resize();
+      startLoop();
+    });
+
+    window.addEventListener('focus', () => {
+      isVisible = true;
+      resize();
+      startLoop();
+    });
+
+    document.addEventListener('astro:page-load', () => {
+      resize();
+      startLoop();
+    });
+
+    document.addEventListener('astro:after-swap', () => {
+      resize();
+      startLoop();
+    });
+
+    if (canvas) {
+      canvas.addEventListener('contextrestored', () => {
+        resize();
+        startLoop();
+      });
+    }
+
     resize();
-    draw();
+    startLoop();
   })();
 </script>

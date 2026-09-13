@@ -1,23 +1,22 @@
 {
   "id": "q3435",
-  "content": "Let our schools and colleges become nurseries of noble character, critical thought, and universal brotherhood.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
+  "content": "Solitude is impracticable, and society fatal. We must keep our head in the one and our hands in the other.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Inner Peace & Solitude",
+  "categorySlug": "inner-peace-solitude",
   "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "schools",
-    "colleges",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "balance",
+    "solitude",
+    "society",
+    "wisdom"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of schools and colleges in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of schools today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding schools, and how can you align with greater clarity today?"
+  "sourceWork": "Society and Solitude",
+  "explanation": "Total isolation turns eccentric and unproductive, while constant social immersion erodes depth. Wisdom balances quiet contemplative vision with active societal contribution.",
+  "practicalInsight": "Design your day to include both protected blocks of deep solitary focus and warm, attentive human service.",
+  "reflectionPrompt": "Is your daily life currently suffering from too much noise or too much isolation?"
 }

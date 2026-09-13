@@ -1,23 +1,22 @@
 {
   "id": "q3404",
-  "content": "Philosophy in India was never an ivory-tower speculation; it was a way of life, a spiritual discipline for living.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "Man Thinking must not be subdued by his instruments. Books are for nothing but to inspire.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
-  "mood": "reflective",
+  "mood": "bold",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "philosophy",
-    "india",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "scholarship",
+    "intellect",
+    "reading",
+    "originality"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of philosophy and india in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of philosophy today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding philosophy, and how can you align with greater clarity today?"
+  "sourceWork": "The American Scholar",
+  "explanation": "In 'The American Scholar', Emerson warned against becoming a passive consumer of books ('a bookworm'). Literature exists to awaken your own primary capacity for thought.",
+  "practicalInsight": "Do not merely read to memorize opinions; read to ignite your own active thinking and creative execution.",
+  "reflectionPrompt": "Are you using learning as a substitute for courageous action and original thought?"
 }

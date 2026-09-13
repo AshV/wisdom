@@ -1,23 +1,22 @@
 {
   "id": "q3434",
-  "content": "Democratic institutions are fragile vessels that require the moral vigilance and civic integrity of enlightened citizens.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
-  "mood": "reflective",
+  "content": "It is easy in the world to live after the world's opinion; it is easy in solitude to live after our own; but the great man is he who in the midst of the crowd keeps with perfect sweetness the independence of solitude.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Inner Peace & Solitude",
+  "categorySlug": "inner-peace-solitude",
+  "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "democratic",
-    "institutions",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "solitude",
+    "society",
+    "equanimity",
+    "mastery"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of democratic and institutions in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of democratic today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding democratic, and how can you align with greater clarity today?"
+  "sourceWork": "Self-Reliance",
+  "explanation": "The supreme mastery of character is neither hermit-like withdrawal nor mindless social conformity, but preserving your inner tranquility and sovereign truth while walking amidst the busy crowd.",
+  "practicalInsight": "Practice remaining inwardly calm, centered, and true to your values during crowded meetings or busy social settings.",
+  "reflectionPrompt": "How can you maintain the serenity of solitude while engaging actively in social life today?"
 }

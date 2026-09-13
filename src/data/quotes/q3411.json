@@ -1,23 +1,22 @@
 {
   "id": "q3411",
-  "content": "Moral character is the root from which the tree of individual greatness and national prosperity grows.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "content": "Character is higher than intellect. A great soul will be strong to live, as well as strong to think.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Courage & Character",
+  "categorySlug": "courage-character",
+  "mood": "bold",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "moral",
+    "ralph-waldo-emerson",
     "character",
-    "wisdom",
-    "ethics",
-    "truth"
+    "intellect",
+    "integrity",
+    "strength"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of moral and character in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of moral today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding moral, and how can you align with greater clarity today?"
+  "sourceWork": "The American Scholar",
+  "explanation": "Cleverness without moral bedrock is dangerous. True human greatness requires an unshakeable spine of integrity that withstands the storms of life.",
+  "practicalInsight": "Choose the honorable course of action today even if a shortcut seems intellectually clever.",
+  "reflectionPrompt": "In what decision is your character being tested more than your intellect right now?"
 }

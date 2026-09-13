@@ -1,23 +1,22 @@
 {
   "id": "q3391",
-  "content": "Art and philosophy are expressions of humanity's longing for eternal beauty and ultimate meaning.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "Nothing is secure but life, transition, the energizing spirit.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "mood": "reflective",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "philosophy",
-    "expressions",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "impermanence",
+    "energy",
+    "life",
+    "freedom"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of philosophy and expressions in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of philosophy today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding philosophy, and how can you align with greater clarity today?"
+  "sourceWork": "Circles",
+  "explanation": "Security sought in static institutions, fortunes, or fixed routines is an illusion. True security lies in our capacity for adaptive vitality and creative renewal.",
+  "practicalInsight": "Anchor your confidence not in external guarantees, but in your innate ability to adapt, learn, and overcome.",
+  "reflectionPrompt": "Where are you clinging to false security instead of trusting your living resilience?"
 }

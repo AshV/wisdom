@@ -1,23 +1,22 @@
 {
   "id": "q3433",
-  "content": "To know oneself is the beginning of all genuine philosophy, and to conquer oneself is the crown of all virtue.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "content": "A hero is no braver than an ordinary man, but he is brave five minutes longer.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Courage & Character",
+  "categorySlug": "courage-character",
+  "mood": "motivational",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "know",
-    "oneself",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "perseverance",
+    "courage",
+    "heroism",
+    "endurance"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of know and oneself in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of know today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding know, and how can you align with greater clarity today?"
+  "sourceWork": "Heroism",
+  "explanation": "Heroism is not the absence of fear or supernatural strength; it is the sheer endurance to hold the line for just a few moments longer when others surrender.",
+  "practicalInsight": "When tempted to quit today under pressure, persevere for just five more focused minutes.",
+  "reflectionPrompt": "Where in your life do you need to cultivate the discipline to hold on 'five minutes longer'?"
 }

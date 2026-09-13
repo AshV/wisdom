@@ -1,23 +1,22 @@
 {
   "id": "q3425",
-  "content": "Real peace cannot be maintained at the point of a bayonet; it must be cultivated in the hearts of educated citizens.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "The years teach much which the days never know.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "mood": "reflective",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "real",
-    "peace",
+    "ralph-waldo-emerson",
+    "time",
     "wisdom",
-    "ethics",
-    "truth"
+    "patience",
+    "perspective"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of real and peace in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of real today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding real, and how can you align with greater clarity today?"
+  "sourceWork": "Experience",
+  "explanation": "Daily events often seem chaotic, frustrating, or contradictory. Only the steady passage of years reveals the overarching wisdom and pattern of our journey.",
+  "practicalInsight": "Do not judge the whole meaning of your life by the temporary setbacks of a difficult week.",
+  "reflectionPrompt": "What past hardship now makes complete sense in the wider narrative of your life?"
 }

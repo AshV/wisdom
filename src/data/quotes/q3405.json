@@ -1,23 +1,22 @@
 {
   "id": "q3405",
-  "content": "Human history is the record of humanity's perpetual struggle between animal passions and divine aspirations.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "content": "Action is with the scholar subordinate, but it is essential. Without it he is not yet man. Without it thought can never ripen into truth.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Courage & Character",
+  "categorySlug": "courage-character",
+  "mood": "motivational",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "human",
-    "history",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "action",
+    "execution",
+    "truth",
+    "character"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of human and history in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of human today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding human, and how can you align with greater clarity today?"
+  "sourceWork": "The American Scholar",
+  "explanation": "Pure contemplation untethered from real-world action remains sterile. It is through active engagement with hardship and labor that abstract thoughts become living wisdom.",
+  "practicalInsight": "Translate one theoretical concept you have learned recently into a tangible physical action today.",
+  "reflectionPrompt": "What theoretical insight in your life is waiting to be tested and proven through action?"
 }

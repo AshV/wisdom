@@ -1,23 +1,22 @@
 {
   "id": "q3423",
-  "content": "The saint and the philosopher meet at the summit of realization: the philosopher sees the truth, and the saint lives it.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
+  "content": "What is a weed? A plant whose virtues have not yet been discovered.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Nature & Cosmos",
+  "categorySlug": "nature-cosmos",
   "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "saint",
-    "philosopher",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "nature",
+    "perspective",
+    "value",
+    "wisdom"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of saint and philosopher in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of saint today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding saint, and how can you align with greater clarity today?"
+  "sourceWork": "Fortune of the Republic",
+  "explanation": "Human judgment is quick to dismiss what it does not yet understand. Every organism, trait, and hardship holds hidden utility and beauty waiting to be recognized.",
+  "practicalInsight": "Re-examine an annoying trait or difficult circumstance: what hidden strength or benefit might it contain?",
+  "reflectionPrompt": "What 'weed' in your character or life might actually be a dormant virtue?"
 }

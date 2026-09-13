@@ -1,23 +1,22 @@
 {
   "id": "q3394",
-  "content": "The destiny of humanity is not to rest in comfortable contentment, but to strive endlessly for higher perfection.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "Every act rewards itself, or, in other words, integrates itself, in a twofold manner: first in the thing done, and secondly in the doer.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
-  "mood": "reflective",
+  "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "destiny",
-    "humanity",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "karma",
+    "compensation",
+    "integrity",
+    "character"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of destiny and humanity in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of destiny today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding destiny, and how can you align with greater clarity today?"
+  "sourceWork": "Compensation",
+  "explanation": "Emerson's essay 'Compensation' explores universal balance. Every deceit compromises the integrity of the liar, while every noble deed strengthens the soul of the doer.",
+  "practicalInsight": "Do the right thing quietly today, knowing that the greatest reward of virtue is the nobility it builds within your character.",
+  "reflectionPrompt": "How has a recent choice silently shaped your own self-respect and character?"
 }

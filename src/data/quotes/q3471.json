@@ -1,23 +1,22 @@
 {
   "id": "q3471",
-  "content": "Art and philosophy are expressions of humanity's longing for eternal beauty and ultimate meaning.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "The sun shines and warms and lights us and we have no curiosity to know why this is so; but we ask the reason of all evil, of pain, and hunger, and mosquitoes.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
   "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "philosophy",
-    "expressions",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "gratitude",
+    "perspective",
+    "nature",
+    "mind"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of philosophy and expressions in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of philosophy today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding philosophy, and how can you align with greater clarity today?"
+  "sourceWork": "Journals",
+  "explanation": "The human mind easily obsesses over minor irritations while taking the colossal, miraculous support of existence for granted.",
+  "practicalInsight": "Spend two minutes marveling at the infinite gifts—gravity, air, sunlight, and heartbeat—that sustain you unconditionally.",
+  "reflectionPrompt": "What immense cosmic blessing are you currently taking for granted?"
 }

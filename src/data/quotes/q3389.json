@@ -1,23 +1,22 @@
 {
   "id": "q3389",
-  "content": "Discipline is the bridge that connects high ideals with tangible achievement.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "Our life is an apprenticeship to the truth that around every circle another can be drawn; that there is no end in nature, but every end is a beginning.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
   "mood": "philosophical",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "discipline",
-    "bridge",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "circles",
+    "growth",
+    "infinity",
+    "transformation"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of discipline and bridge in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of discipline today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding discipline, and how can you align with greater clarity today?"
+  "sourceWork": "Circles",
+  "explanation": "In 'Circles', Emerson argues that every boundary of thought, culture, and achievement is merely the threshold for a wider horizon. There are no final plateaus.",
+  "practicalInsight": "Do not despair over a closed door or finished chapter; recognize it as the circumference that opens into a wider sphere.",
+  "reflectionPrompt": "What apparent conclusion in your life is actually the threshold of a new beginning?"
 }

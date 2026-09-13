@@ -700,28 +700,28 @@ export const authorProfiles: Record<string, AuthorProfile> = {
     whyTimeless: 'Dr. Kalam proved that unshakeable humility, scientific mastery, and moral innocence can coexist at the pinnacle of power, inspiring generations to live with purposeful passion.'
   },
 
-  'sarvepalli-radhakrishnan': {
-    slug: 'sarvepalli-radhakrishnan',
-    name: 'Sarvepalli Radhakrishnan',
-    longName: 'Dr. Sarvepalli Radhakrishnan',
-    era: '1888 – 1975',
-    tradition: 'Comparative Philosophy & Neo-Vedanta',
-    wikipediaUrl: 'https://en.wikipedia.org/wiki/Sarvepalli_Radhakrishnan',
-    summary: 'Distinguished Oxford philosopher, statesman, and 2nd President of India who built intellectual bridges between Eastern mysticism and Western philosophy.',
-    bio: 'Dr. Sarvepalli Radhakrishnan was an Indian philosopher, scholar, and statesman who served as the first Vice President and second President of India. Educated at Madras Christian College, Radhakrishnan was appointed the Spalding Professor of Eastern Religions and Ethics at the University of Oxford in 1936, becoming one of the most prominent cultural ambassadors of Indian thought in the West. He was nominated sixteen times for the Nobel Prize in Literature and eleven times for the Nobel Peace Prize. Radhakrishnan demonstrated that Indian philosophy is not an archaic relic of asceticism, but a living, rational, and deeply experiential tradition capable of solving modern humanity\'s crisis of spiritual fragmentation.',
+  'ralph-waldo-emerson': {
+    slug: 'ralph-waldo-emerson',
+    name: 'Ralph Waldo Emerson',
+    longName: 'Ralph Waldo Emerson',
+    era: '1803 – 1882',
+    tradition: 'American Transcendentalism & Philosophy of Self-Reliance',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Ralph_Waldo_Emerson',
+    summary: 'Leader of the Transcendentalist movement, essayist, and philosopher who championed individualism, intuitive spiritual wisdom, and communion with nature.',
+    bio: 'Ralph Waldo Emerson was an American essayist, lecturer, philosopher, and poet who led the Transcendentalist movement of the mid-19th century. A champion of individualism and a prescient critic of the countervailing pressures of society, Emerson disseminated his thoughts through dozens of published essays and more than 1,500 public lectures across the United States. His essays, including "Self-Reliance", "Nature", "The Over-Soul", and "Circles", profoundly influenced generations of thinkers, writers, and philosophers from Friedrich Nietzsche to Henry David Thoreau and Walt Whitman. Emerson taught that the divine lives within every individual soul and that true wisdom comes from trusting one\'s deepest intuition and living in sacred harmony with the cosmos.',
     keyWorks: [
-      { title: "Indian Philosophy (Volumes 1 & 2)", description: "The definitive 2-volume masterwork that systematically mapped the Vedas, Upanishads, Buddhism, Jainism, and the six orthodox Darshanas." },
-      { title: "The Principal Upanishads", description: "A celebrated translation and extensive commentary illuminating the metaphysical core of Vedantic wisdom." },
-      { title: "Eastern Religions and Western Thought", description: "Lectures exploring the historical interactions and philosophical syntheses between European thought and Indian mysticism." },
-      { title: "An Idealist View of Life", description: "His Hibbert Lectures defending the necessity of intuitive spiritual knowledge in an age dominated by empirical skepticism." }
+      { title: "Self-Reliance", description: "The iconic manifesto urging readers to trust their inner genius, resist blind social conformity, and live authentically from inner conviction." },
+      { title: "Nature", description: "The foundational essay of Transcendentalism, asserting that the natural universe is the visible manifestation and tutor of the human spirit." },
+      { title: "The Over-Soul", description: "A mystical exploration of the unified universal spirit that animates all existence and connects every individual mind to the divine whole." },
+      { title: "Circles & Compensation", description: "Profound essays on the endless expansiveness of consciousness, spiritual evolution, and the universal law of equilibrium and moral balance." }
     ],
     pillars: [
-      { concept: 'Intuition as Higher Reason', description: 'Spiritual intuition is not the opposite of reason; it is reason in its most elevated, integrated, and direct realization of truth.' },
-      { concept: 'Philosophy as a Way of Life', description: 'Philosophy is not an abstract academic chess game; it is an active discipline of character transformation and moral striving.' },
-      { concept: 'Universal Fellowship of Faiths', description: 'The world\'s religions are different dialects of the single universal language of the human spirit seeking the infinite.' },
-      { concept: 'The Sacred Calling of Teaching', description: 'Teachers should be the best minds in the country; education must cultivate not merely technical intellect, but compassionate wisdom.' }
+      { concept: 'Radical Self-Reliance', description: 'Trust thyself: every heart vibrates to that iron string. To believe your own thought, to believe that what is true for you in your private heart is true for all men — that is genius.' },
+      { concept: 'The Over-Soul & Cosmic Unity', description: 'Within man is the soul of the whole; the wise silence; the universal beauty, to which every part and particle is equally related.' },
+      { concept: 'Nature as Sacred Mirror', description: 'In the woods, we return to reason and faith. Standing on the bare ground, all mean egotism vanishes; the currents of the Universal Being circulate through us.' },
+      { concept: 'Endless Evolution & Circles', description: 'The life of man is a self-evolving circle, which, from a ring imperceptibly small, rushes on all sides outwards to new and larger circles, without end.' }
     ],
-    whyTimeless: 'Radhakrishnan stood as a towering intellectual bridge between civilizations, proving that reason and spiritual intuition must unite for humanity to flourish.'
+    whyTimeless: 'Emerson remains the ultimate champion of inner sovereignty, teaching humanity to shed cowardly conformity, awaken the divine within, and live with fearless authenticity.'
   }
 };
 
@@ -739,7 +739,7 @@ export function getAuthorProfile(slug: string, fallbackName?: string): AuthorPro
   if (normalizedSlug === 'tagore') normalizedSlug = 'rabindranath-tagore';
   if (normalizedSlug === 'krishnamurti') normalizedSlug = 'jiddu-krishnamurti';
   if (normalizedSlug === 'aurobindo') normalizedSlug = 'sri-aurobindo';
-  if (normalizedSlug === 'radhakrishnan') normalizedSlug = 'sarvepalli-radhakrishnan';
+  if (normalizedSlug === 'emerson') normalizedSlug = 'ralph-waldo-emerson';
 
   if (authorProfiles[normalizedSlug]) {
     const prof = authorProfiles[normalizedSlug];

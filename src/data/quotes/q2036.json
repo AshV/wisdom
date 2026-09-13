@@ -1,23 +1,22 @@
 {
   "id": "q2036",
-  "content": "A life of joy and happiness is possible only on the basis of knowledge and science.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
-  "category": "Philosophy & Wisdom",
-  "categorySlug": "philosophy-wisdom",
-  "mood": "philosophical",
+  "content": "Whoso would be a man must be a nonconformist.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
+  "category": "Self-Reliance & Sovereignty",
+  "categorySlug": "self-reliance-sovereignty",
+  "mood": "bold",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "life",
-    "happiness",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "nonconformity",
+    "individuality",
+    "freedom",
+    "courage"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of life and happiness in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of life today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding life, and how can you align with greater clarity today?"
+  "sourceWork": "Self-Reliance",
+  "explanation": "Genuine character demands the courage to stand alone. Emerson reminds us that blind adherence to tradition or social expectation suffocates the living spirit.",
+  "practicalInsight": "Notice one habit or opinion you hold merely to fit in, and consciously choose an authentic response instead.",
+  "reflectionPrompt": "Where are you conforming out of fear of disapproval rather than genuine conviction?"
 }

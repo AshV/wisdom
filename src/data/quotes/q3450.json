@@ -1,23 +1,22 @@
 {
   "id": "q3450",
-  "content": "The wise person learns from everyone, respects all perspectives, and abides unshakeably in core truth.",
-  "author": "Sarvepalli Radhakrishnan",
-  "authorSlug": "sarvepalli-radhakrishnan",
+  "content": "Though we travel the world over to find the beautiful, we must carry it with us or we find it not.",
+  "author": "Ralph Waldo Emerson",
+  "authorSlug": "ralph-waldo-emerson",
   "category": "Philosophy & Wisdom",
   "categorySlug": "philosophy-wisdom",
-  "mood": "reflective",
+  "mood": "romantic",
   "tags": [
-    "sarvepalli-radhakrishnan",
-    "wise",
-    "person",
-    "wisdom",
-    "ethics",
-    "truth"
+    "ralph-waldo-emerson",
+    "beauty",
+    "travel",
+    "perception",
+    "mind"
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "Works of Sarvepalli Radhakrishnan",
-  "explanation": "Bridging Eastern metaphysics and Western reason, Dr. Sarvepalli Radhakrishnan articulates how spiritual intuition elevates human intellect and fosters universal brotherhood.\n\nThis passage emphasizes the vital importance of wise and person in human life. By moving beyond superficial distractions and grounding attention in timeless ethical principles, we cultivate inner stability, clarity of thought, and genuine resilience.\n\nTrue realization is never an abstract academic debate—it is an active discipline practiced through conscious daily choices and unwavering integrity.",
-  "practicalInsight": "Take deliberate ownership of wise today: pause before reacting in moments of pressure, and choose the grounded response of integrity and calm.",
-  "reflectionPrompt": "In what area of your life are you compromising your deeper truth regarding wise, and how can you align with greater clarity today?"
+  "sourceWork": "Art",
+  "explanation": "Traveling across the globe cannot cure internal poverty. If the capacity for reverence and beauty is not awakened within your own soul, external landmarks remain barren.",
+  "practicalInsight": "Cultivate appreciation for where you are right now rather than daydreaming of distant paradises.",
+  "reflectionPrompt": "What beauty is waiting to be uncovered right where you stand?"
 }

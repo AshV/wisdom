@@ -35,6 +35,7 @@
   - ✅ **Viktor Frankl** (105 quotes) — *Man's Search for Meaning*, *The Doctor and the Soul*, *The Will to Meaning*, *Psychotherapy and Existentialism*
   - ✅ **William James** (100 quotes) — *The Principles of Psychology*, *The Varieties of Religious Experience*, *Habit*, *The Will to Believe*
   - ✅ **François de La Rochefoucauld** (100 quotes) — *Moral Maxims and Reflections (Maximes)*, *Réflexions diverses*
+  - ✅ **Ralph Waldo Emerson** (107 quotes) — *Self-Reliance*, *Nature*, *The Over-Soul*, *Circles*, *Compensation*
 
 ---
 
@@ -159,10 +160,10 @@
 
 ### 🌿 Tier 4: Transcendentalism, Nature & The Solitary Spirit
 
-21. [ ] **Ralph Waldo Emerson** (1803 – 1882) — *Transcendentalism*
-    - **Sources**: *Self-Reliance*, *Nature*, *The Over-Soul*, *Circles*, *Compensation*.
-    - **Themes**: Trusting inner divine instinct, non-conformity, nature as temple and mirror of consciousness, personal sovereignty.
-    - **Current Count**: 7 quotes.
+21. [x] **Ralph Waldo Emerson** (1803 – 1882) — *Transcendentalism* — **COMPLETED** (107 quotes)
+    - **Sources**: *Self-Reliance*, *Nature*, *The Over-Soul*, *Circles*, *Compensation*, *The Conduct of Life*.
+    - **Themes**: Trusting inner divine instinct, radical non-conformity, nature as temple and mirror of consciousness, personal sovereignty, infinite spiritual growth.
+    - **Current Count**: 107 quotes (`q219`–`q225`, `q2035`–`q2036`, `q3376`–`q3473`).
 
 22. [ ] **Henry David Thoreau** (1817 – 1862) — *Simplicity & Deliberate Living*
     - **Sources**: *Walden*, *Civil Disobedience*, *Walking*, *Life Without Principle*.

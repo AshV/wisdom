@@ -14,7 +14,9 @@
   ],
   "theme": "dark",
   "duration": 6,
-  "sourceWork": "Epistulae Morales ad Lucilium (Letters to Lucilius), Letter 13",
-  "story": "Writing to his younger friend Lucilius, who was tormented by the dread of an impending legal dispute and political peril in Rome, Seneca urged him not to suffer in advance. He cataloged how the human imagination magnifies catastrophic possibilities, tormenting us with disasters that either never materialize or arrive in manageable forms. Seneca commanded: 'Do not run to meet troubles; wait until they actually happen.'",
-  "reflectionPrompt": "What worst-case scenario is currently renting space in your mind, and how much evidence is there that it is actually happening right now?"
+  "sourceWork": "Moral Letters to Lucilius, Letter 13",
+  "story": "The human mind is a master dramatist. It invents catastrophic futures, runs rehearsals for disasters that never happen, and puts us through the emotional misery of tragedies before a single drop of rain has fallen. Seneca warned his friend Lucilius that we torture ourselves far more in our imaginations than in real life.\n\nMost of the monsters we fear live exclusively in our anticipated tomorrows. When challenges actually arrive in the real world, they are usually far more manageable than the phantom terrors we created in our heads.",
+  "reflectionPrompt": "What worst-case scenario is currently taking up space in your head, and how much actual evidence is there that it is happening today?",
+  "explanation": "The human mind is a master dramatist. It invents catastrophic futures, runs rehearsals for disasters that never happen, and puts us through the emotional misery of tragedies before a single drop of rain has fallen. Seneca warned his friend Lucilius that we torture ourselves far more in our imaginations than in real life.\n\nMost of the monsters we fear live exclusively in our anticipated tomorrows. When challenges actually arrive in the real world, they are usually far more manageable than the phantom terrors we created in our heads.",
+  "practicalInsight": "Before you lose sleep over a worst-case scenario, ask yourself: is this happening right now, or is it just an anxious movie in my mind?"
 }

@@ -27,6 +27,8 @@ interface Props {
   isTopicMatch?: boolean;
   sourceWork?: string;
   story?: string;
+  explanation?: string;
+  practicalInsight?: string;
   reflectionPrompt?: string;
 }
 
@@ -44,6 +46,8 @@ const {
   isTopicMatch = true,
   sourceWork,
   story,
+  explanation,
+  practicalInsight,
   reflectionPrompt,
 } = Astro.props;
 
@@ -52,6 +56,7 @@ const audioSrc = getAudioForMood(mood);
 const moodInfo = moodMeta[mood];
 const BASE = '/wisdom';
 const quoteSlug = slugifyQuote(content);
+const quoteExplanation = explanation || story || '';
 
 // Length-adaptive typography sizing: utilizes screen space dynamically
 const len = content.length;
@@ -91,7 +96,8 @@ if (len < 55) {
   data-index={index}
   data-topic-match={isTopicMatch ? 'true' : 'false'}
   data-source-work={sourceWork || ''}
-  data-story={story || ''}
+  data-explanation={quoteExplanation}
+  data-practical-insight={practicalInsight || ''}
   data-reflection-prompt={reflectionPrompt || ''}
 >
   <!-- Double-tap detection zone across entire slide -->
@@ -137,7 +143,7 @@ if (len < 55) {
         {content}
       </p>
 
-      <!-- Author Attribution & Optional Story Pill -->
+      <!-- Author Attribution & Delve Pill -->
       <div class="mt-7 sm:mt-9 select-none flex flex-col items-center gap-2.5">
         <a
           href={`${BASE}/author/${authorSlug}/`}
@@ -154,15 +160,15 @@ if (len < 55) {
           )}
         </a>
 
-        {story && (
+        {quoteExplanation && (
           <button
             type="button"
-            class="story-pill-btn pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 hover:border-amber-400/40 text-xs sm:text-[13px] text-amber-200/90 hover:text-amber-100 font-sans tracking-wide transition-all duration-200 active:scale-95 shadow-md group cursor-pointer backdrop-blur-md"
+            class="delve-pill-btn pointer-events-auto mt-1 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.08] hover:bg-white/[0.16] border border-white/15 hover:border-amber-400/40 text-xs sm:text-[13px] text-amber-200/90 hover:text-amber-100 font-sans tracking-wide transition-all duration-200 active:scale-95 shadow-md group cursor-pointer backdrop-blur-md"
             data-quote-id={id}
-            title="Read the story and historical context behind this quote"
+            title="Delve into the meaning, philosophy, and practical insight of this quote"
           >
             <span class="text-amber-300 text-xs group-hover:scale-110 transition-transform">✦</span>
-            <span class="font-medium">The Story Behind the Words</span>
+            <span class="font-medium">Delve</span>
             <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>

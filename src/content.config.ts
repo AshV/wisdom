@@ -25,6 +25,8 @@ const quotes = defineCollection({
     duration: z.number().default(8),
     sourceWork: z.string().optional(),
     story: z.string().optional(),
+    explanation: z.string().optional(),
+    practicalInsight: z.string().optional(),
     reflectionPrompt: z.string().optional(),
   }),
 });

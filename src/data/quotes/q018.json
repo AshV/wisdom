@@ -13,7 +13,9 @@
   ],
   "theme": "dark",
   "duration": 8,
-  "sourceWork": "De Brevitate Vitae (On the Shortness of Life, 49 CE)",
-  "story": "Seneca addressed this philosophical treatise to his father-in-law Paulinus, a high Roman official consumed by bureaucratic duties. Seneca observed that humans constantly complain about the fleeting nature of life, yet squander their hours on vanity, trivial social obligations, and building fortunes they never enjoy. Life is long enough if you know how to invest it; we only find it short because we treat our time as if it were infinite and expendable.",
-  "reflectionPrompt": "If you looked honestly at how you spent your last 48 hours, how much of that precious, non-renewable time was wasted on things that hold zero lasting value?"
+  "sourceWork": "De Brevitate Vitae (On the Shortness of Life)",
+  "story": "We constantly complain that life is too short, yet we squander our hours as if we had an infinite supply stored in a bank. Seneca observed people agonizing over every penny in their wallet, while casually giving away their irreplaceable time to boring obligations, petty feuds, and endless distractions.\n\nLife is plenty long enough to accomplish meaningful, beautiful things if it is properly invested. It only feels brief because we treat our time like it has no value until it is almost gone.",
+  "reflectionPrompt": "If you looked candidly at how you spent the last 48 hours, how much of that precious time went toward things that hold zero lasting value?",
+  "explanation": "We constantly complain that life is too short, yet we squander our hours as if we had an infinite supply stored in a bank. Seneca observed people agonizing over every penny in their wallet, while casually giving away their irreplaceable time to boring obligations, petty feuds, and endless distractions.\n\nLife is plenty long enough to accomplish meaningful, beautiful things if it is properly invested. It only feels brief because we treat our time like it has no value until it is almost gone.",
+  "practicalInsight": "Guard your attention with the same fierceness you guard your finances. Say no to empty obligations so you can say yes to what truly matters."
 }

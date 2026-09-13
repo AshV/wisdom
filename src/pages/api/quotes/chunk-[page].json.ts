@@ -23,7 +23,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
       slug: slugifyQuote(q.data.content),
       tags: q.data.tags || [],
       sourceWork: q.data.sourceWork,
-      story: q.data.story,
+      explanation: q.data.explanation || q.data.story,
+      practicalInsight: q.data.practicalInsight,
       reflectionPrompt: q.data.reflectionPrompt,
     }));
 

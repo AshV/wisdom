@@ -56,12 +56,12 @@
     </div>
   </button>
 
-  <!-- Story / Context Button -->
+  <!-- Delve into Meaning Button -->
   <button
-    id="story-rail-btn"
+    id="delve-rail-btn"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
-    aria-label="Story and context behind this quote"
-    title="The Story Behind the Words"
+    aria-label="Delve into quote explanation and meaning"
+    title="Delve into Meaning"
   >
     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-amber-400/25 group-hover:border-amber-400/50 transition-all duration-200 shadow-md shadow-black/30 text-amber-300/90 group-hover:text-amber-100">
       <span class="text-sm font-serif select-none leading-none">✦</span>
@@ -126,19 +126,20 @@
       };
     }
 
-    const storyBtn = document.getElementById('story-rail-btn');
+    const delveBtn = document.getElementById('delve-rail-btn');
 
-    if (storyBtn) {
-      storyBtn.onclick = () => {
+    if (delveBtn) {
+      delveBtn.onclick = () => {
         const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-        if (activeSlide && window.openQuoteStoryModal) {
-          window.openQuoteStoryModal({
+        if (activeSlide && window.openQuoteDelveModal) {
+          window.openQuoteDelveModal({
             id: activeSlide.dataset.quoteId,
             content: activeSlide.dataset.content || activeSlide.querySelector('.quote-text')?.textContent?.trim(),
             author: activeSlide.dataset.author,
             authorSlug: activeSlide.dataset.authorSlug,
             sourceWork: activeSlide.dataset.sourceWork,
-            story: activeSlide.dataset.story,
+            explanation: activeSlide.dataset.explanation || activeSlide.dataset.story,
+            practicalInsight: activeSlide.dataset.practicalInsight,
             reflectionPrompt: activeSlide.dataset.reflectionPrompt,
           });
         }

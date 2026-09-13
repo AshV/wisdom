@@ -2,10 +2,10 @@
 /**
  * QuoteDelveModal — Deep Meaning, Philosophical Breakdown & Practical Insight.
  *
- * Immersive, distraction-free editorial reading experience:
- * - Fluid typography with optimal line lengths for reading comfort
- * - Warm obsidian glass palette with ambient gold accents
- * - Clear distinction between Core Meaning, Real-World Application, and Daily Contemplation
+ * Single continuous editorial reading canvas:
+ * - Eliminates redundant quote repetition (jumps straight to the explanation)
+ * - Clear author and source context in top header
+ * - Uninterrupted editorial prose with actionable insight and reflection prompt
  */
 const BASE = '/wisdom';
 ---
@@ -19,31 +19,36 @@ const BASE = '/wisdom';
   aria-labelledby="delve-modal-title"
   style="display: none;"
 >
-  <!-- Modal Card -->
+  <!-- Modal Card (Single Unified Container) -->
   <div
     class="delve-card relative flex flex-col overflow-hidden text-white my-auto outline-none"
-    style="background-color: #0c0a15;"
+    style="background-color: #0b0914;"
   >
-    <!-- Top Sticky Header -->
-    <header class="delve-header relative z-20 shrink-0 flex items-center justify-between select-none shadow-md">
+    <!-- Top Header with Author & Source Context -->
+    <header class="delve-header relative z-20 shrink-0 flex items-center justify-between select-none border-b border-white/10">
       <div class="flex items-center gap-3 min-w-0">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-amber-400/25 via-rose-500/20 to-purple-500/25 border border-amber-300/40 flex items-center justify-center text-amber-300 text-xs sm:text-sm font-serif font-bold shrink-0 shadow-sm select-none">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-amber-400/15 border border-amber-300/30 flex items-center justify-center text-amber-300 text-xs sm:text-sm font-serif font-bold shrink-0 shadow-sm select-none">
           ✦
         </div>
         <div class="min-w-0">
-          <span class="text-[10px] sm:text-[11px] uppercase font-mono tracking-[0.2em] text-amber-400/90 font-semibold block truncate">
+          <span class="text-[10px] sm:text-[11px] uppercase font-mono tracking-[0.2em] text-amber-400/80 font-semibold block truncate">
             Philosophical Breakdown
           </span>
-          <h2 id="delve-modal-title" class="text-sm sm:text-base md:text-lg font-serif font-bold text-white tracking-wide truncate">
-            Delve into the Quote
-          </h2>
+          <div class="flex items-center gap-2 flex-wrap min-w-0">
+            <h2 id="delve-modal-title" class="text-sm sm:text-base font-serif font-bold text-white tracking-wide truncate">
+              Delve into Wisdom
+            </h2>
+            <span class="text-white/30 text-xs hidden sm:inline">&bull;</span>
+            <span id="delve-header-author" class="text-xs sm:text-sm font-sans text-amber-300 font-medium truncate"></span>
+            <span id="delve-header-source" class="text-xs font-serif italic text-white/50 hidden md:inline truncate"></span>
+          </div>
         </div>
       </div>
 
       <button
         id="quote-delve-close"
         type="button"
-        class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 hover:bg-amber-400/20 border border-white/10 hover:border-amber-300/40 text-white/70 hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer group active:scale-95 shadow-sm shrink-0"
+        class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 hover:bg-amber-400/20 border border-white/10 hover:border-amber-300/40 text-white/70 hover:text-white flex items-center justify-center transition-all duration-200 cursor-pointer group active:scale-95 shadow-sm shrink-0 ml-2"
         aria-label="Close delve modal (Esc)"
         title="Close (Esc)"
       >
@@ -54,82 +59,67 @@ const BASE = '/wisdom';
       </button>
     </header>
 
-    <!-- Scrollable Body with Editorial Reading Comfort -->
-    <div class="delve-body flex-1 overflow-y-auto delve-modal-scroll space-y-5 sm:space-y-6 outline-none">
-      <!-- Quote Excerpt Card -->
-      <div class="delve-quote-card shadow-lg relative overflow-hidden space-y-2.5">
-        <div class="text-2xl sm:text-3xl text-amber-400/50 font-serif leading-none select-none">“</div>
-        <p id="delve-quote-content" class="text-base sm:text-lg md:text-xl font-serif italic text-white/95 leading-relaxed tracking-wide">
-          Quote loading...
-        </p>
-        <div class="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm">
-          <span id="delve-quote-author" class="font-semibold text-amber-300 font-sans tracking-wide">
-            — Author Name
-          </span>
-          <span id="delve-quote-source" class="font-serif italic text-white/60"></span>
-        </div>
-      </div>
-
-      <!-- Core Meaning & Explanation -->
-      <section class="space-y-2.5 pt-0.5">
-        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-mono uppercase tracking-[0.16em] text-amber-300 font-semibold">
-          <span class="text-amber-400">💡</span>
-          <span>Core Meaning & Deep Explanation</span>
-        </div>
+    <!-- Scrollable Body — Straight to the Insight -->
+    <div class="delve-body flex-1 overflow-y-auto delve-modal-scroll outline-none">
+      <article class="max-w-2xl mx-auto space-y-6">
+        <!-- 1. The Core Meaning (Continuous Editorial Prose) -->
         <div
           id="delve-explanation-text"
-          class="delve-explanation-card font-sans shadow-sm"
+          class="delve-prose text-white/90 text-sm sm:text-base font-sans pt-1"
         >
           Explanation loading...
         </div>
-      </section>
 
-      <!-- Practical Takeaway Box -->
-      <div id="delve-practical-box" class="delve-practical-card shadow-md space-y-2">
-        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-mono uppercase tracking-wider text-emerald-300 font-semibold">
-          <span>⚡</span>
-          <span>Real-World Application</span>
+        <!-- 2. Practical Insight & Contemplation (Clean Flush Alignment with Generous Spacing) -->
+        <div id="delve-practical-wrap" class="pt-7 sm:pt-8 mt-6 sm:mt-8 border-t border-white/10 space-y-7 sm:space-y-8">
+          <!-- Actionable Insight -->
+          <div class="space-y-2.5">
+            <div class="flex items-center">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/25 text-amber-300 font-mono font-semibold uppercase tracking-wider text-[10px] sm:text-[11px]">
+                <span class="text-xs">⚡</span>
+                <span>Actionable Insight</span>
+              </span>
+            </div>
+            <p id="delve-practical-text" class="text-white/90 text-sm sm:text-[15px] leading-relaxed font-sans pt-0.5"></p>
+          </div>
+
+          <!-- Daily Contemplation -->
+          <div class="space-y-2.5">
+            <div class="flex items-center">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/25 text-emerald-300 font-mono font-semibold uppercase tracking-wider text-[10px] sm:text-[11px]">
+                <span class="text-xs">🌿</span>
+                <span>Daily Contemplation</span>
+              </span>
+            </div>
+            <p id="delve-prompt-text" class="text-amber-100/90 text-sm sm:text-[15px] leading-relaxed italic font-serif tracking-wide pt-0.5"></p>
+          </div>
         </div>
-        <p id="delve-practical-text" class="text-sm sm:text-base text-white/90 leading-relaxed font-sans">
-          Practical insight loading...
-        </p>
-      </div>
 
-      <!-- Contemplation Prompt Box -->
-      <div id="delve-prompt-box" class="delve-prompt-card shadow-md space-y-2">
-        <div class="flex items-center gap-2 text-xs sm:text-[13px] font-mono uppercase tracking-wider text-amber-300 font-semibold">
-          <span>🌿</span>
-          <span>Daily Contemplation Prompt</span>
+        <!-- 3. Action Buttons -->
+        <div class="pt-7 sm:pt-8 pb-2 mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5 sm:gap-4 border-t border-white/10 text-xs sm:text-sm">
+          <button
+            id="delve-open-author-btn"
+            type="button"
+            class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3.5 px-5 rounded-xl sm:rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium transition-all active:scale-[0.98] cursor-pointer shadow-sm text-center"
+          >
+            <span class="text-sm">✍️</span>
+            <span>Explore Author Dossier</span>
+          </button>
+
+          <button
+            id="delve-open-share-btn"
+            type="button"
+            class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3.5 px-5 rounded-xl sm:rounded-2xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/30 text-amber-200 font-medium transition-all active:scale-[0.98] cursor-pointer shadow-sm text-center"
+          >
+            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <polyline points="16 6 12 2 8 6" />
+              <line x1="12" y1="2" x2="12" y2="15" />
+            </svg>
+            <span>Share Quote Card</span>
+          </button>
         </div>
-        <p id="delve-prompt-text" class="text-sm sm:text-base text-white/95 leading-relaxed italic font-serif tracking-wide">
-          Contemplation prompt loading...
-        </p>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="pt-4 pb-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 border-t border-white/10 text-xs sm:text-sm">
-        <button
-          id="delve-open-author-btn"
-          type="button"
-          class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-medium transition-all active:scale-95 cursor-pointer shadow-sm text-center"
-        >
-          <span>✍️</span>
-          <span>Explore Author Dossier</span>
-        </button>
-
-        <button
-          id="delve-open-share-btn"
-          type="button"
-          class="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl bg-amber-400/15 hover:bg-amber-400/25 border border-amber-400/30 text-amber-200 font-medium transition-all active:scale-95 cursor-pointer shadow-sm text-center"
-        >
-          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-            <polyline points="16 6 12 2 8 6" />
-            <line x1="12" y1="2" x2="12" y2="15" />
-          </svg>
-          <span>Share Quote Card</span>
-        </button>
-      </div>
+      </article>
     </div>
   </div>
 </div>
@@ -139,7 +129,7 @@ const BASE = '/wisdom';
     position: fixed !important;
     inset: 0 !important;
     z-index: 9999 !important;
-    padding: 1.25rem 1rem !important;
+    padding: 1rem 0.75rem !important;
     background-color: rgba(4, 3, 10, 0.94) !important;
     backdrop-filter: blur(28px) !important;
     -webkit-backdrop-filter: blur(28px) !important;
@@ -151,107 +141,54 @@ const BASE = '/wisdom';
   }
 
   .delve-card {
-    background-color: #0c0a15 !important;
-    border: 1px solid rgba(251, 191, 36, 0.3) !important;
-    box-shadow: 0 25px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(251, 191, 36, 0.08) !important;
+    background-color: #0b0914 !important;
+    border: 1px solid rgba(251, 191, 36, 0.25) !important;
+    box-shadow: 0 25px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(251, 191, 36, 0.06) !important;
     width: 100% !important;
-    max-width: 44rem !important;
-    max-height: 86dvh !important;
+    max-width: 42rem !important;
+    max-height: 88dvh !important;
     border-radius: 1.25rem !important;
   }
   @media (min-width: 640px) {
     .delve-card {
       border-radius: 1.5rem !important;
-      max-height: 82dvh !important;
+      max-height: 84dvh !important;
     }
   }
 
   .delve-header {
-    background-color: #120d24 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    padding: 1rem 1.25rem !important;
+    background-color: #100b20 !important;
+    padding: 0.85rem 1.25rem !important;
   }
   @media (min-width: 640px) {
     .delve-header {
-      padding: 1.25rem 1.75rem !important;
+      padding: 1rem 1.75rem !important;
     }
   }
 
   .delve-body {
-    padding: 1.25rem 1.25rem 2rem 1.25rem !important;
+    padding: 1.5rem 1.25rem 2.5rem 1.25rem !important;
   }
   @media (min-width: 640px) {
     .delve-body {
-      padding: 1.75rem 2rem 2.5rem 2rem !important;
-    }
-  }
-
-  .delve-quote-card {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.09), rgba(255, 255, 255, 0.03)) !important;
-    border: 1px solid rgba(251, 191, 36, 0.25) !important;
-    border-radius: 1rem !important;
-    padding: 1.25rem 1.25rem !important;
-  }
-  @media (min-width: 640px) {
-    .delve-quote-card {
-      border-radius: 1.25rem !important;
-      padding: 1.5rem !important;
-    }
-  }
-
-  .delve-explanation-card {
-    background-color: rgba(255, 255, 255, 0.035) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 1rem !important;
-    padding: 1.25rem 1.25rem !important;
-  }
-  @media (min-width: 640px) {
-    .delve-explanation-card {
-      border-radius: 1.25rem !important;
-      padding: 1.5rem !important;
+      padding: 2rem 2.25rem 3rem 2.25rem !important;
     }
   }
 
   :global(#delve-explanation-text p) {
-    margin-bottom: 0.95rem !important;
-    line-height: 1.85 !important;
+    margin-bottom: 1.15rem !important;
+    line-height: 1.9 !important;
     color: rgba(255, 255, 255, 0.92) !important;
-    font-size: 0.95rem !important;
+    font-size: 0.98rem !important;
   }
   @media (min-width: 640px) {
     :global(#delve-explanation-text p) {
-      font-size: 1.02rem !important;
-      line-height: 1.9 !important;
+      font-size: 1.05rem !important;
+      line-height: 1.95 !important;
     }
   }
   :global(#delve-explanation-text p:last-child) {
     margin-bottom: 0 !important;
-  }
-
-  .delve-practical-card {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(255, 255, 255, 0.03)) !important;
-    border: 1px solid rgba(16, 185, 129, 0.28) !important;
-    border-radius: 1rem !important;
-    padding: 1.25rem 1.25rem !important;
-  }
-  @media (min-width: 640px) {
-    .delve-practical-card {
-      border-radius: 1.25rem !important;
-      padding: 1.5rem !important;
-    }
-  }
-
-  .delve-prompt-card {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(244, 63, 94, 0.09), rgba(88, 28, 135, 0.18)) !important;
-    border: 1px solid rgba(251, 191, 36, 0.3) !important;
-    border-radius: 1rem !important;
-    padding: 1.25rem 1.25rem !important;
-  }
-  @media (min-width: 640px) {
-    .delve-prompt-card {
-      border-radius: 1.25rem !important;
-      padding: 1.5rem !important;
-    }
   }
 
   #quote-delve-modal,
@@ -276,196 +213,183 @@ const BASE = '/wisdom';
 </style>
 
 <script is:inline>
-  let activeDelveAuthorSlug = '';
-  let activeDelveQuoteId = '';
+  (function() {
+    let activeDelveAuthorSlug = '';
+    let activeDelveQuoteId = '';
 
-  function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  window.openQuoteDelveModal = function(data) {
-    const modal = document.getElementById('quote-delve-modal');
-    if (!modal) return;
-
-    let { content, author, authorSlug, sourceWork, explanation, story, practicalInsight, reflectionPrompt, id } = data || {};
-
-    // Fallback to active slide data if missing
-    if (!explanation && !story && !sourceWork) {
-      const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-      if (activeSlide) {
-        id = id || activeSlide.dataset.quoteId;
-        content = content || activeSlide.dataset.content || activeSlide.querySelector('.quote-text')?.textContent?.trim();
-        author = author || activeSlide.dataset.author;
-        authorSlug = authorSlug || activeSlide.dataset.authorSlug;
-        sourceWork = sourceWork || activeSlide.dataset.sourceWork;
-        explanation = explanation || activeSlide.dataset.explanation || activeSlide.dataset.story;
-        practicalInsight = practicalInsight || activeSlide.dataset.practicalInsight;
-        reflectionPrompt = reflectionPrompt || activeSlide.dataset.reflectionPrompt;
-      }
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    const textToExplain = explanation || story || '';
-    activeDelveAuthorSlug = authorSlug || '';
-    activeDelveQuoteId = id || '';
+    window.openQuoteDelveModal = function(data) {
+      const modal = document.getElementById('quote-delve-modal');
+      if (!modal) return;
 
-    // Populate Quote Excerpt
-    const quoteEl = document.getElementById('delve-quote-content');
-    if (quoteEl) quoteEl.textContent = content || '';
+      let { content, author, authorSlug, sourceWork, explanation, story, practicalInsight, reflectionPrompt, id } = data || {};
 
-    const authorEl = document.getElementById('delve-quote-author');
-    if (authorEl) authorEl.textContent = `— ${author || 'Timeless Thinker'}`;
-
-    const sourceEl = document.getElementById('delve-quote-source');
-    if (sourceEl) {
-      if (sourceWork) {
-        sourceEl.textContent = `From ${sourceWork}`;
-        sourceEl.style.display = '';
-      } else {
-        sourceEl.style.display = 'none';
+      // Fallback to active slide data if missing
+      if (!explanation && !story && !sourceWork) {
+        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+        if (activeSlide) {
+          id = id || activeSlide.dataset.quoteId;
+          content = content || activeSlide.dataset.content || activeSlide.querySelector('.quote-text')?.textContent?.trim();
+          author = author || activeSlide.dataset.author;
+          authorSlug = authorSlug || activeSlide.dataset.authorSlug;
+          sourceWork = sourceWork || activeSlide.dataset.sourceWork;
+          explanation = explanation || activeSlide.dataset.explanation || activeSlide.dataset.story;
+          practicalInsight = practicalInsight || activeSlide.dataset.practicalInsight;
+          reflectionPrompt = reflectionPrompt || activeSlide.dataset.reflectionPrompt;
+        }
       }
+
+      const textToExplain = explanation || story || '';
+      activeDelveAuthorSlug = authorSlug || '';
+      activeDelveQuoteId = id || '';
+
+      // Populate Header Author & Source
+      const authorHeaderEl = document.getElementById('delve-header-author');
+      if (authorHeaderEl) {
+        authorHeaderEl.textContent = author ? `— ${author}` : '';
+      }
+
+      const sourceHeaderEl = document.getElementById('delve-header-source');
+      if (sourceHeaderEl) {
+        if (sourceWork) {
+          sourceHeaderEl.textContent = `(${sourceWork})`;
+          sourceHeaderEl.style.display = '';
+        } else {
+          sourceHeaderEl.style.display = 'none';
+        }
+      }
+
+      // Populate Explanation with comfortable editorial paragraph separation
+      const explanationEl = document.getElementById('delve-explanation-text');
+      if (explanationEl) {
+        if (textToExplain) {
+          let paragraphs = textToExplain.split(/\n\s*\n/).filter(Boolean);
+          if (paragraphs.length === 1 && textToExplain.length > 220) {
+            const sentences = textToExplain.match(/[^.!?]+[.!?]+(\s+|$)/g) || [textToExplain];
+            if (sentences.length >= 3) {
+              const mid = Math.ceil(sentences.length / 2);
+              paragraphs = [
+                sentences.slice(0, mid).join('').trim(),
+                sentences.slice(mid).join('').trim()
+              ];
+            }
+          }
+          explanationEl.innerHTML = paragraphs
+            .map(p => `<p class="leading-[1.9] sm:leading-[1.95] text-white/92">${escapeHtml(p)}</p>`)
+            .join('');
+        } else {
+          explanationEl.innerHTML = `<p class="italic text-white/60 leading-[1.9]">This quote invites us to step back and reflect on our perceptions. By applying quiet mindfulness, we discover the inner clarity to act with calm integrity.</p>`;
+        }
+      }
+
+      // Populate Practical Insight
+      const practicalEl = document.getElementById('delve-practical-text');
+      if (practicalEl) {
+        practicalEl.textContent = practicalInsight || `Focus on what is directly within your control right now, and let go of trying to force outcomes beyond your influence.`;
+      }
+
+      // Populate Contemplation Prompt
+      const promptEl = document.getElementById('delve-prompt-text');
+      if (promptEl) {
+        promptEl.textContent = reflectionPrompt || `How can you integrate the essence of this wisdom into one specific decision or conversation today?`;
+      }
+
+      // Open Modal smoothly
+      modal.style.display = 'flex';
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+      });
+    };
+
+    function closeDelveModal() {
+      const modal = document.getElementById('quote-delve-modal');
+      if (!modal) return;
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300);
     }
 
-    // Populate Explanation with comfortable paragraph separation
-    const explanationEl = document.getElementById('delve-explanation-text');
-    if (explanationEl) {
-      if (textToExplain) {
-        let paragraphs = textToExplain.split(/\n\s*\n/).filter(Boolean);
-        if (paragraphs.length === 1 && textToExplain.length > 220) {
-          const sentences = textToExplain.match(/[^.!?]+[.!?]+(\s+|$)/g) || [textToExplain];
-          if (sentences.length >= 3) {
-            const mid = Math.ceil(sentences.length / 2);
-            paragraphs = [
-              sentences.slice(0, mid).join('').trim(),
-              sentences.slice(mid).join('').trim()
-            ];
+    function setupDelveModalEvents() {
+      const modal = document.getElementById('quote-delve-modal');
+      const closeBtn = document.getElementById('quote-delve-close');
+      const authorBtn = document.getElementById('delve-open-author-btn');
+      const shareBtn = document.getElementById('delve-open-share-btn');
+
+      if (closeBtn) closeBtn.onclick = closeDelveModal;
+
+      if (modal) {
+        modal.onclick = (e) => {
+          if (e.target === modal) closeDelveModal();
+        };
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDelveModal();
+      });
+
+      if (authorBtn) {
+        authorBtn.onclick = () => {
+          closeDelveModal();
+          if (window.openAuthorDossierModal && activeDelveAuthorSlug) {
+            setTimeout(() => {
+              window.openAuthorDossierModal(activeDelveAuthorSlug);
+            }, 150);
+          }
+        };
+      }
+
+      if (shareBtn) {
+        shareBtn.onclick = () => {
+          closeDelveModal();
+          const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+          const shareModal = document.getElementById('share-modal');
+          if (shareModal) {
+            setTimeout(() => {
+              shareModal.classList.remove('hidden');
+              shareModal.style.display = 'flex';
+              if (window.updateShareContext && activeSlide) {
+                window.updateShareContext(activeSlide, true);
+              }
+            }, 150);
+          }
+        };
+      }
+
+      // Attach click listeners to all on-slide delve pill buttons
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.delve-pill-btn');
+        if (btn) {
+          e.preventDefault();
+          e.stopPropagation();
+          const slide = btn.closest('.reel-slide');
+          if (slide && window.openQuoteDelveModal) {
+            window.openQuoteDelveModal({
+              id: slide.dataset.quoteId,
+              content: slide.dataset.content || slide.querySelector('.quote-text')?.textContent?.trim(),
+              author: slide.dataset.author,
+              authorSlug: slide.dataset.authorSlug,
+              sourceWork: slide.dataset.sourceWork,
+              explanation: slide.dataset.explanation || slide.dataset.story,
+              practicalInsight: slide.dataset.practicalInsight,
+              reflectionPrompt: slide.dataset.reflectionPrompt,
+            });
           }
         }
-        explanationEl.innerHTML = paragraphs
-          .map(p => `<p class="leading-[1.85] sm:leading-[1.9] text-white/92">${escapeHtml(p)}</p>`)
-          .join('');
-      } else {
-        explanationEl.innerHTML = `<p class="italic text-white/60 leading-[1.85]">This quote invites us to step back and reflect on our perceptions. By applying quiet mindfulness, we discover the inner clarity to act with calm integrity.</p>`;
-      }
+      });
     }
 
-    // Populate Practical Insight Box
-    const practicalBox = document.getElementById('delve-practical-box');
-    const practicalEl = document.getElementById('delve-practical-text');
-    if (practicalBox && practicalEl) {
-      if (practicalInsight) {
-        practicalEl.textContent = practicalInsight;
-        practicalBox.style.display = '';
-      } else {
-        practicalEl.textContent = `Focus on what is directly within your control right now, and let go of trying to force outcomes beyond your influence.`;
-        practicalBox.style.display = '';
-      }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupDelveModalEvents);
+    } else {
+      setupDelveModalEvents();
     }
-
-    // Populate Contemplation Prompt
-    const promptBox = document.getElementById('delve-prompt-box');
-    const promptEl = document.getElementById('delve-prompt-text');
-    if (promptBox && promptEl) {
-      if (reflectionPrompt) {
-        promptEl.textContent = reflectionPrompt;
-        promptBox.style.display = '';
-      } else {
-        promptEl.textContent = `How can you integrate the essence of this wisdom into one specific decision or conversation today?`;
-        promptBox.style.display = '';
-      }
-    }
-
-    // Open Modal smoothly
-    modal.style.display = 'flex';
-    requestAnimationFrame(() => {
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-    });
-  };
-
-  function closeDelveModal() {
-    const modal = document.getElementById('quote-delve-modal');
-    if (!modal) return;
-    modal.classList.add('opacity-0', 'pointer-events-none');
-    setTimeout(() => {
-      modal.style.display = 'none';
-    }, 300);
-  }
-
-  function setupDelveModalEvents() {
-    const modal = document.getElementById('quote-delve-modal');
-    const closeBtn = document.getElementById('quote-delve-close');
-    const authorBtn = document.getElementById('delve-open-author-btn');
-    const shareBtn = document.getElementById('delve-open-share-btn');
-
-    if (closeBtn) closeBtn.onclick = closeDelveModal;
-
-    if (modal) {
-      modal.onclick = (e) => {
-        if (e.target === modal) closeDelveModal();
-      };
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeDelveModal();
-    });
-
-    if (authorBtn) {
-      authorBtn.onclick = () => {
-        closeDelveModal();
-        if (window.openAuthorDossierModal && activeDelveAuthorSlug) {
-          setTimeout(() => {
-            window.openAuthorDossierModal(activeDelveAuthorSlug);
-          }, 150);
-        }
-      };
-    }
-
-    if (shareBtn) {
-      shareBtn.onclick = () => {
-        closeDelveModal();
-        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-        const shareModal = document.getElementById('share-modal');
-        if (shareModal) {
-          setTimeout(() => {
-            shareModal.classList.remove('hidden');
-            shareModal.style.display = 'flex';
-            if (window.updateShareContext && activeSlide) {
-              window.updateShareContext(activeSlide, true);
-            }
-          }, 150);
-        }
-      };
-    }
-
-    // Attach click listeners to all on-slide delve pill buttons
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.delve-pill-btn');
-      if (btn) {
-        e.preventDefault();
-        e.stopPropagation();
-        const slide = btn.closest('.reel-slide');
-        if (slide && window.openQuoteDelveModal) {
-          window.openQuoteDelveModal({
-            id: slide.dataset.quoteId,
-            content: slide.dataset.content || slide.querySelector('.quote-text')?.textContent?.trim(),
-            author: slide.dataset.author,
-            authorSlug: slide.dataset.authorSlug,
-            sourceWork: slide.dataset.sourceWork,
-            explanation: slide.dataset.explanation || slide.dataset.story,
-            practicalInsight: slide.dataset.practicalInsight,
-            reflectionPrompt: slide.dataset.reflectionPrompt,
-          });
-        }
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupDelveModalEvents);
-  } else {
-    setupDelveModalEvents();
-  }
-  document.addEventListener('astro:page-load', setupDelveModalEvents);
+    document.addEventListener('astro:page-load', setupDelveModalEvents);
+  })();
 </script>

@@ -56,18 +56,6 @@
     </div>
   </button>
 
-  <!-- Delve into Meaning Button -->
-  <button
-    id="delve-rail-btn"
-    class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
-    aria-label="Delve into quote explanation and meaning"
-    title="Delve into Meaning"
-  >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-amber-400/25 group-hover:border-amber-400/50 transition-all duration-200 shadow-md shadow-black/30 text-amber-300/90 group-hover:text-amber-100">
-      <span class="text-sm font-serif select-none leading-none">✦</span>
-    </div>
-  </button>
-
   <!-- Explore Button -->
   <button
     id="explore-btn"
@@ -85,111 +73,93 @@
 </div>
 
 <script is:inline>
-  function setupRightRail() {
-    const likeBtn = document.getElementById('like-btn');
-    const shareBtn = document.getElementById('share-btn');
-    const audioBtn = document.getElementById('audio-toggle-btn');
-    const exploreBtn = document.getElementById('explore-btn');
+  (function() {
+    function setupRightRail() {
+      const likeBtn = document.getElementById('like-btn');
+      const shareBtn = document.getElementById('share-btn');
+      const audioBtn = document.getElementById('audio-toggle-btn');
+      const exploreBtn = document.getElementById('explore-btn');
 
-    if (likeBtn) {
-      likeBtn.onclick = () => {
-        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-        if (!activeSlide) return;
-        const quoteId = activeSlide.dataset.quoteId;
-        const quoteObj = {
-          id: quoteId,
-          content: activeSlide.dataset.content || activeSlide.querySelector('blockquote p')?.textContent?.trim() || '',
-          author: activeSlide.dataset.author || '',
-          authorSlug: activeSlide.dataset.authorSlug || '',
-          category: activeSlide.dataset.category || '',
-          categorySlug: activeSlide.dataset.categorySlug || '',
-          mood: activeSlide.dataset.mood || '',
-          slug: activeSlide.dataset.quoteSlug || quoteId,
-        };
-        const isLiked = window.likedQuotes.toggle(quoteObj);
-        updateLikeUI(isLiked);
-        if (window.refreshExploreLikes) window.refreshExploreLikes();
-      };
-    }
-
-    if (shareBtn) {
-      shareBtn.onclick = () => {
-        const modal = document.getElementById('share-modal');
-        if (modal) {
-          modal.classList.remove('hidden');
-          modal.style.display = 'flex';
+      if (likeBtn) {
+        likeBtn.onclick = () => {
           const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-          if (window.updateShareContext && activeSlide) {
-            window.updateShareContext(activeSlide, true);
+          if (!activeSlide) return;
+          const quoteId = activeSlide.dataset.quoteId;
+          const quoteObj = {
+            id: quoteId,
+            content: activeSlide.dataset.content || activeSlide.querySelector('blockquote p')?.textContent?.trim() || '',
+            author: activeSlide.dataset.author || '',
+            authorSlug: activeSlide.dataset.authorSlug || '',
+            category: activeSlide.dataset.category || '',
+            categorySlug: activeSlide.dataset.categorySlug || '',
+            mood: activeSlide.dataset.mood || '',
+            slug: activeSlide.dataset.quoteSlug || quoteId,
+          };
+          const isLiked = window.likedQuotes.toggle(quoteObj);
+          updateLikeUI(isLiked);
+          if (window.refreshExploreLikes) window.refreshExploreLikes();
+        };
+      }
+
+      if (shareBtn) {
+        shareBtn.onclick = () => {
+          const modal = document.getElementById('share-modal');
+          if (modal) {
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+            if (window.updateShareContext && activeSlide) {
+              window.updateShareContext(activeSlide, true);
+            }
           }
-        }
-      };
-    }
+        };
+      }
 
-    const delveBtn = document.getElementById('delve-rail-btn');
-
-    if (delveBtn) {
-      delveBtn.onclick = () => {
-        const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-        if (activeSlide && window.openQuoteDelveModal) {
-          window.openQuoteDelveModal({
-            id: activeSlide.dataset.quoteId,
-            content: activeSlide.dataset.content || activeSlide.querySelector('.quote-text')?.textContent?.trim(),
-            author: activeSlide.dataset.author,
-            authorSlug: activeSlide.dataset.authorSlug,
-            sourceWork: activeSlide.dataset.sourceWork,
-            explanation: activeSlide.dataset.explanation || activeSlide.dataset.story,
-            practicalInsight: activeSlide.dataset.practicalInsight,
-            reflectionPrompt: activeSlide.dataset.reflectionPrompt,
-          });
-        }
-      };
-    }
-
-    if (exploreBtn) {
-      exploreBtn.onclick = () => {
-        if (window.openExploreDrawer) {
-          window.openExploreDrawer();
-        } else {
-          const drawer = document.getElementById('explore-drawer');
-          if (drawer) {
-            drawer.classList.remove('hidden');
-            drawer.style.display = 'flex';
+      if (exploreBtn) {
+        exploreBtn.onclick = () => {
+          if (window.openExploreDrawer) {
+            window.openExploreDrawer();
+          } else {
+            const drawer = document.getElementById('explore-drawer');
+            if (drawer) {
+              drawer.classList.remove('hidden');
+              drawer.style.display = 'flex';
+            }
           }
-        }
-      };
+        };
+      }
+
+      // Refresh like status for the currently active slide
+      const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+      if (activeSlide && window.likedQuotes) {
+        updateLikeUI(window.likedQuotes.has(activeSlide.dataset.quoteId));
+      }
     }
 
-    // Refresh like status for the currently active slide
-    const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-    if (activeSlide && window.likedQuotes) {
-      updateLikeUI(window.likedQuotes.has(activeSlide.dataset.quoteId));
+    function updateLikeUI(isLiked) {
+      const icon = document.getElementById('like-icon');
+      const label = document.getElementById('like-count');
+      if (!icon) return;
+      if (isLiked) {
+        icon.setAttribute('fill', '#ef4444');
+        icon.setAttribute('stroke', '#ef4444');
+        icon.style.transform = 'scale(1.2)';
+        setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
+        if (label) label.textContent = 'Liked';
+      } else {
+        icon.setAttribute('fill', 'none');
+        icon.setAttribute('stroke', 'currentColor');
+        if (label) label.textContent = 'Like';
+      }
     }
-  }
 
-  function updateLikeUI(isLiked) {
-    const icon = document.getElementById('like-icon');
-    const label = document.getElementById('like-count');
-    if (!icon) return;
-    if (isLiked) {
-      icon.setAttribute('fill', '#ef4444');
-      icon.setAttribute('stroke', '#ef4444');
-      icon.style.transform = 'scale(1.2)';
-      setTimeout(() => { icon.style.transform = 'scale(1)'; }, 200);
-      if (label) label.textContent = 'Liked';
+    window.updateLikeUI = updateLikeUI;
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupRightRail);
     } else {
-      icon.setAttribute('fill', 'none');
-      icon.setAttribute('stroke', 'currentColor');
-      if (label) label.textContent = 'Like';
+      setupRightRail();
     }
-  }
-
-  window.updateLikeUI = updateLikeUI;
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupRightRail);
-  } else {
-    setupRightRail();
-  }
-  document.addEventListener('astro:page-load', setupRightRail);
+    document.addEventListener('astro:page-load', setupRightRail);
+  })();
 </script>

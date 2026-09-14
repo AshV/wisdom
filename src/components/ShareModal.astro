@@ -123,15 +123,26 @@
 
 <script is:inline>
   // ── High-Performance Canvas 2D 9:16 Quote Card Generator ──
-  // Renders a stunning 1080×1920 (9:16) Story/Reel HD image matching the exact visual style, colors, and live ambient background shown on screen.
+  // Renders a stunning 2160×3840 Ultra-HD 9:16 Story/Reel card (2x supersampling for razor sharpness)
+  // matching the exact visual style, colors, and live ambient background shown on screen.
   function renderQuoteCard9x16(quote) {
     const width = 1080;
     const height = 1920;
+    const scale = 2; // 2x supersampling for ultra-crisp Retina and 4K display sharpness
+
     const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * scale;
+    canvas.height = height * scale;
     const ctx = canvas.getContext('2d');
     if (!ctx) return null;
+
+    // Scale canvas context so all internal layout coordinates remain standard 1080×1920
+    ctx.scale(scale, scale);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    if ('textRendering' in ctx) {
+      ctx.textRendering = 'geometricPrecision';
+    }
 
     const content = quote.content || '';
     const author = quote.author || 'Anonymous';
@@ -241,7 +252,7 @@
     // ── 4. Editorial Inner Border Frame (Inset 48px, rounded 32px) ──
     const inset = 48;
     const radius = 32;
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     drawRoundRect(ctx, inset, inset, width - inset * 2, height - inset * 2, radius);
@@ -249,8 +260,8 @@
 
     // ── 5. Top Brand & Taxonomy Badge ──
     ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-    ctx.font = '700 16px "Inter", -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+    ctx.font = '700 17px "Inter", -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '6px';
@@ -259,7 +270,7 @@
 
     if (category) {
       ctx.save();
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.48)';
       ctx.font = '500 14px "Inter", -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -319,55 +330,87 @@
     let blockStartY = (height - totalBlockHeight) / 2;
     if (blockStartY < 240) blockStartY = 240;
 
-    // Decorative Quotation Mark (Playfair Display, delicate white/35)
+    // Decorative Quotation Mark (Playfair Display, crisp translucent white)
     const quoteMarkY = blockStartY + (quoteMarkHeight / 2);
     ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
     ctx.font = 'italic 400 100px "Playfair Display", Georgia, serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('“', width / 2, quoteMarkY);
     ctx.restore();
 
-    // Quote Text Lines (Crisp white with multi-layered artistic text shadows)
+    // Quote Text Lines: Two-Pass Rendering for Ultra-Sharp Foreground Letterforms
     const quoteStartY = blockStartY + quoteMarkHeight + quoteMarkGap;
+    const quoteFontStr = `400 ${fontSize}px "Playfair Display", "Cormorant Garamond", Georgia, serif`;
+
+    // Pass 1: Cinematic drop shadow underneath (protects contrast on bright blooms)
     ctx.save();
-    ctx.font = `400 ${fontSize}px "Playfair Display", "Cormorant Garamond", Georgia, serif`;
-    ctx.fillStyle = '#ffffff';
+    ctx.font = quoteFontStr;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-    ctx.shadowBlur = 36;
-    ctx.shadowOffsetY = 5;
-
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.60)';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.92)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetY = 6;
     for (let i = 0; i < lines.length; i++) {
       ctx.fillText(lines[i], width / 2, quoteStartY + (i * lineHeight) + (lineHeight / 2));
     }
     ctx.restore();
 
-    // Author Attribution (Italic Serif, Original Case)
-    const authorY = quoteStartY + totalQuoteTextHeight + authorGap;
+    // Pass 2: Razor-sharp, pure white foreground text (Zero shadow blur on glyph edges)
     ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-    ctx.font = 'italic 400 44px "Cormorant Garamond", "Playfair Display", Georgia, serif';
+    ctx.font = quoteFontStr;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], width / 2, quoteStartY + (i * lineHeight) + (lineHeight / 2));
+    }
+    ctx.restore();
+
+    // Author Attribution: Two-Pass Rendering for Crisp Italic Serif
+    const authorY = quoteStartY + totalQuoteTextHeight + authorGap;
+    const authorFontStr = 'italic 400 44px "Cormorant Garamond", "Playfair Display", Georgia, serif';
+
+    // Pass 1: Depth shadow
+    ctx.save();
+    ctx.font = authorFontStr;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.80)';
-    ctx.shadowBlur = 18;
-    ctx.shadowOffsetY = 3;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.50)';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    ctx.shadowBlur = 16;
+    ctx.shadowOffsetY = 4;
     ctx.fillText(`— ${author}`, width / 2, authorY);
     ctx.restore();
 
-    // ── 7. Footer Domain Watermark with Numerical Quote URL ──
+    // Pass 2: Sharp foreground
     ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
-    ctx.font = '500 18px "Inter", -apple-system, sans-serif';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
+    ctx.font = authorFontStr;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.fillText(`— ${author}`, width / 2, authorY);
+    ctx.restore();
+
+    // ── 7. Footer Domain Watermark with Direct Quote URL (Without "/quote") ──
+    ctx.save();
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.60)';
+    ctx.font = '500 20px "Inter", -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
     const watermarkText = quote.id
-      ? `ashishvishwakarma.com/wisdom/quote/${quote.id.toLowerCase()}`
+      ? `ashishvishwakarma.com/wisdom/${quote.id.toLowerCase()}`
       : 'ashishvishwakarma.com/wisdom';
     ctx.fillText(watermarkText, width / 2, height - 90);
     ctx.restore();
@@ -423,9 +466,20 @@
 
     const genPromise = (async () => {
       try {
-        // Ensure web fonts are ready so Playfair & Cormorant render crisply
-        if (document.fonts && document.fonts.ready) {
-          await document.fonts.ready;
+        // Ensure web fonts are completely loaded so Playfair, Cormorant & Inter render pin-sharp
+        if (document.fonts) {
+          try {
+            await Promise.all([
+              document.fonts.load('400 78px "Playfair Display"'),
+              document.fonts.load('italic 400 100px "Playfair Display"'),
+              document.fonts.load('italic 400 44px "Cormorant Garamond"'),
+              document.fonts.load('500 20px "Inter"'),
+              document.fonts.load('700 17px "Inter"'),
+              document.fonts.ready,
+            ]);
+          } catch (_) {
+            if (document.fonts.ready) await document.fonts.ready;
+          }
         }
 
         const canvas = renderQuoteCard9x16({ id, content, author, mood, category, slug });
@@ -449,8 +503,8 @@
           file,
           objectUrl,
           dataUrl,
-          width: 1080,
-          height: 1920,
+          width: 2160,
+          height: 3840,
         };
 
         window.quoteCardCache.set(id, entry);

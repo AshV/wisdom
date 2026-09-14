@@ -5,7 +5,13 @@ import { slugifyQuote } from '../../../utils/slug';
 const CHUNK_SIZE = 200;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allQuotes = await getCollection('quotes');
+  const rawQuotes = await getCollection('quotes');
+  // Sort quotes strictly by numeric ID so chunk-P contains quotes ((P-1)*200 + 1) to P*200
+  const allQuotes = rawQuotes.sort((a, b) => {
+    const numA = parseInt(String(a.data.id).replace(/\D/g, ''), 10) || 0;
+    const numB = parseInt(String(b.data.id).replace(/\D/g, ''), 10) || 0;
+    return numA - numB;
+  });
   const totalChunks = Math.ceil(allQuotes.length / CHUNK_SIZE);
   const paths = [];
 

@@ -1,0 +1,230 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allQuotes = await getCollection('quotes');
+const totalQuotes = allQuotes.length;
+const base = '/wisdom';
+---
+
+<BaseLayout
+  title="Page Not Found (404) | Wisdom"
+  description="The wisdom you seek may be found on another path."
+  robots="noindex, nofollow"
+>
+  <!-- Immediate inline interceptor to resolve quote numbers without UI flash -->
+  <script is:inline define:vars={{ totalQuotes, base }}>
+    (function () {
+      try {
+        const rawPath = window.location.pathname.replace(/\/+$/, '');
+        // Matches /wisdom/42, /wisdom/q42, /wisdom/q042, /wisdom/quote/42, /wisdom/quote/q042, and root equivalents
+        const match = rawPath.match(/^(?:\/wisdom)?\/(?:quote\/)?q?(\d+)$/i);
+
+        if (match && match[1]) {
+          const num = parseInt(match[1], 10);
+          if (num >= 1 && num <= totalQuotes) {
+            // Mark body as resolving to suppress 404 message display
+            document.documentElement.classList.add('is-resolving-quote');
+
+            const chunkPage = Math.ceil(num / 200);
+            const paddedId = 'q' + String(num).padStart(num >= 1000 ? 4 : 3, '0');
+
+            function findInQuotes(quotes) {
+              return quotes.find(function (q) {
+                return (
+                  (q.id && q.id.toLowerCase() === paddedId.toLowerCase()) ||
+                  parseInt(String(q.id).replace(/\D/g, ''), 10) === num
+                );
+              });
+            }
+
+            function fetchChunk(p) {
+              return fetch(`${base}/api/quotes/chunk-${p}.json`).then(function (res) {
+                if (!res.ok) throw new Error('Chunk not ok');
+                return res.json();
+              });
+            }
+
+            // Quick async fetch of the predicted chunk containing this quote
+            fetchChunk(chunkPage)
+              .then(function (data) {
+                if (data && data.quotes) {
+                  var target = findInQuotes(data.quotes);
+                  if (target && target.slug) {
+                    window.location.replace(`${base}/quote/${target.slug}/`);
+                    return true;
+                  }
+                }
+                return false;
+              })
+              .then(function (found) {
+                if (!found) {
+                  // Fallback: search through other chunks sequentially
+                  var totalChunks = Math.ceil(totalQuotes / 200);
+                  var pChain = Promise.resolve();
+                  for (var p = 1; p <= totalChunks; p++) {
+                    if (p === chunkPage) continue;
+                    (function (pageIndex) {
+                      pChain = pChain.then(function (res) {
+                        if (res) return res;
+                        return fetchChunk(pageIndex).then(function (d) {
+                          return d && d.quotes ? findInQuotes(d.quotes) : null;
+                        }).catch(function () { return null; });
+                      });
+                    })(p);
+                  }
+                  pChain.then(function (finalTarget) {
+                    if (finalTarget && finalTarget.slug) {
+                      window.location.replace(`${base}/quote/${finalTarget.slug}/`);
+                    } else {
+                      window.location.replace(`${base}/#${paddedId}`);
+                    }
+                  });
+                }
+              })
+              .catch(function () {
+                // Network or offline fallback
+                window.location.replace(`${base}/#${paddedId}`);
+              });
+          }
+        }
+      } catch (err) {
+        console.warn('[Wisdom 404 Resolver] Error:', err);
+      }
+    })();
+  </script>
+
+  <style>
+    /* When resolving quote number, show only the sleek locating state */
+    html.is-resolving-quote #error-404-container {
+      display: none !important;
+    }
+    html:not(.is-resolving-quote) #quote-resolving-indicator {
+      display: none !important;
+    }
+  </style>
+
+  <div class="relative min-h-[100dvh] w-full flex items-center justify-center p-4 sm:p-6 text-white overflow-hidden select-none z-10">
+    
+    <!-- 1. Resolving Quote Loader (Shown only during quote-by-number lookup) -->
+    <div
+      id="quote-resolving-indicator"
+      class="flex flex-col items-center justify-center text-center max-w-md w-full p-8 rounded-3xl bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-2xl animate-fade-in"
+    >
+      <div class="relative w-16 h-16 mb-6">
+        <div class="absolute inset-0 rounded-full border-2 border-amber-400/20 animate-ping"></div>
+        <div class="absolute inset-0 rounded-full border-2 border-t-amber-400 border-r-purple-400 border-b-transparent border-l-transparent animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center text-amber-300 font-bold text-sm">
+          #
+        </div>
+      </div>
+      <h2 id="resolving-quote-title" class="text-xl sm:text-2xl font-semibold text-white tracking-tight mb-2">
+        Locating Quote...
+      </h2>
+      <p class="text-sm text-white/60 leading-relaxed">
+        Seeking timeless wisdom across {totalQuotes.toLocaleString()} reflections.
+      </p>
+    </div>
+
+    <!-- 2. Aesthetic 404 Fallback (Shown for genuinely broken URLs) -->
+    <div
+      id="error-404-container"
+      class="flex flex-col items-center justify-center text-center max-w-xl w-full p-6 sm:p-10 rounded-3xl bg-black/40 backdrop-blur-3xl border border-white/10 shadow-[0_20px_70px_rgba(0,0,0,0.8)]"
+    >
+      <!-- Glowing 404 badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-xs font-semibold tracking-wider uppercase mb-6 shadow-sm">
+        <span>✦</span>
+        <span>Page Not Found</span>
+        <span>✦</span>
+      </div>
+
+      <!-- Watermark 404 -->
+      <div class="relative my-2 select-none pointer-events-none">
+        <span class="text-7xl sm:text-9xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white/30 via-white/10 to-transparent">
+          404
+        </span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-3">
+        A Path Yet Unwritten
+      </h1>
+
+      <p class="text-base text-white/70 italic font-serif leading-relaxed mb-8 max-w-md">
+        “Not all those who wander are lost, but this particular page seems to have dissolved into stillness.”
+      </p>
+
+      <!-- Quick Jump by Quote Number -->
+      <div class="w-full max-w-sm mb-8">
+        <form id="quote-jump-form" class="relative flex items-center">
+          <input
+            id="quote-jump-input"
+            type="number"
+            min="1"
+            max={totalQuotes}
+            placeholder={`Jump to Quote # (1–${totalQuotes})`}
+            class="w-full py-3 pl-4 pr-24 rounded-2xl bg-white/[0.06] hover:bg-white/[0.09] focus:bg-white/[0.12] border border-white/15 focus:border-amber-400/50 text-white placeholder:text-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/20 transition-all"
+          />
+          <button
+            type="submit"
+            class="absolute right-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            Go ↵
+          </button>
+        </form>
+        <p class="text-[11px] text-white/40 mt-1.5 text-center">
+          Tip: You can navigate anytime via <code class="text-amber-300/80 bg-white/5 px-1.5 py-0.5 rounded">/wisdom/42</code>
+        </p>
+      </div>
+
+      <!-- Action Navigation -->
+      <div class="flex flex-wrap items-center justify-center gap-3 w-full">
+        <a
+          href={`${base}/`}
+          class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/15 active:scale-95 text-white font-medium text-sm transition-all border border-white/15 shadow-sm"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Return to Feed</span>
+        </a>
+
+        <a
+          href={`${base}/#explore`}
+          id="open-explore-btn"
+          class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-amber-400/15 hover:bg-amber-400/25 active:scale-95 text-amber-300 hover:text-amber-200 font-medium text-sm transition-all border border-amber-400/30 shadow-sm"
+        >
+          <span>✨ Explore Topics</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ base, totalQuotes }}>
+    // Initialize interactive jump form on 404 page
+    const jumpForm = document.getElementById('quote-jump-form');
+    const jumpInput = document.getElementById('quote-jump-input');
+
+    if (jumpForm && jumpInput) {
+      jumpForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const val = parseInt(jumpInput.value, 10);
+        if (val >= 1 && val <= totalQuotes) {
+          window.location.href = `${base}/${val}`;
+        } else {
+          jumpInput.classList.add('ring-2', 'ring-red-400');
+          setTimeout(() => jumpInput.classList.remove('ring-2', 'ring-red-400'), 1500);
+        }
+      });
+    }
+
+    // Update title of resolving loader if path had number
+    const pathMatch = window.location.pathname.match(/q?(\d+)/i);
+    if (pathMatch && pathMatch[1]) {
+      const titleEl = document.getElementById('resolving-quote-title');
+      if (titleEl) {
+        titleEl.textContent = 'Locating Quote #' + pathMatch[1] + '...';
+      }
+    }
+  </script>
+</BaseLayout>

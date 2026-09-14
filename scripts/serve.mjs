@@ -30,7 +30,8 @@ http.createServer((req, res) => {
     filePath = path.join(filePath, 'index.html');
   }
   if (!fs.existsSync(filePath)) {
-    filePath = path.join(DIST, 'index.html');
+    const p404 = path.join(DIST, '404.html');
+    filePath = fs.existsSync(p404) ? p404 : path.join(DIST, 'index.html');
   }
   const ext = path.extname(filePath);
   res.writeHead(200, { 'Content-Type': MIME[ext] || 'application/octet-stream' });

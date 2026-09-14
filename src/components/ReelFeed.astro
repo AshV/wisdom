@@ -508,20 +508,27 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       if (!target) return null;
       const clean = decodeURIComponent(target).replace(/^#/, '').toLowerCase().trim();
 
+      const numMatch = clean.match(/^q?(\d+)$/i);
+      const targetNum = numMatch ? parseInt(numMatch[1], 10) : null;
+      const normalizedId = targetNum ? ('q' + String(targetNum).padStart(targetNum >= 1000 ? 4 : 3, '0')).toLowerCase() : null;
+
+      function isMatch(q) {
+        if (!q) return false;
+        if (q.id && q.id.toLowerCase() === clean) return true;
+        if (q.slug && q.slug.toLowerCase() === clean) return true;
+        if (normalizedId && q.id && q.id.toLowerCase() === normalizedId) return true;
+        if (targetNum !== null && q.id && parseInt(String(q.id).replace(/\D/g, ''), 10) === targetNum) return true;
+        return false;
+      }
+
       // 1. Check in loadedQuoteList
-      let found = loadedQuoteList.find(q =>
-        (q.id && q.id.toLowerCase() === clean) ||
-        (q.slug && q.slug.toLowerCase() === clean)
-      );
+      let found = loadedQuoteList.find(isMatch);
       if (found) return found;
 
       // 2. Check in window.__wisdomQuoteMap
       if (window.__wisdomQuoteMap) {
         const quotes = Object.values(window.__wisdomQuoteMap);
-        found = quotes.find(q =>
-          (q.id && q.id.toLowerCase() === clean) ||
-          (q.slug && q.slug.toLowerCase() === clean)
-        );
+        found = quotes.find(isMatch);
         if (found) return found;
       }
 
@@ -532,30 +539,43 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         if (res.ok) {
           const dailyQuotes = await res.json();
           if (Array.isArray(dailyQuotes)) {
-            found = dailyQuotes.find(q =>
-              (q.id && q.id.toLowerCase() === clean) ||
-              (q.slug && q.slug.toLowerCase() === clean)
-            );
+            found = dailyQuotes.find(isMatch);
             if (found) return found;
           }
         }
       } catch {}
 
-      // 4. Fetch chunks if still needed
+      // 4. Fetch chunk directly if numeric, or search chunks dynamically
       try {
         const base = window.__wisdomBaseUrl || '/wisdom';
-        for (let p = 1; p <= 18; p++) {
+        if (targetNum !== null && targetNum >= 1) {
+          // Direct O(1) chunk fetch for quote numbers
+          const p = Math.ceil(targetNum / 200);
           const res = await fetch(`${base}/api/quotes/chunk-${p}.json`);
           if (res.ok) {
             const data = await res.json();
             if (data && data.quotes) {
               loadedQuoteList.push(...data.quotes);
-              found = data.quotes.find(q =>
-                (q.id && q.id.toLowerCase() === clean) ||
-                (q.slug && q.slug.toLowerCase() === clean)
-              );
+              found = data.quotes.find(isMatch);
               if (found) return found;
             }
+          }
+        }
+
+        // Slug search or fallback if predicted chunk missed: fetch chunks sequentially
+        let maxPages = 20;
+        for (let p = 1; p <= maxPages; p++) {
+          const res = await fetch(`${base}/api/quotes/chunk-${p}.json`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.totalChunks) maxPages = data.totalChunks;
+            if (data && data.quotes) {
+              loadedQuoteList.push(...data.quotes);
+              found = data.quotes.find(isMatch);
+              if (found) return found;
+            }
+          } else {
+            break;
           }
         }
       } catch {}
@@ -578,13 +598,20 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     // ── Intelligent Reordering & Shuffling with Visited Deduplication & Max Author Streak ──
     if (targetHash) {
       // Intentional deep link or notification target: find or create target slide
-      let targetIdx = initialSlides.findIndex(s =>
-        s.dataset.quoteSlug === targetHash ||
-        s.id === `slide-${targetHash}` ||
-        s.dataset.quoteId === targetHash ||
-        (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === targetHash.toLowerCase()) ||
-        (s.dataset.quoteSlug && s.dataset.quoteSlug.toLowerCase() === targetHash.toLowerCase())
-      );
+      const hashNumMatch = targetHash.match(/^q?(\d+)$/i);
+      const hashNum = hashNumMatch ? parseInt(hashNumMatch[1], 10) : null;
+      const hashNormalizedId = hashNum ? ('q' + String(hashNum).padStart(hashNum >= 1000 ? 4 : 3, '0')).toLowerCase() : null;
+
+      let targetIdx = initialSlides.findIndex(s => {
+        const id = s.dataset.quoteId;
+        const slug = s.dataset.quoteSlug;
+        if (slug === targetHash || s.id === `slide-${targetHash}` || id === targetHash) return true;
+        if (id && id.toLowerCase() === targetHash.toLowerCase()) return true;
+        if (slug && slug.toLowerCase() === targetHash.toLowerCase()) return true;
+        if (hashNormalizedId && id && id.toLowerCase() === hashNormalizedId) return true;
+        if (hashNum !== null && id && parseInt(id.replace(/\D/g, ''), 10) === hashNum) return true;
+        return false;
+      });
       let targetSlide = null;
       if (targetIdx !== -1) {
         [targetSlide] = initialSlides.splice(targetIdx, 1);
@@ -1194,20 +1221,23 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       const cleanTarget = slugOrId ? decodeURIComponent(slugOrId).replace(/^#/, '').trim() : '';
 
       // 1. Check if matching slide is already rendered in container
+      const navNumMatch = cleanTarget ? cleanTarget.match(/^q?(\d+)$/i) : null;
+      const navNum = navNumMatch ? parseInt(navNumMatch[1], 10) : null;
+      const navNormalizedId = navNum ? ('q' + String(navNum).padStart(navNum >= 1000 ? 4 : 3, '0')).toLowerCase() : null;
+
       const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
-      let match = currentSlides.find(s =>
-        (cleanTarget && (
-          s.dataset.quoteSlug === cleanTarget ||
-          s.dataset.quoteId === cleanTarget ||
-          s.id === `slide-${cleanTarget}` ||
-          (s.dataset.quoteId && s.dataset.quoteId.toLowerCase() === cleanTarget.toLowerCase()) ||
-          (s.dataset.quoteSlug && s.dataset.quoteSlug.toLowerCase() === cleanTarget.toLowerCase())
-        )) ||
-        (quotePayload && (
-          s.dataset.quoteId === quotePayload.id ||
-          s.dataset.quoteSlug === quotePayload.slug
-        ))
-      );
+      let match = currentSlides.find(s => {
+        if (quotePayload && (s.dataset.quoteId === quotePayload.id || s.dataset.quoteSlug === quotePayload.slug)) return true;
+        if (!cleanTarget) return false;
+        const id = s.dataset.quoteId;
+        const slug = s.dataset.quoteSlug;
+        if (slug === cleanTarget || id === cleanTarget || s.id === `slide-${cleanTarget}`) return true;
+        if (id && id.toLowerCase() === cleanTarget.toLowerCase()) return true;
+        if (slug && slug.toLowerCase() === cleanTarget.toLowerCase()) return true;
+        if (navNormalizedId && id && id.toLowerCase() === navNormalizedId) return true;
+        if (navNum !== null && id && parseInt(id.replace(/\D/g, ''), 10) === navNum) return true;
+        return false;
+      });
 
       // 2. If not found in DOM, instantiate slide dynamically from payload, catalog or daily-quotes
       if (!match) {

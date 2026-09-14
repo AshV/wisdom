@@ -236,6 +236,34 @@ const moodKeywords: Record<string, string> = {
       style="padding-left: clamp(1.25rem, 3vw, 2.75rem); padding-right: clamp(1.25rem, 3vw, 2.75rem); padding-top: 1.5rem; padding-bottom: 5rem;"
     >
       
+      <!-- Quick Jump by Quote Number (Shown when query matches a quote number/ID like 42, #42, q42) -->
+      <div id="quote-quickjump-section" class="hidden mb-6 p-4 rounded-2xl bg-gradient-to-r from-amber-400/15 via-purple-500/10 to-transparent border border-amber-400/30 backdrop-blur-xl shadow-lg">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-300 font-bold text-sm shadow-sm flex-shrink-0">
+              #
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Quote Quick Jump</span>
+                <span id="quickjump-number-badge" class="text-[10px] px-2 py-0.5 rounded-full bg-amber-400/20 font-bold text-amber-300">#42</span>
+              </div>
+              <p id="quickjump-prompt" class="text-xs text-white/70 mt-0.5">Jump directly to reflection #42</p>
+            </div>
+          </div>
+          <button
+            id="quickjump-action-btn"
+            type="button"
+            class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer flex-shrink-0"
+          >
+            <span>Open Quote</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <!-- 1. Liked Tab -->
       <div id="tab-liked" class="explore-tab-content">
         <!-- Search Mode Header -->
@@ -556,9 +584,10 @@ const moodKeywords: Record<string, string> = {
   </div>
 </div>
 
-<!-- Base URL configuration -->
-<script is:inline>
+<!-- Base URL & total quotes configuration -->
+<script is:inline define:vars={{ totalQuotesCount }}>
   window.__wisdomBaseUrl = '/wisdom';
+  window.__wisdomTotalQuotes = totalQuotesCount;
 </script>
 
 <script is:inline>
@@ -811,6 +840,39 @@ const moodKeywords: Record<string, string> = {
       refreshLikedQuotes();
 
       let totalMatches = 0;
+
+      // Check if query is a quote number/ID (e.g. 42, #42, q42, q042)
+      const numMatch = q.match(/^#?q?(\d+)$/i);
+      const quoteNum = numMatch ? parseInt(numMatch[1], 10) : null;
+      const maxQuotes = window.__wisdomTotalQuotes || 3944;
+      const quickjumpSection = document.getElementById('quote-quickjump-section');
+      const quickjumpBadge = document.getElementById('quickjump-number-badge');
+      const quickjumpPrompt = document.getElementById('quickjump-prompt');
+      const quickjumpBtn = document.getElementById('quickjump-action-btn');
+
+      if (quoteNum && quoteNum >= 1 && quoteNum <= maxQuotes) {
+        if (quickjumpSection) {
+          quickjumpSection.classList.remove('hidden');
+          if (quickjumpBadge) quickjumpBadge.textContent = `#${quoteNum}`;
+          if (quickjumpPrompt) quickjumpPrompt.textContent = `Jump directly to reflection #${quoteNum}`;
+          if (quickjumpBtn) {
+            quickjumpBtn.onclick = () => {
+              closeDrawer();
+              const paddedId = 'q' + String(quoteNum).padStart(quoteNum >= 1000 ? 4 : 3, '0');
+              if (window.__wisdomNavigateToQuote) {
+                window.__wisdomNavigateToQuote(paddedId);
+              } else {
+                const base = window.__wisdomBaseUrl || '/wisdom';
+                window.location.href = `${base}/#${paddedId}`;
+              }
+            };
+          }
+        }
+        totalMatches++;
+      } else {
+        if (quickjumpSection) quickjumpSection.classList.add('hidden');
+      }
+
       const tabMatchCounts = {};
       const searchableTabIds = ['tab-authors', 'tab-moods', 'tab-categories', 'tab-tags', 'tab-liked'];
 
@@ -888,6 +950,10 @@ const moodKeywords: Record<string, string> = {
     }
 
     function resetFilterVisibility() {
+      // Hide quote quick jump card
+      const quickjumpSection = document.getElementById('quote-quickjump-section');
+      if (quickjumpSection) quickjumpSection.classList.add('hidden');
+
       // Restore currently active tab visibility
       tabContents.forEach((tc) => {
         tc.classList.remove('mb-8');
@@ -1201,6 +1267,24 @@ const moodKeywords: Record<string, string> = {
     // Global hooks
     window.openExploreDrawer = openDrawer;
     window.refreshExploreLikes = refreshLikedQuotes;
+
+    function checkHashForExplore() {
+      if (window.location.hash === '#explore' || window.location.hash.startsWith('#explore?')) {
+        openDrawer('authors');
+      }
+    }
+    checkHashForExplore();
+    window.addEventListener('hashchange', checkHashForExplore);
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.key === 'e' || e.key === 'E') && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+        if (drawer && drawer.classList.contains('hidden')) {
+          openDrawer('authors');
+        } else {
+          closeDrawer();
+        }
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

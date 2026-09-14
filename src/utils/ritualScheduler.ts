@@ -71,7 +71,7 @@ export async function sendReflectionNotification(
     badge: `${baseUrl}/icons/favicon-64.png`,
     tag: `wisdom-${type.toLowerCase().replace(/\s+/g, '-')}`,
     data: {
-      url: `${baseUrl}/#${quote.slug}`,
+      url: `${baseUrl}/?quote=${encodeURIComponent(quote.slug)}#${quote.slug}`,
       quoteSlug: quote.slug,
       quoteId: quote.id,
       author: quote.author,

@@ -1222,9 +1222,10 @@ const moodKeywords: Record<string, string> = {
               badge: `${base}/icons/favicon-64.png`,
               tag: 'wisdom-test-reflection',
               data: {
-                url: `${base}/#${quote.slug}`,
+                url: `${base}/?quote=${encodeURIComponent(quote.slug)}#${quote.slug}`,
                 quoteSlug: quote.slug,
-                quoteId: quote.id
+                quoteId: quote.id,
+                quote: quote
               }
             };
 

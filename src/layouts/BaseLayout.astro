@@ -579,6 +579,30 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           });
         }
 
+        // Global Notification Deep Link Receiver (BroadcastChannel & Service Worker Message)
+        function handleNotificationNavigation(data) {
+          if (!data || data.type !== 'WISDOM_NAVIGATE_QUOTE') return;
+          const target = data.quoteSlug || data.quoteId || (data.url && (data.url.match(/[?&]quote=([^&#]+)/) || [])[1]) || (data.url && data.url.split('#')[1]);
+          if (!target) return;
+          if (window.__wisdomNavigateToQuote) {
+            window.__wisdomNavigateToQuote(target, data.quote);
+          } else {
+            const dest = data.url || `${BASE}/?quote=${encodeURIComponent(target)}#${encodeURIComponent(target)}`;
+            window.location.href = dest;
+          }
+        }
+
+        if (typeof BroadcastChannel !== 'undefined') {
+          try {
+            const bc = new BroadcastChannel('wisdom-notifications');
+            bc.addEventListener('message', (e) => handleNotificationNavigation(e.data));
+          } catch (_) {}
+        }
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.addEventListener('message', (e) => handleNotificationNavigation(e.data));
+        }
+
         // 2. Offline Sanctuary Status Monitoring
         function updateNetworkStatus() {
           const badge = document.getElementById('offline-sanctuary-badge');
@@ -876,9 +900,10 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
                 badge: `${BASE}/icons/favicon-64.png`,
                 tag: `wisdom-${dueType}-reflection`,
                 data: {
-                  url: `${BASE}/#${quote.slug}`,
+                  url: `${BASE}/?quote=${encodeURIComponent(quote.slug)}#${quote.slug}`,
                   quoteSlug: quote.slug,
-                  quoteId: quote.id
+                  quoteId: quote.id,
+                  quote: quote
                 }
               };
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wisdom-v3';
+const CACHE_NAME = 'wisdom-v4';
 const PRECACHE_ASSETS = [
   '/wisdom/',
   '/wisdom/manifest.webmanifest',
@@ -123,35 +123,79 @@ self.addEventListener('fetch', (event) => {
 // 4. Notification click: focus existing tab or open new window to the reflection quote
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  const rawUrl = (event.notification.data && event.notification.data.url) || '/wisdom/';
-  const absoluteUrl = new URL(rawUrl, self.location.origin).href;
-  const quoteSlug = (event.notification.data && (event.notification.data.quoteSlug || event.notification.data.slug)) || '';
-  const quoteId = (event.notification.data && event.notification.data.quoteId) || '';
-  const quoteObj = (event.notification.data && event.notification.data.quote) || null;
+  const notifData = event.notification.data || {};
+  const quoteSlug = notifData.quoteSlug || notifData.slug || '';
+  const quoteId = notifData.quoteId || '';
+  const quoteObj = notifData.quote || null;
+  const targetId = quoteSlug || quoteId;
+
+  // Build resilient deep link with BOTH query param (?quote=...) and hash (#...)
+  // Android WebAPKs often drop the hash on Intent launch, but ALWAYS preserve query params!
+  let deepLinkPath = '/wisdom/';
+  if (targetId) {
+    deepLinkPath = `/wisdom/?quote=${encodeURIComponent(targetId)}#${targetId}`;
+  } else if (notifData.url) {
+    deepLinkPath = notifData.url;
+  }
+  const absoluteUrl = new URL(deepLinkPath, self.location.origin).href;
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-      // Find an open Wisdom window
+    (async () => {
+      const windowClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+      let matchingClient = null;
+
       for (const client of windowClients) {
-        if (client.url.includes('/wisdom') && 'focus' in client) {
-          client.postMessage({
-            type: 'WISDOM_NAVIGATE_QUOTE',
-            url: absoluteUrl,
-            quoteSlug: quoteSlug,
-            quoteId: quoteId,
-            quote: quoteObj
-          });
-          if ('navigate' in client) {
-            client.navigate(absoluteUrl);
-          }
-          return client.focus();
+        if (client.url.includes('/wisdom')) {
+          matchingClient = client;
+          break;
         }
       }
-      // If no window is open, open a new one
-      if (clients.openWindow) {
-        return clients.openWindow(absoluteUrl);
+
+      const messagePayload = {
+        type: 'WISDOM_NAVIGATE_QUOTE',
+        url: absoluteUrl,
+        quoteSlug: quoteSlug,
+        quoteId: quoteId,
+        quote: quoteObj
+      };
+
+      // 1. Dispatch via BroadcastChannel for bulletproof cross-process messaging on Android & Desktop
+      if (typeof BroadcastChannel !== 'undefined') {
+        try {
+          const bc = new BroadcastChannel('wisdom-notifications');
+          bc.postMessage(messagePayload);
+          bc.close();
+        } catch (_) {}
       }
-    })
+
+      // 2. If a window is already open:
+      if (matchingClient) {
+        // On Android, focus FIRST to wake the background/frozen tab process
+        if ('focus' in matchingClient) {
+          try {
+            await matchingClient.focus();
+          } catch (_) {}
+        }
+
+        // Send direct message to client
+        try {
+          matchingClient.postMessage(messagePayload);
+        } catch (_) {}
+
+        // Safely update client location
+        if ('navigate' in matchingClient) {
+          try {
+            await matchingClient.navigate(absoluteUrl);
+          } catch (_) {}
+        }
+        return;
+      }
+
+      // 3. If no window is open, launch new window with deep link
+      if (clients.openWindow) {
+        return await clients.openWindow(absoluteUrl);
+      }
+    })()
   );
 });
 
@@ -210,7 +254,7 @@ self.addEventListener('periodicsync', (event) => {
             badge: '/wisdom/icons/favicon-64.png',
             tag: `wisdom-${dueType}-reflection`,
             data: {
-              url: `/wisdom/#${quote.slug}`,
+              url: `/wisdom/?quote=${encodeURIComponent(quote.slug)}#${quote.slug}`,
               quoteSlug: quote.slug,
               quoteId: quote.id,
               quote: quote

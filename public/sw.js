@@ -159,39 +159,52 @@ self.addEventListener('notificationclick', (event) => {
         quote: quoteObj
       };
 
-      // 1. Dispatch via BroadcastChannel for bulletproof cross-process messaging on Android & Desktop
-      if (typeof BroadcastChannel !== 'undefined') {
-        try {
-          const bc = new BroadcastChannel('wisdom-notifications');
-          bc.postMessage(messagePayload);
-          bc.close();
-        } catch (_) {}
-      }
-
-      // 2. If a window is already open:
+      // If a window is already open: focus it and deliver the navigation message.
+      // CRITICAL: Do NOT call matchingClient.navigate() — it triggers a full page reload
+      // which tears down the JS context before postMessage handlers can process the message.
+      // Instead, rely purely on postMessage + BroadcastChannel for in-app navigation.
       if (matchingClient) {
-        // On Android, focus FIRST to wake the background/frozen tab process
+        // 1. Focus FIRST to wake frozen/backgrounded tab on Android & Windows
         if ('focus' in matchingClient) {
           try {
             await matchingClient.focus();
           } catch (_) {}
         }
 
-        // Send direct message to client
+        // 2. Send direct message to the focused client
         try {
           matchingClient.postMessage(messagePayload);
         } catch (_) {}
 
-        // Safely update client location
-        if ('navigate' in matchingClient) {
+        // 3. Dispatch via BroadcastChannel as a parallel delivery path
+        if (typeof BroadcastChannel !== 'undefined') {
           try {
-            await matchingClient.navigate(absoluteUrl);
+            const bc = new BroadcastChannel('wisdom-notifications');
+            bc.postMessage(messagePayload);
+            bc.close();
           } catch (_) {}
         }
+
+        // 4. Delayed retry: frozen tabs on Android may need time to rehydrate
+        //    their event listeners after being woken by focus()
+        setTimeout(() => {
+          try {
+            matchingClient.postMessage(messagePayload);
+          } catch (_) {}
+          if (typeof BroadcastChannel !== 'undefined') {
+            try {
+              const bc2 = new BroadcastChannel('wisdom-notifications');
+              bc2.postMessage(messagePayload);
+              bc2.close();
+            } catch (_) {}
+          }
+        }, 350);
+
         return;
       }
 
-      // 3. If no window is open, launch new window with deep link
+      // If no window is open, launch a new window with the deep link URL.
+      // The ?quote= parameter will be read by setupReelFeed() on initial page load.
       if (clients.openWindow) {
         return await clients.openWindow(absoluteUrl);
       }

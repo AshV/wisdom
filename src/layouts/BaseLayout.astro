@@ -580,15 +580,32 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
 
         // Global Notification Deep Link Receiver (BroadcastChannel & Service Worker Message)
+        // Maintains a pending navigation queue for messages that arrive before setupReelFeed()
+        // has registered window.__wisdomNavigateToQuote (e.g., during Astro page transitions
+        // or when a frozen tab is being rehydrated after SW focus()).
+        window.__wisdomPendingNotifNav = window.__wisdomPendingNotifNav || null;
+
         function handleNotificationNavigation(data) {
           if (!data || data.type !== 'WISDOM_NAVIGATE_QUOTE') return;
           const target = data.quoteSlug || data.quoteId || (data.url && (data.url.match(/[?&]quote=([^&#]+)/) || [])[1]) || (data.url && data.url.split('#')[1]);
           if (!target) return;
+
           if (window.__wisdomNavigateToQuote) {
             window.__wisdomNavigateToQuote(target, data.quote);
+            window.__wisdomPendingNotifNav = null;
           } else {
-            const dest = data.url || `${BASE}/?quote=${encodeURIComponent(target)}#${encodeURIComponent(target)}`;
-            window.location.href = dest;
+            // Queue the navigation target for processing once setupReelFeed() registers the handler
+            window.__wisdomPendingNotifNav = { target, quote: data.quote };
+            // Retry after a short delay — gives frozen tabs time to rehydrate
+            setTimeout(() => {
+              if (window.__wisdomNavigateToQuote && window.__wisdomPendingNotifNav) {
+                window.__wisdomNavigateToQuote(
+                  window.__wisdomPendingNotifNav.target,
+                  window.__wisdomPendingNotifNav.quote
+                );
+                window.__wisdomPendingNotifNav = null;
+              }
+            }, 600);
           }
         }
 
@@ -602,6 +619,20 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.addEventListener('message', (e) => handleNotificationNavigation(e.data));
         }
+
+        // Catch ?quote= deep link params when tab becomes visible (handles edge cases
+        // where the URL was updated by SW navigate but the reel feed had already initialized)
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState !== 'visible') return;
+          const params = new URLSearchParams(window.location.search);
+          const quoteParam = params.get('quote') || params.get('q') || params.get('id');
+          if (quoteParam && window.__wisdomNavigateToQuote) {
+            window.__wisdomNavigateToQuote(decodeURIComponent(quoteParam));
+            // Clean the ?quote= param from URL to prevent re-triggering on subsequent visibility changes
+            const cleanUrl = window.location.pathname + window.location.hash;
+            history.replaceState(null, '', cleanUrl);
+          }
+        });
 
         // 2. Offline Sanctuary Status Monitoring
         function updateNetworkStatus() {

@@ -1293,6 +1293,24 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     // Global hook & live event listeners
     window.__wisdomNavigateToQuote = navigateToQuote;
 
+    // Process any pending notification navigation that was queued by BaseLayout's handler
+    // before setupReelFeed() registered __wisdomNavigateToQuote
+    if (window.__wisdomPendingNotifNav) {
+      const pending = window.__wisdomPendingNotifNav;
+      window.__wisdomPendingNotifNav = null;
+      navigateToQuote(pending.target, pending.quote);
+    }
+
+    // Clean ?quote= param from URL after initial deep-link processing
+    // This prevents re-triggering on Astro page transitions or visibilitychange
+    if (targetHash) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('quote') || params.has('q') || params.has('id')) {
+        const cleanUrl = window.location.pathname + window.location.hash;
+        history.replaceState(null, '', cleanUrl);
+      }
+    }
+
     window.addEventListener('hashchange', () => {
       if (window.location.hash) {
         navigateToQuote(window.location.hash.slice(1));

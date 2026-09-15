@@ -1036,8 +1036,14 @@ const moodKeywords: Record<string, string> = {
       }
     }
 
-    function closeDrawer() {
+    function closeDrawer(immediate = false) {
       if (!drawer) return;
+      if (immediate) {
+        drawer.style.display = 'none';
+        drawer.classList.add('hidden');
+        if (sheet) sheet.style.animation = '';
+        return;
+      }
       if (sheet) {
         sheet.style.animation = 'slide-down-sheet 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards';
         setTimeout(() => {
@@ -1267,7 +1273,9 @@ const moodKeywords: Record<string, string> = {
 
     // Global hooks
     window.openExploreDrawer = openDrawer;
+    window.closeExploreDrawer = closeDrawer;
     window.refreshExploreLikes = refreshLikedQuotes;
+    window.addEventListener('wisdom:close-modals', (e) => closeDrawer(e?.detail?.immediate ?? true));
 
     function checkHashForExplore() {
       if (window.location.hash === '#explore' || window.location.hash.startsWith('#explore?')) {

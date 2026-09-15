@@ -307,14 +307,21 @@ const BASE = '/wisdom';
       });
     };
 
-    function closeDelveModal() {
+    function closeDelveModal(immediate = false) {
       const modal = document.getElementById('quote-delve-modal');
       if (!modal) return;
       modal.classList.add('opacity-0', 'pointer-events-none');
-      setTimeout(() => {
+      if (immediate) {
         modal.style.display = 'none';
-      }, 300);
+      } else {
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
     }
+
+    window.closeQuoteDelveModal = closeDelveModal;
+    window.addEventListener('wisdom:close-modals', (e) => closeDelveModal(e?.detail?.immediate ?? true));
 
     function setupDelveModalEvents() {
       const modal = document.getElementById('quote-delve-modal');

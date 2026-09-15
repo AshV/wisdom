@@ -579,6 +579,80 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           });
         }
 
+        // Global Modal & Drawer Closer
+        // Dismisses any open modals (Explore Drawer, Author Dossier, Quote Delve, Share Modal, etc.)
+        // so deep-linked quotes from notifications are immediately visible and unobstructed.
+        window.__wisdomCloseAllModals = function(immediate = true) {
+          try {
+            // 1. Explore Drawer
+            if (typeof window.closeExploreDrawer === 'function') {
+              window.closeExploreDrawer(immediate);
+            }
+            const drawer = document.getElementById('explore-drawer');
+            if (drawer && (!drawer.classList.contains('hidden') || drawer.style.display !== 'none')) {
+              drawer.style.display = 'none';
+              drawer.classList.add('hidden');
+              const sheet = document.getElementById('explore-sheet');
+              if (sheet) sheet.style.animation = '';
+            }
+
+            // 2. Author Dossier Modal
+            if (typeof window.closeAuthorDossierModal === 'function') {
+              window.closeAuthorDossierModal(immediate);
+            }
+            const authorModal = document.getElementById('author-context-modal');
+            if (authorModal && (!authorModal.classList.contains('opacity-0') || authorModal.style.display !== 'none')) {
+              authorModal.classList.remove('opacity-100', 'pointer-events-auto');
+              authorModal.classList.add('opacity-0', 'pointer-events-none');
+              authorModal.style.display = 'none';
+            }
+
+            // 3. Quote Delve Modal
+            if (typeof window.closeQuoteDelveModal === 'function') {
+              window.closeQuoteDelveModal(immediate);
+            }
+            const delveModal = document.getElementById('quote-delve-modal');
+            if (delveModal && (!delveModal.classList.contains('opacity-0') || delveModal.style.display !== 'none')) {
+              delveModal.classList.remove('opacity-100');
+              delveModal.classList.add('opacity-0', 'pointer-events-none');
+              delveModal.style.display = 'none';
+            }
+
+            // 4. Share Modal
+            if (typeof window.closeShareModal === 'function') {
+              window.closeShareModal();
+            }
+            const shareModal = document.getElementById('share-modal');
+            if (shareModal && (!shareModal.classList.contains('hidden') || shareModal.style.display !== 'none')) {
+              shareModal.style.display = 'none';
+              shareModal.classList.add('hidden');
+            }
+
+            // 5. Category Modal (if present)
+            const categoryModal = document.getElementById('category-context-modal');
+            if (categoryModal && (!categoryModal.classList.contains('opacity-0') || categoryModal.style.display !== 'none')) {
+              categoryModal.classList.remove('opacity-100', 'pointer-events-auto');
+              categoryModal.classList.add('opacity-0', 'pointer-events-none');
+              categoryModal.style.display = 'none';
+            }
+
+            // 6. Generic catch-all for any dialog elements with role="dialog"
+            document.querySelectorAll('[role="dialog"]').forEach((dlg) => {
+              dlg.classList.remove('opacity-100', 'pointer-events-auto');
+              dlg.classList.add('opacity-0', 'pointer-events-none', 'hidden');
+              dlg.style.display = 'none';
+            });
+
+            // 7. Ensure body scrolling is restored
+            document.body.style.overflow = '';
+
+            // 8. Fire custom event for any listeners
+            window.dispatchEvent(new CustomEvent('wisdom:close-modals', { detail: { immediate } }));
+          } catch (e) {
+            console.warn('[wisdom] Error closing modals:', e);
+          }
+        };
+
         // Global Notification Deep Link Receiver (BroadcastChannel & Service Worker Message)
         // Maintains a pending navigation queue for messages that arrive before setupReelFeed()
         // has registered window.__wisdomNavigateToQuote (e.g., during Astro page transitions
@@ -589,6 +663,11 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           if (!data || data.type !== 'WISDOM_NAVIGATE_QUOTE') return;
           const target = data.quoteSlug || data.quoteId || (data.url && (data.url.match(/[?&]quote=([^&#]+)/) || [])[1]) || (data.url && data.url.split('#')[1]);
           if (!target) return;
+
+          // Dismiss any open modals so the quote is immediately visible
+          if (typeof window.__wisdomCloseAllModals === 'function') {
+            window.__wisdomCloseAllModals(true);
+          }
 
           if (window.__wisdomNavigateToQuote) {
             window.__wisdomNavigateToQuote(target, data.quote);
@@ -626,11 +705,16 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           if (document.visibilityState !== 'visible') return;
           const params = new URLSearchParams(window.location.search);
           const quoteParam = params.get('quote') || params.get('q') || params.get('id');
-          if (quoteParam && window.__wisdomNavigateToQuote) {
-            window.__wisdomNavigateToQuote(decodeURIComponent(quoteParam));
-            // Clean the ?quote= param from URL to prevent re-triggering on subsequent visibility changes
-            const cleanUrl = window.location.pathname + window.location.hash;
-            history.replaceState(null, '', cleanUrl);
+          if (quoteParam) {
+            if (typeof window.__wisdomCloseAllModals === 'function') {
+              window.__wisdomCloseAllModals(true);
+            }
+            if (window.__wisdomNavigateToQuote) {
+              window.__wisdomNavigateToQuote(decodeURIComponent(quoteParam));
+              // Clean the ?quote= param from URL to prevent re-triggering on subsequent visibility changes
+              const cleanUrl = window.location.pathname + window.location.hash;
+              history.replaceState(null, '', cleanUrl);
+            }
           }
         });
 

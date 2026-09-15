@@ -605,6 +605,10 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
     // ── Intelligent Reordering & Shuffling with Visited Deduplication & Max Author Streak ──
     if (targetHash) {
+      // Dismiss any open modals so deep-linked quote is immediately visible
+      if (typeof window.__wisdomCloseAllModals === 'function') {
+        window.__wisdomCloseAllModals(true);
+      }
       // Intentional deep link or notification target: find or create target slide
       const hashNumMatch = targetHash.match(/^q?(\d+)$/i);
       const hashNum = hashNumMatch ? parseInt(hashNumMatch[1], 10) : null;
@@ -1209,6 +1213,12 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     // ── Deep-Link & Notification Navigation Engine ──
     async function navigateToQuote(slugOrId, quotePayload = null) {
       if (!slugOrId && !quotePayload) return false;
+
+      // Close all open modals and drawers so target quote is immediately in full view
+      if (typeof window.__wisdomCloseAllModals === 'function') {
+        window.__wisdomCloseAllModals(true);
+      }
+
       const cleanTarget = slugOrId ? decodeURIComponent(slugOrId).replace(/^#/, '').trim() : '';
 
       // 1. Check if matching slide is already rendered in container
@@ -1298,6 +1308,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     if (window.__wisdomPendingNotifNav) {
       const pending = window.__wisdomPendingNotifNav;
       window.__wisdomPendingNotifNav = null;
+      if (typeof window.__wisdomCloseAllModals === 'function') {
+        window.__wisdomCloseAllModals(true);
+      }
       navigateToQuote(pending.target, pending.quote);
     }
 
@@ -1322,6 +1335,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       const target = eventData.quoteSlug || eventData.quoteId || (eventData.url && (eventData.url.match(/[?&]quote=([^&#]+)/) || [])[1]) || (eventData.url && eventData.url.split('#')[1]);
       const quoteObj = eventData.quote || null;
       if (target || quoteObj) {
+        if (typeof window.__wisdomCloseAllModals === 'function') {
+          window.__wisdomCloseAllModals(true);
+        }
         navigateToQuote(target, quoteObj);
       }
     }

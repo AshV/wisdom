@@ -493,18 +493,23 @@
     });
   };
 
-  window.closeAuthorDossierModal = function() {
+  window.closeAuthorDossierModal = function(immediate = false) {
     const modal = document.getElementById('author-context-modal');
     if (!modal) return;
     modal.classList.remove('opacity-100', 'pointer-events-auto');
     modal.classList.add('opacity-0', 'pointer-events-none');
     document.body.style.overflow = '';
-    setTimeout(() => {
-      if (modal.classList.contains('opacity-0')) {
-        modal.style.display = 'none';
-      }
-    }, 300);
+    if (immediate) {
+      modal.style.display = 'none';
+    } else {
+      setTimeout(() => {
+        if (modal.classList.contains('opacity-0')) {
+          modal.style.display = 'none';
+        }
+      }, 300);
+    }
   };
+  window.addEventListener('wisdom:close-modals', (e) => window.closeAuthorDossierModal(e?.detail?.immediate ?? true));
 
   function setupAuthorDossierModalEvents() {
     const modal = document.getElementById('author-context-modal');

@@ -1023,6 +1023,15 @@ const moodKeywords: Record<string, string> = {
       drawer.classList.remove('hidden');
       drawer.style.display = 'flex';
 
+      // Force-replay the slide-up animation on every open.
+      // CSS animations don't re-trigger if the same class stays on the element
+      // across close/reopen cycles — this reflow trick restarts it cleanly.
+      if (sheet) {
+        sheet.style.animation = 'none';
+        void sheet.offsetHeight; // force reflow
+        sheet.style.animation = '';
+      }
+
       // Refresh likes
       refreshLikedQuotes();
 

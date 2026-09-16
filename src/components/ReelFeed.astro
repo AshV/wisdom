@@ -62,7 +62,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 ---
 
 <!-- Feed Header (subtle overlay) -->
-<header class="fixed top-0 left-0 right-0 z-20 pointer-events-none">
+<header class="fixed top-0 left-0 right-0 z-20 pointer-events-none overflow-visible">
   <div class="flex items-center justify-between px-5 pt-[max(env(safe-area-inset-top),16px)] pb-3">
     <div class="w-24 flex justify-start pointer-events-auto">
       {feedType !== 'master' && (
@@ -85,22 +85,46 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         {feedTitle}
       </h1>
     </div>
-    <div class="w-24 flex justify-end">
-      <span class="text-[11px] font-mono font-medium text-white/80 glass px-4 py-2 rounded-full flex items-center gap-1.5 shadow-sm leading-normal">
-        {matchedCount && matchedCount < quotes.length ? (
-          <>
-            <span>{matchedCount}</span>
-            <span class="text-white/30">&bull;</span>
-            <span class="text-xs text-amber-300 font-sans">&infin;</span>
-          </>
-        ) : (
-          <>
-            <span>{quotes.length}</span>
-            <span class="text-white/30">&bull;</span>
-            <span class="text-xs text-amber-300 font-sans">&infin;</span>
-          </>
-        )}
-      </span>
+    <div class="w-24 flex justify-end relative pointer-events-auto">
+      <!-- Quote ID Pill: shows current quote ID, click to jump to any quote -->
+      <button
+        id="quote-id-pill"
+        type="button"
+        aria-label="Jump to quote by ID"
+        title="Jump to quote by ID"
+        class="text-[11px] font-mono font-medium text-white/80 glass px-3.5 py-2 rounded-full flex items-center gap-1 shadow-sm leading-normal cursor-pointer hover:text-white hover:bg-white/15 active:scale-95 transition-all duration-150 pointer-events-auto select-none"
+      >
+        <span class="text-white/40 text-[10px]">#</span><span id="quote-id-pill-label">{firstQuote ? firstQuote.id : '—'}</span>
+      </button>
+
+      <!-- Quote Jump Popover -->
+      <div
+        id="quote-id-popover"
+        role="dialog"
+        aria-label="Jump to quote"
+        class="hidden absolute top-full right-0 mt-2 z-[80] glass rounded-2xl border border-white/15 shadow-2xl shadow-black/50 backdrop-blur-xl px-4 py-3 flex-col gap-2 min-w-[160px] pointer-events-auto"
+      >
+        <p class="text-[10px] text-white/50 font-sans font-medium tracking-wide uppercase mb-1">Jump to quote</p>
+        <div class="flex items-center gap-0 rounded-xl overflow-hidden border border-white/20 bg-white/5 focus-within:border-amber-400/60 transition-colors">
+          <span class="px-2.5 py-2 text-amber-300 font-mono font-semibold text-sm select-none">q</span>
+          <input
+            id="quote-id-input"
+            type="number"
+            min="1"
+            inputmode="numeric"
+            placeholder="1354"
+            class="bg-transparent text-white font-mono text-sm py-2 pr-2 w-20 outline-none placeholder-white/25 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            aria-label="Quote number"
+          />
+        </div>
+        <button
+          id="quote-id-go-btn"
+          type="button"
+          class="w-full mt-1 py-1.5 rounded-lg bg-amber-400/20 hover:bg-amber-400/35 text-amber-200 text-xs font-semibold font-sans tracking-wide transition-all duration-150 active:scale-95 cursor-pointer"
+        >
+          Go →
+        </button>
+      </div>
     </div>
   </div>
 </header>
@@ -251,9 +275,14 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     if (initialSlides.length === 0) return;
 
     let batchNumber = 1;
-    let currentChunkPage = 1;
     let isFetchingChunk = false;
     let loadedQuoteList = [];
+    // Tracks which chunk pages have been fetched, to avoid duplicates
+    const fetchedChunkPages = new Set();
+    // Total chunks will be populated after the first fetch
+    let totalChunkPages = null;
+    // Randomized fetch order: spread across full range so old & new quotes mix evenly
+    let chunkFetchQueue = [];
 
     // Snapshot a clean slide as template for on-demand dynamic streaming
     const templateSlide = initialSlides[0].cloneNode(true);
@@ -468,8 +497,29 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       return clone;
     }
 
+    // ── Helper: Caps each author to at most `maxPerAuthor` quotes in a single batch ──
+    // Runs AFTER the streak check, as a second diversity pass.
+    function enforceAuthorQuotaPerBatch(items, maxPerAuthor = 2) {
+      const authorCounts = {};
+      const result = [];
+      const deferred = []  ;
+      for (const item of items) {
+        const auth = item.authorSlug || item.author ||
+          item.dataset?.authorSlug || item.dataset?.author || '__unknown';
+        const count = authorCounts[auth] || 0;
+        if (count < maxPerAuthor) {
+          authorCounts[auth] = count + 1;
+          result.push(item);
+        } else {
+          deferred.push(item);
+        }
+      }
+      // Append deferred items at end so nothing is lost
+      return [...result, ...deferred];
+    }
+
     // ── Helper: Enforces at most maxStreak consecutive quotes from the same author in a row ──
-    function enforceMaxAuthorStreak(items, maxStreak = 5, prevAuthor = null, prevStreak = 0) {
+    function enforceMaxAuthorStreak(items, maxStreak = 3, prevAuthor = null, prevStreak = 0) {
       if (!items || items.length === 0) return [];
       const result = [];
       const pool = [...items];
@@ -728,9 +778,11 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         shuffleArray(unseen);
         // Sort seen slides by oldest seen first
         seen.sort((a, b) => recentSeenList.indexOf(a.dataset.quoteId) - recentSeenList.indexOf(b.dataset.quoteId));
-        
+
         const dailyAuthor = dailySlide?.dataset?.authorSlug || null;
-        const restOrdered = enforceMaxAuthorStreak([...unseen, ...seen], 5, dailyAuthor, 1);
+        // Streak cap: max 3 consecutive from same author; then author-quota: max 2 per author in the initial 50
+        const streakOrdered = enforceMaxAuthorStreak([...unseen, ...seen], 3, dailyAuthor, 1);
+        const restOrdered = enforceAuthorQuotaPerBatch(streakOrdered, 2);
         initialSlides = dailySlide ? [dailySlide, ...restOrdered] : restOrdered;
       }
     }
@@ -741,17 +793,75 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     container.innerHTML = '';
     container.appendChild(fragment);
 
+    // ── Build a randomised chunk fetch order that spreads across the full ID range ──
+    // We fetch chunk-1 first to learn totalChunks, then build a random order.
+    async function initChunkQueue(knownTotal) {
+      if (chunkFetchQueue.length > 0) return;
+      const total = knownTotal || totalChunkPages || 20;
+      // Strided walk: pick every Nth chunk starting from a random offset so that
+      // early, middle, and late quote IDs are represented in the first few fetches.
+      const stride = Math.max(1, Math.floor(total / 4));
+      const offsets = [0, 1, 2, 3].map(i => (Math.floor(Math.random() * stride) + i * stride) % total);
+      const ordered = [];
+      const seen = new Set();
+      // Add strided anchors first, then fill remaining in random order
+      for (const o of offsets) {
+        const p = o + 1; // 1-indexed
+        if (!fetchedChunkPages.has(p) && !seen.has(p)) {
+          ordered.push(p);
+          seen.add(p);
+        }
+      }
+      for (let p = 1; p <= total; p++) {
+        if (!fetchedChunkPages.has(p) && !seen.has(p)) {
+          ordered.push(p);
+          seen.add(p);
+        }
+      }
+      // Fisher-Yates shuffle the non-anchor portion so subsequent fetches are random
+      for (let i = ordered.length - 1; i > offsets.length; i--) {
+        const j = offsets.length + Math.floor(Math.random() * (i - offsets.length + 1));
+        [ordered[i], ordered[j]] = [ordered[j], ordered[i]];
+      }
+      chunkFetchQueue = ordered;
+    }
+
     async function loadNextQuoteChunk() {
       if (isFetchingChunk) return [];
       isFetchingChunk = true;
       try {
         const base = window.__wisdomBaseUrl || '/wisdom';
-        const res = await fetch(`${base}/api/quotes/chunk-${currentChunkPage}.json`);
+
+        // First fetch: always load chunk-1 to discover totalChunks
+        if (totalChunkPages === null) {
+          const res = await fetch(`${base}/api/quotes/chunk-1.json`);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.quotes) {
+              fetchedChunkPages.add(1);
+              totalChunkPages = data.totalChunks || 20;
+              loadedQuoteList.push(...data.quotes);
+              await initChunkQueue(totalChunkPages);
+              return data.quotes;
+            }
+          }
+          return [];
+        }
+
+        // Subsequent fetches: pop the next page from the randomised queue
+        let page = null;
+        while (chunkFetchQueue.length > 0) {
+          const candidate = chunkFetchQueue.shift();
+          if (!fetchedChunkPages.has(candidate)) { page = candidate; break; }
+        }
+        if (page === null) return []; // all chunks fetched
+
+        const res = await fetch(`${base}/api/quotes/chunk-${page}.json`);
         if (res.ok) {
           const data = await res.json();
           if (data && data.quotes) {
+            fetchedChunkPages.add(page);
             loadedQuoteList.push(...data.quotes);
-            currentChunkPage++;
             return data.quotes;
           }
         }
@@ -763,12 +873,16 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       return [];
     }
 
-    // Pre-warm chunk 1 on idle
+    // Pre-warm on idle: fetch chunk-1 (discovers total), then one more spread chunk
     if (typeof window !== 'undefined') {
+      const prewarm = async () => {
+        await loadNextQuoteChunk(); // chunk-1 + builds queue
+        await loadNextQuoteChunk(); // a randomised spread chunk
+      };
       if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => loadNextQuoteChunk());
+        requestIdleCallback(prewarm);
       } else {
-        setTimeout(() => loadNextQuoteChunk(), 1200);
+        setTimeout(prewarm, 1200);
       }
     }
 
@@ -843,10 +957,13 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
       if (freshCandidates.length > 0) {
         shuffleArray(freshCandidates);
-        const structuredCandidates = (feedType === 'author' && freshCandidates.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug))
+        const isAuthorFeed = feedType === 'author' && freshCandidates.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug);
+        const streakCapped = isAuthorFeed
           ? freshCandidates
-          : enforceMaxAuthorStreak(freshCandidates, 5, trailingAuthor, trailingStreak);
-        const batch = structuredCandidates.slice(0, 15);
+          : enforceMaxAuthorStreak(freshCandidates, 3, trailingAuthor, trailingStreak);
+        // Secondary diversity pass: max 2 quotes per author per batch
+        const quotaCapped = isAuthorFeed ? streakCapped : enforceAuthorQuotaPerBatch(streakCapped, 2);
+        const batch = quotaCapped.slice(0, 15);
         batch.forEach(quote => {
           const slide = createSlideFromQuote(quote, templateSlide, `b${batchNumber}`);
           batchFragment.appendChild(slide);
@@ -865,10 +982,12 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           });
         }
         shuffleArray(eligible);
-        const structuredEligible = (feedType === 'author' && eligible.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug))
+        const isAuthorFeedFallback = feedType === 'author' && eligible.some(q => q.authorSlug === firstSlide?.dataset?.authorSlug);
+        const streakCappedFallback = isAuthorFeedFallback
           ? eligible
-          : enforceMaxAuthorStreak(eligible, 5, trailingAuthor, trailingStreak);
-        const batch = structuredEligible.slice(0, 15);
+          : enforceMaxAuthorStreak(eligible, 3, trailingAuthor, trailingStreak);
+        const quotaCappedFallback = isAuthorFeedFallback ? streakCappedFallback : enforceAuthorQuotaPerBatch(streakCappedFallback, 2);
+        const batch = quotaCappedFallback.slice(0, 15);
         batch.forEach(quote => {
           const slide = createSlideFromQuote(quote, templateSlide, `b${batchNumber}`);
           batchFragment.appendChild(slide);
@@ -1096,6 +1215,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           // Flip dock metadata pills (category, mood, tags) to match newly active slide
           updateDockPills(slide, false);
 
+          // Update the quote ID pill in the header
+          updateQuoteIdPill(quoteId);
+
           // Record as viewed in the last 50 seen quotes history
           recordQuoteSeen(quoteId);
 
@@ -1168,6 +1290,73 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
     initialSlides.forEach(slide => observer.observe(slide));
 
+    // ── Quote ID Pill controller ──
+    function updateQuoteIdPill(quoteId) {
+      const label = document.getElementById('quote-id-pill-label');
+      if (label && quoteId) label.textContent = quoteId;
+    }
+
+    // ── Quote ID Pill click → popover toggle ──
+    const quoteIdPill = document.getElementById('quote-id-pill');
+    const quoteIdPopover = document.getElementById('quote-id-popover');
+    const quoteIdInput = document.getElementById('quote-id-input');
+    const quoteIdGoBtn = document.getElementById('quote-id-go-btn');
+
+    function openQuoteIdPopover() {
+      if (!quoteIdPopover) return;
+      const label = document.getElementById('quote-id-pill-label');
+      if (quoteIdInput && label) {
+        // Pre-fill with numeric portion of current ID (strip the 'q')
+        const match = (label.textContent || '').match(/(\d+)/);
+        quoteIdInput.value = match ? match[1] : '';
+      }
+      quoteIdPopover.classList.remove('hidden');
+      quoteIdPopover.classList.add('flex');
+      setTimeout(() => { if (quoteIdInput) quoteIdInput.focus(); }, 50);
+    }
+
+    function closeQuoteIdPopover() {
+      if (!quoteIdPopover) return;
+      quoteIdPopover.classList.add('hidden');
+      quoteIdPopover.classList.remove('flex');
+    }
+
+    async function goToQuoteFromInput() {
+      if (!quoteIdInput) return;
+      const num = parseInt(quoteIdInput.value, 10);
+      if (!num || num < 1) return;
+      closeQuoteIdPopover();
+      await navigateToQuote(`q${num}`);
+    }
+
+    if (quoteIdPill) {
+      quoteIdPill.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = quoteIdPopover && !quoteIdPopover.classList.contains('hidden');
+        isOpen ? closeQuoteIdPopover() : openQuoteIdPopover();
+      });
+    }
+
+    if (quoteIdGoBtn) {
+      quoteIdGoBtn.addEventListener('click', goToQuoteFromInput);
+    }
+
+    if (quoteIdInput) {
+      quoteIdInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); goToQuoteFromInput(); }
+        if (e.key === 'Escape') closeQuoteIdPopover();
+      });
+    }
+
+    // Close popover when clicking outside
+    document.addEventListener('click', (e) => {
+      if (quoteIdPopover && !quoteIdPopover.classList.contains('hidden')) {
+        if (!quoteIdPill?.contains(e.target) && !quoteIdPopover.contains(e.target)) {
+          closeQuoteIdPopover();
+        }
+      }
+    });
+
     // Initialize first slide (target quote or freshly randomized top quote)
     if (initialSlides.length > 0) {
       const first = initialSlides[0];
@@ -1176,6 +1365,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       recordQuoteSeen(first.dataset.quoteId);
       updateHeaderTopicState(first);
       updateDockPills(first, true);
+      updateQuoteIdPill(first.dataset.quoteId);
 
       if (window.setBackground) {
         window.setBackground(first.dataset.videoSrc, first.dataset.gradientClass, first.dataset.mood, first.dataset.quoteId);

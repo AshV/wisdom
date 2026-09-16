@@ -117,13 +117,20 @@
 
       if (exploreBtn) {
         exploreBtn.onclick = () => {
-          if (window.openExploreDrawer) {
+          if (typeof window.openExploreDrawer === 'function') {
             window.openExploreDrawer();
           } else {
+            // Robust fallback: manually open drawer with animation restart
             const drawer = document.getElementById('explore-drawer');
+            const sheet = document.getElementById('explore-sheet');
             if (drawer) {
               drawer.classList.remove('hidden');
               drawer.style.display = 'flex';
+              if (sheet) {
+                sheet.style.animation = 'none';
+                void sheet.offsetHeight;
+                sheet.style.animation = 'slide-up-sheet 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+              }
             }
           }
         };

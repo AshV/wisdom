@@ -1019,17 +1019,21 @@ const moodKeywords: Record<string, string> = {
 
     // ── Open / Close Mechanics ──
     function openDrawer(tabToOpen = 'liked') {
-      if (!drawer) return;
-      drawer.classList.remove('hidden');
-      drawer.style.display = 'flex';
+      // Always resolve fresh — captured refs go stale after Astro View Transitions
+      const d = document.getElementById('explore-drawer');
+      const s = document.getElementById('explore-sheet');
+      if (!d) return;
+
+      d.classList.remove('hidden');
+      d.style.display = 'flex';
 
       // Force-replay the slide-up animation on every open.
-      // CSS animations don't re-trigger if the same class stays on the element
-      // across close/reopen cycles — this reflow trick restarts it cleanly.
-      if (sheet) {
-        sheet.style.animation = 'none';
-        void sheet.offsetHeight; // force reflow
-        sheet.style.animation = '';
+      // Setting animation to 'none' + triggering a reflow + clearing the override
+      // lets the CSS class animate-slide-up-sheet restart from scratch.
+      if (s) {
+        s.style.animation = 'none';
+        void s.offsetHeight; // force reflow
+        s.style.animation = 'slide-up-sheet 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
       }
 
       // Refresh likes
@@ -1039,39 +1043,47 @@ const moodKeywords: Record<string, string> = {
       const hasLikes = window.likedQuotes && window.likedQuotes.getAll().length > 0;
       activateTab(hasLikes ? tabToOpen : 'authors');
 
-      if (searchInput) {
-        searchInput.value = '';
+      const si = document.getElementById('explore-search');
+      if (si) {
+        si.value = '';
         filterItems('');
       }
     }
 
     function closeDrawer(immediate = false) {
-      if (!drawer) return;
+      // Always resolve fresh — captured refs go stale after Astro View Transitions
+      const d = document.getElementById('explore-drawer');
+      const s = document.getElementById('explore-sheet');
+      if (!d) return;
       if (immediate) {
-        drawer.style.display = 'none';
-        drawer.classList.add('hidden');
-        if (sheet) sheet.style.animation = '';
+        d.style.display = 'none';
+        d.classList.add('hidden');
+        if (s) s.style.animation = '';
         return;
       }
-      if (sheet) {
-        sheet.style.animation = 'slide-down-sheet 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+      if (s) {
+        s.style.animation = 'slide-down-sheet 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards';
         setTimeout(() => {
-          drawer.style.display = 'none';
-          drawer.classList.add('hidden');
-          sheet.style.animation = '';
+          d.style.display = 'none';
+          d.classList.add('hidden');
+          s.style.animation = '';
         }, 240);
       } else {
-        drawer.style.display = 'none';
-        drawer.classList.add('hidden');
+        d.style.display = 'none';
+        d.classList.add('hidden');
       }
     }
 
-    if (backdrop) backdrop.onclick = closeDrawer;
-    if (closeBtn) closeBtn.onclick = closeDrawer;
+    // Re-bind backdrop/close btn every setup so new DOM nodes are wired correctly
+    const freshBackdrop = document.getElementById('explore-backdrop');
+    const freshCloseBtn = document.getElementById('explore-close-btn');
+    if (freshBackdrop) freshBackdrop.onclick = closeDrawer;
+    if (freshCloseBtn) freshCloseBtn.onclick = closeDrawer;
 
-    // Keyboard ESC to close drawer
+    // Keyboard ESC to close drawer (use live lookup, not captured ref)
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawer && drawer.style.display === 'flex') {
+      const d = document.getElementById('explore-drawer');
+      if (e.key === 'Escape' && d && d.style.display === 'flex') {
         closeDrawer();
       }
     });

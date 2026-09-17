@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wisdom-v6';
+const CACHE_NAME = 'wisdom-v7';
 const PRECACHE_ASSETS = [
   '/wisdom/',
   '/wisdom/manifest.webmanifest',

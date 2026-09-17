@@ -9,13 +9,14 @@
 <div
   id="right-action-rail"
   class="fixed right-3 sm:right-4 md:right-5 bottom-[max(env(safe-area-inset-bottom,28px),40px)] mb-4 sm:mb-6 z-30 flex flex-col items-center gap-2.5 sm:gap-3"
+  style="touch-action: none;"
 >
   <!-- Like Button -->
   <button
     id="like-btn"
     type="button"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
-    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+    style="touch-action: none; -webkit-tap-highlight-color: transparent;"
     aria-label="Like this quote"
     title="Like"
   >
@@ -31,7 +32,7 @@
     id="share-btn"
     type="button"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
-    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+    style="touch-action: none; -webkit-tap-highlight-color: transparent;"
     aria-label="Share this quote"
     title="Share"
   >
@@ -49,7 +50,7 @@
     id="audio-toggle-btn"
     type="button"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
-    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+    style="touch-action: none; -webkit-tap-highlight-color: transparent;"
     aria-label="Enable zen chime sound"
     title="Chimes Muted (Click to enable)"
   >
@@ -67,7 +68,7 @@
     id="explore-btn"
     type="button"
     class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
-    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+    style="touch-action: none; -webkit-tap-highlight-color: transparent;"
     aria-label="Explore quotes"
     title="Explore Quotes"
   >
@@ -126,7 +127,10 @@
       }
 
       if (exploreBtn) {
-        let lastExploreTouchTime = 0;
+        if (exploreBtn.dataset.bound) return;
+        exploreBtn.dataset.bound = 'true';
+
+        let lastTriggerTime = 0;
         let isOpeningDrawer = false;
 
         const triggerOpenExplore = (e) => {
@@ -134,9 +138,11 @@
             if (e.cancelable) e.preventDefault();
             e.stopPropagation();
           }
-          if (isOpeningDrawer) return;
+          const now = Date.now();
+          if (isOpeningDrawer || now - lastTriggerTime < 450) return;
           isOpeningDrawer = true;
-          setTimeout(() => { isOpeningDrawer = false; }, 350);
+          lastTriggerTime = now;
+          setTimeout(() => { isOpeningDrawer = false; }, 400);
 
           if (typeof window.openExploreDrawer === 'function') {
             window.openExploreDrawer();
@@ -148,13 +154,14 @@
             if (drawer) {
               drawer.classList.remove('hidden');
               drawer.style.display = 'flex';
-              if (backdrop) {
-                backdrop.style.pointerEvents = 'none';
-                setTimeout(() => {
-                  const freshB = document.getElementById('explore-backdrop');
-                  if (freshB) freshB.style.pointerEvents = 'auto';
-                }, 400);
-              }
+              if (backdrop) backdrop.style.pointerEvents = 'none';
+              if (sheet) sheet.style.pointerEvents = 'none';
+              setTimeout(() => {
+                const freshB = document.getElementById('explore-backdrop');
+                const freshS = document.getElementById('explore-sheet');
+                if (freshB) freshB.style.pointerEvents = 'auto';
+                if (freshS) freshS.style.pointerEvents = 'auto';
+              }, 400);
               if (sheet) {
                 sheet.style.transform = '';
                 sheet.style.animation = 'none';
@@ -165,19 +172,38 @@
           }
         };
 
+        // Pointer event handling for rock-solid Android & mobile touch support
+        let startX = 0;
+        let startY = 0;
+        let isDown = false;
+
+        exploreBtn.addEventListener('pointerdown', (e) => {
+          startX = e.clientX;
+          startY = e.clientY;
+          isDown = true;
+        }, { passive: true });
+
+        exploreBtn.addEventListener('pointerup', (e) => {
+          if (!isDown) return;
+          isDown = false;
+          const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
+          // Standard tap slop: under 20px of movement is a tap (handles finger expansion/roll on Android)
+          if (dist < 20) {
+            triggerOpenExplore(e);
+          }
+        }, { passive: false });
+
+        exploreBtn.addEventListener('pointercancel', () => {
+          isDown = false;
+        }, { passive: true });
+
+        // Touch fallback for older WebViews/browsers without pointer events
         exploreBtn.addEventListener('touchend', (e) => {
-          lastExploreTouchTime = Date.now();
           triggerOpenExplore(e);
         }, { passive: false });
 
+        // Click fallback for mouse and accessibility tools
         exploreBtn.addEventListener('click', (e) => {
-          if (Date.now() - lastExploreTouchTime < 500) {
-            if (e) {
-              if (e.cancelable) e.preventDefault();
-              e.stopPropagation();
-            }
-            return;
-          }
           triggerOpenExplore(e);
         });
       }

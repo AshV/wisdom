@@ -773,7 +773,11 @@ const moodKeywords: Record<string, string> = {
         if (isSelected) {
           tab.classList.add('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
           tab.classList.remove('border-transparent', 'text-white/55');
-          tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          const tabContainer = tab.parentElement;
+          if (tabContainer) {
+            const left = tab.offsetLeft - (tabContainer.clientWidth / 2) + (tab.clientWidth / 2);
+            tabContainer.scrollTo({ left, behavior: 'smooth' });
+          }
         } else {
           tab.classList.remove('active', 'bg-white/15', 'text-white', 'border-white/20', 'shadow-sm', 'backdrop-blur-md');
           tab.classList.add('border-transparent', 'text-white/55');
@@ -1029,15 +1033,16 @@ const moodKeywords: Record<string, string> = {
 
       drawerOpenedAt = Date.now();
 
-      // Temporarily disable pointer events on backdrop during opening animation (400ms)
-      // to guarantee zero ghost clicks or delayed touch events dismiss the drawer
-      if (b) {
-        b.style.pointerEvents = 'none';
-        setTimeout(() => {
-          const freshB = document.getElementById('explore-backdrop');
-          if (freshB) freshB.style.pointerEvents = 'auto';
-        }, 400);
-      }
+      // Temporarily disable pointer events on backdrop and sheet during opening animation (400ms)
+      // to guarantee zero ghost clicks or delayed touch events dismiss the drawer or trigger link clicks
+      if (b) b.style.pointerEvents = 'none';
+      if (s) s.style.pointerEvents = 'none';
+      setTimeout(() => {
+        const freshB = document.getElementById('explore-backdrop');
+        const freshS = document.getElementById('explore-sheet');
+        if (freshB) freshB.style.pointerEvents = 'auto';
+        if (freshS) freshS.style.pointerEvents = 'auto';
+      }, 400);
 
       d.classList.remove('hidden');
       d.style.display = 'flex';
@@ -1097,17 +1102,19 @@ const moodKeywords: Record<string, string> = {
     const freshBackdrop = document.getElementById('explore-backdrop');
     const freshCloseBtn = document.getElementById('explore-close-btn');
     if (freshBackdrop) {
-      freshBackdrop.onclick = (e) => {
-        // Guard: ignore clicks that occur within 400ms of opening (prevents touch tap-through)
+      const handleBackdropClose = (e) => {
+        // Guard: ignore clicks/touches that occur within 400ms of opening (prevents touch tap-through)
         if (Date.now() - drawerOpenedAt < 400) {
           if (e) {
-            e.preventDefault();
+            if (e.cancelable) e.preventDefault();
             e.stopPropagation();
           }
           return;
         }
         closeDrawer();
       };
+      freshBackdrop.onclick = handleBackdropClose;
+      freshBackdrop.addEventListener('touchend', handleBackdropClose, { passive: false });
     }
     if (freshCloseBtn) {
       freshCloseBtn.onclick = (e) => {

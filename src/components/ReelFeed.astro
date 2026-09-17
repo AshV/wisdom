@@ -16,6 +16,7 @@ import ShareModal from './ShareModal.astro';
 import AuthorDossierModal from './AuthorDossierModal.astro';
 import QuoteDelveModal from './QuoteDelveModal.astro';
 import { moodMeta } from '../data/mediaRegistry';
+import { getAuthorInitials } from '../utils/authorUtils';
 
 interface QuoteData {
   id: string;
@@ -47,16 +48,6 @@ const BASE = '/wisdom';
 const firstQuote = quotes.length > 0 ? quotes[0] : null;
 const firstMoodInfo = firstQuote ? moodMeta[firstQuote.mood] : null;
 
-function getAuthorInitials(name: string): string {
-  if (!name) return 'W';
-  return name
-    .split(' ')
-    .map((part) => part[0])
-    .filter(Boolean)
-    .slice(0, 2)
-    .join('')
-    .toUpperCase();
-}
 
 const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 'W';
 ---
@@ -266,7 +257,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 <!-- Quote Delve Modal (Explanation & Deep Meaning) -->
 <QuoteDelveModal />
 
-<script is:inline>
+<script is:inline define:vars={{ moodMetaClient: moodMeta }}>
   async function setupReelFeed() {
     const container = document.getElementById('reel-container');
     if (!container) return;
@@ -283,6 +274,15 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     let totalChunkPages = null;
     // Randomized fetch order: spread across full range so old & new quotes mix evenly
     let chunkFetchQueue = [];
+
+    // Performance: single active-slide reference avoids O(n) forEach on every swipe.
+    let _activeSlide = null;
+    // Performance: cache the matchMedia result once; listen for system changes.
+    const _reducedMotion = window.matchMedia
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+    // Performance: maintain a live slides array to avoid querySelectorAll in hot paths.
+    let allSlides = [];
 
     // Snapshot a clean slide as template for on-demand dynamic streaming
     const templateSlide = initialSlides[0].cloneNode(true);
@@ -309,25 +309,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       }
     }
 
-    // ── Mood Metadata & Video/Audio mappings for dynamic slides ──
-    const moodMetaClient = {
-      reflective: { label: 'Reflective', emoji: '🌙' },
-      motivational: { label: 'Motivational', emoji: '🔥' },
-      serene: { label: 'Serene', emoji: '🌊' },
-      bold: { label: 'Bold', emoji: '⚡' },
-      melancholic: { label: 'Melancholic', emoji: '🌧️' },
-      joyful: { label: 'Joyful', emoji: '✨' },
-      philosophical: { label: 'Philosophical', emoji: '🤔' },
-      romantic: { label: 'Romantic', emoji: '💜' },
-    };
-
-    function djb2(str) {
-      let hash = 5381;
-      for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) + hash + str.charCodeAt(i)) >>> 0;
-      }
-      return hash;
-    }
+    // ── Mood metadata injected via define:vars as moodMetaClient ──
+    // (eliminates the duplicate hand-maintained object that previously lived here)
 
     const base = window.__wisdomBaseUrl || '/wisdom';
 
@@ -408,7 +391,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       const quoteP = clone.querySelector('.quote-text');
       if (quoteP) {
         quoteP.textContent = quote.content;
-        quoteP.style.cssText = `${quoteSizeStyle} font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;`;
+        quoteP.style.cssText = `${quoteSizeStyle} font-family: var(--font-display);`;
       }
 
       // Author attribution & Source Work citation
@@ -792,6 +775,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     initialSlides.forEach(slide => fragment.appendChild(slide));
     container.innerHTML = '';
     container.appendChild(fragment);
+    // Sync tracked array with the reordered DOM
+    allSlides = initialSlides.slice();
 
     // ── Build a randomised chunk fetch order that spreads across the full ID range ──
     // We fetch chunk-1 first to learn totalChunks, then build a random order.
@@ -882,7 +867,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       if ('requestIdleCallback' in window) {
         requestIdleCallback(prewarm);
       } else {
-        setTimeout(prewarm, 1200);
+        setTimeout(prewarm, 500);
       }
     }
 
@@ -896,10 +881,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         : [];
       const currentSeenSet = new Set(currentSeenList);
 
-      // Quote IDs currently rendered in the DOM
-      const domQuoteIds = new Set(
-        Array.from(container.querySelectorAll('.reel-slide')).map(s => s.dataset.quoteId)
-      );
+      // Quote IDs currently rendered in the DOM (use tracked array — avoids querySelectorAll)
+      const domQuoteIds = new Set(allSlides.map(s => s.dataset.quoteId));
 
       // If quotes pool is running low, trigger next chunk fetch
       if (loadedQuoteList.length < 35) {
@@ -939,8 +922,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         }
       }
 
-      // Check trailing author and streak from current DOM slides
-      const currentDomSlides = Array.from(container.querySelectorAll('.reel-slide'));
+      // Check trailing author and streak from current DOM slides (use tracked array)
+      const currentDomSlides = allSlides;
       let trailingAuthor = null;
       let trailingStreak = 0;
       for (let i = currentDomSlides.length - 1; i >= 0; i--) {
@@ -997,6 +980,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
       batchNumber++;
       container.appendChild(batchFragment);
+      // Sync tracked slides array with newly appended batch
+      allSlides.push(...appendedSlides);
 
       // Observe all newly appended slides
       appendedSlides.forEach(slide => observer.observe(slide));
@@ -1070,7 +1055,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       const moodLabelSpan = document.getElementById('dock-mood-label');
       const tagsContainer = document.getElementById('dock-tags-container');
 
-      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const prefersReducedMotion = _reducedMotion && _reducedMotion.matches;
 
       if (immediate || prefersReducedMotion) {
         if (authorPill) {
@@ -1201,15 +1186,16 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           const mood = slide.dataset.mood;
           const audioSrc = slide.dataset.audioSrc;
 
-          // Check if approaching the end of current slides — append next batch!
-          const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
-          const activeIdx = currentSlides.indexOf(slide);
+          // Use tracked slides array for active-index check (avoids querySelectorAll)
+          const activeIdx = allSlides.indexOf(slide);
 
-          if (activeIdx >= currentSlides.length - 4) {
+          if (activeIdx >= allSlides.length - 4) {
             appendNextBatch();
           }
 
-          currentSlides.forEach(s => s.classList.remove('is-active'));
+          // O(1) active-slide swap: remove class from previous, add to new
+          if (_activeSlide && _activeSlide !== slide) _activeSlide.classList.remove('is-active');
+          _activeSlide = slide;
           slide.classList.add('is-active');
 
           // Flip dock metadata pills (category, mood, tags) to match newly active slide
@@ -1360,7 +1346,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     // Initialize first slide (target quote or freshly randomized top quote)
     if (initialSlides.length > 0) {
       const first = initialSlides[0];
-      initialSlides.forEach(s => s.classList.remove('is-active'));
+      // Set initial active slide without removing from others (they start inactive)
+      _activeSlide = first;
       first.classList.add('is-active');
       recordQuoteSeen(first.dataset.quoteId);
       updateHeaderTopicState(first);
@@ -1411,13 +1398,12 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
 
       const cleanTarget = slugOrId ? decodeURIComponent(slugOrId).replace(/^#/, '').trim() : '';
 
-      // 1. Check if matching slide is already rendered in container
+      // 1. Check if matching slide is already rendered (use tracked array — avoids querySelectorAll)
       const navNumMatch = cleanTarget ? cleanTarget.match(/^q?(\d+)$/i) : null;
       const navNum = navNumMatch ? parseInt(navNumMatch[1], 10) : null;
       const navNormalizedId = navNum ? ('q' + String(navNum).padStart(navNum >= 1000 ? 4 : 3, '0')).toLowerCase() : null;
 
-      const currentSlides = Array.from(container.querySelectorAll('.reel-slide'));
-      let match = currentSlides.find(s => {
+      let match = allSlides.find(s => {
         if (quotePayload && (s.dataset.quoteId === quotePayload.id || s.dataset.quoteSlug === quotePayload.slug)) return true;
         if (!cleanTarget) return false;
         const id = s.dataset.quoteId;
@@ -1438,11 +1424,15 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
         }
         if (targetQuote) {
           match = createSlideFromQuote(targetQuote, templateSlide, 'nav');
-          const activeSlide = container.querySelector('.reel-slide.is-active') || container.firstChild;
-          if (activeSlide) {
-            container.insertBefore(match, activeSlide);
+          // Insert before the current active slide (or at the start)
+          const refSlide = _activeSlide || container.firstChild;
+          if (refSlide) {
+            container.insertBefore(match, refSlide);
+            const insertIdx = allSlides.indexOf(refSlide);
+            allSlides.splice(insertIdx >= 0 ? insertIdx : 0, 0, match);
           } else {
             container.appendChild(match);
+            allSlides.push(match);
           }
           observer.observe(match);
         }
@@ -1464,8 +1454,9 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
           });
         });
 
-        const updatedSlides = Array.from(container.querySelectorAll('.reel-slide'));
-        updatedSlides.forEach(s => s.classList.remove('is-active'));
+        // O(1) active-slide swap using tracked reference
+        if (_activeSlide) _activeSlide.classList.remove('is-active');
+        _activeSlide = match;
         match.classList.add('is-active');
         recordQuoteSeen(match.dataset.quoteId);
         updateDockPills(match, true);
@@ -1520,30 +1511,7 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       }
     });
 
-    function handleIncomingNotificationMessage(eventData) {
-      if (!eventData || eventData.type !== 'WISDOM_NAVIGATE_QUOTE') return;
-      const target = eventData.quoteSlug || eventData.quoteId || (eventData.url && (eventData.url.match(/[?&]quote=([^&#]+)/) || [])[1]) || (eventData.url && eventData.url.split('#')[1]);
-      const quoteObj = eventData.quote || null;
-      if (target || quoteObj) {
-        if (typeof window.__wisdomCloseAllModals === 'function') {
-          window.__wisdomCloseAllModals(true);
-        }
-        navigateToQuote(target, quoteObj);
-      }
-    }
 
-    if (typeof BroadcastChannel !== 'undefined') {
-      try {
-        const bc = new BroadcastChannel('wisdom-notifications');
-        bc.addEventListener('message', (event) => handleIncomingNotificationMessage(event.data));
-      } catch (_) {}
-    }
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', (event) => {
-        handleIncomingNotificationMessage(event.data);
-      });
-    }
 
     // ── Double-tap to Like ──
     container.onclick = (e) => {

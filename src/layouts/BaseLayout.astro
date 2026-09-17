@@ -328,8 +328,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
 
         // Plays single peaceful chime after 1s of settling on a quote
         playOnce(mood = 'reflective', delay = 1000) {
-          // Strict mute verification: zero audio if not enabled
-          if (!this.isEnabled()) {
+          // Strict mute verification: use in-memory flag (localStorage read only on init/toggle)
+          if (!this.enabled) {
             this.stopAll();
             return;
           }
@@ -344,7 +344,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           this.pendingTimer = setTimeout(() => {
             this.pendingTimer = null;
             // CRITICAL CHECK: In case user muted during the delay period!
-            if (!this.isEnabled()) {
+            // Use in-memory flag — toggle() and storage events both update this.enabled.
+            if (!this.enabled) {
               this.stopAll();
               return;
             }
@@ -372,8 +373,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         }
 
         playZenBell() {
-          // Strictly respect global mute state!
-          if (!this.isEnabled()) return;
+          // Strictly respect global mute state (in-memory flag; updated by toggle & storage events).
+          if (!this.enabled) return;
           const chimeUrl = `${this.base}/media/audio/zen-chime.wav`;
           try {
             const zenAudio = new Audio(chimeUrl);
@@ -404,7 +405,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           const btn = document.getElementById('audio-toggle-btn');
           if (!btn) return;
           const circle = btn.querySelector('div');
-          const active = this.isEnabled();
+          // Read in-memory flag — kept in sync by init(), toggle(), and storage events.
+          const active = this.enabled;
 
           if (active) {
             btn.setAttribute('title', 'Chimes Active (Click to mute)');
@@ -482,8 +484,21 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       };
 
       // ── Liked Quotes Store (Self-Contained Offline Favorites) ──
+      // Performance: _cache is a Set<id> lazily initialised on first has() call.
+      // Invalidated on every write so reads stay O(1) instead of O(n JSON parse).
       window.likedQuotes = {
         _key: 'liked_quotes',
+        _cache: null,
+        _getIdSet() {
+          if (this._cache === null) {
+            this._cache = new Set(
+              this.getAll()
+                .map(item => (typeof item === 'string' ? item : item?.id))
+                .filter(Boolean)
+            );
+          }
+          return this._cache;
+        },
         getAll() {
           try {
             const data = JSON.parse(localStorage.getItem(this._key) || '[]');
@@ -494,7 +509,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         },
         has(id) {
           if (!id) return false;
-          return this.getAll().some(item => (typeof item === 'string' ? item === id : item?.id === id));
+          return this._getIdSet().has(id);
         },
         toggle(quoteOrId) {
           const id = typeof quoteOrId === 'string' ? quoteOrId : quoteOrId?.id;
@@ -504,6 +519,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
           if (idx > -1) {
             all.splice(idx, 1);
             localStorage.setItem(this._key, JSON.stringify(all));
+            this._cache = null; // invalidate Set cache
             return false; // unliked
           } else {
             let quoteObj = (typeof quoteOrId === 'object' && quoteOrId !== null) ? quoteOrId : null;
@@ -526,15 +542,18 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
             }
             all.unshift(quoteObj);
             localStorage.setItem(this._key, JSON.stringify(all));
+            this._cache = null; // invalidate Set cache
             return true; // liked
           }
         }
       };
 
       // ── Recent Viewed Quotes Store (Up to 500 Quotes FIFO Queue) ──
+      // Performance: _cache is a Set<id> lazily initialised; invalidated on writes.
       window.recentQuotes = {
         _key: 'wisdom_recent_quotes',
         _max: 500,
+        _cache: null,
         getAll() {
           try {
             const data = JSON.parse(localStorage.getItem(this._key) || '[]');
@@ -545,7 +564,8 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
         },
         has(id) {
           if (!id) return false;
-          return this.getAll().includes(id);
+          if (this._cache === null) this._cache = new Set(this.getAll());
+          return this._cache.has(id);
         },
         add(id) {
           if (!id) return;
@@ -560,10 +580,12 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
               list = list.slice(-this._max);
             }
             localStorage.setItem(this._key, JSON.stringify(list));
+            this._cache = null; // invalidate Set cache
           } catch {}
         },
         clear() {
           try { localStorage.removeItem(this._key); } catch {}
+          this._cache = null;
         }
       };
 

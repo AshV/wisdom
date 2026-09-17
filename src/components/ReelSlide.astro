@@ -138,7 +138,7 @@ if (len < 55) {
       <!-- The Centered Artistic Quote Text -->
       <p
         class="font-display font-normal tracking-[-0.01em] text-white text-shadow-artistic select-none quote-text"
-        style={`${quoteSizeStyle} font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;`}
+        style={`${quoteSizeStyle} font-family: var(--font-display);`}
       >
         {content}
       </p>
@@ -148,7 +148,7 @@ if (len < 55) {
         <a
           href={`${BASE}/author/${authorSlug}/`}
           class="pointer-events-auto inline-flex items-center flex-wrap justify-center gap-1.5 text-base sm:text-lg md:text-xl font-normal text-white/80 hover:text-white transition-all duration-200 group cursor-pointer"
-          style="font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; letter-spacing: 0.02em;"
+          style="font-family: var(--font-editorial); font-style: italic; letter-spacing: 0.02em;"
           title={`More quotes by ${author}`}
         >
           <span class="text-white/40 not-italic font-light select-none">&mdash;</span>

@@ -13,11 +13,13 @@
   <!-- Like Button -->
   <button
     id="like-btn"
-    class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
+    type="button"
+    class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
+    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
     aria-label="Like this quote"
     title="Like"
   >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30 pointer-events-none">
       <svg id="like-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white transition-all duration-300 sm:w-5 sm:h-5">
         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
       </svg>
@@ -27,11 +29,13 @@
   <!-- Share Button -->
   <button
     id="share-btn"
-    class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
+    type="button"
+    class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
+    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
     aria-label="Share this quote"
     title="Share"
   >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30 pointer-events-none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
         <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
         <polyline points="16 6 12 2 8 6" />
@@ -43,11 +47,13 @@
   <!-- Zen Chime Toggle (Play Once on Quote Arrival) -->
   <button
     id="audio-toggle-btn"
-    class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
+    type="button"
+    class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
+    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
     aria-label="Enable zen chime sound"
     title="Chimes Muted (Click to enable)"
   >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center transition-all duration-200 shadow-md shadow-black/30 bg-white/5 border border-white/10 text-white/40 group-hover:bg-white/15 group-hover:text-white/70">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center transition-all duration-200 shadow-md shadow-black/30 bg-white/5 border border-white/10 text-white/40 group-hover:bg-white/15 group-hover:text-white/70 pointer-events-none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/50 sm:w-[19px] sm:h-[19px]">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
         <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
@@ -59,11 +65,13 @@
   <!-- Explore Button -->
   <button
     id="explore-btn"
-    class="group transition-transform duration-200 active:scale-90 cursor-pointer block"
+    type="button"
+    class="group transition-transform duration-200 active:scale-90 cursor-pointer min-w-[44px] min-h-[44px] p-1 -m-1 flex items-center justify-center select-none"
+    style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
     aria-label="Explore quotes"
     title="Explore Quotes"
   >
-    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30">
+    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full glass flex items-center justify-center group-hover:bg-white/20 transition-all duration-200 shadow-md shadow-black/30 pointer-events-none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white sm:w-[19px] sm:h-[19px]">
         <circle cx="11" cy="11" r="8" />
         <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -81,7 +89,8 @@
       const exploreBtn = document.getElementById('explore-btn');
 
       if (likeBtn) {
-        likeBtn.onclick = () => {
+        likeBtn.onclick = (e) => {
+          if (e) e.stopPropagation();
           const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
           if (!activeSlide) return;
           const quoteId = activeSlide.dataset.quoteId;
@@ -102,7 +111,8 @@
       }
 
       if (shareBtn) {
-        shareBtn.onclick = () => {
+        shareBtn.onclick = (e) => {
+          if (e) e.stopPropagation();
           const modal = document.getElementById('share-modal');
           if (modal) {
             modal.classList.remove('hidden');
@@ -116,17 +126,37 @@
       }
 
       if (exploreBtn) {
-        exploreBtn.onclick = () => {
+        let lastExploreTouchTime = 0;
+        let isOpeningDrawer = false;
+
+        const triggerOpenExplore = (e) => {
+          if (e) {
+            if (e.cancelable) e.preventDefault();
+            e.stopPropagation();
+          }
+          if (isOpeningDrawer) return;
+          isOpeningDrawer = true;
+          setTimeout(() => { isOpeningDrawer = false; }, 350);
+
           if (typeof window.openExploreDrawer === 'function') {
             window.openExploreDrawer();
           } else {
             // Robust fallback: manually open drawer with animation restart
             const drawer = document.getElementById('explore-drawer');
             const sheet = document.getElementById('explore-sheet');
+            const backdrop = document.getElementById('explore-backdrop');
             if (drawer) {
               drawer.classList.remove('hidden');
               drawer.style.display = 'flex';
+              if (backdrop) {
+                backdrop.style.pointerEvents = 'none';
+                setTimeout(() => {
+                  const freshB = document.getElementById('explore-backdrop');
+                  if (freshB) freshB.style.pointerEvents = 'auto';
+                }, 400);
+              }
               if (sheet) {
+                sheet.style.transform = '';
                 sheet.style.animation = 'none';
                 void sheet.offsetHeight;
                 sheet.style.animation = 'slide-up-sheet 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
@@ -134,6 +164,22 @@
             }
           }
         };
+
+        exploreBtn.addEventListener('touchend', (e) => {
+          lastExploreTouchTime = Date.now();
+          triggerOpenExplore(e);
+        }, { passive: false });
+
+        exploreBtn.addEventListener('click', (e) => {
+          if (Date.now() - lastExploreTouchTime < 500) {
+            if (e) {
+              if (e.cancelable) e.preventDefault();
+              e.stopPropagation();
+            }
+            return;
+          }
+          triggerOpenExplore(e);
+        });
       }
 
       // Refresh like status for the currently active slide

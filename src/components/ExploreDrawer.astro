@@ -1018,19 +1018,33 @@ const moodKeywords: Record<string, string> = {
     }
 
     // ── Open / Close Mechanics ──
+    let drawerOpenedAt = 0;
+
     function openDrawer(tabToOpen = 'liked') {
       // Always resolve fresh — captured refs go stale after Astro View Transitions
       const d = document.getElementById('explore-drawer');
       const s = document.getElementById('explore-sheet');
+      const b = document.getElementById('explore-backdrop');
       if (!d) return;
+
+      drawerOpenedAt = Date.now();
+
+      // Temporarily disable pointer events on backdrop during opening animation (400ms)
+      // to guarantee zero ghost clicks or delayed touch events dismiss the drawer
+      if (b) {
+        b.style.pointerEvents = 'none';
+        setTimeout(() => {
+          const freshB = document.getElementById('explore-backdrop');
+          if (freshB) freshB.style.pointerEvents = 'auto';
+        }, 400);
+      }
 
       d.classList.remove('hidden');
       d.style.display = 'flex';
 
-      // Force-replay the slide-up animation on every open.
-      // Setting animation to 'none' + triggering a reflow + clearing the override
-      // lets the CSS class animate-slide-up-sheet restart from scratch.
+      // Reset any manual drag-handle inline transform and force-replay slide-up animation
       if (s) {
+        s.style.transform = '';
         s.style.animation = 'none';
         void s.offsetHeight; // force reflow
         s.style.animation = 'slide-up-sheet 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
@@ -1054,7 +1068,12 @@ const moodKeywords: Record<string, string> = {
       // Always resolve fresh — captured refs go stale after Astro View Transitions
       const d = document.getElementById('explore-drawer');
       const s = document.getElementById('explore-sheet');
+      const b = document.getElementById('explore-backdrop');
       if (!d) return;
+
+      if (b) b.style.pointerEvents = 'none';
+      if (s) s.style.transform = '';
+
       if (immediate) {
         d.style.display = 'none';
         d.classList.add('hidden');
@@ -1077,8 +1096,25 @@ const moodKeywords: Record<string, string> = {
     // Re-bind backdrop/close btn every setup so new DOM nodes are wired correctly
     const freshBackdrop = document.getElementById('explore-backdrop');
     const freshCloseBtn = document.getElementById('explore-close-btn');
-    if (freshBackdrop) freshBackdrop.onclick = closeDrawer;
-    if (freshCloseBtn) freshCloseBtn.onclick = closeDrawer;
+    if (freshBackdrop) {
+      freshBackdrop.onclick = (e) => {
+        // Guard: ignore clicks that occur within 400ms of opening (prevents touch tap-through)
+        if (Date.now() - drawerOpenedAt < 400) {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+          return;
+        }
+        closeDrawer();
+      };
+    }
+    if (freshCloseBtn) {
+      freshCloseBtn.onclick = (e) => {
+        if (e) e.stopPropagation();
+        closeDrawer();
+      };
+    }
 
     // Keyboard ESC to close drawer (use live lookup, not captured ref)
     document.addEventListener('keydown', (e) => {
@@ -1308,7 +1344,8 @@ const moodKeywords: Record<string, string> = {
 
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'e' || e.key === 'E') && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
-        if (drawer && drawer.classList.contains('hidden')) {
+        const d = document.getElementById('explore-drawer');
+        if (d && (d.classList.contains('hidden') || d.style.display === 'none')) {
           openDrawer('authors');
         } else {
           closeDrawer();

@@ -148,6 +148,7 @@
     const author = quote.author || 'Anonymous';
     const mood = quote.mood || 'reflective';
     const category = quote.category || 'Wisdom';
+    const sourceWork = quote.sourceWork || '';
 
     // Helper: Rounded Rectangle Fallback
     function drawRoundRect(c, x, y, w, h, r) {
@@ -324,7 +325,9 @@
     const totalQuoteTextHeight = lines.length * lineHeight;
     const authorGap = Math.max(52, Math.round(lineHeight * 0.65));
     const authorHeight = 48;
-    const totalBlockHeight = quoteMarkHeight + quoteMarkGap + totalQuoteTextHeight + authorGap + authorHeight;
+    const sourceWorkHeight = sourceWork ? 38 : 0;
+    const sourceWorkGap = sourceWork ? 18 : 0;
+    const totalBlockHeight = quoteMarkHeight + quoteMarkGap + totalQuoteTextHeight + authorGap + authorHeight + sourceWorkGap + sourceWorkHeight;
 
     // Center quote block comfortably in 9:16 viewport
     let blockStartY = (height - totalBlockHeight) / 2;
@@ -402,6 +405,38 @@
     ctx.fillText(`— ${author}`, width / 2, authorY);
     ctx.restore();
 
+    // Source Work Attribution (italic, below author)
+    if (sourceWork) {
+      const sourceY = authorY + (authorHeight / 2) + sourceWorkGap + (sourceWorkHeight / 2);
+      const sourceFontStr = 'italic 400 30px "Cormorant Garamond", "Playfair Display", Georgia, serif';
+
+      // Pass 1: depth shadow
+      ctx.save();
+      ctx.font = sourceFontStr;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.80)';
+      ctx.shadowBlur = 12;
+      ctx.shadowOffsetY = 3;
+      ctx.fillText(sourceWork, width / 2, sourceY);
+      ctx.restore();
+
+      // Pass 2: sharp foreground
+      ctx.save();
+      ctx.font = sourceFontStr;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.fillText(sourceWork, width / 2, sourceY);
+      ctx.restore();
+    }
+
     // ── 7. Footer Domain Watermark with Direct Quote URL (Without "/quote") ──
     ctx.save();
     ctx.fillStyle = 'rgba(255, 255, 255, 0.60)';
@@ -435,6 +470,7 @@
     let author = '';
     let mood = '';
     let category = '';
+    let sourceWork = '';
 
     if (slideOrData instanceof HTMLElement) {
       id = slideOrData.dataset.quoteId || '';
@@ -443,6 +479,7 @@
       author = slideOrData.dataset.author || (slideOrData.querySelector('.author-name-text')?.textContent.trim() || '');
       mood = slideOrData.dataset.mood || 'reflective';
       category = slideOrData.dataset.category || (slideOrData.querySelector('.glass.rounded-full')?.textContent.trim() || 'Wisdom');
+      sourceWork = slideOrData.dataset.sourceWork || '';
     } else {
       id = slideOrData.id || '';
       slug = slideOrData.slug || id;
@@ -450,6 +487,7 @@
       author = slideOrData.author || '';
       mood = slideOrData.mood || 'reflective';
       category = slideOrData.category || 'Wisdom';
+      sourceWork = slideOrData.sourceWork || '';
     }
 
     if (!id || !content) return null;
@@ -482,7 +520,7 @@
           }
         }
 
-        const canvas = renderQuoteCard9x16({ id, content, author, mood, category, slug });
+        const canvas = renderQuoteCard9x16({ id, content, author, mood, category, slug, sourceWork });
         if (!canvas) return null;
 
         const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
@@ -499,6 +537,7 @@
           author,
           mood,
           category,
+          sourceWork,
           blob,
           file,
           objectUrl,
@@ -555,6 +594,7 @@
     let currentAuthor = '';
     let currentMood = '';
     let currentCategory = '';
+    let currentSourceWork = '';
 
     function closeModal() {
       if (modal) {
@@ -590,6 +630,7 @@
       currentCategory = slide.dataset.category || (slide.querySelector('.glass.rounded-full')?.textContent.trim() || 'Wisdom');
       currentQuoteText = slide.dataset.content || (slide.querySelector('.quote-text')?.textContent.trim() || '');
       currentAuthor = slide.dataset.author || (slide.querySelector('.author-name-text')?.textContent.trim() || '');
+      currentSourceWork = slide.dataset.sourceWork || '';
 
       window._currentActiveQuoteId = currentQuoteId;
 
@@ -631,6 +672,7 @@
         author: currentAuthor,
         mood: currentMood,
         category: currentCategory,
+        sourceWork: currentSourceWork,
       }, true);
     }
 

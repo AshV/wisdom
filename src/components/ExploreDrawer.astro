@@ -109,7 +109,7 @@ const moodKeywords: Record<string, string> = {
         <button
           id="pwa-drawer-install-btn"
           type="button"
-          class="hidden items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 hover:bg-amber-400/25 hover:text-amber-200 text-xs font-medium tracking-wide transition-all cursor-pointer shadow-sm"
+          class="pill pill-lg hidden items-center gap-2 px-4 py-2.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 hover:bg-amber-400/25 hover:text-amber-200 text-xs font-medium tracking-wide transition-all cursor-pointer shadow-sm"
           title="Install Wisdom App to Home Screen"
         >
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -430,7 +430,7 @@ const moodKeywords: Record<string, string> = {
             return (
               <a
                 href={`${BASE}/tag/${tag}/`}
-                class={`explore-item rounded-full px-4 py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 inline-flex items-center gap-2.5 active:scale-95 border leading-normal ${
+                class={`pill pill-lg explore-item rounded-full px-4 py-2.5 text-xs sm:text-sm font-medium transition-all duration-200 inline-flex items-center gap-2.5 active:scale-95 border leading-normal ${
                   isHighCount
                     ? 'bg-white/12 hover:bg-white/22 text-white border-white/20 shadow-sm'
                     : 'bg-white/6 hover:bg-white/14 text-white/80 border-white/8'

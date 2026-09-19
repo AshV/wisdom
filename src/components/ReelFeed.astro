@@ -1388,11 +1388,13 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
     }
 
     // ── Deep-Link & Notification Navigation Engine ──
-    async function navigateToQuote(slugOrId, quotePayload = null) {
+    async function navigateToQuote(slugOrId, quotePayload = null, skipCloseModals = false) {
       if (!slugOrId && !quotePayload) return false;
 
-      // Close all open modals and drawers so target quote is immediately in full view
-      if (typeof window.__wisdomCloseAllModals === 'function') {
+      // Close all open modals and drawers so target quote is immediately in full view.
+      // skipCloseModals=true when called from routine hashchange scroll — we don't want to
+      // dismiss the Explore Drawer just because the user scrolled to a new quote.
+      if (!skipCloseModals && typeof window.__wisdomCloseAllModals === 'function') {
         window.__wisdomCloseAllModals(true);
       }
 
@@ -1509,7 +1511,8 @@ const firstAuthorInitials = firstQuote ? getAuthorInitials(firstQuote.author) : 
       if (window.location.hash) {
         const h = window.location.hash.slice(1);
         if (h && !h.startsWith('explore')) {
-          navigateToQuote(h);
+          // Routine scroll — don't close modals (user may have Explore Drawer open)
+          navigateToQuote(h, null, true);
         }
       }
     });

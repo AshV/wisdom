@@ -41,7 +41,11 @@ jobs:
           cache: npm
           cache-dependency-path: wiz-site/package-lock.json
 
-      - name: Install dependencies
+      - name: Install theme dependencies
+        working-directory: wiz-theme
+        run: npm ci
+
+      - name: Install site dependencies
         working-directory: wiz-site
         run: npm ci
 

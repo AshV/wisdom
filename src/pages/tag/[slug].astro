@@ -1,0 +1,65 @@
+---
+/**
+ * Tag Feed — Quotes filtered by tag.
+ */
+import { BaseLayout, ReelFeed } from 'wiz-theme';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map((q) => q.data);
+
+  // Pre-index quotes by tag in a single O(N) pass
+  const quotesByTag: Record<string, any[]> = {};
+  for (const q of quotesData) {
+    for (const tag of (q.tags || [])) {
+      if (!quotesByTag[tag]) quotesByTag[tag] = [];
+      quotesByTag[tag].push(q);
+    }
+  }
+
+  // Pre-render landing pages for substantive tags (>= 5 quotes)
+  // Pruning micro-tags eliminates thin pages and accelerates build
+  const substantiveTags = Object.keys(quotesByTag).filter((tag) => quotesByTag[tag].length >= 5);
+
+  return substantiveTags.map((tag) => {
+    const matched = quotesByTag[tag];
+    return {
+      params: { slug: tag },
+      props: {
+        quotes: matched.slice(0, 30),
+        matchedCount: matched.length,
+        tagName: tag,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  matchedCount: number;
+  tagName: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, matchedCount, tagName } = Astro.props;
+---
+<BaseLayout
+  title={`#${tagName} Quotes — Wisdom`}
+  description={`Discover inspiring quotes and wisdom tagged #${tagName}, reimagined as immersive reels.`}
+  robots="noindex, follow"
+  keywords={[`#${tagName}`, `${tagName} quotes`, tagName, 'wisdom', 'quotes', 'inspirational thoughts']}
+  breadcrumbs={[
+    { name: 'Tags', url: '/wisdom/' },
+    { name: `#${tagName}`, url: `/wisdom/tag/${slug}/` },
+  ]}
+>
+  <ReelFeed
+    quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`#${tagName} Quotes`}
+    feedTitle={`#${tagName}`}
+    feedType="tag"
+  />
+</BaseLayout>

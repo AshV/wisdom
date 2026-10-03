@@ -1,0 +1,28 @@
+{
+  "name": "wisdom",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "fetch:photos": "node scripts/fetch-author-photos.mjs",
+    "audit:quality": "node scripts/audit-quote-quality.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.10",
+    "firebase": "^12.19.0",
+    "html-to-image": "^1.11.13",
+    "tailwindcss": "^4.3.3",
+    "wiz-theme": "file:../wiz-theme"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}

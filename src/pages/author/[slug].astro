@@ -1,0 +1,157 @@
+---
+/**
+ * Author Feed — Quotes and philosophical context filtered by author.
+ * Thick pillar hub page featuring author biography, historical context,
+ * primary source bibliography, core concepts, and quote reels.
+ */
+import { BaseLayout, ReelFeed } from 'wiz-theme';
+import { getCollection } from 'astro:content';
+import { getAuthorProfile } from '../../data/authorProfiles';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map((q) => q.data);
+  const slugs = [...new Set(quotesData.map((q) => q.authorSlug))];
+
+  return slugs.map((slug) => {
+    const matched = quotesData.filter((q) => q.authorSlug === slug);
+    const remaining = quotesData.filter((q) => q.authorSlug !== slug);
+    const authorName = matched[0]?.author || slug;
+    return {
+      params: { slug },
+      props: {
+        quotes: [...matched, ...remaining.slice(0, 15)],
+        matchedCount: matched.length,
+        authorName,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  matchedCount: number;
+  authorName: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, matchedCount, authorName } = Astro.props;
+
+const profile = getAuthorProfile(slug!, authorName);
+
+const initials = profile.name
+  .split(' ')
+  .filter(Boolean)
+  .map((n) => n[0])
+  .slice(0, 2)
+  .join('')
+  .toUpperCase();
+
+const pageTitle = `${profile.name} Quotes & Philosophy — Wisdom`;
+const pageDescription = `Explore ${matchedCount}+ verified quotes, reflections, and primary philosophy of ${profile.name} (${profile.era}), ${profile.tradition}. Immersive quote reels & context.`;
+
+// Rich Schema.org CollectionPage & Person Structured Data for Google E-E-A-T
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: pageTitle,
+  description: profile.summary,
+  url: `https://www.ashishvishwakarma.com/wisdom/author/${slug}/`,
+  about: {
+    '@type': 'Person',
+    name: profile.name,
+    alternateName: profile.longName !== profile.name ? profile.longName : undefined,
+    description: profile.bio,
+    sameAs: profile.wikipediaUrl,
+    image: profile.photo ? `https://www.ashishvishwakarma.com${profile.photo}` : undefined,
+    knowsAbout: [profile.tradition, ...profile.pillars.map((p) => p.concept)],
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: matchedCount,
+    itemListElement: quotes.slice(0, 30).map((q, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      item: {
+        '@type': 'Quotation',
+        text: q.content,
+        creator: {
+          '@type': 'Person',
+          name: profile.name,
+        },
+      },
+    })),
+  },
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  robots="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  keywords={[
+    `${profile.name} quotes`,
+    `${profile.name} philosophy`,
+    profile.tradition,
+    ...profile.pillars.map((p) => p.concept.toLowerCase()),
+    'wisdom',
+    'quotes',
+    'timeless reflections',
+  ]}
+  breadcrumbs={[
+    { name: 'Authors', url: '/wisdom/' },
+    { name: profile.name, url: `/wisdom/author/${slug}/` },
+  ]}
+>
+  <!-- Schema.org JSON-LD for Google E-E-A-T and Knowledge Graph -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+
+
+  <!-- Semantic Hidden-to-Viewers / Visible-to-Crawlers Fallback Block for SEO (No-JS Crawlers) -->
+  <article class="sr-only" itemscope itemtype="https://schema.org/Person">
+    <h1 itemprop="name">{profile.name}</h1>
+    <p><strong>Historical Era:</strong> {profile.era}</p>
+    <p><strong>Philosophical Tradition:</strong> {profile.tradition}</p>
+    <div itemprop="description">
+      <p>{profile.bio}</p>
+      <h2>Philosophical Teachings</h2>
+      <ul>
+        {profile.pillars.map((p) => (
+          <li><strong>{p.concept}:</strong> {p.description}</li>
+        ))}
+      </ul>
+      <h2>Sourced Works & Literature</h2>
+      <ul>
+        {profile.keyWorks.map((w) => (
+          <li><strong>{w.title}:</strong> {w.description}</li>
+        ))}
+      </ul>
+      <p>{profile.whyTimeless}</p>
+    </div>
+  </article>
+
+  <!-- Interactive Full-Screen Reel Feed -->
+  <ReelFeed
+    quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`Quotes by ${profile.name}`}
+    feedTitle={`✏️ ${profile.shortName || profile.name}`}
+    feedType="author"
+  />
+
+  <script is:inline define:vars={{ authorSlug: slug, authorName: profile.name }}>
+    function trackAuthorPage() {
+      if (window.firebaseStats && typeof window.firebaseStats.recordAuthorDossierView === 'function') {
+        window.firebaseStats.recordAuthorDossierView(authorSlug, authorName);
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', trackAuthorPage);
+    } else {
+      trackAuthorPage();
+    }
+    document.addEventListener('astro:page-load', trackAuthorPage);
+  </script>
+</BaseLayout>

@@ -1,0 +1,3662 @@
+[
+  {
+    "day": 1,
+    "id": "q003",
+    "content": "The happiness of your life depends upon the quality of your thoughts.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "the-happiness-of-your-life-depends-upon-the-quality-of"
+  },
+  {
+    "day": 2,
+    "id": "q018",
+    "content": "It is not that we have a short time to live, but that we waste a great deal of it.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "it-is-not-that-we-have-a-short-time-to"
+  },
+  {
+    "day": 3,
+    "id": "q045",
+    "content": "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "he-is-a-wise-man-who-does-not-grieve-for"
+  },
+  {
+    "day": 4,
+    "id": "q064",
+    "content": "The unexamined life is not worth living.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-unexamined-life-is-not-worth-living"
+  },
+  {
+    "day": 5,
+    "id": "q071",
+    "content": "Courage is knowing what not to fear.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "courage-is-knowing-what-not-to-fear"
+  },
+  {
+    "day": 6,
+    "id": "q077",
+    "content": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "motivational",
+    "slug": "we-are-what-we-repeatedly-do-excellence-then-is-not"
+  },
+  {
+    "day": 7,
+    "id": "q007",
+    "content": "The journey of a thousand miles begins with a single step.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "the-journey-of-a-thousand-miles-begins-with-a-single"
+  },
+  {
+    "day": 8,
+    "id": "q015",
+    "content": "And those who were seen dancing were thought to be insane by those who could not hear the music.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "and-those-who-were-seen-dancing-were-thought-to-be"
+  },
+  {
+    "day": 9,
+    "id": "q1301",
+    "content": "You didn't come into this world. You came out of it, like a wave from the ocean. You are not a stranger here.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "you-didnt-come-into-this-world-you-came-out-of"
+  },
+  {
+    "day": 10,
+    "id": "q024",
+    "content": "The privilege of a lifetime is to become who you truly are.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-privilege-of-a-lifetime-is-to-become-who-you"
+  },
+  {
+    "day": 11,
+    "id": "q001",
+    "content": "The wound is the place where the light enters you.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "the-wound-is-the-place-where-the-light-enters-you"
+  },
+  {
+    "day": 12,
+    "id": "q501",
+    "content": "Be realistic: Plan for a miracle.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "joyful",
+    "slug": "be-realistic-plan-for-a-miracle"
+  },
+  {
+    "day": 13,
+    "id": "q004",
+    "content": "Waste no more time arguing about what a good man should be. Be one.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "waste-no-more-time-arguing-about-what-a-good-man"
+  },
+  {
+    "day": 14,
+    "id": "q019",
+    "content": "Luck is what happens when preparation meets opportunity.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "luck-is-what-happens-when-preparation-meets-opportunity"
+  },
+  {
+    "day": 15,
+    "id": "q046",
+    "content": "We have two ears and one mouth so that we can listen twice as much as we speak.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "we-have-two-ears-and-one-mouth-so-that-we"
+  },
+  {
+    "day": 16,
+    "id": "q065",
+    "content": "I know that I am intelligent, because I know that I know nothing.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "i-know-that-i-am-intelligent-because-i-know-that"
+  },
+  {
+    "day": 17,
+    "id": "q072",
+    "content": "Wise men speak because they have something to say; fools because they have to say something.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "wise-men-speak-because-they-have-something-to-say-fools"
+  },
+  {
+    "day": 18,
+    "id": "q078",
+    "content": "Knowing yourself is the beginning of all wisdom.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "knowing-yourself-is-the-beginning-of-all-wisdom"
+  },
+  {
+    "day": 19,
+    "id": "q008",
+    "content": "Nature does not hurry, yet everything is accomplished.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Nature",
+    "mood": "serene",
+    "slug": "nature-does-not-hurry-yet-everything-is-accomplished"
+  },
+  {
+    "day": 20,
+    "id": "q055",
+    "content": "He who has a why to live can bear almost any how.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "he-who-has-a-why-to-live-can-bear-almost"
+  },
+  {
+    "day": 21,
+    "id": "q1302",
+    "content": "We do not 'come into' this world; we come out of it, as leaves from a tree.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Nature",
+    "mood": "serene",
+    "slug": "we-do-not-come-into-this-world-we-come-out"
+  },
+  {
+    "day": 22,
+    "id": "q1401",
+    "content": "Until you make the unconscious conscious, it will direct your life and you will call it fate.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "until-you-make-the-unconscious-conscious-it-will-direct-your"
+  },
+  {
+    "day": 23,
+    "id": "q002",
+    "content": "What you seek is seeking you.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "what-you-seek-is-seeking-you"
+  },
+  {
+    "day": 24,
+    "id": "q502",
+    "content": "Life begins where fear ends.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Courage",
+    "mood": "bold",
+    "slug": "life-begins-where-fear-ends"
+  },
+  {
+    "day": 25,
+    "id": "q025",
+    "content": "You have power over your mind - not outside events. Realize this, and you will find strength.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "you-have-power-over-your-mind---not-outside-events"
+  },
+  {
+    "day": 26,
+    "id": "q035",
+    "content": "We suffer more often in imagination than in reality.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "we-suffer-more-often-in-imagination-than-in-reality"
+  },
+  {
+    "day": 27,
+    "id": "q047",
+    "content": "Don't explain your philosophy. Embody it.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "dont-explain-your-philosophy-embody-it"
+  },
+  {
+    "day": 28,
+    "id": "q066",
+    "content": "Wonder is the beginning of wisdom.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "wonder-is-the-beginning-of-wisdom"
+  },
+  {
+    "day": 29,
+    "id": "q073",
+    "content": "The measure of a man is what he does with power.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "the-measure-of-a-man-is-what-he-does-with"
+  },
+  {
+    "day": 30,
+    "id": "q079",
+    "content": "Educating the mind without educating the heart is no education at all.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "educating-the-mind-without-educating-the-heart-is-no-education"
+  },
+  {
+    "day": 31,
+    "id": "q101",
+    "content": "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "knowing-others-is-intelligence-knowing-yourself-is-true-wisdom-mastering"
+  },
+  {
+    "day": 32,
+    "id": "q056",
+    "content": "That which does not kill us makes us stronger.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "that-which-does-not-kill-us-makes-us-stronger"
+  },
+  {
+    "day": 33,
+    "id": "q1303",
+    "content": "As the ocean 'waves', the universe 'peoples'. Every individual is an expression of the whole realm of nature.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "as-the-ocean-waves-the-universe-peoples-every-individual-is"
+  },
+  {
+    "day": 34,
+    "id": "q1402",
+    "content": "One does not become enlightened by imagining figures of light, but by making the darkness conscious.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Spirituality",
+    "mood": "reflective",
+    "slug": "one-does-not-become-enlightened-by-imagining-figures-of-light"
+  },
+  {
+    "day": 35,
+    "id": "q013",
+    "content": "Your task is not to seek for love, but merely to seek and find all the barriers within yourself that you have built against it.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "your-task-is-not-to-seek-for-love-but-merely"
+  },
+  {
+    "day": 36,
+    "id": "q503",
+    "content": "Courage is a love affair with the unknown.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Courage",
+    "mood": "bold",
+    "slug": "courage-is-a-love-affair-with-the-unknown"
+  },
+  {
+    "day": 37,
+    "id": "q026",
+    "content": "Dwell on the beauty of life. Watch the stars, and see yourself running with them.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "dwell-on-the-beauty-of-life-watch-the-stars-and"
+  },
+  {
+    "day": 38,
+    "id": "q036",
+    "content": "As is a tale, so is life: not how long it is, but how good it is, is what matters.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "as-is-a-tale-so-is-life-not-how-long"
+  },
+  {
+    "day": 39,
+    "id": "q048",
+    "content": "Wealth consists not in having great possessions, but in having few wants.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "wealth-consists-not-in-having-great-possessions-but-in-having"
+  },
+  {
+    "day": 40,
+    "id": "q067",
+    "content": "To find yourself, think for yourself.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "to-find-yourself-think-for-yourself"
+  },
+  {
+    "day": 41,
+    "id": "q074",
+    "content": "Ignorance, the root and stem of every evil.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "ignorance-the-root-and-stem-of-every-evil"
+  },
+  {
+    "day": 42,
+    "id": "q080",
+    "content": "It is the mark of an educated mind to be able to entertain a thought without accepting it.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "it-is-the-mark-of-an-educated-mind-to-be"
+  },
+  {
+    "day": 43,
+    "id": "q102",
+    "content": "When you are content to be simply yourself and don't compare or compete, everyone will respect you.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "when-you-are-content-to-be-simply-yourself-and-dont"
+  },
+  {
+    "day": 44,
+    "id": "q057",
+    "content": "Without music, life would be a mistake.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "joyful",
+    "slug": "without-music-life-would-be-a-mistake"
+  },
+  {
+    "day": 45,
+    "id": "q1304",
+    "content": "You are the universe expressing itself as a human for a little while.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "you-are-the-universe-expressing-itself-as-a-human-for"
+  },
+  {
+    "day": 46,
+    "id": "q1403",
+    "content": "The most terrifying thing is to accept oneself completely.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "the-most-terrifying-thing-is-to-accept-oneself-completely"
+  },
+  {
+    "day": 47,
+    "id": "q022",
+    "content": "Let yourself be silently drawn by the strange pull of what you really love. It will not lead you astray.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "let-yourself-be-silently-drawn-by-the-strange-pull-of"
+  },
+  {
+    "day": 48,
+    "id": "q504",
+    "content": "If you love a flower, don't pick it up. Because if you pick it up it dies and it ceases to be what you love. So if you love a flower, let it be. Love is not about possession. Love is about appreciation.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "if-you-love-a-flower-dont-pick-it-up-because"
+  },
+  {
+    "day": 49,
+    "id": "q027",
+    "content": "When you arise in the morning think of what a privilege it is to be alive, to think, to enjoy, to love.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "joyful",
+    "slug": "when-you-arise-in-the-morning-think-of-what-a"
+  },
+  {
+    "day": 50,
+    "id": "q037",
+    "content": "Difficulties strengthen the mind, as labor does the body.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "motivational",
+    "slug": "difficulties-strengthen-the-mind-as-labor-does-the-body"
+  },
+  {
+    "day": 51,
+    "id": "q049",
+    "content": "It's not what happens to you, but how you react to it that matters.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "motivational",
+    "slug": "its-not-what-happens-to-you-but-how-you-react"
+  },
+  {
+    "day": 52,
+    "id": "q068",
+    "content": "The secret of change is to focus all of your energy not on fighting the old, but on building the new.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "motivational",
+    "slug": "the-secret-of-change-is-to-focus-all-of-your"
+  },
+  {
+    "day": 53,
+    "id": "q075",
+    "content": "At the touch of love everyone becomes a poet.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "romantic",
+    "slug": "at-the-touch-of-love-everyone-becomes-a-poet"
+  },
+  {
+    "day": 54,
+    "id": "q081",
+    "content": "Hope is a waking dream.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "hope-is-a-waking-dream"
+  },
+  {
+    "day": 55,
+    "id": "q103",
+    "content": "Silence is a source of great strength.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "silence-is-a-source-of-great-strength"
+  },
+  {
+    "day": 56,
+    "id": "q058",
+    "content": "You must have chaos within you to give birth to a dancing star.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "you-must-have-chaos-within-you-to-give-birth-to"
+  },
+  {
+    "day": 57,
+    "id": "q1305",
+    "content": "We are living in a culture entirely hypnotized by the illusion of time, in which the so-called present moment is felt as nothing but an infintesimal hairline.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "we-are-living-in-a-culture-entirely-hypnotized-by-the"
+  },
+  {
+    "day": 58,
+    "id": "q1404",
+    "content": "I'd rather be whole than good.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "id-rather-be-whole-than-good"
+  },
+  {
+    "day": 59,
+    "id": "q1000",
+    "content": "Come, come, whoever you are. Wanderer, worshiper, lover of leaving. It doesn't matter. Ours is not a caravan of despair.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Spirituality",
+    "mood": "joyful",
+    "slug": "come-come-whoever-you-are-wanderer-worshiper-lover-of-leaving"
+  },
+  {
+    "day": 60,
+    "id": "q505",
+    "content": "Sadness gives depth. Happiness gives height. Sadness gives roots. Happiness gives branches. Both are needed, and the higher a tree goes, the deeper it goes, simultaneously.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "sadness-gives-depth-happiness-gives-height-sadness-gives-roots-happiness"
+  },
+  {
+    "day": 61,
+    "id": "q028",
+    "content": "The best revenge is not to be like that.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "the-best-revenge-is-not-to-be-like-that"
+  },
+  {
+    "day": 62,
+    "id": "q038",
+    "content": "Begin at once to live, and count each separate day as a separate life.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "motivational",
+    "slug": "begin-at-once-to-live-and-count-each-separate-day"
+  },
+  {
+    "day": 63,
+    "id": "q050",
+    "content": "Only the educated are free.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "only-the-educated-are-free"
+  },
+  {
+    "day": 64,
+    "id": "q069",
+    "content": "Be kind, for everyone you meet is fighting a hard battle.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "be-kind-for-everyone-you-meet-is-fighting-a-hard"
+  },
+  {
+    "day": 65,
+    "id": "q076",
+    "content": "Good actions give strength to ourselves and inspire good actions in others.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "good-actions-give-strength-to-ourselves-and-inspire-good-actions"
+  },
+  {
+    "day": 66,
+    "id": "q082",
+    "content": "Happiness depends upon ourselves.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "happiness-depends-upon-ourselves"
+  },
+  {
+    "day": 67,
+    "id": "q104",
+    "content": "Simplicity, patience, compassion. These three are your greatest treasures.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "simplicity-patience-compassion-these-three-are-your-greatest-treasures"
+  },
+  {
+    "day": 68,
+    "id": "q059",
+    "content": "To live is to suffer, to survive is to find some meaning in the suffering.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "melancholic",
+    "slug": "to-live-is-to-suffer-to-survive-is-to-find"
+  },
+  {
+    "day": 69,
+    "id": "q1306",
+    "content": "No amount of anxiety makes any difference to anything that is going to happen.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "no-amount-of-anxiety-makes-any-difference-to-anything-that"
+  },
+  {
+    "day": 70,
+    "id": "q1405",
+    "content": "There is no birth of consciousness without pain.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Resilience",
+    "mood": "reflective",
+    "slug": "there-is-no-birth-of-consciousness-without-pain"
+  },
+  {
+    "day": 71,
+    "id": "q120",
+    "content": "Let yourself be drawn by the stronger pull of that which you truly love.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "romantic",
+    "slug": "let-yourself-be-drawn-by-the-stronger-pull-of-that"
+  },
+  {
+    "day": 72,
+    "id": "q506",
+    "content": "Drop the idea of becoming someone, because you are already a masterpiece. You cannot be improved. You have only to come to it, to know it, to realize it.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "motivational",
+    "slug": "drop-the-idea-of-becoming-someone-because-you-are-already"
+  },
+  {
+    "day": 73,
+    "id": "q029",
+    "content": "Very little is needed to make a happy life; it is all within yourself, in your way of thinking.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "very-little-is-needed-to-make-a-happy-life-it"
+  },
+  {
+    "day": 74,
+    "id": "q039",
+    "content": "If one does not know to which port one is sailing, no wind is favorable.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "if-one-does-not-know-to-which-port-one-is"
+  },
+  {
+    "day": 75,
+    "id": "q051",
+    "content": "Circumstances don't make the man, they only reveal him to himself.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "circumstances-dont-make-the-man-they-only-reveal-him-to"
+  },
+  {
+    "day": 76,
+    "id": "q070",
+    "content": "Employ your time in improving yourself by other men's writings so that you shall come easily by what others have labored hard for.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "employ-your-time-in-improving-yourself-by-other-mens-writings"
+  },
+  {
+    "day": 77,
+    "id": "q601",
+    "content": "The heaviest penalty for declining to rule is to be ruled by someone inferior to yourself.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "the-heaviest-penalty-for-declining-to-rule-is-to-be"
+  },
+  {
+    "day": 78,
+    "id": "q083",
+    "content": "Patience is bitter, but its fruit is sweet.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "patience-is-bitter-but-its-fruit-is-sweet"
+  },
+  {
+    "day": 79,
+    "id": "q105",
+    "content": "A good traveler has no fixed plans, and is not intent on arriving.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "a-good-traveler-has-no-fixed-plans-and-is-not"
+  },
+  {
+    "day": 80,
+    "id": "q060",
+    "content": "There are no facts, only interpretations.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "there-are-no-facts-only-interpretations"
+  },
+  {
+    "day": 81,
+    "id": "q1307",
+    "content": "To have faith is to trust yourself to the water. When you swim you don't grab hold of the water, because if you do you will sink and drown. Instead you relax, and float.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "to-have-faith-is-to-trust-yourself-to-the-water"
+  },
+  {
+    "day": 82,
+    "id": "q1406",
+    "content": "People will do anything, no matter how absurd, in order to avoid facing their own souls.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "people-will-do-anything-no-matter-how-absurd-in-order"
+  },
+  {
+    "day": 83,
+    "id": "q121",
+    "content": "Do not grieve. Anything you lose comes round in another form.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "do-not-grieve-anything-you-lose-comes-round-in-another"
+  },
+  {
+    "day": 84,
+    "id": "q507",
+    "content": "Creativity is the greatest rebellion in existence.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Creativity",
+    "mood": "bold",
+    "slug": "creativity-is-the-greatest-rebellion-in-existence"
+  },
+  {
+    "day": 85,
+    "id": "q030",
+    "content": "Accept the things to which fate binds you, and love the people with whom fate brings you together, but do so with all your heart.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "accept-the-things-to-which-fate-binds-you-and-love"
+  },
+  {
+    "day": 86,
+    "id": "q040",
+    "content": "True happiness is to enjoy the present, without anxious dependence upon the future.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "true-happiness-is-to-enjoy-the-present-without-anxious-dependence"
+  },
+  {
+    "day": 87,
+    "id": "q052",
+    "content": "No man is free who is not master of himself.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "no-man-is-free-who-is-not-master-of-himself"
+  },
+  {
+    "day": 88,
+    "id": "q1501",
+    "content": "He is wisest among you who, like Socrates, knows that his wisdom is in truth worth nothing.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "he-is-wisest-among-you-who-like-socrates-knows-that"
+  },
+  {
+    "day": 89,
+    "id": "q602",
+    "content": "Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Creativity",
+    "mood": "joyful",
+    "slug": "music-gives-a-soul-to-the-universe-wings-to-the"
+  },
+  {
+    "day": 90,
+    "id": "q1601",
+    "content": "Happiness is the meaning and the purpose of life, the whole aim and end of human existence.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "happiness-is-the-meaning-and-the-purpose-of-life-the"
+  },
+  {
+    "day": 91,
+    "id": "q106",
+    "content": "Do you have the patience to wait until your mud settles and the water is clear?",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "do-you-have-the-patience-to-wait-until-your-mud"
+  },
+  {
+    "day": 92,
+    "id": "q061",
+    "content": "The higher we soar the smaller we appear to those who cannot fly.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "the-higher-we-soar-the-smaller-we-appear-to-those"
+  },
+  {
+    "day": 93,
+    "id": "q1308",
+    "content": "Life is a musical thing, and you were supposed to sing or to dance while the music was being played.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Creativity",
+    "mood": "joyful",
+    "slug": "life-is-a-musical-thing-and-you-were-supposed-to"
+  },
+  {
+    "day": 94,
+    "id": "q1407",
+    "content": "Everything that irritates us about others can lead us to an understanding of ourselves.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "everything-that-irritates-us-about-others-can-lead-us-to"
+  },
+  {
+    "day": 95,
+    "id": "q122",
+    "content": "You were born with wings, why prefer to crawl through life?",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "you-were-born-with-wings-why-prefer-to-crawl-through"
+  },
+  {
+    "day": 96,
+    "id": "q508",
+    "content": "Don't choose. Accept life as it is in its totality.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "serene",
+    "slug": "dont-choose-accept-life-as-it-is-in-its-totality"
+  },
+  {
+    "day": 97,
+    "id": "q031",
+    "content": "Never let the future disturb you. You will meet it with the same weapons of reason which today arm you against the present.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "never-let-the-future-disturb-you-you-will-meet-it"
+  },
+  {
+    "day": 98,
+    "id": "q041",
+    "content": "He who is brave is free.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "he-who-is-brave-is-free"
+  },
+  {
+    "day": 99,
+    "id": "q053",
+    "content": "Freedom is the only worthy goal in life. It is won by disregarding things that lie beyond our control.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "freedom-is-the-only-worthy-goal-in-life-it-is"
+  },
+  {
+    "day": 100,
+    "id": "q1502",
+    "content": "I am wiser than this man; for neither of us appears to know anything great and good, but he thinks he knows something when he does not, whereas I neither know nor think that I know.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "i-am-wiser-than-this-man-for-neither-of-us"
+  },
+  {
+    "day": 101,
+    "id": "q603",
+    "content": "The first and greatest victory is to conquer yourself; to be conquered by your own nature is of all things most shameful and vile.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "the-first-and-greatest-victory-is-to-conquer-yourself-to"
+  },
+  {
+    "day": 102,
+    "id": "q1602",
+    "content": "Happiness is an activity of the soul in accordance with complete and perfect virtue.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "happiness-is-an-activity-of-the-soul-in-accordance-with"
+  },
+  {
+    "day": 103,
+    "id": "q107",
+    "content": "He who knows that enough is enough will always have enough.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "he-who-knows-that-enough-is-enough-will-always-have"
+  },
+  {
+    "day": 104,
+    "id": "q062",
+    "content": "Whoever fights monsters should see to it that in the process he does not become a monster.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "whoever-fights-monsters-should-see-to-it-that-in-the"
+  },
+  {
+    "day": 105,
+    "id": "q1309",
+    "content": "We thought of life by analogy with a journey, with a pilgrimage, which had a serious purpose at the end. But we missed the point the whole way along. It was a musical thing.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "we-thought-of-life-by-analogy-with-a-journey-with"
+  },
+  {
+    "day": 106,
+    "id": "q1408",
+    "content": "Your visions will become clear only when you can look into your own heart. Who looks outside, dreams; who looks inside, awakes.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "your-visions-will-become-clear-only-when-you-can-look"
+  },
+  {
+    "day": 107,
+    "id": "q123",
+    "content": "Set your life on fire. Seek those who fan your flames.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "set-your-life-on-fire-seek-those-who-fan-your"
+  },
+  {
+    "day": 108,
+    "id": "q509",
+    "content": "Listen to your being. It is continuously giving you hints; it is a still, small voice. If you are a little quiet, you will start feeling your way.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "listen-to-your-being-it-is-continuously-giving-you-hints"
+  },
+  {
+    "day": 109,
+    "id": "q032",
+    "content": "If it is not right do not do it; if it is not true do not say it.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "if-it-is-not-right-do-not-do-it-if"
+  },
+  {
+    "day": 110,
+    "id": "q042",
+    "content": "All cruelty springs from weakness.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "all-cruelty-springs-from-weakness"
+  },
+  {
+    "day": 111,
+    "id": "q054",
+    "content": "Small-minded people blame others. Average people blame themselves. The wise see all blame as foolishness.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "small-minded-people-blame-others-average-people-blame-themselves-the-wise"
+  },
+  {
+    "day": 112,
+    "id": "q1503",
+    "content": "Real wisdom is the property of the divine, and human wisdom has little or no value.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "real-wisdom-is-the-property-of-the-divine-and-human"
+  },
+  {
+    "day": 113,
+    "id": "q604",
+    "content": "Human behavior flows from three main sources: desire, emotion, and knowledge.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "human-behavior-flows-from-three-main-sources-desire-emotion-and"
+  },
+  {
+    "day": 114,
+    "id": "q1603",
+    "content": "For one swallow does not make a spring, nor does one sunny day; and so too one day or a short time does not make a man blessed and happy.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "for-one-swallow-does-not-make-a-spring-nor-does"
+  },
+  {
+    "day": 115,
+    "id": "q108",
+    "content": "Act without expectation.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "act-without-expectation"
+  },
+  {
+    "day": 116,
+    "id": "q063",
+    "content": "In individuals, insanity is rare; but in groups, parties, nations and epochs, it is the rule.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "in-individuals-insanity-is-rare-but-in-groups-parties-nations"
+  },
+  {
+    "day": 117,
+    "id": "q1310",
+    "content": "The meaning of life is just to be alive. It is so plain and so obvious and so simple. And yet, everybody rushes around in a great panic as if it were necessary to achieve something beyond themselves.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-meaning-of-life-is-just-to-be-alive-it"
+  },
+  {
+    "day": 118,
+    "id": "q1409",
+    "content": "In all chaos there is a cosmos, in all disorder a secret order.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "in-all-chaos-there-is-a-cosmos-in-all-disorder"
+  },
+  {
+    "day": 119,
+    "id": "q124",
+    "content": "Stop acting so small. You are the universe in ecstatic motion.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "stop-acting-so-small-you-are-the-universe-in-ecstatic"
+  },
+  {
+    "day": 120,
+    "id": "q510",
+    "content": "Experience life in all possible ways — good-bad, bitter-sweet, dark-light, summer-winter. Experience all the dualities. The more experience you have, the more mature you become.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "experience-life-in-all-possible-ways-good-bad-bitter-sweet-dark-light-summer-winter"
+  },
+  {
+    "day": 121,
+    "id": "q033",
+    "content": "The soul becomes dyed with the color of its thoughts.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-soul-becomes-dyed-with-the-color-of-its-thoughts"
+  },
+  {
+    "day": 122,
+    "id": "q043",
+    "content": "Sometimes even to live is an act of courage.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "melancholic",
+    "slug": "sometimes-even-to-live-is-an-act-of-courage"
+  },
+  {
+    "day": 123,
+    "id": "q1001",
+    "content": "Some things are in our control and others not. Things in our control are opinion, pursuit, desire, aversion, and, in a word, whatever are our own actions.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "some-things-are-in-our-control-and-others-not-things"
+  },
+  {
+    "day": 124,
+    "id": "q1504",
+    "content": "I cannot teach anybody anything; I can only make them think.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "i-cannot-teach-anybody-anything-i-can-only-make-them"
+  },
+  {
+    "day": 125,
+    "id": "q605",
+    "content": "The soul takes nothing with her to the next world but her education and culture.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Spirituality",
+    "mood": "reflective",
+    "slug": "the-soul-takes-nothing-with-her-to-the-next-world"
+  },
+  {
+    "day": 126,
+    "id": "q1604",
+    "content": "The good of man is a functioning of the soul in accordance with reason, or not without reason, and this functioning must be lifelong.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-good-of-man-is-a-functioning-of-the-soul"
+  },
+  {
+    "day": 127,
+    "id": "q109",
+    "content": "Kindness in words creates confidence. Kindness in thinking creates profoundness. Kindness in giving creates love.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "romantic",
+    "slug": "kindness-in-words-creates-confidence-kindness-in-thinking-creates-profoundness"
+  },
+  {
+    "day": 128,
+    "id": "q1201",
+    "content": "One must still have chaos in oneself to be able to give birth to a dancing star. I say unto you: you still have chaos in you.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Creativity",
+    "mood": "bold",
+    "slug": "one-must-still-have-chaos-in-oneself-to-be-able"
+  },
+  {
+    "day": 129,
+    "id": "q1311",
+    "content": "A person who thinks all the time has nothing to think about except thoughts. So he loses touch with reality, and lives in a world of illusions.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "a-person-who-thinks-all-the-time-has-nothing-to"
+  },
+  {
+    "day": 130,
+    "id": "q1410",
+    "content": "The shoe that fits one person pinches another; there is no recipe for living that suits all cases.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-shoe-that-fits-one-person-pinches-another-there-is"
+  },
+  {
+    "day": 131,
+    "id": "q125",
+    "content": "Words are a pretext. It is the inner bond that draws one person to another, not words.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "romantic",
+    "slug": "words-are-a-pretext-it-is-the-inner-bond-that"
+  },
+  {
+    "day": 132,
+    "id": "q511",
+    "content": "Meditation is the only answer to all the questions of man. The problem may be anything, but the answer is one: meditation is the answer.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "serene",
+    "slug": "meditation-is-the-only-answer-to-all-the-questions-of"
+  },
+  {
+    "day": 133,
+    "id": "q034",
+    "content": "Confine yourself to the present.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "confine-yourself-to-the-present"
+  },
+  {
+    "day": 134,
+    "id": "q044",
+    "content": "Associate with people who are likely to improve you.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "associate-with-people-who-are-likely-to-improve-you"
+  },
+  {
+    "day": 135,
+    "id": "q1002",
+    "content": "Things not in our control are body, property, reputation, command, and, in one word, whatever are not our own actions.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "things-not-in-our-control-are-body-property-reputation-command"
+  },
+  {
+    "day": 136,
+    "id": "q1505",
+    "content": "The highest form of knowledge is not to imagine that one knows what one does not know.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-highest-form-of-knowledge-is-not-to-imagine-that"
+  },
+  {
+    "day": 137,
+    "id": "q606",
+    "content": "You can discover more about a person in an hour of play than in a year of conversation.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "joyful",
+    "slug": "you-can-discover-more-about-a-person-in-an-hour"
+  },
+  {
+    "day": 138,
+    "id": "q1605",
+    "content": "Happiness belongs to those who are self-sufficient.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "happiness-belongs-to-those-who-are-self-sufficient"
+  },
+  {
+    "day": 139,
+    "id": "q110",
+    "content": "Care about what other people think and you will always be their prisoner.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "care-about-what-other-people-think-and-you-will-always"
+  },
+  {
+    "day": 140,
+    "id": "q1202",
+    "content": "Man is a rope stretched between the animal and the Overman—a rope over an abyss.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "man-is-a-rope-stretched-between-the-animal-and-the"
+  },
+  {
+    "day": 141,
+    "id": "q1312",
+    "content": "By thoughts I mean specifically chatter in the skull: perpetual and compulsive repetition of words, of reckoning and calculating.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "by-thoughts-i-mean-specifically-chatter-in-the-skull-perpetual"
+  },
+  {
+    "day": 142,
+    "id": "q1411",
+    "content": "Knowing your own darkness is the best method for dealing with the darknesses of other people.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "knowing-your-own-darkness-is-the-best-method-for-dealing"
+  },
+  {
+    "day": 143,
+    "id": "q126",
+    "content": "The garden of the world has no limits, except in your mind.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "the-garden-of-the-world-has-no-limits-except-in"
+  },
+  {
+    "day": 144,
+    "id": "q512",
+    "content": "To be in love is to be in paradise. To love without demanding anything in return is the greatest joy.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "to-be-in-love-is-to-be-in-paradise-to"
+  },
+  {
+    "day": 145,
+    "id": "q492",
+    "content": "Look back over the past, with its changing empires that rose and fell, and you can foresee the future, too.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "look-back-over-the-past-with-its-changing-empires-that"
+  },
+  {
+    "day": 146,
+    "id": "q490",
+    "content": "No person has the power to have everything they want, but it is in their power not to want what they don't have.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "no-person-has-the-power-to-have-everything-they-want"
+  },
+  {
+    "day": 147,
+    "id": "q1003",
+    "content": "Make the best use of what is in your power, and take the rest as it happens.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "make-the-best-use-of-what-is-in-your-power"
+  },
+  {
+    "day": 148,
+    "id": "q1506",
+    "content": "I attend as a midwife to the soul; the god compels me to foster the birth of truth in others, while withholding from me the power to produce it myself.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "i-attend-as-a-midwife-to-the-soul-the-god"
+  },
+  {
+    "day": 149,
+    "id": "q607",
+    "content": "Be kind, for everyone you meet is fighting a hard battle.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Love",
+    "mood": "serene",
+    "slug": "be-kind-for-everyone-you-meet-is-fighting-a-hard"
+  },
+  {
+    "day": 150,
+    "id": "q1606",
+    "content": "The activity of philosophical contemplation is admittedly the pleasantest of all virtuous activities; its pleasure is marvelously pure and enduring.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "the-activity-of-philosophical-contemplation-is-admittedly-the-pleasantest-of"
+  },
+  {
+    "day": 151,
+    "id": "q1101",
+    "content": "The Tao that can be spoken is not the eternal Tao. The name that can be named is not the eternal name.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-tao-that-can-be-spoken-is-not-the-eternal"
+  },
+  {
+    "day": 152,
+    "id": "q1203",
+    "content": "What is great in man is that he is a bridge and not an end: what can be loved in man is that he is an overture and a going under.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "what-is-great-in-man-is-that-he-is-a"
+  },
+  {
+    "day": 153,
+    "id": "q1313",
+    "content": "The mystery of life is not a problem to be solved, but a reality to be experienced.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-mystery-of-life-is-not-a-problem-to-be"
+  },
+  {
+    "day": 154,
+    "id": "q1412",
+    "content": "As far as we can discern, the sole purpose of human existence is to kindle a light in the darkness of mere being.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "as-far-as-we-can-discern-the-sole-purpose-of"
+  },
+  {
+    "day": 155,
+    "id": "q127",
+    "content": "When you do things from your soul, you feel a river moving in you, a joy.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "joyful",
+    "slug": "when-you-do-things-from-your-soul-you-feel-a"
+  },
+  {
+    "day": 156,
+    "id": "q513",
+    "content": "The real question is not whether life exists after death. The real question is whether you are alive before death.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "the-real-question-is-not-whether-life-exists-after-death"
+  },
+  {
+    "day": 157,
+    "id": "q493",
+    "content": "Because a thing seems difficult for you, do not think it impossible for any man to accomplish.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "because-a-thing-seems-difficult-for-you-do-not-think"
+  },
+  {
+    "day": 158,
+    "id": "q491",
+    "content": "Time discovers truth.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Truth",
+    "mood": "philosophical",
+    "slug": "time-discovers-truth"
+  },
+  {
+    "day": 159,
+    "id": "q1004",
+    "content": "Men are disturbed not by things, but by the view which they take of them.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "men-are-disturbed-not-by-things-but-by-the-view"
+  },
+  {
+    "day": 160,
+    "id": "q1507",
+    "content": "To know that which you know, and that which you do not know—this is the true nature of understanding.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "to-know-that-which-you-know-and-that-which-you"
+  },
+  {
+    "day": 161,
+    "id": "q608",
+    "content": "Bodily exercise, when compulsory, does no harm to the body; but knowledge acquired under compulsion obtains no hold on the mind.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "bodily-exercise-when-compulsory-does-no-harm-to-the-body"
+  },
+  {
+    "day": 162,
+    "id": "q1607",
+    "content": "He is happy who lives in accordance with complete virtue and is sufficiently equipped with external goods, not for some chance period but throughout a complete life.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "he-is-happy-who-lives-in-accordance-with-complete-virtue"
+  },
+  {
+    "day": 163,
+    "id": "q1102",
+    "content": "The unnamable is the eternally real. Naming is the origin of all particular things.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "the-unnamable-is-the-eternally-real-naming-is-the-origin"
+  },
+  {
+    "day": 164,
+    "id": "q1204",
+    "content": "I love those who do not know how to live unless by going under, for they are the ones who cross over.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "i-love-those-who-do-not-know-how-to-live"
+  },
+  {
+    "day": 165,
+    "id": "q1314",
+    "content": "If you cannot enjoy the present moment, you can never enjoy anything at all. For there is never any time at which you can live except the present.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "if-you-cannot-enjoy-the-present-moment-you-can-never"
+  },
+  {
+    "day": 166,
+    "id": "q1413",
+    "content": "Loneliness does not come from having no people about one, but from being unable to communicate the things that seem important to oneself.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "loneliness-does-not-come-from-having-no-people-about-one"
+  },
+  {
+    "day": 167,
+    "id": "q128",
+    "content": "Sell your cleverness and buy bewilderment.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "sell-your-cleverness-and-buy-bewilderment"
+  },
+  {
+    "day": 168,
+    "id": "q514",
+    "content": "Accept yourself as you are. And that is the most difficult thing in the world, because it goes against your training, your education, your culture.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "reflective",
+    "slug": "accept-yourself-as-you-are-and-that-is-the-most"
+  },
+  {
+    "day": 169,
+    "id": "q701",
+    "content": "The impediment to action advances action. What stands in the way becomes the way.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "the-impediment-to-action-advances-action-what-stands-in-the"
+  },
+  {
+    "day": 170,
+    "id": "q801",
+    "content": "A gem cannot be polished without friction, nor a man perfected without trials.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "a-gem-cannot-be-polished-without-friction-nor-a-man"
+  },
+  {
+    "day": 171,
+    "id": "q1005",
+    "content": "When we are hindered, or disturbed, or grieved, let us never attribute it to others, but to ourselves; that is, to our own principles.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "when-we-are-hindered-or-disturbed-or-grieved-let-us"
+  },
+  {
+    "day": 172,
+    "id": "q1508",
+    "content": "Let us follow the argument wherever, like a wind, it may lead us.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "let-us-follow-the-argument-wherever-like-a-wind-it"
+  },
+  {
+    "day": 173,
+    "id": "q609",
+    "content": "An empty vessel makes the loudest sound, so they that have the least wit are the greatest babblers.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "an-empty-vessel-makes-the-loudest-sound-so-they-that"
+  },
+  {
+    "day": 174,
+    "id": "q1608",
+    "content": "Those who wish to succeed must ask the right preliminary questions.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "those-who-wish-to-succeed-must-ask-the-right-preliminary"
+  },
+  {
+    "day": 175,
+    "id": "q1103",
+    "content": "Free from desire, you realize the mystery. Caught in desire, you see only the manifestations.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "free-from-desire-you-realize-the-mystery-caught-in-desire"
+  },
+  {
+    "day": 176,
+    "id": "q1205",
+    "content": "You must be ready to burn yourself in your own flame; how could you rise anew if you have not first become ashes?",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "you-must-be-ready-to-burn-yourself-in-your-own"
+  },
+  {
+    "day": 177,
+    "id": "q1315",
+    "content": "Tomorrow and plans for tomorrow can have no significance at all, unless you are in full contact with the reality of the present.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "tomorrow-and-plans-for-tomorrow-can-have-no-significance-at"
+  },
+  {
+    "day": 178,
+    "id": "q1414",
+    "content": "The pendulum of the mind oscillates between sense and nonsense, not between right and wrong.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-pendulum-of-the-mind-oscillates-between-sense-and-nonsense"
+  },
+  {
+    "day": 179,
+    "id": "q129",
+    "content": "Raise your words, not your voice. It is rain that grows flowers, not thunder.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "raise-your-words-not-your-voice-it-is-rain-that"
+  },
+  {
+    "day": 180,
+    "id": "q515",
+    "content": "A certain darkness is needed to see the stars.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "a-certain-darkness-is-needed-to-see-the-stars"
+  },
+  {
+    "day": 181,
+    "id": "q702",
+    "content": "Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "everything-we-hear-is-an-opinion-not-a-fact-everything"
+  },
+  {
+    "day": 182,
+    "id": "q802",
+    "content": "Until we have begun to go without them, we fail to realize how unnecessary many things are.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "until-we-have-begun-to-go-without-them-we-fail"
+  },
+  {
+    "day": 183,
+    "id": "q1006",
+    "content": "Demand not that events should happen as you wish; but wish them to happen as they do happen, and you will go on well.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "demand-not-that-events-should-happen-as-you-wish-but"
+  },
+  {
+    "day": 184,
+    "id": "q1509",
+    "content": "An unconsidered opinion is like an untamed beast; only through rigorous cross-examination does it yield true understanding.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "an-unconsidered-opinion-is-like-an-untamed-beast-only-through"
+  },
+  {
+    "day": 185,
+    "id": "q610",
+    "content": "There are two things a person should never be angry at: what they can help, and what they cannot.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Resilience",
+    "mood": "serene",
+    "slug": "there-are-two-things-a-person-should-never-be-angry"
+  },
+  {
+    "day": 186,
+    "id": "q1609",
+    "content": "Every craft and every inquiry, and similarly every action and pursuit, is thought to aim at some good; and for this reason the good has rightly been declared to be that at which all things aim.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "every-craft-and-every-inquiry-and-similarly-every-action-and"
+  },
+  {
+    "day": 187,
+    "id": "q1104",
+    "content": "When people see some things as beautiful, other things become ugly. When people see some things as good, other things become bad.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "when-people-see-some-things-as-beautiful-other-things-become"
+  },
+  {
+    "day": 188,
+    "id": "q1206",
+    "content": "Of all that is written, I love only what a person hath written with his blood. Write with blood, and thou wilt find that blood is spirit.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Creativity",
+    "mood": "bold",
+    "slug": "of-all-that-is-written-i-love-only-what-a"
+  },
+  {
+    "day": 189,
+    "id": "q1316",
+    "content": "Since it is in the present and only in the present that you live, there is no other reality than present reality.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "since-it-is-in-the-present-and-only-in-the"
+  },
+  {
+    "day": 190,
+    "id": "q1415",
+    "content": "Where wisdom reigns, there is no conflict between thinking and feeling.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "where-wisdom-reigns-there-is-no-conflict-between-thinking-and"
+  },
+  {
+    "day": 191,
+    "id": "q130",
+    "content": "Don't be satisfied with stories, how things have gone with others. Unfold your own myth.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "dont-be-satisfied-with-stories-how-things-have-gone-with"
+  },
+  {
+    "day": 192,
+    "id": "q516",
+    "content": "Truth is not something outside to be discovered, it is something inside to be realized.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Truth",
+    "mood": "philosophical",
+    "slug": "truth-is-not-something-outside-to-be-discovered-it-is"
+  },
+  {
+    "day": 193,
+    "id": "q703",
+    "content": "Choose not to be harmed—and you won't feel harmed. Don't feel harmed—and you haven't been.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "choose-not-to-be-harmedand-you-wont-feel-harmed-dont"
+  },
+  {
+    "day": 194,
+    "id": "q803",
+    "content": "He suffers more than is necessary, who suffers before it is necessary.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "he-suffers-more-than-is-necessary-who-suffers-before-it"
+  },
+  {
+    "day": 195,
+    "id": "q1007",
+    "content": "Sickness is a hindrance to the body, but not to your will, unless itself wills it.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "sickness-is-a-hindrance-to-the-body-but-not-to"
+  },
+  {
+    "day": 196,
+    "id": "q1510",
+    "content": "My barrenness of wisdom is no defect, but an invitation for truth to take birth in those who listen.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "my-barrenness-of-wisdom-is-no-defect-but-an-invitation"
+  },
+  {
+    "day": 197,
+    "id": "q611",
+    "content": "No one is more hated than he who speaks the truth.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "no-one-is-more-hated-than-he-who-speaks-the"
+  },
+  {
+    "day": 198,
+    "id": "q1610",
+    "content": "Pleasure in the job puts perfection in the work.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "pleasure-in-the-job-puts-perfection-in-the-work"
+  },
+  {
+    "day": 199,
+    "id": "q1105",
+    "content": "Being and non-being produce each other. Difficult and easy complete each other. Long and short define each other.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "being-and-non-being-produce-each-other-difficult-and-easy-complete"
+  },
+  {
+    "day": 200,
+    "id": "q1207",
+    "content": "He who climbs upon the highest mountains laughs at all tragedies, real or imaginary.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Resilience",
+    "mood": "joyful",
+    "slug": "he-who-climbs-upon-the-highest-mountains-laughs-at-all"
+  },
+  {
+    "day": 201,
+    "id": "q1317",
+    "content": "Never pretend to a love which you do not actually feel, for love is not within the power of the will.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Love",
+    "mood": "reflective",
+    "slug": "never-pretend-to-a-love-which-you-do-not-actually"
+  },
+  {
+    "day": 202,
+    "id": "q1416",
+    "content": "We cannot change anything unless we accept it. Condemnation does not liberate, it oppresses.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "we-cannot-change-anything-unless-we-accept-it-condemnation-does"
+  },
+  {
+    "day": 203,
+    "id": "q901",
+    "content": "Out beyond ideas of wrongdoing and rightdoing there is a field. I'll meet you there.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "mood": "serene",
+    "slug": "out-beyond-ideas-of-wrongdoing-and-rightdoing-there-is-a"
+  },
+  {
+    "day": 204,
+    "id": "q517",
+    "content": "Live intensely, live totally, here and now, for only the present moment is real.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "motivational",
+    "slug": "live-intensely-live-totally-here-and-now-for-only-the"
+  },
+  {
+    "day": 205,
+    "id": "q704",
+    "content": "It never ceases to amaze me: we all love ourselves more than other people, but care more about their opinion than our own.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "it-never-ceases-to-amaze-me-we-all-love-ourselves"
+  },
+  {
+    "day": 206,
+    "id": "q804",
+    "content": "Life is long if you know how to use it.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "life-is-long-if-you-know-how-to-use-it"
+  },
+  {
+    "day": 207,
+    "id": "q1008",
+    "content": "Lameness is an impediment to the leg, but not to the will; and say this to yourself with regard to everything that happens.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "lameness-is-an-impediment-to-the-leg-but-not-to"
+  },
+  {
+    "day": 208,
+    "id": "q1511",
+    "content": "To be afraid of death is only another form of thinking that one is wise when one is not; for it is to think that one knows what one does not know.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "to-be-afraid-of-death-is-only-another-form-of"
+  },
+  {
+    "day": 209,
+    "id": "q612",
+    "content": "A house that has a library in it has a soul.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "a-house-that-has-a-library-in-it-has-a"
+  },
+  {
+    "day": 210,
+    "id": "q1611",
+    "content": "No one would choose a life of possessing all good things on condition of being solitary, for man is a social being and naturally disposed to live with others.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "no-one-would-choose-a-life-of-possessing-all-good"
+  },
+  {
+    "day": 211,
+    "id": "q1106",
+    "content": "The Master acts without doing anything and teaches without saying anything.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-master-acts-without-doing-anything-and-teaches-without-saying"
+  },
+  {
+    "day": 212,
+    "id": "q1208",
+    "content": "I would believe only in a God that knows how to dance.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Spirituality",
+    "mood": "joyful",
+    "slug": "i-would-believe-only-in-a-god-that-knows-how"
+  },
+  {
+    "day": 213,
+    "id": "q1318",
+    "content": "You and I are all as much continuous with the physical universe as a wave is continuous with the ocean.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "you-and-i-are-all-as-much-continuous-with-the"
+  },
+  {
+    "day": 214,
+    "id": "q1417",
+    "content": "To find out what is truly individual in ourselves, profound reflection is needed; and suddenly we realize how uncommonly difficult the discovery of individuality is.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "to-find-out-what-is-truly-individual-in-ourselves-profound"
+  },
+  {
+    "day": 215,
+    "id": "q902",
+    "content": "Silence is the language of God, all else is poor translation.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "silence-is-the-language-of-god-all-else-is-poor"
+  },
+  {
+    "day": 216,
+    "id": "q518",
+    "content": "Love is the goal, life is the journey.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "love-is-the-goal-life-is-the-journey"
+  },
+  {
+    "day": 217,
+    "id": "q705",
+    "content": "Nowhere can man find a quieter or more untroubled retreat than in his own soul.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "nowhere-can-man-find-a-quieter-or-more-untroubled-retreat"
+  },
+  {
+    "day": 218,
+    "id": "q805",
+    "content": "No man was ever wise by chance.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "no-man-was-ever-wise-by-chance"
+  },
+  {
+    "day": 219,
+    "id": "q1009",
+    "content": "You may be unconquerable, if you enter into no combat in which it is not in your own power to conquer.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "you-may-be-unconquerable-if-you-enter-into-no-combat"
+  },
+  {
+    "day": 220,
+    "id": "q1512",
+    "content": "I only wish that wisdom were of a kind that could flow from that which is full into that which is empty, if we only touched each other.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "i-only-wish-that-wisdom-were-of-a-kind-that"
+  },
+  {
+    "day": 221,
+    "id": "q613",
+    "content": "Better a little which is well done, than a great deal imperfectly.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "better-a-little-which-is-well-done-than-a-great"
+  },
+  {
+    "day": 222,
+    "id": "q1612",
+    "content": "The truly good and prudent man bears all the chances of life with dignity and always does the best with what is available to him.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "the-truly-good-and-prudent-man-bears-all-the-chances"
+  },
+  {
+    "day": 223,
+    "id": "q1107",
+    "content": "Things arise and she lets them come; things disappear and she lets them go. She has but doesn't possess, acts but doesn't expect.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "things-arise-and-she-lets-them-come-things-disappear-and"
+  },
+  {
+    "day": 224,
+    "id": "q1209",
+    "content": "Not by wrath, but by laughter, do we slay. Come, let us slay the spirit of gravity!",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "not-by-wrath-but-by-laughter-do-we-slay-come"
+  },
+  {
+    "day": 225,
+    "id": "q1319",
+    "content": "The primary illusion is that I am a separate, lonely center of consciousness and action, placed in a world that is not me.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-primary-illusion-is-that-i-am-a-separate-lonely"
+  },
+  {
+    "day": 226,
+    "id": "q1418",
+    "content": "In each of us there is another whom we do not know. He speaks to us in dreams and tells us how differently he sees us from the way we see ourselves.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "in-each-of-us-there-is-another-whom-we-do"
+  },
+  {
+    "day": 227,
+    "id": "q903",
+    "content": "Don't grieve. Anything you lose comes round in another form.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "dont-grieve-anything-you-lose-comes-round-in-another-form"
+  },
+  {
+    "day": 228,
+    "id": "q519",
+    "content": "The mind: a beautiful servant, a dangerous master.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "the-mind-a-beautiful-servant-a-dangerous-master"
+  },
+  {
+    "day": 229,
+    "id": "q706",
+    "content": "Look well into thyself; there is a source of strength which will always spring up if thou wilt always look.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "look-well-into-thyself-there-is-a-source-of-strength"
+  },
+  {
+    "day": 230,
+    "id": "q806",
+    "content": "Every new beginning comes from some other beginning's end.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "every-new-beginning-comes-from-some-other-beginnings-end"
+  },
+  {
+    "day": 231,
+    "id": "q1010",
+    "content": "Remember that you must behave in life as at a dinner party. Is anything brought round to you? Put out your hand and take your share with moderation.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "remember-that-you-must-behave-in-life-as-at-a"
+  },
+  {
+    "day": 232,
+    "id": "q1513",
+    "content": "Do not value the applause of the crowd above the quiet verdict of reason.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "do-not-value-the-applause-of-the-crowd-above-the"
+  },
+  {
+    "day": 233,
+    "id": "q614",
+    "content": "The beginning is the most important part of the work.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "the-beginning-is-the-most-important-part-of-the-work"
+  },
+  {
+    "day": 234,
+    "id": "q1613",
+    "content": "A life of mere sensual indulgence makes human beings slavish in their tastes, preferring the life of grazing cattle.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "a-life-of-mere-sensual-indulgence-makes-human-beings-slavish"
+  },
+  {
+    "day": 235,
+    "id": "q1108",
+    "content": "When her work is done, she forgets it. That is why it lasts forever.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Leadership",
+    "mood": "reflective",
+    "slug": "when-her-work-is-done-she-forgets-it-that-is"
+  },
+  {
+    "day": 236,
+    "id": "q1210",
+    "content": "You have your way. I have my way. As for the right way, the correct way, and the only way, it does not exist.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "you-have-your-way-i-have-my-way-as-for"
+  },
+  {
+    "day": 237,
+    "id": "q1320",
+    "content": "You are that vast thing that you see far, far off with great telescopes.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "you-are-that-vast-thing-that-you-see-far-far"
+  },
+  {
+    "day": 238,
+    "id": "q1419",
+    "content": "Neurosis is always a substitute for legitimate suffering.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "neurosis-is-always-a-substitute-for-legitimate-suffering"
+  },
+  {
+    "day": 239,
+    "id": "q904",
+    "content": "Forget safety. Live where you fear to live. Destroy your reputation. Be notorious.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "forget-safety-live-where-you-fear-to-live-destroy-your"
+  },
+  {
+    "day": 240,
+    "id": "q520",
+    "content": "Nobody has the power to take two steps together; you can only take one step at a time.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "nobody-has-the-power-to-take-two-steps-together-you"
+  },
+  {
+    "day": 241,
+    "id": "q707",
+    "content": "Pass through this brief patch of time in harmony with nature, and come to your final resting place gracefully.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "pass-through-this-brief-patch-of-time-in-harmony-with"
+  },
+  {
+    "day": 242,
+    "id": "q807",
+    "content": "It is a rough road that leads to the heights of greatness.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "it-is-a-rough-road-that-leads-to-the-heights"
+  },
+  {
+    "day": 243,
+    "id": "q1011",
+    "content": "Does it pass you by? Do not stop it. Is it not yet come? Do not stretch your desire towards it, but wait till it reaches you.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "does-it-pass-you-by-do-not-stop-it-is"
+  },
+  {
+    "day": 244,
+    "id": "q1514",
+    "content": "He who knows what is right will do what is right, for no one voluntarily chooses that which he knows will harm his own nature.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "he-who-knows-what-is-right-will-do-what-is"
+  },
+  {
+    "day": 245,
+    "id": "q615",
+    "content": "Good people do not need laws to tell them to act responsibly, while bad people will find a way around the laws.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Leadership",
+    "mood": "philosophical",
+    "slug": "good-people-do-not-need-laws-to-tell-them-to"
+  },
+  {
+    "day": 246,
+    "id": "q1614",
+    "content": "To live well is to act well; for happiness is not a possession, but an active practice.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "to-live-well-is-to-act-well-for-happiness-is"
+  },
+  {
+    "day": 247,
+    "id": "q1109",
+    "content": "The supreme good is like water, which nourishes all of creation without trying to compete with it.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-supreme-good-is-like-water-which-nourishes-all-of"
+  },
+  {
+    "day": 248,
+    "id": "q1211",
+    "content": "The belly is the reason why man does not so readily take himself for a God.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-belly-is-the-reason-why-man-does-not-so"
+  },
+  {
+    "day": 249,
+    "id": "q1321",
+    "content": "You are not something that is a visitor on the earth and doesn't belong here. You are the earth.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Nature",
+    "mood": "serene",
+    "slug": "you-are-not-something-that-is-a-visitor-on-the"
+  },
+  {
+    "day": 250,
+    "id": "q1420",
+    "content": "Midlife is the time to let go of an overdominant ego and to contemplate the deeper significance of human existence.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "midlife-is-the-time-to-let-go-of-an-overdominant"
+  },
+  {
+    "day": 251,
+    "id": "q905",
+    "content": "You are not a drop in the ocean. You are the entire ocean in a drop.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Spirituality",
+    "mood": "philosophical",
+    "slug": "you-are-not-a-drop-in-the-ocean-you-are"
+  },
+  {
+    "day": 252,
+    "id": "q521",
+    "content": "Respect your uniqueness, and drop comparison. Relax into your being.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "serene",
+    "slug": "respect-your-uniqueness-and-drop-comparison-relax-into-your-being"
+  },
+  {
+    "day": 253,
+    "id": "q708",
+    "content": "You could leave life right now. Let that determine what you do and say and think.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "you-could-leave-life-right-now-let-that-determine-what"
+  },
+  {
+    "day": 254,
+    "id": "q808",
+    "content": "You act like mortals in all that you fear, and like immortals in all that you desire.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "you-act-like-mortals-in-all-that-you-fear-and"
+  },
+  {
+    "day": 255,
+    "id": "q1012",
+    "content": "Remember that you are an actor in a drama, of such a kind as the author pleases to make it. If short, of a short one; if long, of a long one.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "remember-that-you-are-an-actor-in-a-drama-of"
+  },
+  {
+    "day": 256,
+    "id": "q1515",
+    "content": "True understanding begins when one is stripped of the conceit of knowledge.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "true-understanding-begins-when-one-is-stripped-of-the-conceit"
+  },
+  {
+    "day": 257,
+    "id": "q616",
+    "content": "The price good men pay for indifference to public affairs is to be ruled by evil men.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "the-price-good-men-pay-for-indifference-to-public-affairs"
+  },
+  {
+    "day": 258,
+    "id": "q1615",
+    "content": "The end of labor is to gain leisure, and the end of war is to cultivate peace.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-end-of-labor-is-to-gain-leisure-and-the"
+  },
+  {
+    "day": 259,
+    "id": "q1110",
+    "content": "Water gathers in the low places that people disdain. Therefore it is like the Tao.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "water-gathers-in-the-low-places-that-people-disdain-therefore"
+  },
+  {
+    "day": 260,
+    "id": "q1212",
+    "content": "In loneliness, the lonely one eats himself; in a crowd, the many eat him. Now choose.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "in-loneliness-the-lonely-one-eats-himself-in-a-crowd"
+  },
+  {
+    "day": 261,
+    "id": "q1322",
+    "content": "How is it possible that a being with such sensitive jewels as the eyes, such enchanted musical instruments as the ears, should consider itself a lonely outsider in this universe?",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "how-is-it-possible-that-a-being-with-such-sensitive"
+  },
+  {
+    "day": 262,
+    "id": "q1421",
+    "content": "Show me a sane man and I will cure him for you.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "joyful",
+    "slug": "show-me-a-sane-man-and-i-will-cure-him"
+  },
+  {
+    "day": 263,
+    "id": "q906",
+    "content": "The cure for pain is in the pain.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Resilience",
+    "mood": "reflective",
+    "slug": "the-cure-for-pain-is-in-the-pain"
+  },
+  {
+    "day": 264,
+    "id": "q522",
+    "content": "In love the other is important; in lust oneself is important.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "reflective",
+    "slug": "in-love-the-other-is-important-in-lust-oneself-is"
+  },
+  {
+    "day": 265,
+    "id": "q709",
+    "content": "Do every act of your life as though it were the very last act of your life.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "do-every-act-of-your-life-as-though-it-were"
+  },
+  {
+    "day": 266,
+    "id": "q809",
+    "content": "Fire tests gold, suffering tests brave men.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "fire-tests-gold-suffering-tests-brave-men"
+  },
+  {
+    "day": 267,
+    "id": "q1013",
+    "content": "If it be the author's pleasure you should act a poor man, a cripple, a governor, or a private person, see that you act it naturally.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "if-it-be-the-authors-pleasure-you-should-act-a"
+  },
+  {
+    "day": 268,
+    "id": "q1516",
+    "content": "The god appointed me to the duty of leading the philosophical life, examining myself and examining others.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "the-god-appointed-me-to-the-duty-of-leading-the"
+  },
+  {
+    "day": 269,
+    "id": "q617",
+    "content": "Opinion is the medium between knowledge and ignorance.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "opinion-is-the-medium-between-knowledge-and-ignorance"
+  },
+  {
+    "day": 270,
+    "id": "q1616",
+    "content": "Misfortune reveals those who are not really friends.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Life",
+    "mood": "reflective",
+    "slug": "misfortune-reveals-those-who-are-not-really-friends"
+  },
+  {
+    "day": 271,
+    "id": "q1111",
+    "content": "In dwelling, live close to the ground. In thinking, keep to the simple. In conflict, be fair and generous.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "in-dwelling-live-close-to-the-ground-in-thinking-keep"
+  },
+  {
+    "day": 272,
+    "id": "q1213",
+    "content": "Flee, my friend, into your solitude! I see you stung by poisonous flies. Flee where a rough, strong breeze blows!",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "flee-my-friend-into-your-solitude-i-see-you-stung"
+  },
+  {
+    "day": 273,
+    "id": "q1323",
+    "content": "Waking up to who you are requires letting go of who you imagine yourself to be.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Spirituality",
+    "mood": "motivational",
+    "slug": "waking-up-to-who-you-are-requires-letting-go-of"
+  },
+  {
+    "day": 274,
+    "id": "q1422",
+    "content": "The greatest tragedy of the family is the unlived lives of the parents.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "the-greatest-tragedy-of-the-family-is-the-unlived-lives"
+  },
+  {
+    "day": 275,
+    "id": "q907",
+    "content": "Dance until you shatter yourself.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Creativity",
+    "mood": "joyful",
+    "slug": "dance-until-you-shatter-yourself"
+  },
+  {
+    "day": 276,
+    "id": "q523",
+    "content": "A single moment of total awareness is more valuable than a lifetime of unconsciousness.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "philosophical",
+    "slug": "a-single-moment-of-total-awareness-is-more-valuable-than"
+  },
+  {
+    "day": 277,
+    "id": "q710",
+    "content": "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "the-object-of-life-is-not-to-be-on-the"
+  },
+  {
+    "day": 278,
+    "id": "q810",
+    "content": "To be everywhere is to be nowhere.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "to-be-everywhere-is-to-be-nowhere"
+  },
+  {
+    "day": 279,
+    "id": "q1014",
+    "content": "For this is your business: to act well the character assigned you; to choose it belongs to another.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "for-this-is-your-business-to-act-well-the-character"
+  },
+  {
+    "day": 280,
+    "id": "q1517",
+    "content": "Speak, that I may see you; for the soul reveals its stature through the words it chooses.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "speak-that-i-may-see-you-for-the-soul-reveals"
+  },
+  {
+    "day": 281,
+    "id": "q618",
+    "content": "The direction in which education starts a man will determine his future in life.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "the-direction-in-which-education-starts-a-man-will-determine"
+  },
+  {
+    "day": 282,
+    "id": "q1617",
+    "content": "In the arena of human life, honors and rewards fall to those who show their good qualities in action.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "in-the-arena-of-human-life-honors-and-rewards-fall"
+  },
+  {
+    "day": 283,
+    "id": "q1112",
+    "content": "In governing, don't try to control. In work, do what you enjoy. In family life, be completely present.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Leadership",
+    "mood": "serene",
+    "slug": "in-governing-dont-try-to-control-in-work-do-what"
+  },
+  {
+    "day": 284,
+    "id": "q1214",
+    "content": "Where the state ceases—there begins the human being who is not superfluous: there begins the song of necessity, the unique and irreplaceable melody.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Leadership",
+    "mood": "philosophical",
+    "slug": "where-the-state-ceasesthere-begins-the-human-being-who-is"
+  },
+  {
+    "day": 285,
+    "id": "q1324",
+    "content": "The self is not a thing; it is a process, an ongoing happening.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-self-is-not-a-thing-it-is-a-process"
+  },
+  {
+    "day": 286,
+    "id": "q1423",
+    "content": "Where love rules, there is no will to power; and where power predominates, love is lacking. The one is the shadow of the other.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Love",
+    "mood": "philosophical",
+    "slug": "where-love-rules-there-is-no-will-to-power-and"
+  },
+  {
+    "day": 287,
+    "id": "q908",
+    "content": "Listen to the reed how it complains, telling a tale of separations.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Spirituality",
+    "mood": "melancholic",
+    "slug": "listen-to-the-reed-how-it-complains-telling-a-tale"
+  },
+  {
+    "day": 288,
+    "id": "q524",
+    "content": "Don't seek, don't search, don't ask, don't demand — relax. If you relax, it is there.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Mindfulness",
+    "mood": "serene",
+    "slug": "dont-seek-dont-search-dont-ask-dont-demand-relax-if"
+  },
+  {
+    "day": 289,
+    "id": "q711",
+    "content": "Perfection of character is this: to live each day as if it were your last, without frenzy, without apathy, without pretense.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "perfection-of-character-is-this-to-live-each-day-as"
+  },
+  {
+    "day": 290,
+    "id": "q811",
+    "content": "They lose the day in expectation of the night, and the night in fear of the dawn.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "melancholic",
+    "slug": "they-lose-the-day-in-expectation-of-the-night-and"
+  },
+  {
+    "day": 291,
+    "id": "q1015",
+    "content": "Let death and exile, and all other things which appear terrible, be daily before your eyes, but chiefly death; and you will never entertain any abject thought.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "philosophical",
+    "slug": "let-death-and-exile-and-all-other-things-which-appear"
+  },
+  {
+    "day": 292,
+    "id": "q1518",
+    "content": "I would rather die having spoken after my manner, than speak in your manner and live.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "i-would-rather-die-having-spoken-after-my-manner-than"
+  },
+  {
+    "day": 293,
+    "id": "q619",
+    "content": "He who is not a good servant will not be a good master.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "he-who-is-not-a-good-servant-will-not-be"
+  },
+  {
+    "day": 294,
+    "id": "q1618",
+    "content": "The life of money-making is a life of constraint, and wealth is clearly not the good we seek; for it is merely useful for the sake of something else.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "the-life-of-money-making-is-a-life-of-constraint-and"
+  },
+  {
+    "day": 295,
+    "id": "q1113",
+    "content": "When you are content to be simply yourself and don't compare or compete, everybody will respect you.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "when-you-are-content-to-be-simply-yourself-and-dont"
+  },
+  {
+    "day": 296,
+    "id": "q1215",
+    "content": "The creator seeks companions, not corpses, nor herds and believers. The creator seeks fellow creators.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Creativity",
+    "mood": "motivational",
+    "slug": "the-creator-seeks-companions-not-corpses-nor-herds-and-believers"
+  },
+  {
+    "day": 297,
+    "id": "q1325",
+    "content": "When you get the message, hang up the phone. For spiritual practices are just tools, not the living truth itself.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "when-you-get-the-message-hang-up-the-phone-for"
+  },
+  {
+    "day": 298,
+    "id": "q1424",
+    "content": "Synchronicity is an ever-present reality for those who have eyes to see.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "synchronicity-is-an-ever-present-reality-for-those-who-have-eyes"
+  },
+  {
+    "day": 299,
+    "id": "q909",
+    "content": "In the blackest of your moments, wait with no fear.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Resilience",
+    "mood": "serene",
+    "slug": "in-the-blackest-of-your-moments-wait-with-no-fear"
+  },
+  {
+    "day": 300,
+    "id": "q525",
+    "content": "Intelligence is dangerous. Intelligence means you will start thinking on your own; you will start looking around on your own.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "intelligence-is-dangerous-intelligence-means-you-will-start-thinking-on"
+  },
+  {
+    "day": 301,
+    "id": "q712",
+    "content": "How much more grievous are the consequences of anger than the causes of it.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "how-much-more-grievous-are-the-consequences-of-anger-than"
+  },
+  {
+    "day": 302,
+    "id": "q812",
+    "content": "Regard a friend as loyal, and you will make him loyal.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Love",
+    "mood": "serene",
+    "slug": "regard-a-friend-as-loyal-and-you-will-make-him"
+  },
+  {
+    "day": 303,
+    "id": "q1016",
+    "content": "If you desire philosophy, prepare yourself from the very first to be ridiculed and mocked by the multitude.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "if-you-desire-philosophy-prepare-yourself-from-the-very-first"
+  },
+  {
+    "day": 304,
+    "id": "q1519",
+    "content": "The first and greatest victory is to conquer oneself; to be conquered by one's own weakness is of all things most shameful.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "the-first-and-greatest-victory-is-to-conquer-oneself-to"
+  },
+  {
+    "day": 305,
+    "id": "q620",
+    "content": "Thinking is the talking of the soul with itself.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "thinking-is-the-talking-of-the-soul-with-itself"
+  },
+  {
+    "day": 306,
+    "id": "q1619",
+    "content": "We become just by performing just acts, temperate by performing temperate acts, and brave by performing brave acts.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "we-become-just-by-performing-just-acts-temperate-by-performing"
+  },
+  {
+    "day": 307,
+    "id": "q1114",
+    "content": "Fill your bowl to the brim and it will spill. Keep sharpening your knife and it will blunt.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "fill-your-bowl-to-the-brim-and-it-will-spill"
+  },
+  {
+    "day": 308,
+    "id": "q1216",
+    "content": "Are you a new strength and a new right? A first movement? A self-rolling wheel? Can you also compel stars to revolve around you?",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "are-you-a-new-strength-and-a-new-right-a"
+  },
+  {
+    "day": 309,
+    "id": "q1326",
+    "content": "Security is an illusion. The desire for security and the feeling of insecurity are the same thing.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "security-is-an-illusion-the-desire-for-security-and-the"
+  },
+  {
+    "day": 310,
+    "id": "q1425",
+    "content": "The creation of something new is not accomplished by the intellect, but by the play instinct acting from inner necessity.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Creativity",
+    "mood": "motivational",
+    "slug": "the-creation-of-something-new-is-not-accomplished-by-the"
+  },
+  {
+    "day": 311,
+    "id": "q910",
+    "content": "Travel brings power and love back into your life.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "joyful",
+    "slug": "travel-brings-power-and-love-back-into-your-life"
+  },
+  {
+    "day": 312,
+    "id": "q526",
+    "content": "Whenever you are afraid, try to explore, and you will find death hiding somewhere behind. All fear is of death.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "whenever-you-are-afraid-try-to-explore-and-you-will"
+  },
+  {
+    "day": 313,
+    "id": "q713",
+    "content": "Reject your sense of injury and the injury itself disappears.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "bold",
+    "slug": "reject-your-sense-of-injury-and-the-injury-itself-disappears"
+  },
+  {
+    "day": 314,
+    "id": "q813",
+    "content": "Cease to hope, and you will cease to fear.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "cease-to-hope-and-you-will-cease-to-fear"
+  },
+  {
+    "day": 315,
+    "id": "q1017",
+    "content": "Hold fast to those things which seem best to you, as one appointed by God to this post.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Leadership",
+    "mood": "motivational",
+    "slug": "hold-fast-to-those-things-which-seem-best-to-you"
+  },
+  {
+    "day": 316,
+    "id": "q1520",
+    "content": "We approach nearest to the gods when we have the fewest wants.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "we-approach-nearest-to-the-gods-when-we-have-the"
+  },
+  {
+    "day": 317,
+    "id": "q621",
+    "content": "Those who tell the stories rule society.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "those-who-tell-the-stories-rule-society"
+  },
+  {
+    "day": 318,
+    "id": "q1620",
+    "content": "Even in the midst of misfortunes, nobility of soul shines forth when a man bears many heavy burdens with calm patience, not from lack of feeling, but from greatness of heart.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Resilience",
+    "mood": "serene",
+    "slug": "even-in-the-midst-of-misfortunes-nobility-of-soul-shines"
+  },
+  {
+    "day": 319,
+    "id": "q1115",
+    "content": "Chase after money and security, and your heart will never unclench.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Philosophy",
+    "mood": "reflective",
+    "slug": "chase-after-money-and-security-and-your-heart-will-never"
+  },
+  {
+    "day": 320,
+    "id": "q1217",
+    "content": "Can you give yourself your own evil and your own good and hang your will above yourself like a law?",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "can-you-give-yourself-your-own-evil-and-your-own"
+  },
+  {
+    "day": 321,
+    "id": "q1327",
+    "content": "To breathe in, you must breathe out. To live, you must give up the clutch on life.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "to-breathe-in-you-must-breathe-out-to-live-you"
+  },
+  {
+    "day": 322,
+    "id": "q1426",
+    "content": "My soul, where are you? Do you hear me? I speak, I call you—are you there? I have returned, I am here again.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Spirituality",
+    "mood": "reflective",
+    "slug": "my-soul-where-are-you-do-you-hear-me-i"
+  },
+  {
+    "day": 323,
+    "id": "q911",
+    "content": "If you are irritated by every rub, how will your mirror be polished?",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "if-you-are-irritated-by-every-rub-how-will-your"
+  },
+  {
+    "day": 324,
+    "id": "q527",
+    "content": "Freedom is the highest value, and if love is not giving you freedom then it is not love. Freedom is the criteria.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "bold",
+    "slug": "freedom-is-the-highest-value-and-if-love-is-not"
+  },
+  {
+    "day": 325,
+    "id": "q714",
+    "content": "To live happily is an inward power of the soul.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Spirituality",
+    "mood": "serene",
+    "slug": "to-live-happily-is-an-inward-power-of-the-soul"
+  },
+  {
+    "day": 326,
+    "id": "q814",
+    "content": "There is no genius without a touch of madness.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "there-is-no-genius-without-a-touch-of-madness"
+  },
+  {
+    "day": 327,
+    "id": "q1018",
+    "content": "If you ever happen to turn your attention to externals in order to please anyone, be assured that you have ruined your scheme of life.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "if-you-ever-happen-to-turn-your-attention-to-externals"
+  },
+  {
+    "day": 328,
+    "id": "q1521",
+    "content": "Contentment is natural wealth; luxury is artificial poverty.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Life",
+    "mood": "reflective",
+    "slug": "contentment-is-natural-wealth-luxury-is-artificial-poverty"
+  },
+  {
+    "day": 329,
+    "id": "q622",
+    "content": "The greatest wealth is to live content with little.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "the-greatest-wealth-is-to-live-content-with-little"
+  },
+  {
+    "day": 330,
+    "id": "q1621",
+    "content": "Excellence is an art won by training and habituation.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Wisdom",
+    "mood": "motivational",
+    "slug": "excellence-is-an-art-won-by-training-and-habituation"
+  },
+  {
+    "day": 331,
+    "id": "q1116",
+    "content": "Care about people's approval and you will be their prisoner.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "care-about-peoples-approval-and-you-will-be-their-prisoner"
+  },
+  {
+    "day": 332,
+    "id": "q1218",
+    "content": "Can you be your own judge and the avenger of your own law? Terrible is it to be alone with the judge and the avenger of one's own law.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Resilience",
+    "mood": "reflective",
+    "slug": "can-you-be-your-own-judge-and-the-avenger-of"
+  },
+  {
+    "day": 333,
+    "id": "q1328",
+    "content": "If you try to capture water in a bucket, it stagnates. If you let it run free in the river, it remains pure and alive.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "if-you-try-to-capture-water-in-a-bucket-it"
+  },
+  {
+    "day": 334,
+    "id": "q1427",
+    "content": "If you have nothing at all to create, then perhaps you create yourself.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Creativity",
+    "mood": "bold",
+    "slug": "if-you-have-nothing-at-all-to-create-then-perhaps"
+  },
+  {
+    "day": 335,
+    "id": "q912",
+    "content": "Why do you stay in prison when the door is so wide open?",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "why-do-you-stay-in-prison-when-the-door-is"
+  },
+  {
+    "day": 336,
+    "id": "q528",
+    "content": "Each person comes into this world with a specific destiny — he has something to fulfill, some message has to be delivered, some work has to be completed.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "each-person-comes-into-this-world-with-a-specific-destiny"
+  },
+  {
+    "day": 337,
+    "id": "q715",
+    "content": "Do not act as if you had ten thousand years to throw away. Death stands at your elbow. Be good for something while you live and it is in your power.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "do-not-act-as-if-you-had-ten-thousand-years"
+  },
+  {
+    "day": 338,
+    "id": "q815",
+    "content": "A sword never kills anybody; it is a tool in the killer's hand.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "a-sword-never-kills-anybody-it-is-a-tool-in"
+  },
+  {
+    "day": 339,
+    "id": "q1019",
+    "content": "Be content, then, with being a philosopher in all things; and if you wish also to appear so to any one, appear so to yourself, and it will be enough.",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "be-content-then-with-being-a-philosopher-in-all-things"
+  },
+  {
+    "day": 340,
+    "id": "q1522",
+    "content": "He is richest who is content with the least, for contentment is the true abundance of nature.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "he-is-richest-who-is-content-with-the-least-for"
+  },
+  {
+    "day": 341,
+    "id": "q623",
+    "content": "Astronomy compels the soul to look upwards and leads us from this world to another.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Science",
+    "mood": "philosophical",
+    "slug": "astronomy-compels-the-soul-to-look-upwards-and-leads-us"
+  },
+  {
+    "day": 342,
+    "id": "q1622",
+    "content": "To appreciate the beauty of a day, one must have experienced the chill of the night.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Life",
+    "mood": "reflective",
+    "slug": "to-appreciate-the-beauty-of-a-day-one-must-have"
+  },
+  {
+    "day": 343,
+    "id": "q1117",
+    "content": "Do your work, then step back. The only path to serenity.",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "do-your-work-then-step-back-the-only-path-to"
+  },
+  {
+    "day": 344,
+    "id": "q1219",
+    "content": "Many a one cannot loosen his own fetters, but is nevertheless his friend's emancipator.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "many-a-one-cannot-loosen-his-own-fetters-but-is"
+  },
+  {
+    "day": 345,
+    "id": "q1329",
+    "content": "The more you try to hold on to your life, the more elusive it becomes. It is like trying to clasp water in your hand.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Philosophy",
+    "mood": "serene",
+    "slug": "the-more-you-try-to-hold-on-to-your-life"
+  },
+  {
+    "day": 346,
+    "id": "q1428",
+    "content": "I have learned that beyond the surface, there is another world; and beyond our daylight lies a profound darkness of the stars.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "i-have-learned-that-beyond-the-surface-there-is-another"
+  },
+  {
+    "day": 347,
+    "id": "q913",
+    "content": "Close your eyes, fall in love, stay there.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "close-your-eyes-fall-in-love-stay-there"
+  },
+  {
+    "day": 348,
+    "id": "q529",
+    "content": "Friendship is the purest love. It is the highest form of love where nothing is asked for, no condition, where one simply enjoys giving.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "friendship-is-the-purest-love-it-is-the-highest-form"
+  },
+  {
+    "day": 349,
+    "id": "q716",
+    "content": "Nothing happens to any man that he is not formed by nature to bear.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Resilience",
+    "mood": "motivational",
+    "slug": "nothing-happens-to-any-man-that-he-is-not-formed"
+  },
+  {
+    "day": 350,
+    "id": "q816",
+    "content": "Nothing is burdensome if taken lightly, and nothing need arouse your irritation so long as you don't make it irritate you.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Resilience",
+    "mood": "serene",
+    "slug": "nothing-is-burdensome-if-taken-lightly-and-nothing-need-arouse"
+  },
+  {
+    "day": 351,
+    "id": "q1020",
+    "content": "Never say about anything, 'I have lost it,' but only 'I have given it back.'",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "never-say-about-anything-i-have-lost-it-but-only"
+  },
+  {
+    "day": 352,
+    "id": "q1523",
+    "content": "Do not let the unexamined opinions of the multitude dictate the health of your soul.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Wisdom",
+    "mood": "bold",
+    "slug": "do-not-let-the-unexamined-opinions-of-the-multitude-dictate"
+  },
+  {
+    "day": 353,
+    "id": "q624",
+    "content": "All learning has an emotional base.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Wisdom",
+    "mood": "reflective",
+    "slug": "all-learning-has-an-emotional-base"
+  },
+  {
+    "day": 354,
+    "id": "q1623",
+    "content": "Man, when perfected, is the best of animals, but when separated from law and justice, he is the worst of all.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "bold",
+    "slug": "man-when-perfected-is-the-best-of-animals-but-when"
+  },
+  {
+    "day": 355,
+    "id": "q1118",
+    "content": "Can you coax your mind from its wandering and keep to the original oneness?",
+    "author": "Lao Tzu",
+    "authorSlug": "lao-tzu",
+    "category": "Spirituality",
+    "mood": "reflective",
+    "slug": "can-you-coax-your-mind-from-its-wandering-and-keep"
+  },
+  {
+    "day": 356,
+    "id": "q1220",
+    "content": "Are you a slave? Then you cannot be a friend. Are you a tyrant? Then you cannot have friends.",
+    "author": "Friedrich Nietzsche",
+    "authorSlug": "friedrich-nietzsche",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "are-you-a-slave-then-you-cannot-be-a-friend"
+  },
+  {
+    "day": 357,
+    "id": "q1330",
+    "content": "The backward law: the more you strive for happiness, the further away it retreats.",
+    "author": "Alan Watts",
+    "authorSlug": "alan-watts",
+    "category": "Wisdom",
+    "mood": "philosophical",
+    "slug": "the-backward-law-the-more-you-strive-for-happiness-the"
+  },
+  {
+    "day": 358,
+    "id": "q1429",
+    "content": "The spirit of the depths from time immemorial and for all the future possesses a greater power than the spirit of this time.",
+    "author": "Carl Jung",
+    "authorSlug": "carl-jung",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-spirit-of-the-depths-from-time-immemorial-and-for"
+  },
+  {
+    "day": 359,
+    "id": "q914",
+    "content": "Let the beauty of what you love be what you do.",
+    "author": "Rumi",
+    "authorSlug": "rumi",
+    "category": "Creativity",
+    "mood": "joyful",
+    "slug": "let-the-beauty-of-what-you-love-be-what-you"
+  },
+  {
+    "day": 360,
+    "id": "q530",
+    "content": "When you drop expectations, you have learned to live.",
+    "author": "Osho",
+    "authorSlug": "osho",
+    "category": "Wisdom",
+    "mood": "serene",
+    "slug": "when-you-drop-expectations-you-have-learned-to-live"
+  },
+  {
+    "day": 361,
+    "id": "q717",
+    "content": "Our life is what our thoughts make it.",
+    "author": "Marcus Aurelius",
+    "authorSlug": "marcus-aurelius",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "our-life-is-what-our-thoughts-make-it"
+  },
+  {
+    "day": 362,
+    "id": "q817",
+    "content": "He who spares the wicked injures the good.",
+    "author": "Seneca",
+    "authorSlug": "seneca",
+    "category": "Leadership",
+    "mood": "bold",
+    "slug": "he-who-spares-the-wicked-injures-the-good"
+  },
+  {
+    "day": 363,
+    "id": "q1021",
+    "content": "Is your child dead? It has been given back. Is your wife dead? She has been given back. Is your estate taken away? Well, and is not that likewise given back?",
+    "author": "Epictetus",
+    "authorSlug": "epictetus",
+    "category": "Resilience",
+    "mood": "philosophical",
+    "slug": "is-your-child-dead-it-has-been-given-back-is"
+  },
+  {
+    "day": 364,
+    "id": "q1524",
+    "content": "A life devoted solely to accumulation is a life lived in exile from the spirit.",
+    "author": "Socrates",
+    "authorSlug": "socrates",
+    "category": "Life",
+    "mood": "reflective",
+    "slug": "a-life-devoted-solely-to-accumulation-is-a-life-lived"
+  },
+  {
+    "day": 365,
+    "id": "q625",
+    "content": "Love is a serious mental disease.",
+    "author": "Plato",
+    "authorSlug": "plato",
+    "category": "Love",
+    "mood": "romantic",
+    "slug": "love-is-a-serious-mental-disease"
+  },
+  {
+    "day": 366,
+    "id": "q1624",
+    "content": "The best and most delightful thing for a man is to live in accordance with reason, for reason more than anything else is man.",
+    "author": "Aristotle",
+    "authorSlug": "aristotle",
+    "category": "Philosophy",
+    "mood": "philosophical",
+    "slug": "the-best-and-most-delightful-thing-for-a-man-is"
+  }
+]

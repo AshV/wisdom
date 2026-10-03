@@ -1,0 +1,92 @@
+---
+import { getCollection } from 'astro:content';
+import { BaseLayout, ReelFeed, slugifyQuote } from 'wiz-theme';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map(q => q.data);
+
+  // Pre-index quotes by category and mood in a single O(N) pass for instant buffer lookup
+  const quotesByCategory: Record<string, any[]> = {};
+  const quotesByMood: Record<string, any[]> = {};
+
+  for (const q of quotesData) {
+    if (!quotesByCategory[q.categorySlug]) quotesByCategory[q.categorySlug] = [];
+    quotesByCategory[q.categorySlug].push(q);
+    if (!quotesByMood[q.mood]) quotesByMood[q.mood] = [];
+    quotesByMood[q.mood].push(q);
+  }
+
+  // Generate canonical SEO landing page for every quote
+  return quotesData.map((quote) => {
+    const textSlug = slugifyQuote(quote.content);
+    const sameCat = quotesByCategory[quote.categorySlug] || [];
+    const sameMood = quotesByMood[quote.mood] || [];
+    const buffer = [...sameCat, ...sameMood].filter((q) => q.id !== quote.id).slice(0, 3);
+
+    return {
+      params: { slug: textSlug },
+      props: {
+        targetQuote: quote,
+        feedQuotes: [quote, ...buffer],
+      },
+    };
+  });
+};
+
+interface Props {
+  targetQuote: any;
+  feedQuotes: any[];
+}
+
+const { targetQuote, feedQuotes } = Astro.props;
+const { content, author, authorSlug, category, tags } = targetQuote;
+
+const textSlug = slugifyQuote(content);
+const canonicalUrl = `/wisdom/quote/${textSlug}/`;
+
+// Title and rich metadata for social preview cards & Google SEO
+const title = `“${content}” — ${author} | Wisdom`;
+const description = `“${content}” — Timeless wisdom on ${category} by ${author}. Explore curated quotes on Wisdom.`;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Quotation',
+  headline: `Quote by ${author}`,
+  text: content,
+  creator: {
+    '@type': 'Person',
+    name: author,
+  },
+  keywords: tags.join(', '),
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Wisdom',
+    url: 'https://www.ashishvishwakarma.com/wisdom/',
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  robots="noindex, follow, max-image-preview:large"
+  keywords={[...tags, author, category, 'wisdom quote', 'inspirational quotation']}
+  breadcrumbs={[
+    { name: 'Authors', url: '/wisdom/' },
+    { name: author, url: `/wisdom/author/${authorSlug}/` },
+    { name: `“${content.slice(0, 30)}...”`, url: canonicalUrl },
+  ]}
+>
+  <!-- Schema.org Quotation Rich Snippet for Google Search -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <ReelFeed
+    quotes={feedQuotes}
+    feedTitle={`Quote by ${author}`}
+    feedType="quote"
+    matchedCount={1}
+  />
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+/**
+ * Master Feed — All quotes, reverse-chronological.
+ */
+import { BaseLayout, ReelFeed, getDayOfYear } from 'wiz-theme';
+import { getCollection } from 'astro:content';
+import dailyQuotesData from '../../public/daily-quotes.json';
+
+const allQuotes = await getCollection('quotes');
+const CHUNK_SIZE = 200;
+const totalChunks = Math.ceil(allQuotes.length / CHUNK_SIZE);
+const dayOfYear = getDayOfYear(new Date());
+
+// Find today's daily reflection quote from curated daily-quotes
+const todayDailyEntry =
+  dailyQuotesData.find((dq) => dq.day === dayOfYear) ||
+  dailyQuotesData[dayOfYear % dailyQuotesData.length] ||
+  dailyQuotesData[0];
+
+const todayQuote =
+  allQuotes.find((q) => q.data.id === todayDailyEntry.id || q.id === todayDailyEntry.id)?.data ||
+  allQuotes[dayOfYear % allQuotes.length]?.data;
+
+// Filter out today's quote from the remaining pool
+const otherQuotes = allQuotes
+  .filter((q) => !todayQuote || (q.data.id !== todayQuote.id && q.id !== todayQuote.id))
+  .map((q) => q.data);
+
+// Rotate pool deterministically by day so the static HTML slice differs each day.
+// True per-session randomization happens client-side after chunk-1 is loaded.
+const startIndex = (dayOfYear * 17) % (otherQuotes.length || 1);
+const rotatedQuotes = [
+  ...otherQuotes.slice(startIndex),
+  ...otherQuotes.slice(0, startIndex),
+];
+
+// Keep initial HTML bundle small (12 slides) for fast FCP.
+// The client will eagerly load chunk-1 (~200 quotes) and inject fresh unseen
+// quotes into the feed before the user sees anything, giving true randomization.
+const quotes = todayQuote
+  ? [todayQuote, ...rotatedQuotes.slice(0, 11)]
+  : rotatedQuotes.slice(0, 12);
+---
+<BaseLayout title="Wisdom — Timeless Quotes, Reimagined">
+  <ReelFeed
+    quotes={quotes}
+    feedTitle="Wisdom"
+    feedType="master"
+    totalChunks={totalChunks}
+  />
+</BaseLayout>

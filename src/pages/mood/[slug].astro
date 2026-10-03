@@ -1,0 +1,54 @@
+---
+/**
+ * Mood Feed — Quotes filtered by mood.
+ */
+import { BaseLayout, ReelFeed, moodMeta, allMoods } from 'wiz-theme';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const allQuotes = await getCollection('quotes');
+  const quotesData = allQuotes.map((q) => q.data);
+
+  return allMoods.map((mood) => {
+    const matched = quotesData.filter((q) => q.mood === mood);
+    const remaining = quotesData.filter((q) => q.mood !== mood);
+    return {
+      params: { slug: mood },
+      props: {
+        quotes: [...matched, ...remaining.slice(0, 15)],
+        matchedCount: matched.length,
+        moodLabel: moodMeta[mood].label,
+        moodEmoji: moodMeta[mood].emoji,
+      },
+    };
+  });
+};
+
+interface Props {
+  quotes: any[];
+  matchedCount: number;
+  moodLabel: string;
+  moodEmoji: string;
+}
+
+const { slug } = Astro.params;
+const { quotes, matchedCount, moodLabel, moodEmoji } = Astro.props;
+---
+<BaseLayout
+  title={`${moodEmoji} ${moodLabel} Quotes — Wisdom`}
+  description={`Immerse in ${moodLabel.toLowerCase()} quotes and reflections with generative ambient animations on Wisdom.`}
+  keywords={[`${moodLabel} quotes`, moodLabel, 'mood quotes', 'wisdom', 'mindfulness', 'daily inspiration']}
+  breadcrumbs={[
+    { name: 'Moods', url: '/wisdom/' },
+    { name: `${moodEmoji} ${moodLabel}`, url: `/wisdom/mood/${slug}/` },
+  ]}
+>
+  <ReelFeed
+    quotes={quotes}
+    matchedCount={matchedCount}
+    filterLabel={`${moodEmoji} ${moodLabel} Reflections`}
+    feedTitle={`${moodEmoji} ${moodLabel}`}
+    feedType="mood"
+  />
+</BaseLayout>

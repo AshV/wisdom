@@ -23,30 +23,41 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Website (wiz-site)
         uses: actions/checkout@v4
+        with:
+          path: wiz-site
+
+      - name: Checkout Theme (wiz-theme)
+        uses: actions/checkout@v4
+        with:
+          repository: AshV/wiz-theme
+          path: wiz-theme
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+          cache-dependency-path: wiz-site/package-lock.json
 
       - name: Install dependencies
+        working-directory: wiz-site
         run: npm ci
 
       - name: Cache Astro & Vite incremental build artifacts
         uses: actions/cache@v4
         with:
           path: |
-            node_modules/.astro
-            node_modules/.vite
-          key: ${{ runner.os }}-wisdom-build-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+            wiz-site/node_modules/.astro
+            wiz-site/node_modules/.vite
+          key: ${{ runner.os }}-wisdom-build-${{ hashFiles('wiz-site/package-lock.json') }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-wisdom-build-${{ hashFiles('package-lock.json') }}-
+            ${{ runner.os }}-wisdom-build-${{ hashFiles('wiz-site/package-lock.json') }}-
             ${{ runner.os }}-wisdom-build-
 
       - name: Build
+        working-directory: wiz-site
         run: npm run build
         env:
           PUBLIC_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY || vars.PUBLIC_FIREBASE_API_KEY }}
@@ -57,7 +68,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./wiz-site/dist
 
   deploy:
     environment:

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting to Element...</title>
+
+  <!-- Immediate JavaScript Redirect -->
+  <script>
+    (function() {
+      var targetBase = 'https://www.ashishvishwakarma.com/element/';
+      var pathname = window.location.pathname || '';
+      
+      // Extract whatever comes after /wisdom/ or /wisdom
+      var subpath = pathname.replace(/^\/?wisdom\/?/, '');
+      
+      // Preserve subpath, query parameters, and hash
+      var redirectUrl = targetBase + (subpath ? subpath : '') + window.location.search + window.location.hash;
+      
+      window.location.replace(redirectUrl);
+    })();
+  </script>
+
+  <!-- Fallback meta refresh -->
+  <meta http-equiv="refresh" content="0; url=https://www.ashishvishwakarma.com/element/">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #0f1019;
+      color: #fbfbfe;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .redirect-card {
+      background: rgba(22, 24, 38, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8);
+      position: relative;
+      z-index: 10;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(139, 92, 246, 0.2);
+      border-top-color: #a78bfa;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="redirect-card">
+    <div class="spinner"></div>
+    <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; margin-bottom: 0.6rem; color: #fff;">
+      Redirecting to Element
+    </h2>
+    <p style="color: rgba(245, 245, 250, 0.7); font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.75rem;">
+      Forwarding you to the corresponding path on Element...
+    </p>
+    <a id="manual-link" href="https://www.ashishvishwakarma.com/element/" style="color: #a78bfa; font-size: 0.88rem; text-decoration: none; font-weight: 500;">
+      Click here if not redirected automatically →
+    </a>
+  </div>
+
+  <script>
+    var pathname = window.location.pathname || '';
+    var subpath = pathname.replace(/^\/?wisdom\/?/, '');
+    var url = 'https://www.ashishvishwakarma.com/element/' + (subpath ? subpath : '') + window.location.search + window.location.hash;
+    var manualLink = document.getElementById('manual-link');
+    if (manualLink) manualLink.href = url;
+  </script>
+</body>
+</html>

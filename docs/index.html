@@ -6,17 +6,30 @@
   <title>Wisdom — Immersive Quote Reel Theme for Astro</title>
   <meta name="description" content="Wisdom is a high-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, editorial modals, and single-language script support." />
   
+  <!-- Deep-link Route Redirection to Live Element App -->
+  <script>
+    (function() {
+      var targetBase = 'https://www.ashishvishwakarma.com/element/';
+      var pathname = window.location.pathname || '';
+      var subpath = pathname.replace(/^\/?wisdom\/?/, '');
+      if (subpath && subpath !== 'index.html' && subpath !== 'index') {
+        var redirectUrl = targetBase + subpath + window.location.search + window.location.hash;
+        window.location.replace(redirectUrl);
+      }
+    })();
+  </script>
+
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://ashv.github.io/wisdom/" />
+  <link rel="canonical" href="https://www.ashishvishwakarma.com/wisdom/" />
 
   <!-- Primary OpenGraph Meta Tags -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Wisdom" />
-  <meta property="og:url" content="https://ashv.github.io/wisdom/" />
+  <meta property="og:url" content="https://www.ashishvishwakarma.com/wisdom/" />
   <meta property="og:title" content="Wisdom — Immersive Quote Reel Theme for Astro" />
   <meta property="og:description" content="High-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, editorial modals, and single-language script support." />
-  <meta property="og:image" content="https://ashv.github.io/wisdom/og-image.png" />
-  <meta property="og:image:secure_url" content="https://ashv.github.io/wisdom/og-image.png" />
+  <meta property="og:image" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
+  <meta property="og:image:secure_url" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -25,10 +38,10 @@
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://ashv.github.io/wisdom/" />
+  <meta name="twitter:url" content="https://www.ashishvishwakarma.com/wisdom/" />
   <meta name="twitter:title" content="Wisdom — Immersive Quote Reel Theme for Astro" />
   <meta name="twitter:description" content="High-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, and 9:16 social cards." />
-  <meta name="twitter:image" content="https://ashv.github.io/wisdom/og-image.png" />
+  <meta name="twitter:image" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
   <meta name="twitter:image:alt" content="Wisdom — Immersive Quote Reel Theme for Astro Banner" />
 
   <!-- Favicon -->
@@ -72,6 +85,10 @@
 
         <!-- Right Header Actions -->
         <div class="header-right">
+          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="install-pill-btn" style="background: rgba(139, 92, 246, 0.22); border-color: rgba(139, 92, 246, 0.45); color: #fff; font-weight: 600;" title="Live Quote Reel at /element/">
+            <span>▶</span> <span>Live Demo</span>
+          </a>
+
           <button id="header-install-btn" class="install-pill-btn" data-copy-target="install-code-snippet" title="Copy install command">
             <span>npm i wiz-theme</span>
             <span id="install-code-snippet" style="display: none;">npm install wiz-theme</span>
@@ -110,7 +127,10 @@
           </p>
 
           <div class="hero-actions">
-            <a href="#quickstart" class="btn-primary">
+            <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              <span>▶</span> Live Reel Demo (तत्व)
+            </a>
+            <a href="#quickstart" class="btn-secondary">
               <span>⚡</span> Quickstart Guide
             </a>
             <a href="#preview" class="btn-secondary">
@@ -574,6 +594,7 @@ npx wiz-theme generate --all</code></pre>
           <a href="#typography">Typography</a>
           <a href="#quickstart">Quickstart</a>
           <a href="#config">Config Reference</a>
+          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer">Live Demo (Element) ↗</a>
           <a href="https://github.com/AshV/wisdom" target="_blank" rel="noopener noreferrer">GitHub Repository ↗</a>
         </nav>
         <p>

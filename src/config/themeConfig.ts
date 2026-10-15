@@ -3,7 +3,7 @@ import { getTranslations } from '../i18n';
 import type { TypographyConfig } from './typography';
 import { getTypographyConfig } from './typography';
 
-export interface WizThemeConfig {
+export interface WisdomThemeConfig {
   language?: string;
   locale?: string;
   dir?: 'ltr' | 'rtl';
@@ -23,6 +23,8 @@ export interface WizThemeConfig {
   typography?: Partial<TypographyConfig>;
   translations?: DeepPartial<Translations>;
 }
+
+export type WizThemeConfig = WisdomThemeConfig;
 
 export interface ResolvedThemeConfig {
   language: string;
@@ -44,9 +46,13 @@ export interface ResolvedThemeConfig {
   translations: Translations;
 }
 
-declare const __WIZ_THEME_INTEGRATION_OPTIONS__: WizThemeConfig | undefined;
+declare const __WISDOM_THEME_INTEGRATION_OPTIONS__: WisdomThemeConfig | undefined;
+declare const __WIZ_THEME_INTEGRATION_OPTIONS__: WisdomThemeConfig | undefined;
 
-export function getIntegrationConfig(): WizThemeConfig {
+export function getIntegrationConfig(): WisdomThemeConfig {
+  if (typeof __WISDOM_THEME_INTEGRATION_OPTIONS__ !== 'undefined') {
+    return __WISDOM_THEME_INTEGRATION_OPTIONS__;
+  }
   if (typeof __WIZ_THEME_INTEGRATION_OPTIONS__ !== 'undefined') {
     return __WIZ_THEME_INTEGRATION_OPTIONS__;
   }
@@ -67,7 +73,7 @@ const DEFAULT_LOCALES: Record<string, string> = {
 };
 
 export function resolveThemeConfig(
-  userConfig?: Partial<WizThemeConfig>
+  userConfig?: Partial<WisdomThemeConfig>
 ): ResolvedThemeConfig {
   const integrationConfig = getIntegrationConfig();
   const merged = { ...integrationConfig, ...userConfig };
@@ -129,6 +135,7 @@ export function resolveThemeConfig(
   };
 }
 
-export function defineWizConfig(config: WizThemeConfig): WizThemeConfig {
+export function defineWisdomConfig(config: WisdomThemeConfig): WisdomThemeConfig {
   return config;
 }
+export const defineWizConfig = defineWisdomConfig;

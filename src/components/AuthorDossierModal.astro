@@ -332,7 +332,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     if (!slug) return null;
     if (_authorCache[slug]) return _authorCache[slug];
     try {
-      const base = window.__wisdomBaseUrl || '/wisdom';
+      const base = window.__wisdomBaseUrl ?? '';
       const res = await fetch(`${base}/api/authors/${slug}.json`);
       if (res.ok) {
         const data = await res.json();

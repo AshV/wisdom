@@ -627,7 +627,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    const brandingDomain = themeCfg.brandingText || 'wiz-theme';
+    const brandingDomain = themeCfg.brandingText || 'wisdom';
     const watermarkText = quote.id
       ? `${brandingDomain}/${quote.id.toLowerCase()}`
       : brandingDomain;

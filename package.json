@@ -1,10 +1,11 @@
 {
-  "name": "wiz-theme",
+  "name": "wisdom",
   "version": "1.0.0",
   "description": "High-performance immersive quote reel theme for Astro with dynamic shaders, ambient audio, and editorial modals",
   "type": "module",
   "main": "./src/index.ts",
   "bin": {
+    "wisdom": "./bin/generate.js",
     "wiz-theme": "./bin/generate.js",
     "wiz-admin": "./bin/admin.js"
   },

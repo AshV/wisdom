@@ -111,12 +111,22 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       name: themeConfig.siteTitle,
       item: `${siteUrl}${BASE}/`,
     },
-    ...breadcrumbs.map((b, idx) => ({
-      '@type': 'ListItem',
-      position: idx + 2,
-      name: b.name,
-      item: new URL(b.url, Astro.site).toString(),
-    })),
+    ...breadcrumbs.map((b, idx) => {
+      let resolvedItem: string;
+      if (b.url.startsWith('http://') || b.url.startsWith('https://')) {
+        resolvedItem = b.url;
+      } else {
+        const cleanPath = b.url.replace(/^\/+/, "");
+        const fullPath = BASE ? `${BASE}/${cleanPath}` : `/${cleanPath}`;
+        resolvedItem = `${siteUrl}${fullPath}`;
+      }
+      return {
+        '@type': 'ListItem',
+        position: idx + 2,
+        name: b.name,
+        item: resolvedItem,
+      };
+    }),
   ],
 } : null;
 ---
@@ -197,8 +207,9 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
   <body class="bg-surface text-text-primary overflow-hidden no-select">
     <!-- Inject Global Client Theme Configuration -->
     <script is:inline define:vars={{ configJson: JSON.stringify(themeConfig), BASE }}>
-      window.__wizThemeConfig = JSON.parse(configJson);
-      window.__wisdomBaseUrl = window.__wizThemeConfig.base || BASE || '';
+      window.__wisdomThemeConfig = JSON.parse(configJson);
+      window.__wizThemeConfig = window.__wisdomThemeConfig;
+      window.__wisdomBaseUrl = window.__wisdomThemeConfig.base || BASE || '';
     </script>
 
     <!-- Global Atmospheric Canvas & Fluid Aura -->

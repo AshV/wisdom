@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * wiz-theme admin dashboard
+ * wisdom admin dashboard
  *
  * Usage (from theme consumer's project root):
- *   npx wiz-theme admin
+ *   npx wisdom admin
  *   npx wiz-theme admin --port 4242 --data ./src/data
  */
 
@@ -66,7 +66,7 @@ function detectConsumerId() {
       const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
       if (pkg.name) {
         const clean = pkg.name.replace(/^@[^/]+\//, '').replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
-        if (clean && clean !== 'wiz-theme') return clean;
+        if (clean && clean !== 'wiz-theme' && clean !== 'wisdom') return clean;
       }
     }
   } catch {}

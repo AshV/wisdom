@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * wiz-theme bulk video generator
+ * wisdom bulk video generator
  * 
  * Usage:
- * npx wiz-theme generate-videos --url http://localhost:4321
+ * npx wisdom generate-videos --url http://localhost:4321
  * 
  * This script uses Puppeteer to navigate to your Astro site, automatically discover
  * all quotes, and trigger the native 10-second video rendering sequence for each.

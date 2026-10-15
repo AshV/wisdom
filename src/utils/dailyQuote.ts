@@ -27,15 +27,23 @@ export function getDayOfYear(date: Date = new Date()): number {
 /**
  * Fetches the daily reflection quote for the current day.
  */
-export async function fetchDailyQuote(date: Date = new Date(), baseUrl = '/wisdom'): Promise<DailyReflectionQuote | null> {
+export async function fetchDailyQuote(date: Date = new Date(), baseUrl?: string): Promise<DailyReflectionQuote | null> {
   try {
     const day = getDayOfYear(date);
-    const res = await fetch(`${baseUrl}/daily-quotes.json`);
+    const resolvedBase = baseUrl !== undefined
+      ? baseUrl.replace(/\/+$/, "")
+      : (typeof window !== "undefined" && (window as any).__wisdomBaseUrl !== undefined
+          ? (window as any).__wisdomBaseUrl.replace(/\/+$/, "")
+          : (typeof import.meta !== "undefined" && import.meta.env?.BASE_URL
+              ? import.meta.env.BASE_URL.replace(/\/+$/, "")
+              : ""));
+    const url = resolvedBase ? `${resolvedBase}/daily-quotes.json` : "/daily-quotes.json";
+    const res = await fetch(url);
     if (!res.ok) return null;
     const quotes: DailyReflectionQuote[] = await res.json();
     return quotes.find((q) => q.day === day) || quotes[day % quotes.length] || quotes[0] || null;
   } catch (err) {
-    console.debug('Failed to fetch daily quote:', err);
+    console.debug("Failed to fetch daily quote:", err);
     return null;
   }
 }

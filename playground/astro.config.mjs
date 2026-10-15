@@ -10,6 +10,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     resolve: {
       alias: {
+        'wisdom': path.resolve(__dirname, '../src/index.ts'),
         'wiz-theme': path.resolve(__dirname, '../src/index.ts'),
       },
     },

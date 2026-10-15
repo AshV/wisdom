@@ -2,6 +2,8 @@
 
 > High-performance immersive quote reel theme for **Astro** featuring dynamic shaders, ambient zen chimes, editorial modals, and full single-language script support (Hindi, Devanagari, English, and custom scripts).
 
+🔗 **Live Showcase & Theme Playground:** [https://ashv.github.io/wisdom/](https://ashv.github.io/wisdom/)
+
 ---
 
 ## Features

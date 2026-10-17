@@ -1,4 +1,6 @@
 import { getTranslations } from '../i18n';
+import fs from 'node:fs';
+import path from 'node:path';
 
 export interface AuthorWork {
   title: string;
@@ -32,15 +34,44 @@ export function getAuthorPhotoUrl(slug: string, customPhoto?: string, baseUrl: s
   return `${cleanBase}/media/authors/${slug}.webp`;
 }
 
-export const authorProfiles: Record<string, AuthorProfile> = {};
+/**
+ * Loads all author profiles from src/data/authors/*.json in the consuming project.
+ * Returns a slug-keyed map. Used where the full author map is needed (e.g. API routes).
+ */
+export function loadAuthorProfiles(dataDir?: string): Record<string, AuthorProfile> {
+  const dir = dataDir ?? path.resolve(process.cwd(), 'src/data/authors');
+  if (!fs.existsSync(dir)) return {};
 
-export function setAuthorProfiles(profiles: Record<string, AuthorProfile>) {
-  Object.assign(authorProfiles, profiles);
+  const profiles: Record<string, AuthorProfile> = {};
+  for (const file of fs.readdirSync(dir)) {
+    if (!file.endsWith('.json')) continue;
+    try {
+      const data = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as AuthorProfile;
+      if (data.slug) profiles[data.slug] = data;
+    } catch {
+      // skip malformed files silently
+    }
+  }
+  return profiles;
 }
 
+/**
+ * Gets a single author profile by slug.
+ * Reads from src/data/authors/<slug>.json at build time.
+ * Falls back to a generated minimal profile if the file does not exist.
+ */
 export function getAuthorProfile(slug: string, fallbackName?: string, lang: string = 'en'): AuthorProfile {
-  if (authorProfiles[slug]) return authorProfiles[slug];
-  const name = fallbackName || slug.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+  const filePath = path.resolve(process.cwd(), `src/data/authors/${slug}.json`);
+  if (fs.existsSync(filePath)) {
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf8')) as AuthorProfile;
+    } catch {
+      // fall through to generated fallback
+    }
+  }
+
+  // Fallback: generate a minimal profile from slug/name
+  const name = fallbackName || slug.split('-').map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
   const t = getTranslations(lang);
   const isHi = lang.toLowerCase().startsWith('hi');
   const wikiLang = isHi ? 'hi' : 'en';

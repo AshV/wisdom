@@ -16,7 +16,7 @@
  */
 import { getExploreCatalog } from '../data/exploreCatalog';
 import { moodMeta, allMoods, getLocalizedMoodMeta } from '../data/mediaRegistry';
-import { authorProfiles } from '../data/authorProfiles';
+import { loadAuthorProfiles } from '../data/authorProfiles';
 import { slugifyQuote } from '../utils/slug';
 import { resolveThemeConfig } from '../config/themeConfig';
 import type { WizThemeConfig } from '../config/themeConfig';
@@ -58,6 +58,8 @@ const {
   allAuthors,
   popularTags,
 } = await getExploreCatalog();
+
+const authorProfiles = loadAuthorProfiles();
 
 const categoryIcons: Record<string, string> = {
   philosophy: '🏛️',

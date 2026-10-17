@@ -7,7 +7,8 @@
   "bin": {
     "wisdom": "./bin/generate.js",
     "wiz-theme": "./bin/generate.js",
-    "wiz-admin": "./bin/admin.js"
+    "wiz-admin": "./bin/admin.js",
+    "wiz-export-authors": "./bin/export-authors.mjs"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -30,7 +31,8 @@
     "dev": "astro dev --root ./playground",
     "build": "astro build --root ./playground",
     "preview": "astro preview --root ./playground",
-    "admin": "node ./bin/admin.js"
+    "admin": "node ./bin/admin.js",
+    "export:authors": "node ./bin/export-authors.mjs"
   },
   "peerDependencies": {
     "astro": "^5.0.0 || ^7.0.0",

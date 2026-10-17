@@ -60,4 +60,5 @@ export * from "./utils/authorUtils";
 export * from "./utils/firebaseStats";
 export * from "./data/mediaRegistry";
 export * from "./data/exploreCatalog";
-export * from "./data/authorProfiles";
+export type { AuthorProfile, AuthorWork, PhilosophicalPillar } from "./data/authorProfiles";
+export { getAuthorPhotoUrl, getAuthorProfile, loadAuthorProfiles } from "./data/authorProfiles";

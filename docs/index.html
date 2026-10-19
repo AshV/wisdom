@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wisdom — Immersive Quote Reel Theme for Astro</title>
-  <meta name="description" content="Wisdom is a high-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, editorial modals, and single-language script support." />
+  <meta name="description" content="Wisdom is an ultra-modern, high-performance Astro theme for immersive quote reels in English, Hindi, and Spanish. Explore live deployments: Element, Tatva, and Elemento." />
   
   <!-- Deep-link Route Redirection to Live Element App -->
   <script>
@@ -27,22 +27,21 @@
   <meta property="og:site_name" content="Wisdom" />
   <meta property="og:url" content="https://www.ashishvishwakarma.com/wisdom/" />
   <meta property="og:title" content="Wisdom — Immersive Quote Reel Theme for Astro" />
-  <meta property="og:description" content="High-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, editorial modals, and single-language script support." />
+  <meta property="og:description" content="High-performance immersive quote reel theme for Astro. Live deployments in English (Element), Hindi (Tatva), and Spanish (Elemento)." />
   <meta property="og:image" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
   <meta property="og:image:secure_url" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Wisdom — Immersive Quote Reel Theme for Astro Banner" />
+  <meta property="og:image:alt" content="Wisdom Theme Showcase Banner" />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:url" content="https://www.ashishvishwakarma.com/wisdom/" />
   <meta name="twitter:title" content="Wisdom — Immersive Quote Reel Theme for Astro" />
-  <meta name="twitter:description" content="High-performance immersive quote reel theme for Astro featuring dynamic shaders, ambient zen chimes, and 9:16 social cards." />
+  <meta name="twitter:description" content="High-performance immersive quote reel theme for Astro with live multilingual showcase." />
   <meta name="twitter:image" content="https://www.ashishvishwakarma.com/wisdom/og-image.png" />
-  <meta name="twitter:image:alt" content="Wisdom — Immersive Quote Reel Theme for Astro Banner" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
@@ -50,46 +49,41 @@
   <!-- Google Fonts Preload -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Mukta:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Rozha+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Mukta:wght@400;500;600;700&family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Rozha+One&display=swap" rel="stylesheet" />
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-  <!-- Ambient CSS Glow Orbs (0 JS loops, 100% stable) -->
+  <!-- Ambient CSS Glow Orbs -->
   <div class="ambient-bg" aria-hidden="true">
     <div class="ambient-glow-1"></div>
     <div class="ambient-glow-2"></div>
-    <div class="ambient-vignette"></div>
   </div>
 
   <div class="app-container">
     <!-- Header -->
     <header class="site-header">
       <div class="content-wrapper header-inner">
-        <a href="#" class="brand-link">
+        <a href="#" class="brand-link" aria-label="Wisdom Home">
           <div class="brand-icon">✦</div>
           <span class="brand-text">Wisdom</span>
-          <span class="brand-badge">ASTRO</span>
+          <span class="brand-badge">ASTRO THEME</span>
         </a>
 
         <!-- Desktop Navigation -->
         <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
-          <a href="#overview" class="nav-link">Overview</a>
-          <a href="#preview" class="nav-link">Preview</a>
+          <a href="#showcase" class="nav-link">Live Showcase</a>
+          <a href="#studio" class="nav-link">Reel Studio</a>
           <a href="#features" class="nav-link">Features</a>
           <a href="#typography" class="nav-link">Typography</a>
           <a href="#quickstart" class="nav-link">Quickstart</a>
-          <a href="#config" class="nav-link">Config Reference</a>
+          <a href="#config" class="nav-link">API Config</a>
         </nav>
 
         <!-- Right Header Actions -->
         <div class="header-right">
-          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="install-pill-btn" style="background: rgba(139, 92, 246, 0.22); border-color: rgba(139, 92, 246, 0.45); color: #fff; font-weight: 600;" title="Live Quote Reel at /element/">
-            <span>▶</span> <span>Live Demo</span>
-          </a>
-
-          <button id="header-install-btn" class="install-pill-btn" data-copy-target="install-code-snippet" title="Copy install command">
+          <button id="header-install-btn" class="install-pill-btn" data-copy-target="install-code-snippet" title="Click to copy install command">
             <span>npm i wiz-theme</span>
             <span id="install-code-snippet" style="display: none;">npm install wiz-theme</span>
           </button>
@@ -117,89 +111,219 @@
       <section id="overview" class="hero-section">
         <div class="content-wrapper">
           <div class="hero-pill-badge">
-            <span>✦</span> ASTRO THEME • DEVANAGARI & LATIN • OPEN SOURCE
+            <span>✦</span> ASTRO THEME • MULTILINGUAL REELS • OPEN SOURCE
           </div>
 
           <h1 class="hero-heading">Wisdom</h1>
 
           <p class="hero-subheading">
-            High-performance immersive quote reel theme for <strong>Astro</strong> featuring dynamic shaders, ambient zen chimes, editorial modals, and single-language script support.
+            An ultra-performance quote reel theme for <strong>Astro</strong>. Built for contemplative reading, vertical scroll reels, and native multilingual typography across English, Hindi, and Spanish.
           </p>
 
           <div class="hero-actions">
-            <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-              <span>▶</span> Live Reel Demo (तत्व)
+            <a href="#showcase" class="btn-primary">
+              <span>▶</span> Explore 3 Live Websites
+            </a>
+            <a href="#studio" class="btn-secondary">
+              <span>📱</span> Interactive Studio
             </a>
             <a href="#quickstart" class="btn-secondary">
               <span>⚡</span> Quickstart Guide
-            </a>
-            <a href="#preview" class="btn-secondary">
-              <span>✦</span> Theme Preview
             </a>
             <a href="https://github.com/AshV/wisdom" target="_blank" rel="noopener noreferrer" class="btn-secondary">
               <span>↗</span> GitHub
             </a>
           </div>
+
+          <!-- Quick Metrics Banner -->
+          <div class="hero-metrics">
+            <div class="metric-item">
+              <span class="metric-value">3 Editions</span>
+              <span class="metric-label">EN • HI • ES</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">5,600+</span>
+              <span class="metric-label">Quotes & Dohas</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">9:16 Ultra-HD</span>
+              <span class="metric-label">Keepsake Cards</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">100 / 100</span>
+              <span class="metric-label">Lighthouse Static</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- ═══════════ MINIMAL THEME PREVIEW SECTION ═══════════ -->
-      <section id="preview" class="preview-section">
+      <!-- ═══════════ LIVE WEBSITES SHOWCASE SECTION ═══════════ -->
+      <section id="showcase" class="showcase-section">
         <div class="content-wrapper">
           <div class="section-header">
-            <span class="section-tag">Visual Preview</span>
-            <h2 class="section-title">The Wisdom Reading Canvas</h2>
+            <span class="section-tag">Live Production Showcase</span>
+            <h2 class="section-title">Three Languages. One Engine.</h2>
             <p class="section-desc">
-              Experience the minimal, high-impact aesthetic rendered by the Wisdom theme out-of-the-box.
+              Explore live consumer websites powered by the Wisdom theme. Each site is individually curated and optimized for its script, culture, and literary heritage.
             </p>
           </div>
 
-          <!-- Preview Switcher Pills -->
-          <div class="preview-tabs" role="tablist">
-            <button class="preview-tab-btn active" data-tab="0">1. Reflective (English / Rumi)</button>
-            <button class="preview-tab-btn" data-tab="1">2. Philosophical (Hindi / कबीर दास)</button>
-            <button class="preview-tab-btn" data-tab="2">3. Serene (Marcus Aurelius)</button>
-          </div>
+          <div class="showcase-grid">
+            <!-- 1. Element (English) -->
+            <article class="showcase-card card-en">
+              <div>
+                <div class="showcase-card-header">
+                  <div class="showcase-flag-badge" title="English Edition">🇬🇧</div>
+                  <div class="showcase-status">
+                    <span class="showcase-status-dot"></span>
+                    <span>Live App</span>
+                  </div>
+                </div>
 
-          <!-- Preview Mockup Card -->
-          <div class="preview-card-container">
-            <article id="preview-card" class="preview-card">
-              <!-- Top Header Meta -->
-              <div class="preview-card-top">
-                <div class="preview-card-brand">
-                  <span>Wisdom</span>
-                  <span style="color: var(--color-text-muted); font-size: 0.8rem; margin-left: 0.4rem;">— Timeless Quotes</span>
+                <div class="showcase-title-row">
+                  <h3 class="showcase-site-name">Element</h3>
+                  <div class="showcase-tagline">English Literary & Philosophical Canon</div>
                 </div>
-                <div id="preview-quote-mood" class="preview-card-mood">
-                  ✦ Reflective
-                </div>
+
+                <p class="showcase-description">
+                  Over 4,400 timeless reflections from Marcus Aurelius, Seneca, Rumi, Virginia Woolf, Maya Angelou, and world philosophers with deep editorial dossiers.
+                </p>
               </div>
 
-              <!-- Quote Text -->
-              <div class="preview-quote-body">
-                <blockquote id="preview-quote-text" class="preview-quote-text" data-lang="en">
-                  “The wound is the place where the light enters you.”
-                </blockquote>
+              <div>
+                <ul class="showcase-meta-list">
+                  <li>
+                    <span class="showcase-meta-label">Language</span>
+                    <span class="showcase-meta-val">English (en)</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Collection Size</span>
+                    <span class="showcase-meta-val">4,400+ Quotes</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Typography</span>
+                    <span class="showcase-meta-val">Playfair + Cormorant</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Live URL</span>
+                    <span class="showcase-meta-val">/element/</span>
+                  </li>
+                </ul>
 
-                <div class="preview-author-row">
-                  <span id="preview-quote-author" class="preview-quote-author" data-lang="en">— Rumi</span>
-                  <span id="preview-quote-source" class="preview-quote-source">, The Masnavi, Book I</span>
-                  <span style="color: var(--color-text-muted); font-size: 0.8rem;">•</span>
-                  <span id="preview-quote-category" style="color: var(--color-accent-light); font-size: 0.85rem; font-weight: 500;">Wisdom</span>
+                <div class="showcase-card-actions">
+                  <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="showcase-btn-launch" title="Launch Element in new tab">
+                    <span>Open Element</span>
+                    <span>↗</span>
+                  </a>
+                  <button class="showcase-btn-preview" data-switch-lang="en" title="Preview English reel in studio below" aria-label="Preview English in studio">
+                    👁
+                  </button>
                 </div>
               </div>
+            </article>
 
-              <!-- Bottom Meta & Arrows -->
-              <div class="preview-card-bottom">
-                <div id="preview-quote-tags" class="preview-tags-row">
-                  <span class="tag-pill">#healing</span>
-                  <span class="tag-pill">#light</span>
-                  <span class="tag-pill">#growth</span>
+            <!-- 2. Tatva (Hindi) -->
+            <article class="showcase-card card-hi">
+              <div>
+                <div class="showcase-card-header">
+                  <div class="showcase-flag-badge" title="Hindi Edition">🇮🇳</div>
+                  <div class="showcase-status">
+                    <span class="showcase-status-dot"></span>
+                    <span>Live App</span>
+                  </div>
                 </div>
 
-                <div class="preview-nav-arrows">
-                  <button id="preview-prev-btn" class="preview-arrow-btn" aria-label="Previous sample quote">←</button>
-                  <button id="preview-next-btn" class="preview-arrow-btn" aria-label="Next sample quote">→</button>
+                <div class="showcase-title-row">
+                  <h3 class="showcase-site-name">तत्व (Tatva)</h3>
+                  <div class="showcase-tagline">Classical Devanagari Thoughts & Dohas</div>
+                </div>
+
+                <p class="showcase-description">
+                  Over 1,200 verses and reflections from Kabir Das, Tulsidas, Chanakya, Swami Vivekananda, and ancient Upanishads with authentic Devanagari ligatures.
+                </p>
+              </div>
+
+              <div>
+                <ul class="showcase-meta-list">
+                  <li>
+                    <span class="showcase-meta-label">Language</span>
+                    <span class="showcase-meta-val">Hindi (hi)</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Collection Size</span>
+                    <span class="showcase-meta-val">1,200+ Dohas & Chintan</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Typography</span>
+                    <span class="showcase-meta-val">Rozha One + Mukta</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Live URL</span>
+                    <span class="showcase-meta-val">/tatva/</span>
+                  </li>
+                </ul>
+
+                <div class="showcase-card-actions">
+                  <a href="https://www.ashishvishwakarma.com/tatva/" target="_blank" rel="noopener noreferrer" class="showcase-btn-launch" title="Launch Tatva in new tab">
+                    <span>Open तत्व</span>
+                    <span>↗</span>
+                  </a>
+                  <button class="showcase-btn-preview" data-switch-lang="hi" title="Preview Hindi reel in studio below" aria-label="Preview Hindi in studio">
+                    👁
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- 3. Elemento (Spanish) -->
+            <article class="showcase-card card-es">
+              <div>
+                <div class="showcase-card-header">
+                  <div class="showcase-flag-badge" title="Spanish Edition">🇪🇸</div>
+                  <div class="showcase-status">
+                    <span class="showcase-status-dot"></span>
+                    <span>Live App</span>
+                  </div>
+                </div>
+
+                <div class="showcase-title-row">
+                  <h3 class="showcase-site-name">Elemento</h3>
+                  <div class="showcase-tagline">Antología de Filosofía y Literatura</div>
+                </div>
+
+                <p class="showcase-description">
+                  Curated Spanish classical thoughts from Miguel de Cervantes, Jorge Luis Borges, Seneca, Calderón de la Barca, and Octavio Paz with full Spanish localization.
+                </p>
+              </div>
+
+              <div>
+                <ul class="showcase-meta-list">
+                  <li>
+                    <span class="showcase-meta-label">Language</span>
+                    <span class="showcase-meta-val">Spanish (es)</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Collection Size</span>
+                    <span class="showcase-meta-val">Classical Spanish Canon</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Typography</span>
+                    <span class="showcase-meta-val">Playfair + Inter (Accents)</span>
+                  </li>
+                  <li>
+                    <span class="showcase-meta-label">Live URL</span>
+                    <span class="showcase-meta-val">/elemento/</span>
+                  </li>
+                </ul>
+
+                <div class="showcase-card-actions">
+                  <a href="https://www.ashishvishwakarma.com/elemento/" target="_blank" rel="noopener noreferrer" class="showcase-btn-launch" title="Launch Elemento in new tab">
+                    <span>Open Elemento</span>
+                    <span>↗</span>
+                  </a>
+                  <button class="showcase-btn-preview" data-switch-lang="es" title="Preview Spanish reel in studio below" aria-label="Preview Spanish in studio">
+                    👁
+                  </button>
                 </div>
               </div>
             </article>
@@ -207,23 +331,136 @@
         </div>
       </section>
 
-      <!-- ═══════════ FEATURES SECTION ═══════════ -->
+      <!-- ═══════════ INTERACTIVE REEL STUDIO ═══════════ -->
+      <section id="studio" class="studio-section">
+        <div class="content-wrapper studio-container">
+          <div class="section-header">
+            <span class="section-tag">Interactive Reel Studio</span>
+            <h2 class="section-title">Feel the Reading Experience</h2>
+            <p class="section-desc">
+              Experience the full-screen vertical reel canvas. Switch languages, click like to trigger heart bursts, or browse sample quotes across all three live editions.
+            </p>
+          </div>
+
+          <!-- Language Selector Pills -->
+          <div class="studio-language-bar" role="tablist">
+            <button class="studio-tab-btn active" data-lang="en" role="tab" aria-selected="true">
+              <span>🇬🇧</span>
+              <span>English (Element)</span>
+            </button>
+            <button class="studio-tab-btn" data-lang="hi" role="tab" aria-selected="false">
+              <span>🇮🇳</span>
+              <span>हिंदी (तत्व)</span>
+            </button>
+            <button class="studio-tab-btn" data-lang="es" role="tab" aria-selected="false">
+              <span>🇪🇸</span>
+              <span>Español (Elemento)</span>
+            </button>
+          </div>
+
+          <!-- Mobile Phone Mockup Studio -->
+          <div class="phone-mockup-wrapper">
+            <div id="mockup-glow" class="mockup-ambient-glow"></div>
+
+            <div class="phone-mockup">
+              <!-- Dynamic Island Notch -->
+              <div class="phone-notch">
+                <div class="phone-camera-dot"></div>
+              </div>
+
+              <!-- Inside Phone Reel Screen -->
+              <div id="studio-screen" class="reel-screen">
+                <!-- Screen Top Header -->
+                <div class="screen-header">
+                  <div class="screen-brand-badge">
+                    <span style="color: #fbbf24;">✦</span>
+                    <span id="screen-brand-title">Element</span>
+                  </div>
+                  <div id="screen-mood-badge" class="screen-mood-pill">
+                    ✦ Reflective
+                  </div>
+                </div>
+
+                <!-- Heart Burst Overlay -->
+                <div id="heart-burst" class="heart-burst-effect">♥</div>
+
+                <!-- Action Rail (Right) -->
+                <div class="screen-action-rail">
+                  <button id="studio-like-btn" class="screen-rail-btn" title="Like quote" aria-label="Like quote">
+                    <span>♥</span>
+                    <span id="studio-like-count" class="rail-btn-label">24</span>
+                  </button>
+                  <button id="studio-delve-trigger" class="screen-rail-btn" title="Thinker Dossier" aria-label="View thinker dossier">
+                    <span>📖</span>
+                    <span class="rail-btn-label">Delve</span>
+                  </button>
+                  <button id="studio-share-btn" class="screen-rail-btn" title="Share" aria-label="Share quote">
+                    <span>↗</span>
+                    <span class="rail-btn-label">Share</span>
+                  </button>
+                </div>
+
+                <!-- Quote Center Canvas -->
+                <div class="screen-quote-canvas">
+                  <div class="screen-quote-mark">“</div>
+                  <blockquote id="studio-quote-text" class="screen-quote-text" data-lang="en">
+                    The wound is the place where the light enters you.
+                  </blockquote>
+                  <div id="studio-author-name" class="screen-author-name" data-lang="en">
+                    — Rumi
+                  </div>
+                  <div id="studio-source-work" class="screen-source-work">
+                    The Masnavi, Book I
+                  </div>
+
+                  <button id="studio-delve-pill" class="screen-delve-btn">
+                    <span>✦</span>
+                    <span id="delve-btn-label">Delve into Thinker</span>
+                  </button>
+                </div>
+
+                <!-- Screen Bottom Bar -->
+                <div class="screen-bottom-bar">
+                  <div id="studio-tags" class="screen-tags-list">
+                    <span class="screen-tag-pill">#healing</span>
+                    <span class="screen-tag-pill">#light</span>
+                    <span class="screen-tag-pill">#growth</span>
+                  </div>
+                  <a id="studio-live-link" href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" class="studio-external-link">
+                    <span>Launch</span>
+                    <span>↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Studio Navigation Controls -->
+          <div class="studio-nav-controls">
+            <button id="studio-prev-btn" class="studio-arrow-btn" aria-label="Previous quote">←</button>
+            <span id="studio-counter" class="studio-counter">1 / 2</span>
+            <button id="studio-next-btn" class="studio-arrow-btn" aria-label="Next quote">→</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ CORE FEATURES SECTION ═══════════ -->
       <section id="features" class="features-section">
         <div class="content-wrapper">
           <div class="section-header">
-            <span class="section-tag">Core Features</span>
-            <h2 class="section-title">Designed for Depth & Longevity</h2>
+            <span class="section-tag">Theme Capabilities</span>
+            <h2 class="section-title">Engineered for Contemplation & Speed</h2>
             <p class="section-desc">
-              Carefully crafted for performance, accessibility, and zero-maintenance operation.
+              Every detail is tuned for seamless typography, tactile mobile interaction, and maintenance-free static deployment.
             </p>
           </div>
 
           <div class="features-grid">
             <div class="feature-box">
               <div class="feature-icon-badge">📱</div>
-              <h3 class="feature-title">Full-Screen Vertical Reels</h3>
+              <h3 class="feature-title">Vertical Scroll-Snap Reels</h3>
               <p class="feature-desc">
-                Smooth CSS scroll-snap interaction, swipe gestures, double-tap to like with heart burst animations, and full keyboard navigation.
+                High-performance CSS scroll-snapping, tactile swipe gestures, double-tap to like with heart bursts, and full keyboard navigation.
               </p>
               <div class="feature-pill-row">
                 <span class="mini-pill">Scroll Snap</span>
@@ -234,14 +471,14 @@
 
             <div class="feature-box">
               <div class="feature-icon-badge">🌐</div>
-              <h3 class="feature-title">Dedicated Hindi & Devanagari</h3>
+              <h3 class="feature-title">Native Multilingual Engine</h3>
               <p class="feature-desc">
-                Curated Google Fonts (*Rozha One*, *Noto Serif Devanagari*, *Mukta*), zero-FOUT font preloading, and Unicode URL slugs without stripping characters.
+                Single-language build architecture with zero-overhead dictionaries for English, Hindi (Devanagari), and Spanish, complete with Unicode URL slugs.
               </p>
               <div class="feature-pill-row">
-                <span class="mini-pill">Rozha One</span>
-                <span class="mini-pill">Noto Serif</span>
-                <span class="mini-pill">Unicode Slugs</span>
+                <span class="mini-pill">English</span>
+                <span class="mini-pill">हिंदी देवनागरी</span>
+                <span class="mini-pill">Español</span>
               </div>
             </div>
 
@@ -249,7 +486,7 @@
               <div class="feature-icon-badge">🎨</div>
               <h3 class="feature-title">9:16 Ultra-HD Keepsake Cards</h3>
               <p class="feature-desc">
-                High-resolution 2160×3840 9:16 quote card generator rendered via 2D Canvas with crisp ligatures, watermark branding, and clipboard copying.
+                Client-side HTML5 2D canvas generator producing 2160×3840 social story cards with elegant borders, custom watermarks, and instant clipboard copying.
               </p>
               <div class="feature-pill-row">
                 <span class="mini-pill">2D Canvas</span>
@@ -260,14 +497,14 @@
 
             <div class="feature-box">
               <div class="feature-icon-badge">📖</div>
-              <h3 class="feature-title">Editorial Philosopher Dossiers</h3>
+              <h3 class="feature-title">Editorial Thinker Dossiers</h3>
               <p class="feature-desc">
-                Actionable daily insights, reflection questions, thinker biographies, historical traditions, and core philosophical pillars.
+                In-depth context for every quote: biographies, historical traditions, core philosophical pillars, sourced works, and daily contemplation prompts.
               </p>
               <div class="feature-pill-row">
                 <span class="mini-pill">Editorial Prose</span>
                 <span class="mini-pill">Core Pillars</span>
-                <span class="mini-pill">Sourced Works</span>
+                <span class="mini-pill">Daily Prompts</span>
               </div>
             </div>
 
@@ -275,25 +512,25 @@
               <div class="feature-icon-badge">🛠️</div>
               <h3 class="feature-title">Built-In Local Admin UI</h3>
               <p class="feature-desc">
-                Manage quotes, authors, tags, and categories via a local browser dashboard (<code class="code-tag">npx wiz-theme admin</code>) with 4 themes and live search.
+                Curate quotes, thinkers, tags, and categories through a sleek local browser CMS (<code class="code-tag">npx wiz-theme admin</code>) without configuring databases.
               </p>
               <div class="feature-pill-row">
                 <span class="mini-pill">Local Dashboard</span>
-                <span class="mini-pill">4 Themes</span>
+                <span class="mini-pill">4 Color Themes</span>
                 <span class="mini-pill">JSON CMS</span>
               </div>
             </div>
 
             <div class="feature-box">
               <div class="feature-icon-badge">📊</div>
-              <h3 class="feature-title">Telemetry & Quality Audit</h3>
+              <h3 class="feature-title">Isolated Telemetry & PWA</h3>
               <p class="feature-desc">
-                Multi-site engagement telemetry (views, likes, shares, and dossier reads) isolated per consumer identifier via Firebase Realtime Database.
+                Real-time engagement telemetry (views, likes, shares) isolated per consumer site via Firebase RTDB, plus full offline service worker caching.
               </p>
               <div class="feature-pill-row">
                 <span class="mini-pill">Firebase RTDB</span>
-                <span class="mini-pill">Consumer Isolated</span>
-                <span class="mini-pill">Offline Fallback</span>
+                <span class="mini-pill">PWA Offline</span>
+                <span class="mini-pill">Zero FOUT</span>
               </div>
             </div>
           </div>
@@ -307,12 +544,12 @@
             <span class="section-tag">Typography Stacks</span>
             <h2 class="section-title">Curated Font Pairings</h2>
             <p class="section-desc">
-              Optimized for maximum visual presence and zero font flash across both Latin and Devanagari scripts.
+              Pre-configured typography presets designed for maximum readability, zero font flicker, and authentic script character.
             </p>
           </div>
 
           <div class="typography-cards-grid">
-            <!-- Latin Stack -->
+            <!-- 1. English / Latin -->
             <div class="type-stack-card">
               <div class="type-stack-header">
                 <h3 class="type-stack-title">English & Latin Stack</h3>
@@ -341,7 +578,7 @@
               </div>
             </div>
 
-            <!-- Devanagari Stack -->
+            <!-- 2. Hindi / Devanagari -->
             <div class="type-stack-card">
               <div class="type-stack-header">
                 <h3 class="type-stack-title">Hindi & Devanagari Stack</h3>
@@ -358,7 +595,7 @@
               <div class="type-specimen">
                 <span class="type-specimen-label">Editorial Serif</span>
                 <p class="type-specimen-sample" style="font-family: var(--font-hindi-editorial);">
-                  नोटो सेरिफ देवनागरी (Noto Serif)
+                  नोटो सेरिफ देवनागरी
                 </p>
               </div>
 
@@ -366,6 +603,35 @@
                 <span class="type-specimen-label">Modern UI Sans</span>
                 <p class="type-specimen-sample" style="font-family: var(--font-hindi-sans); font-size: 1.15rem;">
                   मुक्ता (Mukta)
+                </p>
+              </div>
+            </div>
+
+            <!-- 3. Spanish / Romance -->
+            <div class="type-stack-card">
+              <div class="type-stack-header">
+                <h3 class="type-stack-title">Spanish & Romance Stack</h3>
+                <span class="mini-pill">lang="es"</span>
+              </div>
+
+              <div class="type-specimen">
+                <span class="type-specimen-label">Headline Display</span>
+                <p class="type-specimen-sample" style="font-family: var(--font-display); font-style: italic;">
+                  Playfair con tildes
+                </p>
+              </div>
+
+              <div class="type-specimen">
+                <span class="type-specimen-label">Accented Glyphs</span>
+                <p class="type-specimen-sample" style="font-family: var(--font-editorial); font-size: 1.45rem;">
+                  ¿ÁÉÍÓÚñ? — «Sabiduría»
+                </p>
+              </div>
+
+              <div class="type-specimen">
+                <span class="type-specimen-label">Modern UI Sans</span>
+                <p class="type-specimen-sample" style="font-family: var(--font-sans); font-size: 1.1rem;">
+                  Inter
                 </p>
               </div>
             </div>
@@ -378,9 +644,9 @@
         <div class="content-wrapper">
           <div class="section-header">
             <span class="section-tag">Developer Setup</span>
-            <h2 class="section-title">Quickstart Guide</h2>
+            <h2 class="section-title">Quickstart in 3 Steps</h2>
             <p class="section-desc">
-              Install and run the Wisdom theme in your Astro project in three straightforward steps.
+              Create a breathtaking quote reel application in minutes using Astro and Wisdom.
             </p>
           </div>
 
@@ -388,10 +654,10 @@
           <div class="step-card">
             <div class="step-header">
               <div class="step-number">1</div>
-              <h3 class="step-title">Install the Package</h3>
+              <h3 class="step-title">Install wiz-theme</h3>
             </div>
-            <p style="color: var(--color-text-secondary);">
-              Add <code class="code-tag">wiz-theme</code> and Tailwind CSS v4 to your Astro project:
+            <p style="color: var(--text-secondary);">
+              Add the package and Tailwind CSS v4 to your Astro project:
             </p>
             <div class="code-container">
               <div class="code-header">
@@ -409,8 +675,8 @@ npm install -D tailwindcss @tailwindcss/vite</code></pre>
               <div class="step-number">2</div>
               <h3 class="step-title">Configure astro.config.mjs</h3>
             </div>
-            <p style="color: var(--color-text-secondary);">
-              Register the integration in your Astro configuration:
+            <p style="color: var(--text-secondary);">
+              Register the theme integration with your preferred language (<code class="code-tag">'en'</code>, <code class="code-tag">'hi'</code>, or <code class="code-tag">'es'</code>):
             </p>
             <div class="code-container">
               <div class="code-header">
@@ -429,7 +695,7 @@ export default defineConfig({
     wizTheme({
       siteName: 'Wisdom',
       subtitle: 'Timeless Quotes, Reimagined',
-      language: 'en', // Use 'hi' for dedicated Hindi sites
+      language: 'en', // 'en' | 'hi' | 'es'
     }),
   ],
 });</code></pre>
@@ -440,10 +706,10 @@ export default defineConfig({
           <div class="step-card">
             <div class="step-header">
               <div class="step-number">3</div>
-              <h3 class="step-title">Render ReelFeed in your Page</h3>
+              <h3 class="step-title">Render ReelFeed in src/pages/index.astro</h3>
             </div>
-            <p style="color: var(--color-text-secondary);">
-              Import <code class="code-tag">BaseLayout</code> and <code class="code-tag">ReelFeed</code> in <code class="code-tag">src/pages/index.astro</code>:
+            <p style="color: var(--text-secondary);">
+              Pass your quotes array to the <code class="code-tag">&lt;ReelFeed&gt;</code> component inside <code class="code-tag">&lt;BaseLayout&gt;</code>:
             </p>
             <div class="code-container">
               <div class="code-header">
@@ -473,24 +739,24 @@ const quotes = [
             </div>
           </div>
 
-          <!-- Step 4: CLI -->
+          <!-- Step 4: Admin CLI -->
           <div class="step-card">
             <div class="step-header">
-              <div class="step-number">4</div>
-              <h3 class="step-title">Built-In CLI Commands</h3>
+              <div class="step-number">✦</div>
+              <h3 class="step-title">Local Browser Admin Dashboard</h3>
             </div>
-            <p style="color: var(--color-text-secondary);">
-              Manage quotes via the local admin dashboard or batch export 9:16 videos:
+            <p style="color: var(--text-secondary);">
+              Manage your quotes, thinkers, tags, and export automated 9:16 social videos via the built-in CLI:
             </p>
             <div class="code-container">
               <div class="code-header">
                 <span>Terminal</span>
                 <button class="copy-btn" data-copy-target="code-step4">Copy</button>
               </div>
-              <pre class="code-block"><code id="code-step4"># Launch local browser admin dashboard
+              <pre class="code-block"><code id="code-step4"># Open local browser admin dashboard
 npx wiz-theme admin
 
-# Automated batch export of animated 9:16 social videos
+# Automated batch export of animated 9:16 social cards
 npx wiz-theme generate --all</code></pre>
             </div>
           </div>
@@ -504,12 +770,12 @@ npx wiz-theme generate --all</code></pre>
             <span class="section-tag">API Reference</span>
             <h2 class="section-title">Configuration Options</h2>
             <p class="section-desc">
-              All settings available to <code class="code-tag">wizTheme({...})</code> in <code class="code-tag">astro.config.mjs</code> or as props to <code class="code-tag">&lt;BaseLayout&gt;</code>.
+              All settings available in <code class="code-tag">wizTheme({...})</code> or as props to <code class="code-tag">&lt;BaseLayout&gt;</code>.
             </p>
           </div>
 
           <div class="table-filter-box">
-            <input id="config-search" type="text" class="table-search-input" placeholder="Search configuration options..." aria-label="Search configuration options" />
+            <input id="config-search" type="text" class="table-search-input" placeholder="Search configuration options (e.g., lang, typography, telemetry)..." aria-label="Search configuration options" />
           </div>
 
           <div class="config-table-wrapper">
@@ -526,38 +792,38 @@ npx wiz-theme generate --all</code></pre>
                 <tr>
                   <td><strong style="color: #fff;">siteName / siteTitle</strong></td>
                   <td><span class="code-tag">string</span></td>
-                  <td><code>'Wisdom' / 'तत्व'</code></td>
+                  <td><code>'Wisdom'</code></td>
                   <td>Brand or site name. Appears in <code>&lt;title&gt;</code>, OpenGraph tags, top bar, and schema.</td>
                 </tr>
                 <tr>
                   <td><strong style="color: #fff;">subtitle / tagline</strong></td>
                   <td><span class="code-tag">string</span></td>
                   <td><code>''</code></td>
-                  <td>Secondary site subtitle or motto. Automatically concatenated into title.</td>
+                  <td>Secondary site motto. Concatenated automatically into page titles.</td>
+                </tr>
+                <tr>
+                  <td><strong style="color: #fff;">language / lang</strong></td>
+                  <td><span class="code-tag">'en' | 'hi' | 'es'</span></td>
+                  <td><code>'en'</code></td>
+                  <td>Primary language tag. Automatically selects locale dictionary and typography presets.</td>
                 </tr>
                 <tr>
                   <td><strong style="color: #fff;">brandingText</strong></td>
                   <td><span class="code-tag">string</span></td>
-                  <td><code>falls back to siteName</code></td>
-                  <td>Watermark branding text printed at the bottom of generated 9:16 quote card images.</td>
-                </tr>
-                <tr>
-                  <td><strong style="color: #fff;">lang / language</strong></td>
-                  <td><span class="code-tag">'en' | 'hi' | string</span></td>
-                  <td><code>'en'</code></td>
-                  <td>Primary BCP-47 language tag. Automatically selects dictionary & typography presets.</td>
+                  <td><code>siteName</code></td>
+                  <td>Watermark branding text rendered at the bottom of 9:16 keepsake card downloads.</td>
                 </tr>
                 <tr>
                   <td><strong style="color: #fff;">consumerId / siteId</strong></td>
                   <td><span class="code-tag">string</span></td>
                   <td><code>derived slug</code></td>
-                  <td>Namespace identifier in Firebase RTDB isolating engagement telemetry.</td>
+                  <td>Firebase Realtime Database namespace isolating view, like, and share telemetry.</td>
                 </tr>
                 <tr>
                   <td><strong style="color: #fff;">quotes</strong></td>
                   <td><span class="code-tag">QuoteData[]</span></td>
                   <td><code>required</code></td>
-                  <td>Array of quote objects rendered in the vertical scroll-snap reel feed.</td>
+                  <td>Array of quote objects rendered into the vertical scroll-snap reel feed.</td>
                 </tr>
                 <tr>
                   <td><strong style="color: #fff;">feedTitle</strong></td>
@@ -574,8 +840,8 @@ npx wiz-theme generate --all</code></pre>
                 <tr>
                   <td><strong style="color: #fff;">translations</strong></td>
                   <td><span class="code-tag">DeepPartial&lt;Translations&gt;</span></td>
-                  <td><code>Language dictionary</code></td>
-                  <td>Custom string and label overrides for any component or modal.</td>
+                  <td><code>Locale dictionary</code></td>
+                  <td>Custom string and label overrides for any component or modal dialog.</td>
                 </tr>
               </tbody>
             </table>
@@ -588,23 +854,29 @@ npx wiz-theme generate --all</code></pre>
     <footer class="site-footer">
       <div class="content-wrapper">
         <nav class="footer-nav" aria-label="Footer navigation">
-          <a href="#overview">Overview</a>
-          <a href="#preview">Preview</a>
+          <a href="#showcase">Live Showcase</a>
+          <a href="#studio">Reel Studio</a>
           <a href="#features">Features</a>
           <a href="#typography">Typography</a>
           <a href="#quickstart">Quickstart</a>
-          <a href="#config">Config Reference</a>
-          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer">Live Demo (Element) ↗</a>
-          <a href="https://github.com/AshV/wisdom" target="_blank" rel="noopener noreferrer">GitHub Repository ↗</a>
+          <a href="#config">API Reference</a>
+          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer">Element (EN) ↗</a>
+          <a href="https://www.ashishvishwakarma.com/tatva/" target="_blank" rel="noopener noreferrer">Tatva (HI) ↗</a>
+          <a href="https://www.ashishvishwakarma.com/elemento/" target="_blank" rel="noopener noreferrer">Elemento (ES) ↗</a>
+          <a href="https://github.com/AshV/wisdom" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </nav>
-        <p>
-          Wisdom Theme • High-Performance Immersive Quote Reel Theme for Astro • Released under the MIT License
+        <p class="footer-copy">
+          Wisdom Theme • High-Performance Immersive Quote Reel Theme for Astro • Released under MIT License<br/>
+          Production Deployments: 
+          <a href="https://www.ashishvishwakarma.com/element/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-purple-light); text-decoration: none;">Element (English)</a> • 
+          <a href="https://www.ashishvishwakarma.com/tatva/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-gold); text-decoration: none;">तत्व (Hindi)</a> • 
+          <a href="https://www.ashishvishwakarma.com/elemento/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan); text-decoration: none;">Elemento (Spanish)</a>
         </p>
       </div>
     </footer>
   </div>
 
-  <!-- Main JavaScript (Minimal, ~100 lines) -->
+  <!-- Main JavaScript -->
   <script src="./js/main.js" defer></script>
 </body>
 </html>

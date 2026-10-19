@@ -1,14 +1,17 @@
 import type { Translations, DeepPartial } from './types';
 import { enTranslations } from './locales/en';
 import { hiTranslations } from './locales/hi';
+import { esTranslations } from './locales/es';
 
 export * from './types';
 export { enTranslations } from './locales/en';
 export { hiTranslations } from './locales/hi';
+export { esTranslations } from './locales/es';
 
 export const builtInTranslations: Record<string, Translations> = {
   en: enTranslations,
   hi: hiTranslations,
+  es: esTranslations,
 };
 
 function deepMerge<T extends Record<string, any>>(target: T, source?: DeepPartial<T>): T {

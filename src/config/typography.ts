@@ -47,9 +47,14 @@ export const HINDI_TYPOGRAPHY: TypographyConfig = {
   ],
 };
 
+export const SPANISH_TYPOGRAPHY: TypographyConfig = {
+  ...ENGLISH_TYPOGRAPHY,
+};
+
 export const BUILT_IN_TYPOGRAPHY: Record<string, TypographyConfig> = {
   en: ENGLISH_TYPOGRAPHY,
   hi: HINDI_TYPOGRAPHY,
+  es: SPANISH_TYPOGRAPHY,
 };
 
 export function getTypographyConfig(

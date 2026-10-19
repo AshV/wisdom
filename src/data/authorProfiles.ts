@@ -73,8 +73,24 @@ export function getAuthorProfile(slug: string, fallbackName?: string, lang: stri
   // Fallback: generate a minimal profile from slug/name
   const name = fallbackName || slug.split('-').map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
   const t = getTranslations(lang);
-  const isHi = lang.toLowerCase().startsWith('hi');
-  const wikiLang = isHi ? 'hi' : 'en';
+  const normLang = lang.toLowerCase().split(/[-_]/)[0];
+  const isHi = normLang === 'hi';
+  const isEs = normLang === 'es';
+  const wikiLang = isHi ? 'hi' : isEs ? 'es' : 'en';
+
+  let summary = `Curated philosophical reflections and timeless sayings from ${name}.`;
+  let bio = `${name} is an influential thinker whose timeless reflections on life, purpose, and wisdom continue to inspire generations.`;
+  let whyTimeless = `The insights of ${name} speak to enduring questions of human existence.`;
+
+  if (isHi) {
+    summary = `${name} के अनमोल विचार और लोकप्रिय कोट्स।`;
+    bio = `${name} एक जाने-माने और प्रभावशाली लेखक हैं, जिनके विचार आज भी जीवन में प्रेरणा और सही दिशा देते हैं।`;
+    whyTimeless = `${name} के विचार आज के समय में भी उतने ही जरूरी और प्रेरणादायी हैं।`;
+  } else if (isEs) {
+    summary = `Reflexiones filosóficas seleccionadas y frases célebres de ${name}.`;
+    bio = `${name} es una figura influyente cuyas reflexiones atemporales sobre la vida, el propósito y la sabiduría continúan inspirando a generaciones.`;
+    whyTimeless = `Las enseñanzas de ${name} abordan cuestiones esenciales e imperecederas de la existencia humana.`;
+  }
 
   return {
     slug,
@@ -82,16 +98,10 @@ export function getAuthorProfile(slug: string, fallbackName?: string, lang: stri
     era: t.author?.defaultEra || 'Historical Thinker',
     tradition: t.author?.defaultTradition || 'Wisdom & Philosophy',
     wikipediaUrl: `https://${wikiLang}.wikipedia.org/wiki/${encodeURIComponent(name.replace(/ /g, '_'))}`,
-    summary: isHi
-      ? `${name} के अनमोल विचार और लोकप्रिय कोट्स।`
-      : `Curated philosophical reflections and timeless sayings from ${name}.`,
-    bio: isHi
-      ? `${name} एक जाने-माने और प्रभावशाली लेखक हैं, जिनके विचार आज भी जीवन में प्रेरणा और सही दिशा देते हैं।`
-      : `${name} is an influential thinker whose timeless reflections on life, purpose, and wisdom continue to inspire generations.`,
+    summary,
+    bio,
     keyWorks: [],
     pillars: [],
-    whyTimeless: isHi
-      ? `${name} के विचार आज के समय में भी उतने ही जरूरी और प्रेरणादायी हैं।`
-      : `The insights of ${name} speak to enduring questions of human existence.`,
+    whyTimeless,
   };
 }

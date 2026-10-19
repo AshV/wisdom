@@ -10,7 +10,7 @@
 ## Features
 
 - 📱 **Full-Screen Vertical Reels**: Smooth scroll-snap interaction, swipe gestures, double-tap to like, and full keyboard navigation.
-- 🌐 **Single-Language Localization**: Dedicated support for Hindi (`hi`) and English (`en`), plus extensible translation dictionaries for any script or language (Tamil, Bengali, Arabic, etc.).
+- 🌐 **Single-Language Localization**: Dedicated built-in support for Spanish (`es`), Hindi (`hi`), and English (`en`), plus extensible translation dictionaries for any script or language (Tamil, Bengali, Arabic, etc.).
 - ✍️ **Curated Typography Presets**:
   - **Hindi (Devanagari)**: *Rozha One* (headline display), *Noto Serif Devanagari* (editorial), and *Mukta* (modern UI sans).
   - **English (Latin)**: *Playfair Display*, *Cormorant Garamond*, and *Inter*.
@@ -230,9 +230,58 @@ The theme automatically:
 
 ---
 
+## Creating a Dedicated Spanish Site
+
+To build a website dedicated to Spanish, simply set `lang="es"` on `<BaseLayout>`:
+
+```astro
+---
+// src/pages/index.astro
+import { BaseLayout, ReelFeed } from 'wiz-theme';
+
+const spanishQuotes = [
+  {
+    id: "q-es-001",
+    content: "No nos atrevemos a muchas cosas porque son difíciles; son difíciles porque no nos atrevemos.",
+    author: "Séneca",
+    authorSlug: "seneca",
+    category: "Coraje y Sabiduría",
+    categorySlug: "courage-wisdom",
+    mood: "motivational",
+    tags: ["coraje", "estoicismo", "superación"],
+    duration: 8,
+    sourceWork: "Cartas a Lucilio",
+    explanation: "Séneca advierte que el miedo y la vacilación magnifican los obstáculos.",
+    practicalInsight: "Afronta hoy con determinación aquello que has estado postergando."
+  }
+];
+---
+
+<BaseLayout
+  siteName="Sabiduría"
+  subtitle="Citas eternas, reinventadas"
+  description="Pensamientos inmortales de Séneca, Marco Aurelio y Cervantes."
+  lang="es"
+>
+  <ReelFeed
+    quotes={spanishQuotes}
+    feedTitle="Sabiduría"
+    feedSubtitle="Citas eternas"
+    lang="es"
+  />
+</BaseLayout>
+```
+
+The theme automatically:
+1. Applies **natural Spanish translations** across all buttons, tooltips, dialogs, drawers, and notifications (`Profundizar`, `Compartir esta cita`, `Favoritos`, `Lección práctica`, `Contemplación diaria`, etc.).
+2. Resolves the OpenGraph locale to `es_ES`.
+3. Renders accents and special characters seamlessly in typography and 2D Canvas Quote Cards.
+
+---
+
 ## Creating Sites for Other Languages
 
-To create a site dedicated to another language (e.g., Spanish, Sanskrit, Arabic):
+To create a site dedicated to another language (e.g., Sanskrit, Arabic, Japanese):
 
 ```astro
 ---

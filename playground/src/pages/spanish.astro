@@ -1,0 +1,81 @@
+---
+import { BaseLayout, ReelFeed } from 'wisdom';
+
+// Quotes in Spanish showcasing single-language Spanish site
+const spanishQuotes = [
+  {
+    id: "q-es-001",
+    content: "No nos atrevemos a muchas cosas porque son difíciles; son difíciles porque no nos atrevemos.",
+    author: "Séneca",
+    authorSlug: "seneca",
+    category: "Coraje y Superación",
+    categorySlug: "courage-overcoming",
+    mood: "motivational" as const,
+    tags: ["coraje", "sabiduría", "estoicismo", "superación"],
+    duration: 8,
+    sourceWork: "Cartas a Lucilio",
+    explanation: "Séneca nos recuerda que los límites a menudo los creamos nosotros mismos por miedo a dar el primer paso. El coraje no es la ausencia de miedo, sino la decisión de actuar a pesar de él.",
+    practicalInsight: "Elige una tarea desafiante que hayas estado postergando y da el primer paso decidido hoy mismo.",
+    reflectionPrompt: "¿Qué meta alcanzarías hoy si no tuvieras miedo al fracaso?"
+  },
+  {
+    id: "q-es-002",
+    content: "La felicidad de tu vida depende de la calidad de tus pensamientos.",
+    author: "Marco Aurelio",
+    authorSlug: "marcus-aurelius",
+    category: "Paz Interior",
+    categorySlug: "inner-peace",
+    mood: "reflective" as const,
+    tags: ["pensamiento", "paz", "reflexión", "mente"],
+    duration: 8,
+    sourceWork: "Meditaciones",
+    explanation: "El emperador filósofo enfatiza que no son los sucesos externos los que perturban nuestro espíritu, sino el juicio y la interpretación que hacemos sobre ellos.",
+    practicalInsight: "Cuando sientas frustración o enojo, observa tus pensamientos y pregúntate si puedes interpretar la situación con calma y perspectiva.",
+    reflectionPrompt: "¿Qué pensamiento recurrente podrías transformar hoy para ganar mayor serenidad?"
+  },
+  {
+    id: "q-es-003",
+    content: "El que lee mucho y anda mucho, ve mucho y sabe mucho.",
+    author: "Miguel de Cervantes",
+    authorSlug: "cervantes",
+    category: "Conocimiento y Vida",
+    categorySlug: "knowledge-life",
+    mood: "philosophical" as const,
+    tags: ["lectura", "experiencia", "conocimiento", "viajes"],
+    duration: 8,
+    sourceWork: "Don Quijote de la Mancha",
+    explanation: "Cervantes une el saber libresco con la experiencia viva del mundo: la verdadera sabiduría nace del equilibrio entre el estudio y el viaje existencial.",
+    practicalInsight: "Combina lo que aprendes en los libros con la observación atenta de las personas y el entorno que te rodea.",
+    reflectionPrompt: "¿Cómo puedes aplicar hoy una lección aprendida en tu vida práctica?"
+  },
+  {
+    id: "q-es-004",
+    content: "Saber que se sabe lo que se sabe, y saber que no se sabe lo que no se sabe: he aquí la verdadera sabiduría.",
+    author: "Confucio",
+    authorSlug: "confucius",
+    category: "Humildad y Sabiduría",
+    categorySlug: "humility-wisdom",
+    mood: "serene" as const,
+    tags: ["humildad", "sabiduría", "conciencia", "aprendizaje"],
+    duration: 8,
+    sourceWork: "Analectas",
+    explanation: "Reconocer los límites de nuestro conocimiento es la puerta a la verdadera comprensión y el antídoto contra la arrogancia intelectual.",
+    practicalInsight: "Escucha más de lo que hablas en tus conversaciones de hoy y mantén una mente abierta para aprender de los demás.",
+    reflectionPrompt: "¿En qué área de tu vida te beneficiaría adoptar una actitud de principiante?"
+  }
+];
+---
+
+<BaseLayout
+  siteName="Sabiduría"
+  subtitle="Citas eternas, reinventadas"
+  description="Colección de reflexiones filosóficas y citas inmortales en español."
+  lang="es"
+>
+  <ReelFeed
+    quotes={spanishQuotes}
+    feedTitle="Sabiduría"
+    feedSubtitle="Citas eternas"
+    lang="es"
+  />
+</BaseLayout>

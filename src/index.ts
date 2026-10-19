@@ -35,6 +35,7 @@ export * from "./i18n/types";
 export * from "./i18n/index";
 export { enTranslations } from "./i18n/locales/en";
 export { hiTranslations } from "./i18n/locales/hi";
+export { esTranslations } from "./i18n/locales/es";
 
 // Layouts
 export { default as BaseLayout } from "./layouts/BaseLayout.astro";

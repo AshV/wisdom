@@ -456,6 +456,29 @@ Bulk video generation takes time (~12–14s per video). The generator has built-
 
 ---
 
+### 📱 Automated Social Media Publishing Suite
+
+Posting reels requires more than just video files — you need captions, reflection hooks, hashtags, thumbnails, and bulk scheduling spreadsheets. Every execution of the generator automatically outputs a complete publishing suite:
+
+1. **🎬 Animated Vertical Video (`wisdom-${id}-video.mp4`)**:
+   - Native 1080×1920 (9:16) format.
+   - Safe zone compliance: Bottom 300px and right 120px are kept clear of text to prevent overlap with native Instagram/TikTok UI controls (captions, user handles, like/share buttons).
+2. **🖼️ Companion Cover Thumbnail (`wisdom-${id}-cover.png`)**:
+   - Instant 9:16 high-resolution companion graphic for Instagram profile grids and YouTube Shorts thumbnail pickers.
+3. **📝 Ready-to-Paste Captions (`wisdom-${id}-caption.txt`)**:
+   - Formatted with Quote citation, Philosophical Reflection, Actionable Takeaway, Comment Question Hook, Save CTA, and dynamic language-tailored hashtags.
+4. **📊 Universal Bulk Scheduling CSV (`social-posts.csv`)**:
+   - Fully compatible with **Meta Business Suite**, **Buffer**, **Metricool**, **Hootsuite**, and **Later** for one-click bulk upload.
+5. **⚙️ Programmatic Social Manifest (`social-posts.json`)**:
+   - Complete JSON array of all quote posts for custom scheduling bots or Zapier/Make webhooks.
+
+> **Fast Social Asset Export**: Want to export all companion captions, CSV, and JSON without waiting to render videos? Run:
+> ```bash
+> npx wisdom generate-videos --captions-only
+> ```
+
+---
+
 ### Prerequisites
 
 Install `puppeteer` as a dev dependency in your workspace or consumer project:
@@ -525,10 +548,12 @@ node wisdom/bin/generate.js --url http://localhost:4321/tatva/ --out tatva/out-v
 | Flag | Description | Default |
 | :--- | :--- | :--- |
 | `--status`, `--check` | Check progress summary and list remaining quotes without rendering. | `false` |
+| `--captions-only` | Generate companion captions (`.txt`) and social CSV/JSON without rendering videos. | `false` |
 | `--url <url>` | Target Astro website URL to crawl and record from. | `http://localhost:4321` |
-| `--out <dir>` | Destination folder for video files and `progress.json`. | `./out-videos` |
+| `--out <dir>` | Destination folder for video files, covers, captions, and `progress.json`. | `./out-videos` |
 | `--limit <number>` | Render only the next $N$ quotes in queue (useful for small batches). | `Infinity` |
 | `--force` | Force re-render all videos, even if files already exist on disk. | `false` |
+| `--no-cover` | Skip exporting companion 9:16 cover thumbnail images. | `false` |
 | `-h`, `--help` | Display the CLI help manual and options. | `false` |
 
 #### Batching and Force Re-renders
@@ -545,6 +570,168 @@ npm run generate:videos -- --force
 # Custom output directory
 npm run generate:videos -- --out ./reels-export
 ```
+
+---
+
+## 🚀 Direct Code API Social Publishing
+
+`wisdom` includes a built-in, zero-dependency Node.js publisher (`bin/publish.js`) to publish and schedule your vertical reels directly to **YouTube Shorts** and **Instagram Reels** via code API.
+
+### 🏗️ Publishing Architecture
+
+```mermaid
+flowchart TD
+    Assets["Generated Reels & Assets (out-videos/)"] --> Publisher["npx wisdom publish"]
+
+    subgraph YouTube ["YouTube Shorts (Direct from Disk)"]
+        Publisher -->|Resumable Chunk Stream| YT_API["YouTube Data API v3"]
+        YT_API --> YT_Done["Shorts Published or Scheduled (Recorded in publishing-log.json)"]
+    end
+
+    subgraph Instagram ["Instagram Reels (Cloudinary + Meta API)"]
+        Publisher -->|1. Temp Upload| Cloudinary["Cloudinary (Free Tier)"]
+        Cloudinary -->|2. Secure HTTPS URL| Meta["Meta Graph API (REELS)"]
+        Meta -->|3. Container Status: FINISHED| IG_Publish["Published / Scheduled to Feed"]
+        IG_Publish -->|4. Auto-Destroy Temp Video| Clean["Cloudinary Storage Cleaned (0 MB used)"]
+    end
+```
+
+---
+
+### ☁️ Cloudinary Setup (Free Temporary Hosting for Meta API)
+
+#### Why Cloudinary is Needed:
+Unlike Google, Meta's Instagram Graph API **does not accept direct multipart video uploads from your local computer**. Meta requires a public HTTPS `video_url` so its servers can download and transcode the video.
+
+#### How We Use It (Zero-Cost & Zero-Waste):
+1. The script uploads `wisdom-${id}-video.mp4` to your free Cloudinary account.
+2. It sends the secure HTTPS URL to Meta's API.
+3. As soon as Meta finishes downloading and processing the video (~15–20s), the script **automatically deletes the video from Cloudinary** via the Destroy API.
+4. Your Cloudinary storage stays at **0 MB used permanently**, fitting well within the free tier (25 GB/month) with zero extra costs.
+
+#### 60-Second Setup:
+1. Sign up for a free account at [https://cloudinary.com](https://cloudinary.com) (no credit card required).
+2. Go to your **Cloudinary Dashboard** (or Settings ➡️ Access Keys).
+3. Copy your **Cloud Name**, **API Key**, and **API Secret** into your `.env`:
+   ```env
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+
+---
+
+### ⚙️ Full Credentials Configuration (`.env`)
+
+Add the following credentials to your project's `.env` (see [`wisdom/.env.example`](file:///Users/teerantula/GitHub/Wisdom-Collection/wisdom/.env.example)):
+
+```env
+# ── 1. YouTube Shorts (Google Cloud Console) ──
+YOUTUBE_CLIENT_ID=your_google_client_id.apps.googleusercontent.com
+YOUTUBE_CLIENT_SECRET=your_google_client_secret
+YOUTUBE_REFRESH_TOKEN=auto_generated_by_cli
+
+# ── 2. Cloudinary (Free tier: https://cloudinary.com) ──
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# ── 3. Instagram Reels (Meta for Developers) ──
+INSTAGRAM_ACCOUNT_ID=your_instagram_business_account_id
+INSTAGRAM_ACCESS_TOKEN=your_meta_page_or_user_access_token
+```
+
+---
+
+### 🔑 1-Click YouTube Authorization
+
+You don't need to manually exchange OAuth tokens. Run:
+
+```bash
+npx wisdom publish --auth-youtube
+```
+
+1. The CLI launches a temporary local listener on `http://localhost:8989/oauth2callback` and prints a Google consent link.
+2. Open the link, sign in with your YouTube channel account, and click **Allow**.
+3. The CLI catches the OAuth code and **automatically writes `YOUTUBE_REFRESH_TOKEN` to your `.env`**. YouTube is now connected permanently.
+
+---
+
+### 📸 Instagram Reels Setup (Meta Graph API)
+
+1. Make sure your Instagram account is a **Professional Account** (Creator or Business) and is linked to a **Facebook Page**.
+2. Go to [Meta for Developers](https://developers.facebook.com) ➡️ **Create App** (Type: *Business*).
+3. Add the **Instagram Graph API** product.
+4. Under Tools ➡️ **Graph API Explorer**, generate an access token with:
+   - `instagram_basic`
+   - `instagram_content_publish`
+   - `pages_show_list`
+5. Get your `INSTAGRAM_ACCOUNT_ID` by querying:
+   ```http
+   GET https://graph.facebook.com/v19.0/me/accounts?fields=instagram_business_account
+   ```
+6. Add `INSTAGRAM_ACCOUNT_ID` and `INSTAGRAM_ACCESS_TOKEN` to your `.env`.
+
+---
+
+### 📤 Publishing Workflows
+
+#### 1. Check Publishing Status Queue
+Inspect which quotes have been published vs pending across both platforms:
+```bash
+npm run status:social
+# or: npx wisdom publish --status
+```
+
+#### 2. Dry-Run (Validate Credentials & Captions Without Uploading)
+```bash
+npx wisdom publish --all --dry-run
+```
+
+#### 3. Publish to YouTube Shorts Only
+```bash
+npx wisdom publish --youtube --limit 5
+```
+
+#### 4. Publish to Instagram Reels Only
+```bash
+npx wisdom publish --instagram --limit 5
+```
+
+#### 5. Publish to Both Platforms
+```bash
+npm run publish:social
+# or: npx wisdom publish --all
+```
+
+#### 6. Staggered Auto-Scheduling (e.g. 1 Post Every 24 Hours)
+```bash
+npx wisdom publish --all --schedule "2026-10-21T08:00:00Z" --schedule-interval 24 --limit 14
+```
+*(Schedules the next 14 reels across the next 14 days at 8:00 AM automatically).*
+
+---
+
+### 🛡️ Duplicate Prevention & Tracking (`publishing-log.json`)
+
+Every successful upload is tracked in `out-videos/publishing-log.json` with its public video ID, URL, and timestamp:
+```json
+{
+  "q001": {
+    "id": "q001",
+    "youtube": {
+      "id": "dQw4w9WgXcQ",
+      "url": "https://youtube.com/shorts/dQw4w9WgXcQ"
+    },
+    "instagram": {
+      "id": "1798321045",
+      "url": "https://www.instagram.com/reel/1798321045/"
+    },
+    "lastUpdated": "2026-10-20T11:45:00.000Z"
+  }
+}
+```
+The script will **never double-post** an already published reel unless forced.
 
 ---
 

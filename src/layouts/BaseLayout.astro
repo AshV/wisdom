@@ -39,7 +39,7 @@ const themeConfig = resolveThemeConfig({
   language: Astro.props.lang,
   locale: Astro.props.locale,
   dir: Astro.props.dir,
-  base: Astro.props.base,
+  base: Astro.props.base || (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : undefined),
   siteTitle: Astro.props.siteName || Astro.props.siteTitle,
   siteName: Astro.props.siteName || Astro.props.siteTitle,
   subtitle: Astro.props.subtitle || Astro.props.tagline,
@@ -533,11 +533,70 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       }
       document.addEventListener('astro:page-load', syncChimeAudioUI);
 
+      // ── Consumer-Isolated Stores (Self-Contained Offline Storage) ──
+      // Scoped strictly per-consumer so quotes from one consumer app never appear in another.
+      const rawCid = (
+        window.__wisdomThemeConfig?.consumerId ||
+        document.documentElement.dataset.consumerId ||
+        (window.__wisdomBaseUrl ? window.__wisdomBaseUrl.replace(/^\/+|\/+$/g, '') : '') ||
+        'wisdom'
+      ).toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+
+      let appCid = rawCid;
+      if (appCid === 'wisdom') {
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('/tatva')) appCid = 'tatva';
+        else if (path.includes('/elemento')) appCid = 'elemento';
+        else if (path.includes('/element')) appCid = 'element';
+        else if (document.documentElement.lang === 'hi') appCid = 'tatva';
+        else if (document.documentElement.lang === 'es') appCid = 'elemento';
+      }
+
+      const LIKED_KEY = `wiz_liked_quotes_${appCid}`;
+      const DISLIKED_KEY = `wiz_disliked_quotes_${appCid}`;
+      const RECENT_KEY = `wiz_recent_quotes_${appCid}`;
+
+      // One-time partition of legacy unnamespaced 'liked_quotes' key
+      (function migrateLegacyLikedQuotes() {
+        try {
+          if (localStorage.getItem(LIKED_KEY) !== null) return;
+          const legacyRaw = localStorage.getItem('liked_quotes');
+          if (!legacyRaw) return;
+          const legacy = JSON.parse(legacyRaw);
+          if (!Array.isArray(legacy) || legacy.length === 0) return;
+
+          const partitioned = legacy.filter(item => {
+            if (!item || typeof item !== 'object') return false;
+            const text = (item.content || '') + ' ' + (item.author || '') + ' ' + (item.category || '');
+            const hasDevanagari = /[\u0900-\u097F]/.test(text);
+            const isSpanish = (item.lang === 'es' || item.consumerId === 'elemento' || /cervantes|borges|calderón|séneca|sabiduría|antología/i.test(text));
+
+            if (appCid === 'tatva' || appCid === 'hi') {
+              return hasDevanagari;
+            } else if (appCid === 'elemento' || appCid === 'es') {
+              return !hasDevanagari && isSpanish;
+            } else {
+              return !hasDevanagari && !isSpanish;
+            }
+          });
+
+          localStorage.setItem(LIKED_KEY, JSON.stringify(partitioned));
+        } catch {}
+      })();
+
       window.addEventListener('storage', (e) => {
         if (e.key === 'wisdom_chime_enabled') {
           syncChimeAudioUI();
           if (window.wisdomAudio && !window.wisdomAudio.isEnabled()) {
             window.wisdomAudio.stopAll();
+          }
+        }
+        if (e.key === LIKED_KEY) {
+          if (window.likedQuotes) window.likedQuotes._cache = null;
+          if (window.refreshExploreLikes) window.refreshExploreLikes();
+          const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+          if (activeSlide && window.updateLikeUI && window.likedQuotes) {
+            window.updateLikeUI(window.likedQuotes.has(activeSlide.dataset.quoteId));
           }
         }
       });
@@ -560,7 +619,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       // Performance: _cache is a Set<id> lazily initialised on first has() call.
       // Invalidated on every write so reads stay O(1) instead of O(n JSON parse).
       window.likedQuotes = {
-        _key: 'liked_quotes',
+        _key: LIKED_KEY,
         _cache: null,
         _getIdSet() {
           if (this._cache === null) {
@@ -608,10 +667,18 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
                   categorySlug: slide.dataset.categorySlug || '',
                   mood: slide.dataset.mood || '',
                   slug: slide.dataset.quoteSlug || id,
+                  consumerId: appCid,
+                  lang: document.documentElement.lang || 'en',
                 };
               } else {
-                quoteObj = { id };
+                quoteObj = { id, consumerId: appCid, lang: document.documentElement.lang || 'en' };
               }
+            } else {
+              quoteObj = {
+                ...quoteObj,
+                consumerId: appCid,
+                lang: document.documentElement.lang || 'en',
+              };
             }
             all.unshift(quoteObj);
             localStorage.setItem(this._key, JSON.stringify(all));
@@ -623,7 +690,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
 
       // ── Disliked Quotes Store (Self-Contained Local Quality Signals) ──
       window.dislikedQuotes = {
-        _key: 'wisdom_disliked_quotes',
+        _key: DISLIKED_KEY,
         _cache: null,
         _getIdSet() {
           if (this._cache === null) {
@@ -664,7 +731,7 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       // ── Recent Viewed Quotes Store (Up to 500 Quotes FIFO Queue) ──
       // Performance: _cache is a Set<id> lazily initialised; invalidated on writes.
       window.recentQuotes = {
-        _key: 'wisdom_recent_quotes',
+        _key: RECENT_KEY,
         _max: 500,
         _cache: null,
         getAll() {

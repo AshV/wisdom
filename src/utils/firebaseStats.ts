@@ -43,9 +43,16 @@ export function setConsumerId(id: string): void {
 
 export function getConsumerId(): string {
   if (typeof document !== 'undefined' && currentConsumerId === 'wisdom') {
+    const winCid = (window as any).__wisdomThemeConfig?.consumerId;
     const domCid = document.documentElement.dataset.consumerId;
-    if (domCid) {
-      currentConsumerId = domCid.toLowerCase().trim().replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '');
+    const resolved = winCid || domCid;
+    if (resolved) {
+      currentConsumerId = resolved.toLowerCase().trim().replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '');
+    } else {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('/tatva')) currentConsumerId = 'tatva';
+      else if (path.includes('/elemento')) currentConsumerId = 'elemento';
+      else if (path.includes('/element')) currentConsumerId = 'element';
     }
   }
   return currentConsumerId;

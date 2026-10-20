@@ -96,17 +96,42 @@ export function resolveThemeConfig(
   const logoUrl = merged.logoUrl || '';
   const faviconUrl = merged.faviconUrl || '/favicon.svg';
   const siteUrl = merged.siteUrl || '';
-  const base = merged.base !== undefined ? merged.base : '';
+  const base = merged.base !== undefined
+    ? merged.base
+    : (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : '');
 
-  const rawConsumer =
-    merged.consumerId ||
-    merged.siteId ||
-    (typeof import.meta !== 'undefined' && (
+  const baseSlug = String(base).toLowerCase().trim().replace(/^\/+|\/+$/g, '').replace(/[^a-z0-9_-]/g, '');
+
+  let rawConsumer = merged.consumerId || merged.siteId;
+
+  if (!rawConsumer && typeof import.meta !== 'undefined') {
+    rawConsumer =
       import.meta.env?.PUBLIC_FIREBASE_CONSUMER_ID ||
       import.meta.env?.PUBLIC_SITE_ID ||
-      import.meta.env?.PUBLIC_CONSUMER_ID
-    )) ||
-    (merged.siteName || merged.siteTitle || 'wisdom');
+      import.meta.env?.PUBLIC_CONSUMER_ID;
+  }
+
+  // Derive from base URL slug (e.g. '/element/' -> 'element', '/tatva/' -> 'tatva', '/elemento/' -> 'elemento')
+  if (!rawConsumer && baseSlug && baseSlug !== 'dist') {
+    rawConsumer = baseSlug;
+  }
+
+  // Derive from Latin siteName / siteTitle
+  if (!rawConsumer && (merged.siteName || merged.siteTitle)) {
+    const nameStr = String(merged.siteName || merged.siteTitle).toLowerCase().trim();
+    const latinSlug = nameStr.replace(/\s+/g, '_').replace(/[^a-z0-9_-]/g, '');
+    if (latinSlug) {
+      rawConsumer = latinSlug;
+    }
+  }
+
+  // Derive from language if siteName is non-Latin (e.g. Hindi "तत्व" / Devanagari)
+  if (!rawConsumer) {
+    if (normLang === 'hi') rawConsumer = 'tatva';
+    else if (normLang === 'es') rawConsumer = 'elemento';
+    else if (normLang === 'en') rawConsumer = 'element';
+    else rawConsumer = normLang || 'wisdom';
+  }
 
   const consumerId = String(rawConsumer)
     .toLowerCase()

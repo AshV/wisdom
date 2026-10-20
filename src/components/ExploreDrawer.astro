@@ -572,7 +572,31 @@ const moodKeywords: Record<string, string> = {
     function refreshLikedQuotes() {
       if (!window.likedQuotes) return;
       const allLikes = window.likedQuotes.getAll();
-      const likedCount = allLikes.length;
+
+      let currentCid = (
+        window.__wisdomThemeConfig?.consumerId ||
+        document.documentElement.dataset.consumerId ||
+        (window.__wisdomBaseUrl ? window.__wisdomBaseUrl.replace(/^\/+|\/+$/g, '') : '') ||
+        'wisdom'
+      ).toLowerCase().trim().replace(/[^a-z0-9_-]/g, '');
+
+      if (currentCid === 'wisdom') {
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('/tatva')) currentCid = 'tatva';
+        else if (path.includes('/elemento')) currentCid = 'elemento';
+        else if (path.includes('/element')) currentCid = 'element';
+        else if (document.documentElement.lang === 'hi') currentCid = 'tatva';
+        else if (document.documentElement.lang === 'es') currentCid = 'elemento';
+      }
+
+      const validLikes = allLikes.filter((item) => {
+        const quote = (typeof item === 'object' && item !== null) ? item : (window.__wisdomQuoteMap ? window.__wisdomQuoteMap[item] : null);
+        if (!quote || !quote.content) return false;
+        if (quote.consumerId && currentCid && quote.consumerId !== currentCid && currentCid !== 'wisdom') return false;
+        return true;
+      });
+
+      const likedCount = validLikes.length;
 
       // Update Liked tab visibility: don't show Liked tab if count = 0
       if (likedTabBtn) {
@@ -617,7 +641,7 @@ const moodKeywords: Record<string, string> = {
       // Render cards in reverse chronological order (newest likes first)
       const base = window.__wisdomBaseUrl ?? '';
 
-      allLikes.slice().reverse().forEach((item) => {
+      validLikes.slice().reverse().forEach((item) => {
         const quote = (typeof item === 'object' && item !== null) ? item : (window.__wisdomQuoteMap ? window.__wisdomQuoteMap[item] : null);
         if (!quote || !quote.content) return;
         const id = quote.id;

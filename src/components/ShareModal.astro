@@ -715,36 +715,55 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.restore();
     }
 
+    // ── 7. Author Attribution, Source Work & Mood Pill ──
+    // When extractWords is true (animated video / preview), render these onto a dedicated offscreen
+    // attrCanvas so they can appear gracefully once the quote text has finished loading.
+    let attrCanvas = null;
+    let targetCtx = ctx;
+
+    if (extractWords) {
+      attrCanvas = document.createElement('canvas');
+      attrCanvas.width = width * scale;
+      attrCanvas.height = height * scale;
+      targetCtx = attrCanvas.getContext('2d');
+      targetCtx.scale(scale, scale);
+      targetCtx.imageSmoothingEnabled = true;
+      targetCtx.imageSmoothingQuality = 'high';
+      if ('textRendering' in targetCtx) {
+        targetCtx.textRendering = 'geometricPrecision';
+      }
+    }
+
     // Author Attribution: Two-Pass Rendering for Crisp Typography
     const authorY = quoteStartY + totalQuoteTextHeight + authorGap;
     const rawAuthorFont = typoCfg.authorCanvasFont || 'italic 400 44px "Cormorant Garamond", "Playfair Display", Georgia, serif';
     const authorFontStr = rawAuthorFont.includes('px') ? rawAuthorFont : `400 44px ${rawAuthorFont}`;
 
     // Pass 1: Depth shadow
-    ctx.save();
-    ctx.font = authorFontStr;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.50)';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
-    ctx.shadowBlur = 16;
-    ctx.shadowOffsetY = 4;
-    ctx.fillText(`— ${author}`, width / 2, authorY);
-    ctx.restore();
+    targetCtx.save();
+    targetCtx.font = authorFontStr;
+    targetCtx.textAlign = 'center';
+    targetCtx.textBaseline = 'middle';
+    if ('letterSpacing' in targetCtx) targetCtx.letterSpacing = '2px';
+    targetCtx.fillStyle = 'rgba(0, 0, 0, 0.50)';
+    targetCtx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    targetCtx.shadowBlur = 16;
+    targetCtx.shadowOffsetY = 4;
+    targetCtx.fillText(`— ${author}`, width / 2, authorY);
+    targetCtx.restore();
 
     // Pass 2: Sharp foreground with theme radiance
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = authorFontStr;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-    ctx.shadowColor = 'rgba(' + accentRgb.join(',') + ', 0.35)';
-    ctx.shadowBlur = 8;
-    ctx.shadowOffsetY = 0;
-    ctx.fillText(`— ${author}`, width / 2, authorY);
-    ctx.restore();
+    targetCtx.save();
+    targetCtx.fillStyle = '#ffffff';
+    targetCtx.font = authorFontStr;
+    targetCtx.textAlign = 'center';
+    targetCtx.textBaseline = 'middle';
+    if ('letterSpacing' in targetCtx) targetCtx.letterSpacing = '2px';
+    targetCtx.shadowColor = 'rgba(' + accentRgb.join(',') + ', 0.35)';
+    targetCtx.shadowBlur = 8;
+    targetCtx.shadowOffsetY = 0;
+    targetCtx.fillText(`— ${author}`, width / 2, authorY);
+    targetCtx.restore();
 
     // Source Work Attribution (italic, below author)
     if (sourceWork) {
@@ -752,33 +771,33 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       const sourceFontStr = 'italic 400 30px "Cormorant Garamond", "Playfair Display", Georgia, serif';
 
       // Pass 1: depth shadow
-      ctx.save();
-      ctx.font = sourceFontStr;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.80)';
-      ctx.shadowBlur = 12;
-      ctx.shadowOffsetY = 3;
-      ctx.fillText(sourceWork, width / 2, sourceY);
-      ctx.restore();
+      targetCtx.save();
+      targetCtx.font = sourceFontStr;
+      targetCtx.textAlign = 'center';
+      targetCtx.textBaseline = 'middle';
+      if ('letterSpacing' in targetCtx) targetCtx.letterSpacing = '1px';
+      targetCtx.fillStyle = 'rgba(0, 0, 0, 0.45)';
+      targetCtx.shadowColor = 'rgba(0, 0, 0, 0.80)';
+      targetCtx.shadowBlur = 12;
+      targetCtx.shadowOffsetY = 3;
+      targetCtx.fillText(sourceWork, width / 2, sourceY);
+      targetCtx.restore();
 
       // Pass 2: sharp foreground
-      ctx.save();
-      ctx.font = sourceFontStr;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-      ctx.shadowColor = 'transparent';
-      ctx.shadowBlur = 0;
-      ctx.shadowOffsetY = 0;
-      ctx.fillText(sourceWork, width / 2, sourceY);
-      ctx.restore();
+      targetCtx.save();
+      targetCtx.font = sourceFontStr;
+      targetCtx.textAlign = 'center';
+      targetCtx.textBaseline = 'middle';
+      if ('letterSpacing' in targetCtx) targetCtx.letterSpacing = '1px';
+      targetCtx.fillStyle = 'rgba(255, 255, 255, 0.55)';
+      targetCtx.shadowColor = 'transparent';
+      targetCtx.shadowBlur = 0;
+      targetCtx.shadowOffsetY = 0;
+      targetCtx.fillText(sourceWork, width / 2, sourceY);
+      targetCtx.restore();
     }
 
-    // ── 7. Mood Pill — frosted glass badge below author/source ──
+    // ── Mood Pill — frosted glass badge below author/source ──
     if (mood) {
       const lastAttributionY = sourceWork
         ? (quoteStartY + totalQuoteTextHeight + authorGap + authorHeight / 2 + sourceWorkGap + sourceWorkHeight)
@@ -786,10 +805,10 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       const pillCenterY = lastAttributionY + moodPillGap + moodPillHeight / 2;
 
       const moodLabel = mood.charAt(0).toUpperCase() + mood.slice(1);
-      ctx.save();
-      ctx.font = `600 22px ${sansFont}`;
-      if ('letterSpacing' in ctx) ctx.letterSpacing = '2px';
-      const labelWidth = ctx.measureText(moodLabel.toUpperCase()).width;
+      targetCtx.save();
+      targetCtx.font = `600 22px ${sansFont}`;
+      if ('letterSpacing' in targetCtx) targetCtx.letterSpacing = '2px';
+      const labelWidth = targetCtx.measureText(moodLabel.toUpperCase()).width;
       const pillPadX = 32;
       const pillW = labelWidth + pillPadX * 2;
       const pillH = moodPillHeight;
@@ -798,29 +817,29 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       const pillR = pillH / 2;
 
       // Frosted glass background
-      ctx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.14)';
-      ctx.strokeStyle = 'rgba(' + accentRgb.join(',') + ', 0.45)';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      drawRoundRect(ctx, pillX, pillY, pillW, pillH, pillR);
-      ctx.fill();
-      ctx.stroke();
+      targetCtx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.14)';
+      targetCtx.strokeStyle = 'rgba(' + accentRgb.join(',') + ', 0.45)';
+      targetCtx.lineWidth = 1.5;
+      targetCtx.beginPath();
+      drawRoundRect(targetCtx, pillX, pillY, pillW, pillH, pillR);
+      targetCtx.fill();
+      targetCtx.stroke();
 
       // Accent glow behind pill
-      const pillGlow = ctx.createRadialGradient(width / 2, pillCenterY, 0, width / 2, pillCenterY, pillW * 0.7);
+      const pillGlow = targetCtx.createRadialGradient(width / 2, pillCenterY, 0, width / 2, pillCenterY, pillW * 0.7);
       pillGlow.addColorStop(0, 'rgba(' + accentRgb.join(',') + ', 0.18)');
       pillGlow.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = pillGlow;
-      ctx.fillRect(pillX - 40, pillY - 20, pillW + 80, pillH + 40);
+      targetCtx.fillStyle = pillGlow;
+      targetCtx.fillRect(pillX - 40, pillY - 20, pillW + 80, pillH + 40);
 
       // Label text
-      ctx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.95)';
-      ctx.shadowColor = 'rgba(' + accentRgb.join(',') + ', 0.50)';
-      ctx.shadowBlur = 10;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(moodLabel.toUpperCase(), width / 2, pillCenterY + 1);
-      ctx.restore();
+      targetCtx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.95)';
+      targetCtx.shadowColor = 'rgba(' + accentRgb.join(',') + ', 0.50)';
+      targetCtx.shadowBlur = 10;
+      targetCtx.textAlign = 'center';
+      targetCtx.textBaseline = 'middle';
+      targetCtx.fillText(moodLabel.toUpperCase(), width / 2, pillCenterY + 1);
+      targetCtx.restore();
     }
 
     // ── 8. Footer Domain Watermark with Direct Quote URL ──
@@ -837,7 +856,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     ctx.fillText(watermarkText, width / 2, height - 90);
     ctx.restore();
     if (extractWords) {
-      return { canvas, extractedWordsData, quoteFontStr, accentRgb };
+      return { canvas, attrCanvas, extractedWordsData, quoteFontStr, accentRgb };
     }
     
     return canvas;
@@ -1051,7 +1070,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
 
     const overlayResult = renderQuoteCard9x16(quote, false, true, true);
     if (!overlayResult) return;
-    const { canvas: overlayCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
+    const { canvas: overlayCanvas, attrCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
     const wordCount = extractedWordsData.length;
 
     // Size the display canvas to match the overlay
@@ -1134,8 +1153,22 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
         pCtx.restore();
       }
 
-      // Animate through word resolution and celestial glints
-      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 9000);
+      // Author name, source and mood pill appear once quote is loaded
+      const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
+      if (attrCanvas && elapsed > quoteLoadedTime) {
+        const attrElapsed = elapsed - quoteLoadedTime;
+        const attrP = Math.min(attrElapsed / 500, 1.0);
+        const attrEase = 1 - Math.pow(1 - attrP, 3);
+        const offsetY = 18 * scale * (1 - attrEase);
+
+        pCtx.save();
+        pCtx.globalAlpha = attrEase;
+        pCtx.drawImage(attrCanvas, 0, offsetY, W, H);
+        pCtx.restore();
+      }
+
+      // Animate through word resolution, attribution appearance, and celestial glints
+      const maxPreviewDuration = Math.max(quoteLoadedTime + 5500, 10000);
       if (elapsed < maxPreviewDuration) {
         _previewAnimRAF = requestAnimationFrame(drawPreviewFrame);
       }
@@ -1371,7 +1404,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           
           const overlayResult = renderQuoteCard9x16(quote, true, true, true);
           if (!overlayResult) throw new Error('Overlay rendering failed');
-          const { canvas: overlayCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
+          const { canvas: overlayCanvas, attrCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
           const wordCount = extractedWordsData.length;
 
           const videoCanvas = document.createElement('canvas');
@@ -1477,6 +1510,20 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
                 vCtx.fillText(text, 0, 0);
                 vCtx.restore();
               }
+              vCtx.restore();
+            }
+
+            // ── 5. Author name, source and mood pill appear once quote is loaded ──
+            const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
+            if (attrCanvas && elapsed > quoteLoadedTime) {
+              const attrElapsed = elapsed - quoteLoadedTime;
+              const attrP = Math.min(attrElapsed / 500, 1.0);
+              const attrEase = 1 - Math.pow(1 - attrP, 3);
+              const offsetY = 18 * (1 - attrEase);
+
+              vCtx.save();
+              vCtx.globalAlpha = attrEase;
+              vCtx.drawImage(attrCanvas, 0, offsetY, 1080, 1920);
               vCtx.restore();
             }
             

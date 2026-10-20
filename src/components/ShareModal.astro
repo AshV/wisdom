@@ -216,11 +216,12 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     return _cachedBrandLogoImg;
   }
 
-  // ── Animated Celestial Medallion (Center Showcase followed by Top Crown + Quote) ──
+  // ── Animated Celestial Medallion (Center Showcase followed by Top Crown + Author once quote is loaded) ──
   // Choreography:
   // 1. Center Scene (0 - 1450ms): Medallion appears at center (540, 960) at 60% width (648px), holds, and smoothly fades out.
-  // 2. Top Scene (1450ms+): Top logo appears at top crown (540, 184) at 220px along with the quote, with breathing aura and specular golden glint. (No gliding animation).
-  function drawAnimatedMedallion(ctx, elapsed, accentRgb = [251, 191, 36]) {
+  // 2. Pure Quote Cascade: Words cascade onto the canvas without logo or attribution distraction.
+  // 3. Grand Conclusion (quoteLoadedTime+): Top logo appears at top crown (540, 184) simultaneously with the author name/source/mood pill!
+  function drawAnimatedMedallion(ctx, elapsed, accentRgb = [251, 191, 36], topStartTime = 1450) {
     const logoImg = getBrandLogoImg();
     if (!logoImg || !logoImg.complete || logoImg.naturalWidth <= 0) return;
 
@@ -232,8 +233,8 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const CENTER_FADE_IN_DUR = 400;
     const CENTER_HOLD_END    = 1100;
     const CENTER_END         = 1450; // Completely faded out by 1450ms
-    const TOP_START          = 1450; // Top logo appears when center disappears
-    const TOP_FADE_IN_DUR    = 350;
+    const TOP_START          = topStartTime; // Top logo appears simultaneously with author name once quote is loaded
+    const TOP_FADE_IN_DUR    = 500;
 
     // ── 1. Center Medallion Scene (0ms to 1450ms) ──
     if (elapsed < CENTER_END) {
@@ -368,9 +369,10 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.fill();
       ctx.restore();
 
-      // Draw Top Logo Core (Upright — NO rotation)
+      // Draw Top Logo Core (Upright — NO rotation, gentle downward settle)
       ctx.save();
-      ctx.translate(topX, topY);
+      const settleOffsetY = -14 * (1 - topEase);
+      ctx.translate(topX, topY + settleOffsetY);
       ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
       ctx.shadowBlur = 24;
       ctx.shadowOffsetY = 6;
@@ -1103,13 +1105,14 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       pCtx.drawImage(overlayCanvas, 0, 0, W, H);
       pCtx.restore();
 
-      // Animated Celestial Medallion (Option B + Concepts 1 & 2)
+      // Animated Celestial Medallion (Center Showcase, then Top Crown along with author name once quote is loaded)
+      const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
       pCtx.save();
       pCtx.scale(scale, scale);
-      drawAnimatedMedallion(pCtx, elapsed, accentRgb || [251, 191, 36]);
+      drawAnimatedMedallion(pCtx, elapsed, accentRgb || [251, 191, 36], quoteLoadedTime);
       pCtx.restore();
 
-      // Word-by-word kinetic typography (starts smoothly after medallion settles at top)
+      // Word-by-word kinetic typography (starts smoothly after center logo disappears)
       if (wordCount > 0 && elapsed > WORDS_START_DELAY) {
         const wordsElapsed = elapsed - WORDS_START_DELAY;
         pCtx.save();
@@ -1467,10 +1470,11 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
             vCtx.drawImage(overlayCanvas, 0, 0, 1080, 1920);
             vCtx.restore();
 
-            // ── 3. Animated Celestial Medallion (Option B + Concepts 1 & 2) ──
-            drawAnimatedMedallion(vCtx, elapsed, accentRgb || [251, 191, 36]);
+            // ── 3. Animated Celestial Medallion (Center Showcase, then Top Crown along with author name once quote is loaded) ──
+            const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
+            drawAnimatedMedallion(vCtx, elapsed, accentRgb || [251, 191, 36], quoteLoadedTime);
 
-            // ── 4. Word-by-word kinetic typography (starts after medallion crowns top) ──
+            // ── 4. Word-by-word kinetic typography (starts after center logo disappears) ──
             if (wordCount > 0 && elapsed > WORDS_START_DELAY) {
               const wordsElapsed = elapsed - WORDS_START_DELAY;
               vCtx.save();

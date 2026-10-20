@@ -197,6 +197,25 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
 </div>
 
 <script is:inline>
+  // ── Brand Medallion Preloader & Cache ──
+  let _cachedBrandLogoImg = null;
+  function getBrandLogoImg() {
+    if (_cachedBrandLogoImg && _cachedBrandLogoImg.complete && _cachedBrandLogoImg.naturalWidth > 0) {
+      return _cachedBrandLogoImg;
+    }
+    const themeCfg = window.__wizThemeConfig || {};
+    const base = (themeCfg.base || '').replace(/\/+$/, '');
+    const url = themeCfg.logoUrl || '/icons/icon-192.png';
+    const fullUrl = url.startsWith('http') ? url : `${base}${url}`;
+
+    if (!_cachedBrandLogoImg) {
+      _cachedBrandLogoImg = new Image();
+      _cachedBrandLogoImg.crossOrigin = 'anonymous';
+      _cachedBrandLogoImg.src = fullUrl;
+    }
+    return _cachedBrandLogoImg;
+  }
+
   // ── High-Performance Canvas 2D 9:16 Quote Card Generator ──
   // Renders a stunning 2160×3840 Ultra-HD 9:16 Story/Reel card (2x supersampling for razor sharpness)
   // matching the exact visual style, colors, and live ambient background shown on screen.
@@ -348,44 +367,37 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     drawRoundRect(ctx, inset, inset, width - inset * 2, height - inset * 2, radius);
     ctx.stroke();
 
-    // ── 5. Top Brand & Taxonomy Badge ──
+    // ── 5. Top Brand Medallion Emblem (Minimalist Imperial Seal) ──
     const themeCfg = window.__wizThemeConfig || {};
     const typoCfg = themeCfg.typography || {};
     const sansFont = typoCfg.sansCanvasFont || '"Inter", -apple-system, sans-serif';
 
-    ctx.save();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.70)';
-    ctx.font = `700 17px ${sansFont}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    if ('letterSpacing' in ctx) ctx.letterSpacing = '6px';
-    const brandName = (themeCfg.siteTitle || 'WISDOM').toUpperCase();
-    ctx.fillText(brandName, width / 2, 130);
-    ctx.restore();
+    const logoImg = getBrandLogoImg();
+    const logoSize = 104;
+    const logoX = (width - logoSize) / 2;
+    const logoY = 92;
 
-    if (category) {
+    if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
       ctx.save();
-      const badgeY = 186;
-      ctx.font = `600 19px ${sansFont}`;
-      if ('letterSpacing' in ctx) ctx.letterSpacing = '2.5px';
-      const catText = category.toUpperCase();
-      const textWidth = ctx.measureText(catText).width;
-      const padX = 26;
-      const badgeW = textWidth + padX * 2;
-      const badgeH = 38;
+      // Soft ambient radiant illumination behind the circular seal
+      const logoGlow = ctx.createRadialGradient(
+        width / 2,
+        logoY + logoSize / 2,
+        logoSize * 0.1,
+        width / 2,
+        logoY + logoSize / 2,
+        logoSize * 0.85
+      );
+      logoGlow.addColorStop(0, 'rgba(' + accentRgb.join(',') + ', 0.32)');
+      logoGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = logoGlow;
+      ctx.fillRect(logoX - 50, logoY - 50, logoSize + 100, logoSize + 100);
 
-      ctx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.18)';
-      ctx.strokeStyle = 'rgba(' + accentRgb.join(',') + ', 0.40)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      drawRoundRect(ctx, (width - badgeW) / 2, badgeY - badgeH / 2, badgeW, badgeH, 19);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = 'rgba(' + accentRgb.join(',') + ', 0.95)';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(catText, width / 2, badgeY + 1);
+      // Subtle drop shadow for floating seal depth
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 4;
+      ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
       ctx.restore();
     }
 
@@ -717,6 +729,16 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           }
         }
 
+        // Ensure brand logo image is fully loaded before rendering
+        const logoImg = getBrandLogoImg();
+        if (logoImg && !logoImg.complete) {
+          await new Promise((resolve) => {
+            logoImg.onload = resolve;
+            logoImg.onerror = resolve;
+            setTimeout(resolve, 400);
+          });
+        }
+
         const canvas = renderQuoteCard9x16({ id, content, author, mood, category, slug, sourceWork });
         if (!canvas) {
           const statusEl = document.getElementById('share-loader-status');
@@ -942,6 +964,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     let currentMood = '';
     let currentCategory = '';
     let currentSourceWork = '';
+
+    // Eagerly preload brand logo so it is ready immediately in memory
+    getBrandLogoImg();
 
     function closeModal() {
       stopProgressMessages();

@@ -167,6 +167,9 @@ const breadcrumbsSchema = breadcrumbs.length > 0 ? {
       <link rel="icon" type={themeConfig.faviconUrl.endsWith('.svg') ? 'image/svg+xml' : undefined} href={themeConfig.faviconUrl.startsWith('http') ? themeConfig.faviconUrl : `${BASE}${themeConfig.faviconUrl}`} />
     )}
     <link rel="icon" type="image/png" sizes="192x192" href={`${BASE}/favicon.png`} />
+    {themeConfig.logoUrl && (
+      <link rel="preload" as="image" href={themeConfig.logoUrl.startsWith('http') ? themeConfig.logoUrl : `${BASE}${themeConfig.logoUrl}`} />
+    )}
     <link rel="apple-touch-icon" sizes="180x180" href={`${BASE}/icons/apple-touch-icon.png`} />
     <link rel="manifest" href={`${BASE}/manifest.webmanifest`} />
     <meta name="application-name" content={themeConfig.siteTitle} />

@@ -93,7 +93,7 @@ export function resolveThemeConfig(
   const siteDescription = merged.siteDescription || translations.site.description;
   const author = merged.author || translations.site.author;
   const brandingText = merged.brandingText || siteTitle || translations.site.brandingText;
-  const logoUrl = merged.logoUrl || '';
+  const logoUrl = merged.logoUrl || '/icons/icon-192.png';
   const faviconUrl = merged.faviconUrl || '/favicon.svg';
   const siteUrl = merged.siteUrl || '';
   const base = merged.base !== undefined

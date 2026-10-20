@@ -216,10 +216,218 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     return _cachedBrandLogoImg;
   }
 
+  // ── Animated Celestial Medallion (Option B: Center-to-Top Kinetic Glide + Concepts 1 & 2) ──
+  // Choreography:
+  // 1. Genesis Pop (0-450ms): Elastic bloom at screen center (540, 960) with easeOutBack.
+  // 2. Shockwave Rings (160-700ms): Dual luminous circular shockwaves rippling across screen.
+  // 3. Kinetic Glide (450-1000ms): Upward ascent from center (960) to top anchor (184) with trailing light streak.
+  // 4. Living Astrolabe (1000ms+): Top anchor gyroscopic micro-drift, dual rotating starlight tick rings, orbiting celestial bead, breathing starlight aura, and cyclic diagonal specular golden glints.
+  function drawAnimatedMedallion(ctx, elapsed, accentRgb = [251, 191, 36]) {
+    const logoImg = getBrandLogoImg();
+    const logoSize = 220;
+    const logoRadius = logoSize / 2; // 110px
+    const startX = 540;
+    const startY = 960;
+    const endX = 540;
+    const endY = 184; // Center of top anchor (74 + 110)
+
+    const GENESIS_DUR = 450;
+    const GLIDE_START = 450;
+    const GLIDE_DUR = 550; // 450ms to 1000ms
+    const GLIDE_END = GLIDE_START + GLIDE_DUR; // 1000ms
+
+    let curX = startX;
+    let curY = startY;
+    let curScale = 1.0;
+    let curAlpha = 1.0;
+
+    if (elapsed < GENESIS_DUR) {
+      // Genesis Pop at Screen Center (540, 960)
+      const p = Math.max(0, Math.min(elapsed / GENESIS_DUR, 1.0));
+      const s1 = 1.70158;
+      const pMinus = p - 1;
+      const easeBack = 1 + (s1 + 1) * Math.pow(pMinus, 3) + s1 * Math.pow(pMinus, 2);
+      curScale = Math.max(0.01, easeBack);
+      curAlpha = Math.min(elapsed / 180, 1.0);
+      curX = startX;
+      curY = startY;
+    } else if (elapsed < GLIDE_END) {
+      // Phase 2: Kinetic Glide from Center (960) to Top (184)
+      const gp = Math.max(0, Math.min((elapsed - GLIDE_START) / GLIDE_DUR, 1.0));
+      const easeGlide = 1 - Math.pow(1 - gp, 4);
+      curX = startX;
+      curY = startY + (endY - startY) * easeGlide;
+      curScale = 1.0;
+      curAlpha = 1.0;
+
+      // Kinetic Upward Motion Streak / Trail
+      const trailAlpha = Math.sin(gp * Math.PI) * 0.40;
+      if (trailAlpha > 0.02) {
+        ctx.save();
+        const streakGrad = ctx.createLinearGradient(curX, curY, curX, curY + 180);
+        streakGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, ${trailAlpha.toFixed(3)})`);
+        streakGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = streakGrad;
+        ctx.fillRect(curX - 60, curY, 120, 180);
+        ctx.restore();
+      }
+    } else {
+      // Phase 3: Settled at Top Anchor (540, 184)
+      curX = endX;
+      curY = endY;
+      curScale = 1.0;
+      curAlpha = 1.0;
+    }
+
+    // ── Concept 2: Genesis Luminous Shockwaves (160ms - 700ms) ──
+    if (elapsed >= 160 && elapsed < 700) {
+      // Primary Shockwave
+      const sw1P = Math.min((elapsed - 160) / 450, 1.0);
+      const sw1Radius = logoRadius + sw1P * 380;
+      const sw1Alpha = Math.sin(sw1P * Math.PI) * 0.70 * (1 - sw1P * 0.5);
+
+      ctx.save();
+      ctx.strokeStyle = `rgba(${accentRgb.join(',')}, ${sw1Alpha.toFixed(3)})`;
+      ctx.lineWidth = 3.5 * (1 - sw1P * 0.7);
+      ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.85)`;
+      ctx.shadowBlur = 18;
+      ctx.beginPath();
+      ctx.arc(startX, startY, sw1Radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Secondary Echo Shockwave
+      if (elapsed >= 240) {
+        const sw2P = Math.min((elapsed - 240) / 420, 1.0);
+        const sw2Radius = logoRadius + sw2P * 260;
+        const sw2Alpha = Math.sin(sw2P * Math.PI) * 0.40 * (1 - sw2P * 0.5);
+
+        ctx.save();
+        ctx.strokeStyle = `rgba(255, 255, 255, ${sw2Alpha.toFixed(3)})`;
+        ctx.lineWidth = 1.8 * (1 - sw2P * 0.6);
+        ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.5)`;
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.arc(startX, startY, sw2Radius, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    // ── Ambient Radiant Halo (Breathing Starlight Aura) ──
+    const breathe = elapsed >= GLIDE_END ? 1.0 + 0.08 * Math.sin(elapsed * 0.003) : 1.0;
+    const auraRadius = logoRadius * 1.7 * breathe * curScale;
+
+    ctx.save();
+    ctx.globalAlpha = curAlpha;
+    const haloGrad = ctx.createRadialGradient(curX, curY, logoRadius * 0.2, curX, curY, auraRadius);
+    haloGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, 0.45)`);
+    haloGrad.addColorStop(0.55, `rgba(${accentRgb.join(',')}, 0.14)`);
+    haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.beginPath();
+    ctx.arc(curX, curY, auraRadius, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // ── Concept 1: Living Astrolabe Concentric Orbital Rings ──
+    if (elapsed >= GLIDE_START) {
+      const astrolabeFade = Math.min((elapsed - GLIDE_START) / 500, 1.0);
+      ctx.save();
+      ctx.globalAlpha = astrolabeFade * curAlpha;
+
+      // Outer Orbital Ring (Radius 132px) with spinning dashed starlight ticks
+      ctx.save();
+      ctx.strokeStyle = `rgba(${accentRgb.join(',')}, 0.35)`;
+      ctx.lineWidth = 1.4;
+      ctx.setLineDash([4, 12]);
+      ctx.lineDashOffset = -elapsed * 0.015; // Clockwise rotation
+      ctx.beginPath();
+      ctx.arc(curX, curY, 132 * curScale, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Inner Counter-Rotating Ring (Radius 122px)
+      ctx.save();
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.22)`;
+      ctx.lineWidth = 1.0;
+      ctx.setLineDash([2, 14]);
+      ctx.lineDashOffset = elapsed * 0.012; // Counter-clockwise rotation
+      ctx.beginPath();
+      ctx.arc(curX, curY, 122 * curScale, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Orbiting Starlight Particle Bead
+      const orbitAngle = elapsed * 0.0014;
+      const orbitR = 132 * curScale;
+      const beadX = curX + Math.cos(orbitAngle) * orbitR;
+      const beadY = curY + Math.sin(orbitAngle) * orbitR;
+
+      ctx.save();
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.9)`;
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      ctx.arc(beadX, beadY, 3 * curScale, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.restore();
+    }
+
+    // ── Render Medallion Core with Gyroscopic Drift & Specular Glint ──
+    if (logoImg && logoImg.complete && logoImg.naturalWidth > 0 && curAlpha > 0.01) {
+      ctx.save();
+      ctx.globalAlpha = curAlpha;
+      ctx.translate(curX, curY);
+      ctx.scale(curScale, curScale);
+
+      // Gyroscopic Celestial Micro-Drift (Slow, majestic 0.6 deg/s continuous rotation)
+      const driftAngle = elapsed >= GLIDE_START ? (elapsed - GLIDE_START) * 0.00018 : 0;
+      ctx.rotate(driftAngle);
+
+      // Subtle drop shadow for floating depth
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+      ctx.shadowBlur = 26;
+      ctx.shadowOffsetY = 6;
+
+      // Draw the circular seal centered at (0, 0)
+      ctx.drawImage(logoImg, -logoRadius, -logoRadius, logoSize, logoSize);
+
+      // ── Concept 1: Prismatic Specular Golden Glint (Diagonal Light Sweep) ──
+      if (elapsed >= 1200) {
+        const glintCycle = (elapsed - 1200) % 4000;
+        if (glintCycle < 950) {
+          const glintP = glintCycle / 950;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(0, 0, logoRadius - 1, 0, Math.PI * 2);
+          ctx.clip();
+
+          // Sweep diagonal light band across circle from -170 to +170
+          const sweepPos = -170 + glintP * 340;
+          const glintGrad = ctx.createLinearGradient(sweepPos - 45, -logoRadius, sweepPos + 45, logoRadius);
+          glintGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+          glintGrad.addColorStop(0.40, 'rgba(255, 255, 255, 0.30)');
+          glintGrad.addColorStop(0.50, `rgba(${accentRgb.join(',')}, 0.70)`);
+          glintGrad.addColorStop(0.60, 'rgba(255, 255, 255, 0.30)');
+          glintGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+          ctx.fillStyle = glintGrad;
+          ctx.fillRect(-logoRadius, -logoRadius, logoSize, logoSize);
+          ctx.restore();
+        }
+      }
+
+      ctx.restore();
+    }
+  }
+
   // ── High-Performance Canvas 2D 9:16 Quote Card Generator ──
   // Renders a stunning 2160×3840 Ultra-HD 9:16 Story/Reel card (2x supersampling for razor sharpness)
   // matching the exact visual style, colors, and live ambient background shown on screen.
-  function renderQuoteCard9x16(quote, transparentBg = false, extractWords = false) {
+  function renderQuoteCard9x16(quote, transparentBg = false, extractWords = false, skipLogo = false) {
     const width = 1080;
     const height = 1920;
     const scale = 2; // 2x supersampling for ultra-crisp Retina and 4K display sharpness
@@ -377,7 +585,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const logoX = (width - logoSize) / 2;
     const logoY = 74;
 
-    if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+    if (!skipLogo && logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
       ctx.save();
       // Soft ambient radiant illumination behind the circular seal
       const logoGlow = ctx.createRadialGradient(
@@ -647,7 +855,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     ctx.fillText(watermarkText, width / 2, height - 90);
     ctx.restore();
     if (extractWords) {
-      return { canvas, extractedWordsData, quoteFontStr };
+      return { canvas, extractedWordsData, quoteFontStr, accentRgb };
     }
     
     return canvas;
@@ -859,9 +1067,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     stopProgressMessages();
     if (previewLoader) previewLoader.classList.add('opacity-0', 'pointer-events-none');
 
-    const overlayResult = renderQuoteCard9x16(quote, false, true);
+    const overlayResult = renderQuoteCard9x16(quote, false, true, true);
     if (!overlayResult) return;
-    const { canvas: overlayCanvas, extractedWordsData, quoteFontStr } = overlayResult;
+    const { canvas: overlayCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
     const wordCount = extractedWordsData.length;
 
     // Size the display canvas to match the overlay
@@ -876,12 +1084,15 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const STATIC_DUR       = 500;
     const PER_WORD_STAGGER  = 120;  // ms between each word starting (scales with word count)
     const WORD_ANIM         = 480;  // ms for each word to fully resolve
+    const WORDS_START_DELAY = 1000; // Delayed until medallion glides and locks at top crown
     const startTime         = Date.now();
 
     function drawPreviewFrame() {
       if (!pCtx) return;
       const elapsed = Date.now() - startTime;
       pCtx.clearRect(0, 0, W, H);
+
+      const scale = W / 1080;
 
       // Static overlay (bg + chrome) fades in
       const staticP    = Math.min(elapsed / STATIC_DUR, 1.0);
@@ -891,18 +1102,22 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       pCtx.drawImage(overlayCanvas, 0, 0, W, H);
       pCtx.restore();
 
-      // Word-by-word kinetic typography
-      if (wordCount > 0 && elapsed > STATIC_DUR * 0.4) {
-        const wordsElapsed = elapsed - STATIC_DUR * 0.4;
-        // Compute scale ratio: overlay is at 2× supersampling
-        const scale = W / 1080;
+      // Animated Celestial Medallion (Option B + Concepts 1 & 2)
+      pCtx.save();
+      pCtx.scale(scale, scale);
+      drawAnimatedMedallion(pCtx, elapsed, accentRgb || [251, 191, 36]);
+      pCtx.restore();
+
+      // Word-by-word kinetic typography (starts smoothly after medallion settles at top)
+      if (wordCount > 0 && elapsed > WORDS_START_DELAY) {
+        const wordsElapsed = elapsed - WORDS_START_DELAY;
         pCtx.save();
         pCtx.font = quoteFontStr.replace(/(\d+)px/, (_, px) => `${parseInt(px) * scale}px`);
         pCtx.textAlign = 'left';
         pCtx.textBaseline = 'middle';
 
         for (let w = 0; w < wordCount; w++) {
-          const wordStartTime = w * PER_WORD_STAGGER;   // stagger per word, not compressed into fixed window
+          const wordStartTime = w * PER_WORD_STAGGER;
           const wordElapsed   = wordsElapsed - wordStartTime;
           const wordP    = Math.max(0, Math.min(wordElapsed / WORD_ANIM, 1.0));
           const wordEase = 1 - Math.pow(1 - wordP, 4);
@@ -937,9 +1152,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
         pCtx.restore();
       }
 
-      // Keep animating until the last word has fully resolved
-      const allWordsEnd = STATIC_DUR * 0.4 + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
-      if (elapsed < allWordsEnd) {
+      // Animate through word resolution and celestial glints
+      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 8000);
+      if (elapsed < maxPreviewDuration) {
         _previewAnimRAF = requestAnimationFrame(drawPreviewFrame);
       }
     }
@@ -1172,9 +1387,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
             };
           }
           
-          const overlayResult = renderQuoteCard9x16(quote, true, true);
+          const overlayResult = renderQuoteCard9x16(quote, true, true, true);
           if (!overlayResult) throw new Error('Overlay rendering failed');
-          const { canvas: overlayCanvas, extractedWordsData, quoteFontStr } = overlayResult;
+          const { canvas: overlayCanvas, extractedWordsData, quoteFontStr, accentRgb } = overlayResult;
           const wordCount = extractedWordsData.length;
 
           const videoCanvas = document.createElement('canvas');
@@ -1195,6 +1410,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           const STATIC_DUR       = 600;
           const PER_WORD_STAGGER = 120;  // ms between each word starting
           const WORD_ANIM        = 550;  // ms each word takes to fully resolve
+          const WORDS_START_DELAY = 1000; // Delayed until medallion glides and locks at top crown
           // Video is always 10s: animation finishes when it finishes, rest is live hold
           const videoDurationMs  = 10000;
 
@@ -1228,7 +1444,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
                }
             }
             
-            // ── 2. Static overlay (brand, category, border, author) fades in first ──
+            // ── 2. Static overlay (border, author, mood pill, footer watermark) fades in first ──
             const staticP = Math.min(elapsed / STATIC_DUR, 1.0);
             const staticEase = 1 - Math.pow(1 - staticP, 3);
             vCtx.save();
@@ -1236,9 +1452,12 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
             vCtx.drawImage(overlayCanvas, 0, 0, 1080, 1920);
             vCtx.restore();
 
-            // ── 3. Word-by-word kinetic typography ──
-            if (wordCount > 0 && elapsed > STATIC_DUR * 0.5) {
-              const wordsElapsed = elapsed - STATIC_DUR * 0.5;
+            // ── 3. Animated Celestial Medallion (Option B + Concepts 1 & 2) ──
+            drawAnimatedMedallion(vCtx, elapsed, accentRgb || [251, 191, 36]);
+
+            // ── 4. Word-by-word kinetic typography (starts after medallion crowns top) ──
+            if (wordCount > 0 && elapsed > WORDS_START_DELAY) {
+              const wordsElapsed = elapsed - WORDS_START_DELAY;
               vCtx.save();
               vCtx.font = quoteFontStr;
               vCtx.textAlign = 'left';

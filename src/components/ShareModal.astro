@@ -205,7 +205,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     }
     const themeCfg = window.__wizThemeConfig || {};
     const base = (themeCfg.base || '').replace(/\/+$/, '');
-    const url = themeCfg.logoUrl || '/icons/icon-192.png';
+    const url = themeCfg.logoUrl || '/icons/icon-512.png';
     const fullUrl = url.startsWith('http') ? url : `${base}${url}`;
 
     if (!_cachedBrandLogoImg) {
@@ -373,9 +373,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const sansFont = typoCfg.sansCanvasFont || '"Inter", -apple-system, sans-serif';
 
     const logoImg = getBrandLogoImg();
-    const logoSize = 104;
+    const logoSize = 220;
     const logoX = (width - logoSize) / 2;
-    const logoY = 92;
+    const logoY = 74;
 
     if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
       ctx.save();
@@ -388,15 +388,16 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
         logoY + logoSize / 2,
         logoSize * 0.85
       );
-      logoGlow.addColorStop(0, 'rgba(' + accentRgb.join(',') + ', 0.32)');
+      logoGlow.addColorStop(0, 'rgba(' + accentRgb.join(',') + ', 0.35)');
+      logoGlow.addColorStop(0.60, 'rgba(' + accentRgb.join(',') + ', 0.12)');
       logoGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = logoGlow;
-      ctx.fillRect(logoX - 50, logoY - 50, logoSize + 100, logoSize + 100);
+      ctx.fillRect(logoX - 60, logoY - 60, logoSize + 120, logoSize + 120);
 
       // Subtle drop shadow for floating seal depth
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
-      ctx.shadowBlur = 18;
-      ctx.shadowOffsetY = 4;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.70)';
+      ctx.shadowBlur = 24;
+      ctx.shadowOffsetY = 6;
       ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
       ctx.restore();
     }
@@ -455,7 +456,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
 
     // Center quote block comfortably in 9:16 viewport
     let blockStartY = (height - totalBlockHeight) / 2;
-    if (blockStartY < 240) blockStartY = 240;
+    if (blockStartY < 330) blockStartY = 330;
 
     // Decorative Quotation Mark in shown theme signature accent
     const quoteMarkY = blockStartY + (quoteMarkHeight / 2);

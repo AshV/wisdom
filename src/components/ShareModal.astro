@@ -1157,7 +1157,6 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       }
 
       // Author name, source and mood pill appear once quote is loaded
-      const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
       if (attrCanvas && elapsed > quoteLoadedTime) {
         const attrElapsed = elapsed - quoteLoadedTime;
         const attrP = Math.min(attrElapsed / 500, 1.0);
@@ -1286,11 +1285,14 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
 
     // Helper: Ensure quote card is ready
     async function ensureQuoteEntry() {
-      if (window.quoteCardCache.has(currentQuoteId)) {
+      if (currentQuoteId && window.quoteCardCache.has(currentQuoteId)) {
         return window.quoteCardCache.get(currentQuoteId);
       }
       const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
-      if (activeSlide && activeSlide.dataset.quoteId === currentQuoteId) {
+      if (activeSlide) {
+        if (!currentQuoteId && window.updateShareContext) {
+          window.updateShareContext(activeSlide);
+        }
         return await window.prepareQuoteCardImage(activeSlide, true);
       }
       return await window.prepareQuoteCardImage({
@@ -1377,10 +1379,12 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     // 1b. Primary: Native Share Video (MediaRecorder API)
     if (videoBtn) {
       videoBtn.onclick = async () => {
+        const previewCanvas = document.getElementById('share-preview-canvas');
         const previewImg = document.getElementById('share-preview-image');
         const previewLoader = document.getElementById('share-preview-loader');
         const statusEl = document.getElementById('share-loader-status');
 
+        if (previewCanvas) previewCanvas.classList.add('opacity-0');
         if (previewImg) previewImg.classList.add('opacity-0');
         if (previewLoader) previewLoader.classList.remove('opacity-0', 'pointer-events-none');
         if (statusEl) {
@@ -1518,7 +1522,6 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
             }
 
             // ── 5. Author name, source and mood pill appear once quote is loaded ──
-            const quoteLoadedTime = WORDS_START_DELAY + Math.max(0, wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM;
             if (attrCanvas && elapsed > quoteLoadedTime) {
               const attrElapsed = elapsed - quoteLoadedTime;
               const attrP = Math.min(attrElapsed / 500, 1.0);
@@ -1668,6 +1671,12 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     // 4. Quick Action: Share Link
     if (linkBtn) {
       linkBtn.onclick = async () => {
+        if (!currentQuoteId) {
+          const activeSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+          if (activeSlide && window.updateShareContext) {
+            window.updateShareContext(activeSlide);
+          }
+        }
         const origin = window.__wizThemeConfig?.siteUrl || window.location.origin;
         const base = window.__wisdomBaseUrl ?? '';
         const quoteSlug = currentQuoteSlug || currentQuoteId;
@@ -1709,6 +1718,11 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       } catch {
         if (window.showToast) window.showToast('Could not copy link');
       }
+    }
+    // Sync initial context if an active slide is already present
+    const initialSlide = document.querySelector('.reel-slide.is-active') || document.querySelector('.reel-slide');
+    if (initialSlide && window.updateShareContext) {
+      window.updateShareContext(initialSlide);
     }
   }
 

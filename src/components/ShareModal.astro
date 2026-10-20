@@ -233,10 +233,10 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const TOP_SIZE = 220;    // Top crown diameter
 
     const GENESIS_DUR = 600;
-    const HOLD_END = 850;
-    const GLIDE_START = 850;
-    const GLIDE_DUR = 650;
-    const GLIDE_END = GLIDE_START + GLIDE_DUR; // 1500ms
+    const HOLD_END = 1600; // Stay prominently at center covering 60% width
+    const GLIDE_START = 1600;
+    const GLIDE_DUR = 700;
+    const GLIDE_END = GLIDE_START + GLIDE_DUR; // 2300ms
 
     let curX = startX;
     let curY = startY;
@@ -288,9 +288,9 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
 
     const curRadius = curSize / 2;
 
-    // ── Genesis Luminous Shockwaves at Screen Center (250ms - 850ms) ──
-    if (elapsed >= 250 && elapsed < 850) {
-      const sw1P = (elapsed - 250) / 550;
+    // ── Genesis Luminous Shockwaves at Screen Center (300ms - 1300ms) ──
+    if (elapsed >= 300 && elapsed < 1300) {
+      const sw1P = Math.min((elapsed - 300) / 700, 1.0);
       const sw1Radius = (CENTER_SIZE / 2) + sw1P * 340;
       const sw1Alpha = Math.sin(sw1P * Math.PI) * 0.65 * (1 - sw1P * 0.4);
 
@@ -304,8 +304,8 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.stroke();
       ctx.restore();
 
-      if (elapsed >= 350) {
-        const sw2P = (elapsed - 350) / 480;
+      if (elapsed >= 500) {
+        const sw2P = Math.min((elapsed - 500) / 600, 1.0);
         const sw2Radius = (CENTER_SIZE / 2) + sw2P * 240;
         const sw2Alpha = Math.sin(sw2P * Math.PI) * 0.38 * (1 - sw2P * 0.4);
 
@@ -396,8 +396,8 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.drawImage(logoImg, -curRadius, -curRadius, curSize, curSize);
 
       // ── Prismatic Specular Golden Glint (Diagonal Light Sweep) ──
-      if (elapsed >= 1800) {
-        const glintCycle = (elapsed - 1800) % 4000;
+      if (elapsed >= 2600) {
+        const glintCycle = (elapsed - 2600) % 4000;
         if (glintCycle < 950) {
           const glintP = glintCycle / 950;
           ctx.save();
@@ -1085,7 +1085,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const STATIC_DUR       = 500;
     const PER_WORD_STAGGER  = 120;  // ms between each word starting (scales with word count)
     const WORD_ANIM         = 480;  // ms for each word to fully resolve
-    const WORDS_START_DELAY = 1500; // Delayed until 60% medallion glides and locks at top crown
+    const WORDS_START_DELAY = 2300; // Delayed until 60% medallion finishes center hold and locks at top crown
     const startTime         = Date.now();
 
     function drawPreviewFrame() {
@@ -1154,7 +1154,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       }
 
       // Animate through word resolution and celestial glints
-      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 9000);
+      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 10000);
       if (elapsed < maxPreviewDuration) {
         _previewAnimRAF = requestAnimationFrame(drawPreviewFrame);
       }
@@ -1411,7 +1411,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           const STATIC_DUR       = 600;
           const PER_WORD_STAGGER = 120;  // ms between each word starting
           const WORD_ANIM        = 550;  // ms each word takes to fully resolve
-          const WORDS_START_DELAY = 1500; // Delayed until 60% medallion glides and locks at top crown
+          const WORDS_START_DELAY = 2300; // Delayed until 60% medallion finishes center hold and locks at top crown
           // Video is always 10s: animation finishes when it finishes, rest is live hold
           const videoDurationMs  = 10000;
 

@@ -216,140 +216,133 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     return _cachedBrandLogoImg;
   }
 
-  // ── Animated Celestial Medallion (Option B: Center 60% Width Reveal + Smooth Kinetic Glide to Top) ──
+  // ── Animated Celestial Medallion (Center Showcase followed by Top Crown + Quote) ──
   // Choreography:
-  // 1. Center Reveal (0-600ms): Medallion smoothly blooms at center (540, 960) covering 60% width (648px) with silky ease.
-  // 2. Center Shockwaves & Hold (250-850ms): Luminous shockwaves ripple out from the 648px emblem while viewer takes in full artwork.
-  // 3. Kinetic Glide (850-1500ms): Smooth upward ascent & scale-down from 648px center to 220px top anchor.
-  // 4. Crown at Top (1500ms+): Medallion stays perfectly upright (NO rotation), with breathing aura & cyclic golden glint.
+  // 1. Center Scene (0 - 1450ms): Medallion appears at center (540, 960) at 60% width (648px), holds, and smoothly fades out.
+  // 2. Top Scene (1450ms+): Top logo appears at top crown (540, 184) at 220px along with the quote, with breathing aura and specular golden glint. (No gliding animation).
   function drawAnimatedMedallion(ctx, elapsed, accentRgb = [251, 191, 36]) {
     const logoImg = getBrandLogoImg();
-    const startX = 540;
-    const startY = 960;
-    const endX = 540;
-    const endY = 184; // Center of top anchor (74 + 110)
+    if (!logoImg || !logoImg.complete || logoImg.naturalWidth <= 0) return;
 
     const CENTER_SIZE = 648; // 60% of 1080px width
+    const CENTER_RADIUS = CENTER_SIZE / 2; // 324px
     const TOP_SIZE = 220;    // Top crown diameter
+    const TOP_RADIUS = TOP_SIZE / 2; // 110px
 
-    const GENESIS_DUR = 600;
-    const HOLD_END = 1600; // Stay prominently at center covering 60% width
-    const GLIDE_START = 1600;
-    const GLIDE_DUR = 700;
-    const GLIDE_END = GLIDE_START + GLIDE_DUR; // 2300ms
+    const CENTER_FADE_IN_DUR = 400;
+    const CENTER_HOLD_END    = 1100;
+    const CENTER_END         = 1450; // Completely faded out by 1450ms
+    const TOP_START          = 1450; // Top logo appears when center disappears
+    const TOP_FADE_IN_DUR    = 350;
 
-    let curX = startX;
-    let curY = startY;
-    let curSize = CENTER_SIZE;
-    let curAlpha = 1.0;
+    // ── 1. Center Medallion Scene (0ms to 1450ms) ──
+    if (elapsed < CENTER_END) {
+      let cAlpha = 1.0;
+      let cScale = 1.0;
 
-    if (elapsed < GENESIS_DUR) {
-      // Smooth scale and fade-in at screen center (540, 960)
-      const p = Math.max(0, Math.min(elapsed / GENESIS_DUR, 1.0));
-      const easeIntro = 1 - Math.pow(1 - p, 3); // Smooth cubic ease-out
-      curSize = CENTER_SIZE * (0.65 + 0.35 * easeIntro);
-      curAlpha = Math.min(elapsed / 320, 1.0);
-      curX = startX;
-      curY = startY;
-    } else if (elapsed < HOLD_END) {
-      // Hold at full 60% width at center
-      curSize = CENTER_SIZE;
-      curAlpha = 1.0;
-      curX = startX;
-      curY = startY;
-    } else if (elapsed < GLIDE_END) {
-      // Smooth kinetic glide and scale-down from center (960, 648px) to top (184, 220px)
-      const gp = Math.max(0, Math.min((elapsed - GLIDE_START) / GLIDE_DUR, 1.0));
-      const easeGlide = 1 - Math.pow(1 - gp, 3); // Silky-smooth deceleration
-      curX = startX;
-      curY = startY + (endY - startY) * easeGlide;
-      curSize = CENTER_SIZE + (TOP_SIZE - CENTER_SIZE) * easeGlide;
-      curAlpha = 1.0;
-
-      // Kinetic upward motion streak
-      const trailAlpha = Math.sin(gp * Math.PI) * 0.35;
-      if (trailAlpha > 0.02) {
-        ctx.save();
-        const trailHeight = 160 * (1 - gp * 0.5);
-        const streakGrad = ctx.createLinearGradient(curX, curY, curX, curY + trailHeight);
-        streakGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, ${trailAlpha.toFixed(3)})`);
-        streakGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = streakGrad;
-        ctx.fillRect(curX - (curSize / 4), curY, curSize / 2, trailHeight);
-        ctx.restore();
+      if (elapsed < CENTER_FADE_IN_DUR) {
+        const p = Math.max(0, Math.min(elapsed / CENTER_FADE_IN_DUR, 1.0));
+        const easeIntro = 1 - Math.pow(1 - p, 3);
+        cAlpha = Math.min(elapsed / 300, 1.0);
+        cScale = 0.75 + 0.25 * easeIntro;
+      } else if (elapsed < CENTER_HOLD_END) {
+        cAlpha = 1.0;
+        cScale = 1.0;
+      } else {
+        // Smooth dissolve / fade-out
+        const fadeP = Math.max(0, Math.min((elapsed - CENTER_HOLD_END) / (CENTER_END - CENTER_HOLD_END), 1.0));
+        cAlpha = Math.max(0, 1 - Math.pow(fadeP, 2));
+        cScale = 1.0 + 0.04 * fadeP; // Subtle dissolving expansion
       }
-    } else {
-      // Settled at top anchor
-      curX = endX;
-      curY = endY;
-      curSize = TOP_SIZE;
-      curAlpha = 1.0;
-    }
 
-    const curRadius = curSize / 2;
+      if (cAlpha > 0.01) {
+        const curR = CENTER_RADIUS * cScale;
 
-    // ── Genesis Luminous Shockwaves at Screen Center (300ms - 1300ms) ──
-    if (elapsed >= 300 && elapsed < 1300) {
-      const sw1P = Math.min((elapsed - 300) / 700, 1.0);
-      const sw1Radius = (CENTER_SIZE / 2) + sw1P * 340;
-      const sw1Alpha = Math.sin(sw1P * Math.PI) * 0.65 * (1 - sw1P * 0.4);
+        // Shockwaves at center (250ms - 950ms)
+        if (elapsed >= 250 && elapsed < 950) {
+          const sw1P = Math.min((elapsed - 250) / 600, 1.0);
+          const sw1Radius = CENTER_RADIUS + sw1P * 340;
+          const sw1Alpha = Math.sin(sw1P * Math.PI) * 0.65 * (1 - sw1P * 0.4) * cAlpha;
 
-      ctx.save();
-      ctx.strokeStyle = `rgba(${accentRgb.join(',')}, ${sw1Alpha.toFixed(3)})`;
-      ctx.lineWidth = 3.5 * (1 - sw1P * 0.6);
-      ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.85)`;
-      ctx.shadowBlur = 20;
-      ctx.beginPath();
-      ctx.arc(startX, startY, sw1Radius, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.restore();
+          ctx.save();
+          ctx.strokeStyle = `rgba(${accentRgb.join(',')}, ${sw1Alpha.toFixed(3)})`;
+          ctx.lineWidth = 3.5 * (1 - sw1P * 0.6);
+          ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.85)`;
+          ctx.shadowBlur = 20;
+          ctx.beginPath();
+          ctx.arc(540, 960, sw1Radius, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
 
-      if (elapsed >= 500) {
-        const sw2P = Math.min((elapsed - 500) / 600, 1.0);
-        const sw2Radius = (CENTER_SIZE / 2) + sw2P * 240;
-        const sw2Alpha = Math.sin(sw2P * Math.PI) * 0.38 * (1 - sw2P * 0.4);
+          if (elapsed >= 400) {
+            const sw2P = Math.min((elapsed - 400) / 520, 1.0);
+            const sw2Radius = CENTER_RADIUS + sw2P * 240;
+            const sw2Alpha = Math.sin(sw2P * Math.PI) * 0.38 * (1 - sw2P * 0.4) * cAlpha;
 
+            ctx.save();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${sw2Alpha.toFixed(3)})`;
+            ctx.lineWidth = 2.0 * (1 - sw2P * 0.6);
+            ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.5)`;
+            ctx.shadowBlur = 14;
+            ctx.beginPath();
+            ctx.arc(540, 960, sw2Radius, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+
+        // Ambient Radiant Halo behind Center Logo
         ctx.save();
-        ctx.strokeStyle = `rgba(255, 255, 255, ${sw2Alpha.toFixed(3)})`;
-        ctx.lineWidth = 2.0 * (1 - sw2P * 0.6);
-        ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.5)`;
-        ctx.shadowBlur = 14;
+        ctx.globalAlpha = cAlpha;
+        const auraRadius = curR * 1.55;
+        const haloGrad = ctx.createRadialGradient(540, 960, curR * 0.2, 540, 960, auraRadius);
+        haloGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, 0.45)`);
+        haloGrad.addColorStop(0.55, `rgba(${accentRgb.join(',')}, 0.14)`);
+        haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = haloGrad;
         ctx.beginPath();
-        ctx.arc(startX, startY, sw2Radius, 0, Math.PI * 2);
-        ctx.stroke();
+        ctx.arc(540, 960, auraRadius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw Center Logo Image (Upright — NO rotation)
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.78)';
+        ctx.shadowBlur = 36;
+        ctx.shadowOffsetY = 8;
+        ctx.drawImage(logoImg, 540 - curR, 960 - curR, curR * 2, curR * 2);
         ctx.restore();
       }
     }
 
-    // ── Ambient Radiant Halo (Breathing Starlight Aura) ──
-    const breathe = elapsed >= GLIDE_END ? 1.0 + 0.08 * Math.sin(elapsed * 0.003) : 1.0;
-    const auraRadius = curRadius * 1.55 * breathe;
+    // ── 2. Top Medallion Scene (Appears at 1450ms+ after center disappears) ──
+    if (elapsed >= TOP_START) {
+      const topP = Math.max(0, Math.min((elapsed - TOP_START) / TOP_FADE_IN_DUR, 1.0));
+      const topEase = 1 - Math.pow(1 - topP, 3);
+      const topX = 540;
+      const topY = 184;
 
-    ctx.save();
-    ctx.globalAlpha = curAlpha;
-    const haloGrad = ctx.createRadialGradient(curX, curY, curRadius * 0.2, curX, curY, auraRadius);
-    haloGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, 0.42)`);
-    haloGrad.addColorStop(0.55, `rgba(${accentRgb.join(',')}, 0.12)`);
-    haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    ctx.fillStyle = haloGrad;
-    ctx.beginPath();
-    ctx.arc(curX, curY, auraRadius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
+      const breathe = 1.0 + 0.08 * Math.sin(elapsed * 0.003);
+      const auraRadius = TOP_RADIUS * 1.55 * breathe;
 
-    // ── Concentric Orbital Rings (Active when settled at top) ──
-    if (elapsed >= GLIDE_START) {
-      const ringFade = Math.min((elapsed - GLIDE_START) / 400, 1.0);
       ctx.save();
-      ctx.globalAlpha = ringFade * curAlpha;
+      ctx.globalAlpha = topEase;
 
-      // Outer Orbital Ring with subtle dashed starlight ticks
+      // Ambient Radiant Halo behind Top Logo
+      const haloGrad = ctx.createRadialGradient(topX, topY, TOP_RADIUS * 0.2, topX, topY, auraRadius);
+      haloGrad.addColorStop(0, `rgba(${accentRgb.join(',')}, 0.42)`);
+      haloGrad.addColorStop(0.55, `rgba(${accentRgb.join(',')}, 0.12)`);
+      haloGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = haloGrad;
+      ctx.beginPath();
+      ctx.arc(topX, topY, auraRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Outer Orbital Frame Ring
       ctx.save();
       ctx.strokeStyle = `rgba(${accentRgb.join(',')}, 0.30)`;
       ctx.lineWidth = 1.3;
       ctx.setLineDash([4, 12]);
       ctx.beginPath();
-      ctx.arc(curX, curY, curRadius + 14, 0, Math.PI * 2);
+      ctx.arc(topX, topY, TOP_RADIUS + 14, 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
 
@@ -358,15 +351,14 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.strokeStyle = `rgba(255, 255, 255, 0.20)`;
       ctx.lineWidth = 1.0;
       ctx.beginPath();
-      ctx.arc(curX, curY, curRadius + 6, 0, Math.PI * 2);
+      ctx.arc(topX, topY, TOP_RADIUS + 6, 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
 
       // Orbiting Starlight Particle Bead
       const orbitAngle = elapsed * 0.0014;
-      const beadX = curX + Math.cos(orbitAngle) * (curRadius + 14);
-      const beadY = curY + Math.sin(orbitAngle) * (curRadius + 14);
-
+      const beadX = topX + Math.cos(orbitAngle) * (TOP_RADIUS + 14);
+      const beadY = topY + Math.sin(orbitAngle) * (TOP_RADIUS + 14);
       ctx.save();
       ctx.fillStyle = '#ffffff';
       ctx.shadowColor = `rgba(${accentRgb.join(',')}, 0.9)`;
@@ -376,39 +368,27 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       ctx.fill();
       ctx.restore();
 
-      ctx.restore();
-    }
-
-    // ── Render Medallion Core (Upright — NO rotation) with Specular Glint ──
-    if (logoImg && logoImg.complete && logoImg.naturalWidth > 0 && curAlpha > 0.01) {
+      // Draw Top Logo Core (Upright — NO rotation)
       ctx.save();
-      ctx.globalAlpha = curAlpha;
-      ctx.translate(curX, curY);
-
-      // Top logo does not rotate: orientation remains strictly upright and stable
-
-      // Subtle drop shadow for floating depth
+      ctx.translate(topX, topY);
       ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
-      ctx.shadowBlur = Math.round(26 * (curSize / TOP_SIZE));
+      ctx.shadowBlur = 24;
       ctx.shadowOffsetY = 6;
+      ctx.drawImage(logoImg, -TOP_RADIUS, -TOP_RADIUS, TOP_SIZE, TOP_SIZE);
 
-      // Draw circular seal centered at (0, 0)
-      ctx.drawImage(logoImg, -curRadius, -curRadius, curSize, curSize);
-
-      // ── Prismatic Specular Golden Glint (Diagonal Light Sweep) ──
-      if (elapsed >= 2600) {
-        const glintCycle = (elapsed - 2600) % 4000;
+      // Prismatic Specular Golden Glint (Diagonal Light Sweep)
+      if (elapsed >= TOP_START + 800) {
+        const glintCycle = (elapsed - (TOP_START + 800)) % 4000;
         if (glintCycle < 950) {
           const glintP = glintCycle / 950;
           ctx.save();
           ctx.beginPath();
-          ctx.arc(0, 0, curRadius - 1, 0, Math.PI * 2);
+          ctx.arc(0, 0, TOP_RADIUS - 1, 0, Math.PI * 2);
           ctx.clip();
 
-          // Sweep diagonal light band across circle
-          const sweepRange = curRadius * 1.6;
+          const sweepRange = TOP_RADIUS * 1.6;
           const sweepPos = -sweepRange + glintP * (sweepRange * 2);
-          const glintGrad = ctx.createLinearGradient(sweepPos - 45, -curRadius, sweepPos + 45, curRadius);
+          const glintGrad = ctx.createLinearGradient(sweepPos - 45, -TOP_RADIUS, sweepPos + 45, TOP_RADIUS);
           glintGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
           glintGrad.addColorStop(0.40, 'rgba(255, 255, 255, 0.30)');
           glintGrad.addColorStop(0.50, `rgba(${accentRgb.join(',')}, 0.70)`);
@@ -416,11 +396,12 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           glintGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
           ctx.fillStyle = glintGrad;
-          ctx.fillRect(-curRadius, -curRadius, curSize, curSize);
+          ctx.fillRect(-TOP_RADIUS, -TOP_RADIUS, TOP_SIZE, TOP_SIZE);
           ctx.restore();
         }
       }
 
+      ctx.restore();
       ctx.restore();
     }
   }
@@ -1085,7 +1066,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
     const STATIC_DUR       = 500;
     const PER_WORD_STAGGER  = 120;  // ms between each word starting (scales with word count)
     const WORD_ANIM         = 480;  // ms for each word to fully resolve
-    const WORDS_START_DELAY = 2300; // Delayed until 60% medallion finishes center hold and locks at top crown
+    const WORDS_START_DELAY = 1450; // Starts right when center logo disappears and top logo appears
     const startTime         = Date.now();
 
     function drawPreviewFrame() {
@@ -1154,7 +1135,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
       }
 
       // Animate through word resolution and celestial glints
-      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 10000);
+      const maxPreviewDuration = Math.max(WORDS_START_DELAY + (wordCount - 1) * PER_WORD_STAGGER + WORD_ANIM + 4500, 9000);
       if (elapsed < maxPreviewDuration) {
         _previewAnimRAF = requestAnimationFrame(drawPreviewFrame);
       }
@@ -1411,7 +1392,7 @@ const BASE = config.base || import.meta.env.BASE_URL.replace(/\/$/, '');
           const STATIC_DUR       = 600;
           const PER_WORD_STAGGER = 120;  // ms between each word starting
           const WORD_ANIM        = 550;  // ms each word takes to fully resolve
-          const WORDS_START_DELAY = 2300; // Delayed until 60% medallion finishes center hold and locks at top crown
+          const WORDS_START_DELAY = 1450; // Starts right when center logo disappears and top logo appears
           // Video is always 10s: animation finishes when it finishes, rest is live hold
           const videoDurationMs  = 10000;
 

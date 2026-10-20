@@ -59,7 +59,7 @@ const defaultTitle = themeConfig.subtitle
   ? `${themeConfig.siteTitle} — ${themeConfig.subtitle}`
   : themeConfig.siteTitle;
 
-const BASE = themeConfig.base || import.meta.env.BASE_URL.replace(/\/$/, '');
+const BASE = (themeConfig.base || (typeof import.meta !== 'undefined' && import.meta.env?.BASE_URL ? import.meta.env.BASE_URL : '')).replace(/\/+$/, '');
 
 const {
   title = defaultTitle,

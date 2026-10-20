@@ -1,9 +1,11 @@
-# wiz-theme
+# wisdom (wiz-theme)
 
-> High-performance immersive quote reel theme for **Astro** featuring dynamic shaders, ambient zen chimes, editorial modals, and full single-language script support (Hindi, Devanagari, English, and custom scripts).
+> High-performance immersive quote reel theme for **Astro** featuring dynamic shaders, ambient zen soundscapes, editorial modals, and full single-language script support (Hindi, Devanagari, Spanish, English, and custom scripts).
 
 🔗 **Theme Showcase & Docs:** [https://www.ashishvishwakarma.com/wisdom/](https://www.ashishvishwakarma.com/wisdom/)  
-🎬 **Live Demo (Element):** [https://www.ashishvishwakarma.com/element/](https://www.ashishvishwakarma.com/element/)
+🇪🇸 **Live Demo (Elemento — Spanish):** [https://www.ashishvishwakarma.com/elemento/](https://www.ashishvishwakarma.com/elemento/)  
+🇬🇧 **Live Demo (Element — English):** [https://www.ashishvishwakarma.com/element/](https://www.ashishvishwakarma.com/element/)  
+🇮🇳 **Live Demo (Tatva — Hindi/Devanagari):** [https://www.ashishvishwakarma.com/tatva/](https://www.ashishvishwakarma.com/tatva/)
 
 ---
 
@@ -16,11 +18,11 @@
   - **English (Latin)**: *Playfair Display*, *Cormorant Garamond*, and *Inter*.
   - Automatic Google Fonts stylesheet injection, zero-FOUT font preloading, and custom font override support.
 - 🏷️ **Custom Site Name & Subtitle**: White-label the site title, subtitle, tagline, branding watermark, and SEO metadata via props or global config.
-- 🎨 **High-Resolution Quote Card Generator**: Generates 9:16 Ultra-HD (2160×3840) social keepsake images via 2D Canvas with crisp Devanagari ligatures and font metrics.
+- 🎨 **High-Resolution Quote Card Generator**: Generates 9:16 Ultra-HD (2160×3840) social keepsake images via 2D Canvas with crisp ligatures and font metrics.
+- 🎬 **Cinematic Bulk Video Generator & Queue Tracker**: Automated batch export of animated 9:16 vertical social videos (1080×1920) across all quotes with 3-act visual choreography, automatic resume, disk progress tracking (`progress.json`), dynamic ETA, and per-consumer script presets.
 - 🔍 **Universal Explore Drawer**: Instant multi-domain discovery across Authors, Moods, Categories, Tags, and Saved/Liked quotes.
 - 📖 **Deep Philosophical Delve & Author Dossiers**: Actionable daily insights, reflection questions, thinker biographies, pillars, and sourced works.
-- 🛠️ **Built-In Local Admin UI**: Manage quotes, authors, tags, and categories via a local browser dashboard (`npx wiz-theme admin`) with 4 themes and live search.
-- 🎬 **Bulk Video Generator CLI**: Automated batch export of animated 9:16 vertical social videos (1080×1920) across all quotes using headless Puppeteer.
+- 🛠️ **Built-In Local Admin UI**: Manage quotes, authors, tags, and categories via a local browser dashboard (`npx wisdom admin`) with 4 themes and live search.
 - 📊 **Firebase Telemetry & Quality Audit**: Multi-site engagement telemetry (views, likes, shares, dossier reads, and feedback) isolated per consumer identifier with live audit dashboard.
 - ⚡ **Offline-Ready PWA**: Fully functional offline contemplation with `localStorage` favorites.
 
@@ -420,66 +422,129 @@ npx wiz-theme admin --port 5000 --data ./src/data --consumer stoic_hub
 
 ---
 
-## Bulk Video Generator CLI
+## Bulk Video Generator & Queue Tracker
 
-`wiz-theme` includes an automated bulk video generator (`bin/generate.js`) powered by headless Puppeteer. It crawls your running Astro site, navigates through every quote slide, and records 10-second animated 9:16 vertical videos (1080×1920) formatted for Instagram Reels, YouTube Shorts, and TikTok.
+`wisdom` includes a high-performance automated bulk video generator (`bin/generate.js`) powered by headless Puppeteer. It crawls your running Astro site, navigates through every quote slide, and records 10-second animated 9:16 vertical videos (1080×1920) formatted for Instagram Reels, YouTube Shorts, and TikTok.
+
+### 🎭 Visual Choreography (3-Act Structure)
+
+Each generated video is rendered as a 10-second cinematic story:
+1. **Act 1: Brand Intro Bloom ($0 - 1450\text{ms}$)**: A large 648px (60% width) glowing logo medallion blooms at center with soft radial expansion, ambient shockwaves, and a smooth dissolve.
+2. **Act 2: Pure Cascading Typography**: Quote words cascade gracefully into the center of the frame with staggered fluid entrance, keeping the quote as the hero.
+3. **Act 3: Symmetrical Crown & Attribution Anchor**: As soon as the quote text finishes cascading, the **top circular logo crown** and the **author attribution** (author name, source work, and mood pill) gracefully glide and fade in together to frame the card.
+
+---
+
+### 📊 Smart Progress Tracking & Auto-Resume
+
+Bulk video generation takes time (~12–14s per video). The generator has built-in state tracking to ensure zero wasted renders:
+
+- 🔄 **Automatic Resume / Skip**: Automatically inspects your output directory for existing non-empty video files (`wisdom-${id}-video.mp4` / `.webm`) and skips them. You can safely stop (`Ctrl + C`) and resume anytime.
+- 📝 **Live Progress Manifest (`progress.json`)**: Every batch automatically writes and continuously updates `progress.json` in your output directory:
+  ```json
+  {
+    "totalQuotes": 65,
+    "completedCount": 20,
+    "remainingCount": 45,
+    "completed": ["quote-1", "quote-2"],
+    "remaining": ["quote-21", "quote-22"],
+    "lastUpdated": "2026-10-20T10:15:30.000Z"
+  }
+  ```
+- ⏱️ **Live Terminal ETA**: Computes and displays dynamic time estimates based on real encoding throughput (`[21/65] 🎬 Rendering quote-21... Remaining: 45 | ETA: ~10m 30s`).
+- 🔍 **Status Inspection Mode (`--status` / `--check`)**: Inspects queue status and prints the remaining items without launching Puppeteer. If the dev server is offline, it automatically reads the cached manifest from disk.
+
+---
 
 ### Prerequisites
 
-Install `puppeteer` as a dev dependency in your project:
+Install `puppeteer` as a dev dependency in your workspace or consumer project:
 
 ```bash
 npm install -D puppeteer
 ```
 
-Ensure your local dev server or preview server is running:
+---
+
+### 🚀 Usage for Consumer Sites
+
+Each consumer site in the collection runs on its own base path and maintains its own output library:
+
+| Site | Language | Base URL | Output Directory |
+| :--- | :--- | :--- | :--- |
+| **`elemento`** | Spanish (`es`) | `http://localhost:4321/elemento/` | `elemento/out-videos/` |
+| **`element`** | English (`en`) | `http://localhost:4321/element/` | `element/out-videos/` |
+| **`tatva`** | Hindi (`hi`) | `http://localhost:4321/tatva/` | `tatva/out-videos/` |
+
+#### Recommended Workflow (`npm run`)
+
+Start the dev server for your target site in **Terminal 1**:
 
 ```bash
+# Example for Elemento (Spanish):
+cd elemento
 npm run dev
-# Running at http://localhost:4321
+# Running at http://localhost:4321/elemento/
 ```
 
-### Running the Video Generator
-
-From your project root:
+In **Terminal 2**, inspect progress or render:
 
 ```bash
-npx wiz-theme --url http://localhost:4321 --out ./out-videos
+cd elemento
+
+# 1. Check generated vs remaining quotes:
+npm run status:videos
+
+# 2. Render remaining videos (auto-resumes from where it left off):
+npm run generate:videos
 ```
 
-Or add a shortcut script in your `package.json`:
+*(Identical commands work for `cd element` and `cd tatva`)*.
 
-```json
-{
-  "scripts": {
-    "generate-videos": "wiz-theme --url http://localhost:4321 --out ./out-videos"
-  }
-}
-```
+---
 
-Then run:
+#### Running from Workspace Root (Direct CLI)
+
+You can also run the generator directly from the repository root without changing folders:
 
 ```bash
-npm run generate-videos
+# For Elemento (Spanish)
+node wisdom/bin/generate.js --url http://localhost:4321/elemento/ --out elemento/out-videos
+
+# For Element (English)
+node wisdom/bin/generate.js --url http://localhost:4321/element/ --out element/out-videos
+
+# For Tatva (Hindi)
+node wisdom/bin/generate.js --url http://localhost:4321/tatva/ --out tatva/out-videos
 ```
 
-### CLI Options
+---
+
+### CLI Options Reference
 
 | Flag | Description | Default |
 | :--- | :--- | :--- |
-| `--url <url>` | Target Astro website URL to crawl and render from. | `http://localhost:4321` |
-| `--out <path>` | Destination folder where rendered video files will be saved. | `./out-videos` |
+| `--status`, `--check` | Check progress summary and list remaining quotes without rendering. | `false` |
+| `--url <url>` | Target Astro website URL to crawl and record from. | `http://localhost:4321` |
+| `--out <dir>` | Destination folder for video files and `progress.json`. | `./out-videos` |
+| `--limit <number>` | Render only the next $N$ quotes in queue (useful for small batches). | `Infinity` |
+| `--force` | Force re-render all videos, even if files already exist on disk. | `false` |
+| `-h`, `--help` | Display the CLI help manual and options. | `false` |
 
-### How It Works
+#### Batching and Force Re-renders
 
-1. **Headless 9:16 Viewport**: Launches a headless browser locked to 1080×1920 (vertical reel dimensions).
-2. **DOM Crawling**: Discovers all quote slides (`.quote-slide[data-quote-id]`) on the target feed.
-3. **Automated Recording Pipeline**:
-   - Navigates to each quote via URL hash (`/#q001`) to trigger the ambient shader and typography entrance animations.
-   - Automatically opens the quote's **Share Modal**.
-   - Triggers the 10-second animated canvas recorder (`MediaRecorder`).
-   - Captures and saves the resulting video file directly to your specified output directory using Chrome DevTools Protocol (`CDP`) download interception.
-   - Closes the modal and advances to the next quote until the entire catalog is exported.
+Pass flags to `npm run` using `--`:
+
+```bash
+# Render only the next 5 quotes in queue
+npm run generate:videos -- --limit 5
+
+# Re-render all videos from scratch
+npm run generate:videos -- --force
+
+# Custom output directory
+npm run generate:videos -- --out ./reels-export
+```
 
 ---
 

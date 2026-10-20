@@ -4,13 +4,6 @@
   "description": "High-performance immersive quote reel theme for Astro with dynamic shaders, ambient audio, and editorial modals",
   "type": "module",
   "main": "./src/index.ts",
-  "bin": {
-    "wisdom": "./bin/generate.js",
-    "wiz-theme": "./bin/generate.js",
-    "wiz-publish": "./bin/publish.js",
-    "wiz-admin": "./bin/admin.js",
-    "wiz-export-authors": "./bin/export-authors.mjs"
-  },
   "exports": {
     ".": "./src/index.ts",
     "./components/*": "./src/components/*",
@@ -22,8 +15,7 @@
     "./config/*": "./src/config/*"
   },
   "files": [
-    "src",
-    "bin"
+    "src"
   ],
   "engines": {
     "node": ">=22.12.0"
@@ -31,9 +23,7 @@
   "scripts": {
     "dev": "astro dev --root ./playground",
     "build": "astro build --root ./playground",
-    "preview": "astro preview --root ./playground",
-    "admin": "node ./bin/admin.js",
-    "export:authors": "node ./bin/export-authors.mjs"
+    "preview": "astro preview --root ./playground"
   },
   "peerDependencies": {
     "astro": "^5.0.0 || ^7.0.0",
